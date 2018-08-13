@@ -37,12 +37,6 @@
 
 	loadCSS(nbb.commentsCSS || (nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/comments.css'));
 
-	// fix youtube embed video
-	if (window.jQuery) {
-		loadScript(nbb.url + '/plugins/nodebb-plugin-youtube-embed/static/lib/lazyYT.js');
-		loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/youtube-embed-video.css');
-	}
-
 	var commentPositionDiv = document.getElementById('nodebb-comments');
     if (!commentPositionDiv) {
         commentPositionDiv = document.createElement('div');
