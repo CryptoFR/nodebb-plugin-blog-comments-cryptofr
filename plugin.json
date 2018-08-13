@@ -1,8 +1,8 @@
 {
-	"id": "nodebb-plugin-blog-comments2",
-	"name": "NodeBB Blog Comments2",
+	"id": "nodebb-plugin-blog-comments-cryptofr",
+	"name": "NodeBB Blog Comments CryptoFR",
 	"description": "Lets NodeBB act as a comments engine/widget for your blog.",
-	"url": "https://github.com/revir/nodebb-plugin-blog-comments2",
+	"url": "https://github.com/CryptoFR/nodebb-plugin-blog-comments-cryptofr",
 	"library": "library.js",
 	"hooks": [
 		{
@@ -24,6 +24,6 @@
 		"lib": "public/lib"
 	},
 	"languages": "languages",
-	"defaultLang": "en",
+	"defaultLang": "fr",
 	"templates": "public/templates"
 }
