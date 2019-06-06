@@ -3,16 +3,16 @@
 
 	var Comments = {};
 
-	var db = module.parent.require('../src/database.js'),
-		meta = module.parent.require('../src/meta.js'),
-		posts = module.parent.require('../src/posts.js'),
-		topics = module.parent.require('../src/topics.js'),
-		user = module.parent.require('../src/user.js'),
-		groups = module.parent.require('../src/groups.js'),
-		fs = module.parent.require('fs'),
-		path = module.parent.require('path'),
-		async = module.parent.require('async'),
-		winston = module.parent.require('winston');
+	var db = require.main.require('./src/database'),
+		meta = require.main.require('./src/meta'),
+		posts = require.main.require('./src/posts'),
+		topics = require.main.require('./src/topics'),
+		user = require.main.require('./src/user'),
+		groups = require.main.require('./src/groups'),
+		fs = require.main.require('fs'),
+		path = require.main.require('path'),
+		async = require.main.require('async'),
+		winston = require.main.require('winston');
 
 	module.exports = Comments;
 
@@ -318,7 +318,7 @@
 		app.post('/comments/publish', Comments.publishArticle);
 		app.post('/comments/vote', Comments.votePost);
 		app.post('/comments/bookmark', Comments.bookmarkPost);
-		app.post('/comments/edit', Comments.editPost);
+		// app.post('/comments/edit', Comments.editPost);
 
 		app.get('/admin/blog-comments', middleware.admin.buildHeader, renderAdmin);
 		app.get('/api/admin/blog-comments', renderAdmin);
