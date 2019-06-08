@@ -1,4 +1,4 @@
-This plugin is a folk from [NodeBB Blog Comments](https://github.com/psychobunny/nodebb-plugin-blog-comments), I just added some more features and fixed some bugs to it.
+This plugin is a fork from [NodeBB Blog Comments](https://github.com/psychobunny/nodebb-plugin-blog-comments), I just added some more features and fixed some bugs to it.
 
 * Support multiple blogs, use `articleID` and `blogger` to distinguish posts from different blogs, so this is kinda break change to the original nodebb-plugin-blog-comments.
 * Simple script for ghost, hugo, pelican etc, and a general script for any other blogs, just add a `<script>` node at any place of the page, will support more blog platforms later.
