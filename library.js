@@ -32,7 +32,7 @@
 		});
 
 		if (!url) {
-			winston.warn('[nodebb-plugin-blog-comments2] Origin (' + req.get('origin') + ') does not match hostUrls: ' + hostUrls.join(', '));
+			winston.warn('[nodebb-plugin-blog-comments-cryptofr] Origin (' + req.get('origin') + ') does not match hostUrls: ' + hostUrls.join(', '));
 		}
 		return url;
 	}

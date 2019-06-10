@@ -67,13 +67,13 @@
     nbb.articleContent = articleContent.join('\n\n');
 
     if (!nbb.url || !nbb.cid || !nbb.articleID || !nbb.blogger || !nbb.articleContent) {
-        console.warn('[nodebb-plugin-blog-comments2] information is imcomplete.', nbb);
+        console.warn('[nodebb-plugin-blog-comments-cryptofr] information is imcomplete.', nbb);
         return;
     } else {
-        console.log('[nodebb-plugin-blog-comments2] information: ', nbb);
+        console.log('[nodebb-plugin-blog-comments-cryptofr] information: ', nbb);
     }
 
-    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/comments2.css');
+    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments-cryptofr.css');
 
     // pelican blog don't has jQuery, can't fix youtube embed video right now.
 
@@ -90,7 +90,7 @@
         respondEl.insertBefore(commentPositionDiv, otherCommentSystem ? otherCommentSystem[0] : null);
     }
 
-    loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments2/lib/common.js', function () {
+    loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/common.js', function () {
         blogComments2Common(commentPositionDiv, nbb);
     });
 

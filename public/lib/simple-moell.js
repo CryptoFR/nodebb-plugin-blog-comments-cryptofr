@@ -56,13 +56,13 @@
     nbb.articleContent = articleEl.innerText.split('\n\n').slice(0,2).join('\n\n');
 
     if (!nbb.url || !nbb.cid || !nbb.articleID || !nbb.blogger || !nbb.articleContent) {
-        console.warn('[nodebb-plugin-blog-comments2] information is imcomplete.', nbb);
+        console.warn('[nodebb-plugin-blog-comments-cryptofr] information is imcomplete.', nbb);
         return;
     } else {
-        console.log('[nodebb-plugin-blog-comments2] information: ', nbb);
+        console.log('[nodebb-plugin-blog-comments-cryptofr] information: ', nbb);
     }
 
-    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/comments2.css');
+    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments-cryptofr.css');
 
     // moell's blog don't has jQuery, can't fix youtube embed video right now.
 
@@ -73,7 +73,7 @@
         articleEl.parentElement.insertBefore(commentPositionDiv, document.getElementsByClassName('ds-thread')[0]);
     }
 
-    loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments2/lib/common.js', function () {
+    loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/common.js', function () {
         blogComments2Common(commentPositionDiv, nbb);
     });
 }());

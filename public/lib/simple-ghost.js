@@ -57,16 +57,16 @@
     nbb.articleID = window.location.pathname.split('/').slice(-2)[0];
 
     if (!nbb.url || !nbb.cid || !nbb.articleID || !nbb.blogger || !nbb.articleContent) {
-        console.warn('[nodebb-plugin-blog-comments2] information is imcomplete.', nbb);
+        console.warn('[nodebb-plugin-blog-comments-cryptofr] information is imcomplete.', nbb);
         return;
     } else {
-        console.log('[nodebb-plugin-blog-comments2] information: ', nbb);
+        console.log('[nodebb-plugin-blog-comments-cryptofr] information: ', nbb);
     }
 
-    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/comments.css');
+    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments.css');
     // fix youtube embed video
     loadScript(nbb.url + '/plugins/nodebb-plugin-youtube-embed/static/lib/lazyYT.js');
-    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/youtube-embed-video.css');
+    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/youtube-embed-video.css');
 
     var commentPositionDiv = document.getElementById('nodebb-comments');
     if (!commentPositionDiv) {
@@ -75,7 +75,7 @@
         document.getElementsByTagName("article")[0].appendChild(commentPositionDiv);
     }
 
-    loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments2/lib/common.js', function () {
+    loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/common.js', function () {
         blogComments2Common(commentPositionDiv, nbb);
     });
 
