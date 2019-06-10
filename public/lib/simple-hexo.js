@@ -82,7 +82,7 @@
         console.log('[nodebb-plugin-blog-comments-cryptofr] information: ', nbb);
     }
 
-    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments-cryptofr.css');
+    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments2.css');
     // fix youtube embed video
     loadScript(nbb.url + '/plugins/nodebb-plugin-youtube-embed/static/lib/lazyYT.js');
     loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/youtube-embed-video.css');

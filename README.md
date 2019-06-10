@@ -47,7 +47,7 @@ $(document).ready(function() {
    nbb.url = '//yournodebb.com'; // your forum url.
    nbb.cid = 79;   // the category where to publish.
    nbb.blogger = 'yourname';   // the name to distingush with different blog, omit it to fallback to 'default'.
-   nbb.commentsCSS = nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments-cryptofr.css'; // which style you prefer, omit it to fallback to the default comments.css
+   nbb.commentsCSS = nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments2.css'; // which style you prefer, omit it to fallback to the default comments.css
    nbb.articleID = <Function to get the unique article id>   // To get the unique article id, see explations below.
    nbb.articleTitle = document.title;                       // To get the article title, document.title is the default.
    nbb.commentElement = document.getElementById('nodebb-comments');  // Where you put the comments widget, "nodebb-comments" element is the default.

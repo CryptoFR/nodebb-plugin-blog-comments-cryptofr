@@ -62,7 +62,7 @@
         console.log('[nodebb-plugin-blog-comments-cryptofr] information: ', nbb);
     }
 
-    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments-cryptofr.css');
+    loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments2.css');
 
     // moell's blog don't has jQuery, can't fix youtube embed video right now.
 
