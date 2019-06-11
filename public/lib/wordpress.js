@@ -154,26 +154,22 @@
 			} else {
 				if (data.isAdmin) {
 					var adminXHR = newXHR();
-					adminXHR.open('GET', wordpressURL + '?json=get_post&post_type='+articleType+'&post_id=' + articleID);
+					//adminXHR.open('GET', wordpressURL + '?json=get_post&post_type='+articleType+'&post_id=' + articleID);
+					// TODO Get articles too, not only post types
+					adminXHR.open('GET', wordpressURL + "/wp-json/wp/v2/posts/" + articleID);
 					adminXHR.onload = function() {
 						if (adminXHR.status >= 200 && adminXHR.status < 400) {
-							var articleData = JSON.parse(adminXHR.responseText.toString()).post,
+							// We need tags
+							var articleData = JSON.parse(adminXHR.responseText.toString()),
 								translator = document.createElement('span'),
-								wptags = articleData.tags,
-								tags = [];
+								tags = articleData.tags;
 
-							translator.innerHTML = articleData.excerpt;
+							translator.innerHTML = articleData.excerpt ? articleData.excerpt.rendered : '';
 
 							var markdown = translator.firstChild.innerHTML + '\n\n**Click [here]('+articlePath+') to see the full blog post**';
 
-							for (var tag in wptags) {
-								if (wptags.hasOwnProperty(tag)) {
-									tags.push(wptags[tag].title);
-								}
-							}
-
 							document.getElementById('nodebb-content-markdown').value = markdown;
-							document.getElementById('nodebb-content-title').value = articleData.title_plain;
+							document.getElementById('nodebb-content-title').value = articleData.title.rendered;
 							document.getElementById('nodebb-content-cid').value = categoryID || -1;
 							document.getElementById('nodebb-content-tags').value = JSON.stringify(tags);
 							document.getElementById('nodebb-content-blogger').value = window.blogger || 'default';
