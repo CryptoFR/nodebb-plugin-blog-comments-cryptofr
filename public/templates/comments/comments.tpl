@@ -7,10 +7,10 @@
 			<i class="i-share icon-share" aria-hidden="true"></i>
 		</a>
 
-		<a component="post/bookmark" style="color: inherit; text-decoration: none;" title="Mark">
+		<a data-component="post/bookmark" style="color: inherit; text-decoration: none;" title="Mark">
 			<i class="i-bookmark icon-bookmark"></i>
 		</a>
-		<a component="post/upvote" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
+		<a data-component="post/upvote" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
 			<i class="i-upvote icon-thumbs-up-alt"></i>
 			<span class="upvote-count">
 			</span>
@@ -68,28 +68,28 @@
 						<div class="post-content" itemprop="text">
 							<small>
 								<span class="nodebb-post-tools post-tools no-select">
-									<a component="post/reply" style="color: inherit; text-decoration: none;" title="Reply">
+									<a data-component="post/reply" style="color: inherit; text-decoration: none;" title="Reply">
 										<i class="icon-reply"></i>
 									</a>
-									<a component="post/quote" style="color: inherit; text-decoration: none;" title="Quote">
+									<a data-component="post/quote" style="color: inherit; text-decoration: none;" title="Quote">
 										<i class="icon-quote-right"></i>
 									</a>
-									<a component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
+									<a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
 										<i class="i-bookmark <!-- IF posts.bookmarked --> icon-bookmark <!-- ELSE --> icon-bookmark-empty <!-- ENDIF posts.bookmarked -->"></i>
 									</a>
-									<a component="post/upvote" data-upvoted="{posts.upvoted}" date-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
+									<a data-component="post/upvote" data-upvoted="{posts.upvoted}" date-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
 										<i class="i-upvote <!-- IF posts.upvoted --> icon-thumbs-up-alt <!-- ELSE --> icon-thumbs-up <!-- ENDIF posts.upvoted -->"></i>
 										<span class="upvote-count <!-- IF !posts.votes --> hidden <!-- ENDIF !posts.votes -->">
 											{posts.votes}
 										</span>
 									</a>
-									<!-- <a component="post/quote"><i class="fa fa-quote-left"></i> quote</a> -->
+									<!-- <a data-component="post/quote"><i class="fa fa-quote-left"></i> quote</a> -->
 								</span>
 								<a href="{relative_path}/user/{user.userslug}" style="color: inherit; text-decoration: none;"><strong>{user.username}</strong></a>
 								<span title="{posts.timestampISO}">commented {posts.timestamp}</span>
 								<!-- IF posts.isReply -->
 								<!-- IF !posts.deletedReply -->
-									<button component="post/parent" class="reply-label no-select" data-topid="{posts.toPid}">
+									<button data-component="post/parent" class="reply-label no-select" data-topid="{posts.toPid}">
 										<i class="icon-reply"></i> @{posts.parentUsername}
 									</button>
 								<!-- ENDIF !posts.deletedReply -->

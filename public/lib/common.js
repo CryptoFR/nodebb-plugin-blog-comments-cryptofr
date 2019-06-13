@@ -229,7 +229,7 @@ var blogComments2Common = function (commentPositionDiv, nbb, kwargs) {
                 };
 
                 var nodebbCommentsList = nodebbDiv.querySelector('#nodebb-comments-list');
-                bindOnClick(nodebbCommentsList.querySelectorAll('[component="post/parent"]'), function(event) {
+                bindOnClick(nodebbCommentsList.querySelectorAll('[data-component="post/parent"]'), function(event) {
                     var element = event.target;
                     var goTo = nodebbCommentsList.querySelector('.topic-item[data-pid="' + element.getAttribute('data-topid') + '"]');
 
@@ -251,7 +251,8 @@ var blogComments2Common = function (commentPositionDiv, nbb, kwargs) {
 
                 });
 
-                bindOnClick(nodebbDiv.querySelectorAll('[component="post/reply"],[component="post/quote"],[component="post/bookmark"],[component="post/upvote"]'), function(event) {
+		    console.log(nodebbDiv.querySelectorAll('[data-component="post/reply"],[data-component="post/quote"],[data-component="post/bookmark"],[data-component="post/upvote"]'))
+                bindOnClick(nodebbDiv.querySelectorAll('[data-component="post/reply"],[data-component="post/quote"],[data-component="post/bookmark"],[data-component="post/upvote"]'), function(event) {
                     if (!data.user || !data.user.uid) {
                         authenticate('login');
                         return;
@@ -276,28 +277,28 @@ var blogComments2Common = function (commentPositionDiv, nbb, kwargs) {
                             visibleForm.classList.add('hidden');
                         }
 
-                        if (/\/quote$/.test(this.getAttribute('component'))) {
+                        if (/\/quote$/.test(this.getAttribute('data-component'))) {
                             var postBody = topicItem.querySelector('.post-content .post-body');
                             var quote = (postBody.innerText ? postBody.innerText : postBody.textContent).split('\n').map(function(line) { return line ? '> ' + line : line; }).join('\n');
                             formInput.value = '@' + topicItem.getAttribute('data-userslug') + ' said:\n' + quote + formInput.value;
                             elementForm.classList.remove('hidden');
-                        } else if (/\/reply$/.test(this.getAttribute('component'))) {
+                        } else if (/\/reply$/.test(this.getAttribute('data-component'))) {
                             formInput.value = '@' + topicItem.getAttribute('data-userslug') + ': ' + formInput.value;
                             elementForm.classList.remove('hidden');
-                        } else if (/\/upvote$/.test(this.getAttribute('component'))) {
+                        } else if (/\/upvote$/.test(this.getAttribute('data-component'))) {
                             if(data.user.uid != uid) {
                                 upvotePost(topicItem, pid, upvoted);
                             }
-                        } else if (/\/bookmark$/.test(this.getAttribute('component'))) {
+                        } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
                             bookmarkPost(topicItem, pid, bookmarked);
                         }
                     } else {
 
-                        if (/\/upvote$/.test(this.getAttribute('component'))) {
+                        if (/\/upvote$/.test(this.getAttribute('data-component'))) {
                             if(data.user.uid != mainPost.uid) {
                                 upvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, upvoted);
                             }
-                        } else if (/\/bookmark$/.test(this.getAttribute('component'))) {
+                        } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
                             bookmarkPost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, bookmarked);
                         }
                     }
@@ -333,7 +334,7 @@ var blogComments2Common = function (commentPositionDiv, nbb, kwargs) {
 
     function onUpvoted (topicItem, isUpvote, votes) {
         var el = topicItem.querySelector('.i-upvote');
-        var link = topicItem.querySelector('[component="post/upvote"]');
+        var link = topicItem.querySelector('[data-component="post/upvote"]');
         var countEl = topicItem.querySelector('.upvote-count');
         if (isUpvote) {
             el.classList.add('icon-thumbs-up-alt');
@@ -367,7 +368,7 @@ var blogComments2Common = function (commentPositionDiv, nbb, kwargs) {
 
     function onBookmarked (topicItem, isBookmark) {
         var el = topicItem.querySelector('.i-bookmark');
-        var link = topicItem.querySelector('[component="post/bookmark"]');
+        var link = topicItem.querySelector('[data-component="post/bookmark"]');
         if (isBookmark) {
             el.classList.add('icon-bookmark');
             el.classList.remove('icon-bookmark-empty');
