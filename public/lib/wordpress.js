@@ -1,6 +1,11 @@
 (function() {
 	"use strict";
 
+var bindOnClick = function(nodeList, handler) {
+    for (var i = nodeList.length - 1; i >= 0; i--) {
+        nodeList[i].onclick = handler;
+    }
+};
 	var articlePath = window.location.protocol + '//' + window.location.host + window.location.pathname;
 
 	var pluginURL = nodeBBURL + '/plugins/nodebb-plugin-blog-comments-cryptofr',
@@ -90,6 +95,58 @@
 				nodebbDiv.innerHTML = normalizePost(html);
 			}
 
+                bindOnClick(nodebbDiv.querySelectorAll('[data-component="post/reply"],[data-component="post/quote"],[data-component="post/bookmark"],[data-component="post/upvote"]'), function(event) {
+                    if (!data.user || !data.user.uid) {
+                        authenticate('login');
+                        return;
+                    }
+
+                    var topicItem = event.target;
+                    var bookmarked = JSON.parse(this.getAttribute('data-bookmarked'));
+                    var upvoted = JSON.parse(this.getAttribute('data-upvoted'));
+
+                    while (topicItem && !topicItem.classList.contains('topic-item')) {
+                        topicItem = topicItem.parentElement;
+                    }
+
+                    if (topicItem) {
+                        var elementForm = topicItem.querySelector('form');
+                        var visibleForm = nodebbCommentsList.querySelector('li .topic-item form:not(.hidden)');
+                        var formInput = elementForm.querySelector('textarea');
+                        var pid = topicItem.getAttribute('data-pid');
+                        var uid = topicItem.getAttribute('data-uid');
+
+                        if (visibleForm && visibleForm !== elementForm) {
+                            visibleForm.classList.add('hidden');
+                        }
+
+                        if (/\/quote$/.test(this.getAttribute('data-component'))) {
+                            var postBody = topicItem.querySelector('.post-content .post-body');
+                            var quote = (postBody.innerText ? postBody.innerText : postBody.textContent).split('\n').map(function(line) { return line ? '> ' + line : line; }).join('\n');
+                            formInput.value = '@' + topicItem.getAttribute('data-userslug') + ' said:\n' + quote + formInput.value;
+                            elementForm.classList.remove('hidden');
+                        } else if (/\/reply$/.test(this.getAttribute('data-component'))) {
+                            formInput.value = '@' + topicItem.getAttribute('data-userslug') + ': ' + formInput.value;
+                            elementForm.classList.remove('hidden');
+                        } else if (/\/upvote$/.test(this.getAttribute('data-component'))) {
+                            if(data.user.uid != uid) {
+                                upvotePost(topicItem, pid, upvoted);
+                            }
+                        } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
+                            bookmarkPost(topicItem, pid, bookmarked);
+                        }
+                    } else {
+
+                        if (/\/upvote$/.test(this.getAttribute('data-component'))) {
+                            if(data.user.uid != mainPost.uid) {
+                                upvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, upvoted);
+                            }
+                        } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
+                            bookmarkPost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, bookmarked);
+                        }
+                    }
+
+                });
 			contentDiv = document.getElementById('nodebb-content');
 
 			setTimeout(function() {
