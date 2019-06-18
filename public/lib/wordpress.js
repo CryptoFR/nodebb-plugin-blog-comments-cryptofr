@@ -1,5 +1,19 @@
 (function() {
 	"use strict";
+    function onBookmarked (topicItem, isBookmark) {
+        var el = topicItem.querySelector('.i-bookmark');
+        var link = topicItem.querySelector('[data-component="post/bookmark"]');
+        if (isBookmark) {
+            el.classList.add('icon-bookmark');
+            el.classList.remove('icon-bookmark-empty');
+            link.setAttribute('data-bookmarked', true);
+        } else {
+            el.classList.remove('icon-bookmark');
+            el.classList.add('icon-bookmark-empty');
+            link.setAttribute('data-bookmarked', false);
+        }
+    }
+
 
 var bindOnClick = function(nodeList, handler) {
     for (var i = nodeList.length - 1; i >= 0; i--) {
