@@ -32,8 +32,47 @@ var bindOnClick = function(nodeList, handler) {
 	    }
 	}
 
-	var XHR = newXHR(), pagination = 0, modal;
+  function xget (xhr, path) {
+    xhr.open('GET', path, true);
+    xhr.withCredentials = true;
+    xhr.send();
+    return xhr;
+  }
 
+  function xpost (xhr, path, data) {
+    var encodedString = '';
+    for (var prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        if (encodedString.length > 0) {
+          encodedString += '&';
+        }
+        encodedString += encodeURI(prop + '=' + data[prop]);
+      }
+    }
+    xhr.open('POST', path, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.withCredentials = true;
+    xhr.send(encodedString);
+    return xhr;
+  }
+	var XHR = newXHR(), pagination = 0, modal;
+  var voteXHR = newXHR();
+  var bookmarkXHR = newXHR();
+  function upvotePost (topicItem, pid, upvoted) {
+    if (voteXHR.isBusy) return;
+    voteXHR.isBusy = true;
+    voteXHR.topicItem = topicItem;
+    voteXHR.isUpvote = !upvoted;
+    xpost(voteXHR, nbb.url + '/comments/vote', {toPid: pid, isUpvote: !upvoted});
+  }
+
+  function bookmarkPost (topicItem, pid, bookmarked) {
+    if (bookmarkXHR.isBusy) return;
+    bookmarkXHR.isBusy = true;
+    bookmarkXHR.topicItem = topicItem;
+    bookmarkXHR.isBookmark = !bookmarked;
+    xpost(bookmarkXHR, nbb.url + '/comments/bookmark', {toPid: pid, isBookmark: !bookmarked});
+  }
 	function authenticate(type) {
 		savedText = contentDiv.value;
 		modal = window.open(nodeBBURL + "/" + type + "/#blog/authenticate","_blank","toolbar=no, scrollbars=no, resizable=no, width=600, height=675");

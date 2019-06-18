@@ -251,7 +251,6 @@ var blogComments2Common = function (commentPositionDiv, nbb, kwargs) {
 
                 });
 
-		    console.log(nodebbDiv.querySelectorAll('[data-component="post/reply"],[data-component="post/quote"],[data-component="post/bookmark"],[data-component="post/upvote"]'))
                 bindOnClick(nodebbDiv.querySelectorAll('[data-component="post/reply"],[data-component="post/quote"],[data-component="post/bookmark"],[data-component="post/upvote"]'), function(event) {
                     if (!data.user || !data.user.uid) {
                         authenticate('login');
