@@ -328,7 +328,11 @@ var bindOnClick = function(nodeList, handler) {
 
 	var templates = {blocks: {}};
 	function parse (data, template) {
+      console.trace('parse');
+      console.log('parse arguments', arguments);
 		function replace(key, value, template) {
+        console.trace('parse.replace');
+        console.log('parse.replace arguments', arguments);
 			var searchRegex = new RegExp('{' + key + '}', 'g');
 			return template.replace(searchRegex, value);
 		}
