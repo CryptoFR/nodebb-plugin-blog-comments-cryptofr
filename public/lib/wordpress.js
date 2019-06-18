@@ -63,7 +63,7 @@ var bindOnClick = function(nodeList, handler) {
     voteXHR.isBusy = true;
     voteXHR.topicItem = topicItem;
     voteXHR.isUpvote = !upvoted;
-    xpost(voteXHR, nbb.url + '/comments/vote', {toPid: pid, isUpvote: !upvoted});
+    xpost(voteXHR, nodeBBURL + '/comments/vote', {toPid: pid, isUpvote: !upvoted});
   }
 
   function bookmarkPost (topicItem, pid, bookmarked) {
@@ -71,7 +71,7 @@ var bindOnClick = function(nodeList, handler) {
     bookmarkXHR.isBusy = true;
     bookmarkXHR.topicItem = topicItem;
     bookmarkXHR.isBookmark = !bookmarked;
-    xpost(bookmarkXHR, nbb.url + '/comments/bookmark', {toPid: pid, isBookmark: !bookmarked});
+    xpost(bookmarkXHR, nodeBBURL + '/comments/bookmark', {toPid: pid, isBookmark: !bookmarked});
   }
 	function authenticate(type) {
 		savedText = contentDiv.value;
