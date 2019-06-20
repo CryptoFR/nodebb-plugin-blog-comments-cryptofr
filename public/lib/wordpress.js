@@ -147,9 +147,14 @@ var bindOnClick = function(nodeList, handler) {
 				html = parse(data, data.template);
 				nodebbDiv.innerHTML = normalizePost(html);
 			}
-      var nodebbCommentsList = nodebbDiv.querySelector('#nodebb-comments-list');
-
-                bindOnClick(nodebbDiv.querySelectorAll('[data-component="post/reply"],[data-component="post/quote"],[data-component="post/bookmark"],[data-component="post/upvote"]'), function(event) {
+        var nodebbCommentsList = nodebbDiv.querySelector('#nodebb-comments-list');
+        var selectors = [
+            '[data-component="post/reply"]',
+            '[data-component="post/quote"]',
+            '[data-component="post/bookmark"]',
+            '[data-component="post/upvote"]',
+        ].join(',');
+                bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
                     if (!data.user || !data.user.uid) {
                         authenticate('login');
                         return;
