@@ -144,7 +144,6 @@
 	}
 
 	Comments.votePost = function (req, res, callback) {
-      console.log("Vote post body", req.body);
 		if (!CORSSafeReq(req)) {
 			return;
 		}
@@ -158,7 +157,6 @@
 	};
 
     Comments.unvotePost = function (req, res, callback) {
-        console.log('Unvote post', req.body.toPid);
 		    if (!CORSSafeReq(req)) {
 			      return;
 		    }
