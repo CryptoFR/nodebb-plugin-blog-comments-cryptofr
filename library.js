@@ -148,9 +148,10 @@
 			return;
 		}
 		  var toPid = req.body.toPid,
+          isUpvote = JSON.parse(req.body.isUpvote),
 			uid = req.user ? req.user.uid : 0;
-
-		posts.upvote(toPid, uid, function (err, result) {
+      const fn = isUpvote ? "upvote" : "unvote";
+		posts[fn](toPid, uid, function (err, result) {
 			CORSFilter(req, res);
 			res.json({error: err && err.message, result: result});
 		});
@@ -161,8 +162,10 @@
 			      return;
 		    }
 		    var toPid = req.body.toPid,
+            isDownvote = JSON.parse(req.body.isDownvote),
 			      uid = req.user ? req.user.uid : 0;
-		    posts.downvote(toPid, uid, function (err, result) {
+        const fn = isDownvote ? "downvote" : "unvote";
+		    posts[fn](toPid, uid, function (err, result) {
 			      CORSFilter(req, res);
 			      res.json({error: err && err.message, result: result});
 		    });

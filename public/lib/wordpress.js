@@ -94,20 +94,20 @@ var bindOnClick = function(nodeList, handler) {
     // bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
     // voteXHR.onload = onLoadFunction(voteXHR);
     downvoteXHR.onload = reloadComments;
-  function upvotePost (topicItem, pid) {
+  function upvotePost (topicItem, pid, upvoted) {
+    var isUpvote = !upvoted;
     if (voteXHR.isBusy) return;
     voteXHR.isBusy = true;
     voteXHR.topicItem = topicItem;
-    voteXHR.isUpvote = true;
-    xpost(voteXHR, nodeBBURL + '/comments/vote', {toPid: pid, isUpvote: true});
+    xpost(voteXHR, nodeBBURL + '/comments/vote', {toPid: pid, isUpvote: isUpvote});
   }
 
-  function downvotePost (topicItem, pid) {
+  function downvotePost (topicItem, pid, downvoted) {
+      var isDownvote = !downvoted;
       if (downvoteXHR.isBusy) return;
-      voteXHR.isBusy = true;
+      downvoteXHR.isBusy = true;
       downvoteXHR.topicItem = topicItem;
-      downvoteXHR.isUpvote = false;
-      xpost(downvoteXHR, nodeBBURL + '/comments/downvote', {toPid: pid, isUpvote: false});
+      xpost(downvoteXHR, nodeBBURL + '/comments/downvote', {toPid: pid, isDownvote: isDownvote });
   }
   function bookmarkPost (topicItem, pid, bookmarked) {
     if (bookmarkXHR.isBusy) return;
@@ -176,20 +176,13 @@ var bindOnClick = function(nodeList, handler) {
 				html = parse(data, data.template);
 				nodebbDiv.innerHTML = normalizePost(html);
 			}
-        bindOnClick(nodebbDiv.querySelectorAll('[data-component="post/downvote"]'), function onDownvote(event) {
-            if (!data.user || !data.user.uid) {
-                authenticate('login');
-                return;
-            }
-            var pid = this.getAttribute('data-pid');
-            xpost(voteXHR, nodeBBURL + '/comments/downvote/', {toPid: pid});
-        });
         var nodebbCommentsList = nodebbDiv.querySelector('#nodebb-comments-list');
         var selectors = [
             '[data-component="post/reply"]',
             '[data-component="post/quote"]',
             '[data-component="post/bookmark"]',
             '[data-component="post/upvote"]',
+            '[data-component="post/downvote"]',
         ].join(',');
                 bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
                     if (!data.user || !data.user.uid) {
@@ -200,6 +193,7 @@ var bindOnClick = function(nodeList, handler) {
                     var topicItem = event.target;
                     var bookmarked = JSON.parse(this.getAttribute('data-bookmarked'));
                     var upvoted = JSON.parse(this.getAttribute('data-upvoted'));
+                    var downvoted = JSON.parse(this.getAttribute('data-downvoted'));
 
                     while (topicItem && !topicItem.classList.contains('topic-item')) {
                         topicItem = topicItem.parentElement;
@@ -230,7 +224,8 @@ var bindOnClick = function(nodeList, handler) {
                             }
                         } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
                             if(data.user.uid != uid) {
-                                downvotePost(topicItem, pid, upvoted);
+                                console.log('is downvoted', downvoted);
+                                downvotePost(topicItem, pid, downvoted);
                             }
                         } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
                             bookmarkPost(topicItem, pid, bookmarked);
@@ -244,7 +239,8 @@ var bindOnClick = function(nodeList, handler) {
                         } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
                             bookmarkPost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, bookmarked);
                         } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
-                            downvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, upvoted);
+                            console.log('is downvoted', downvoted);
+                            downvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, downvoted);
                         }
                     }
 
