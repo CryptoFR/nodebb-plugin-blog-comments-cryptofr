@@ -88,7 +88,7 @@
 											{posts.votes}
 										</span>
 									</a>
-									<a data-component="post/downvote" data-upvoted="{posts.upvoted}" date-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
+									<a data-component="post/downvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" date-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
 										<i class="i-downvote <!-- IF posts.downvoted --> icon-thumbs-down-alt <!-- ELSE --> icon-thumbs-down <!-- ENDIF posts.downvoted -->"></i>
 									</a>
 									<!-- <a data-component="post/quote"><i class="fa fa-quote-left"></i> quote</a> -->

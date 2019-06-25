@@ -14,7 +14,6 @@
         }
     }
 
-
 var bindOnClick = function(nodeList, handler) {
     for (var i = nodeList.length - 1; i >= 0; i--) {
         nodeList[i].onclick = handler;
@@ -52,6 +51,18 @@ var bindOnClick = function(nodeList, handler) {
     xhr.send();
     return xhr;
   }
+  function encodeData (data) {
+    var encodedString = '';
+    for (var prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        if (encodedString.length > 0) {
+          encodedString += '&';
+        }
+        encodedString += encodeURI(prop + '=' + data[prop]);
+      }
+    }
+    return encodedString;
+  }
 
   function xpost (xhr, path, data) {
     var encodedString = '';
@@ -69,17 +80,35 @@ var bindOnClick = function(nodeList, handler) {
     xhr.send(encodedString);
     return xhr;
   }
+    function onLoadFunction(xhr) {
+        return function onLoadImpl() {
+            xhr.isBusy = false;
+            reloadComments();
+        };
+    }
 	var XHR = newXHR(), pagination = 0, modal;
   var voteXHR = newXHR();
   var bookmarkXHR = newXHR();
-  function upvotePost (topicItem, pid, upvoted) {
+  var downvoteXHR = newXHR();
+    // XHR.onload = onLoadFunction(XHR);
+    // bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
+    // voteXHR.onload = onLoadFunction(voteXHR);
+    downvoteXHR.onload = reloadComments;
+  function upvotePost (topicItem, pid) {
     if (voteXHR.isBusy) return;
     voteXHR.isBusy = true;
     voteXHR.topicItem = topicItem;
-    voteXHR.isUpvote = !upvoted;
-    xpost(voteXHR, nodeBBURL + '/comments/vote', {toPid: pid, isUpvote: !upvoted});
+    voteXHR.isUpvote = true;
+    xpost(voteXHR, nodeBBURL + '/comments/vote', {toPid: pid, isUpvote: true});
   }
 
+  function downvotePost (topicItem, pid) {
+      if (downvoteXHR.isBusy) return;
+      voteXHR.isBusy = true;
+      downvoteXHR.topicItem = topicItem;
+      downvoteXHR.isUpvote = false;
+      xpost(downvoteXHR, nodeBBURL + '/comments/downvote', {toPid: pid, isUpvote: false});
+  }
   function bookmarkPost (topicItem, pid, bookmarked) {
     if (bookmarkXHR.isBusy) return;
     bookmarkXHR.isBusy = true;
@@ -147,6 +176,14 @@ var bindOnClick = function(nodeList, handler) {
 				html = parse(data, data.template);
 				nodebbDiv.innerHTML = normalizePost(html);
 			}
+        bindOnClick(nodebbDiv.querySelectorAll('[data-component="post/downvote"]'), function onDownvote(event) {
+            if (!data.user || !data.user.uid) {
+                authenticate('login');
+                return;
+            }
+            var pid = this.getAttribute('data-pid');
+            xpost(voteXHR, nodeBBURL + '/comments/downvote/', {toPid: pid});
+        });
         var nodebbCommentsList = nodebbDiv.querySelector('#nodebb-comments-list');
         var selectors = [
             '[data-component="post/reply"]',
@@ -191,6 +228,10 @@ var bindOnClick = function(nodeList, handler) {
                             if(data.user.uid != uid) {
                                 upvotePost(topicItem, pid, upvoted);
                             }
+                        } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
+                            if(data.user.uid != uid) {
+                                downvotePost(topicItem, pid, upvoted);
+                            }
                         } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
                             bookmarkPost(topicItem, pid, bookmarked);
                         }
@@ -202,12 +243,13 @@ var bindOnClick = function(nodeList, handler) {
                             }
                         } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
                             bookmarkPost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, bookmarked);
+                        } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
+                            downvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, upvoted);
                         }
                     }
 
                 });
 			contentDiv = document.getElementById('nodebb-content');
-
 			setTimeout(function() {
 				var lists = nodebbDiv.getElementsByTagName("li");
 				for (var list in lists) {
@@ -308,7 +350,6 @@ var bindOnClick = function(nodeList, handler) {
 
 	reloadComments();
 
-
 	function timeAgo(time){
 		var time_formats = [
 			[60, 'seconds', 1],
@@ -383,9 +424,8 @@ var bindOnClick = function(nodeList, handler) {
 		var regex, block;
 
 		return (function parse(data, namespace, template, blockInfo) {
-        if (template === undefined) {
-            console.trace('parse');
-            debugger;
+        if(!template) {
+            return '';
         }
 			if (!data || data.length == 0) {
 				template = '';
