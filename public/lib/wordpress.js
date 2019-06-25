@@ -89,11 +89,9 @@ var bindOnClick = function(nodeList, handler) {
 	var XHR = newXHR(), pagination = 0, modal;
   var voteXHR = newXHR();
   var bookmarkXHR = newXHR();
-  var downvoteXHR = newXHR();
-    // XHR.onload = onLoadFunction(XHR);
-    // bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
-    // voteXHR.onload = onLoadFunction(voteXHR);
-    downvoteXHR.onload = reloadComments;
+    XHR.onload = onLoadFunction(XHR);
+    bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
+    voteXHR.onload = onLoadFunction(voteXHR);
   function upvotePost (topicItem, pid, upvoted) {
     var isUpvote = !upvoted;
     if (voteXHR.isBusy) return;
@@ -104,10 +102,10 @@ var bindOnClick = function(nodeList, handler) {
 
   function downvotePost (topicItem, pid, downvoted) {
       var isDownvote = !downvoted;
-      if (downvoteXHR.isBusy) return;
-      downvoteXHR.isBusy = true;
-      downvoteXHR.topicItem = topicItem;
-      xpost(downvoteXHR, nodeBBURL + '/comments/downvote', {toPid: pid, isDownvote: isDownvote });
+      if (voteXHR.isBusy) return;
+      voteXHR.isBusy = true;
+      voteXHR.topicItem = topicItem;
+      xpost(voteXHR, nodeBBURL + '/comments/downvote', {toPid: pid, isDownvote: isDownvote });
   }
   function bookmarkPost (topicItem, pid, bookmarked) {
     if (bookmarkXHR.isBusy) return;
@@ -224,7 +222,6 @@ var bindOnClick = function(nodeList, handler) {
                             }
                         } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
                             if(data.user.uid != uid) {
-                                console.log('is downvoted', downvoted);
                                 downvotePost(topicItem, pid, downvoted);
                             }
                         } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
@@ -239,7 +236,6 @@ var bindOnClick = function(nodeList, handler) {
                         } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
                             bookmarkPost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, bookmarked);
                         } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
-                            console.log('is downvoted', downvoted);
                             downvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, downvoted);
                         }
                     }
