@@ -15,7 +15,19 @@
 		winston = require.main.require('winston');
 
 	module.exports = Comments;
-
+    function getNestedChildren(arr, parent=null) {
+        const out = [];
+        for(const post of arr) {
+            if(String(post.toPid) === String(parent)) {
+                const children = getNestedChildren(arr, post.pid);
+                if(children.length) {
+                    post.children = children;
+                }
+                out.push(post);
+            }
+        }
+        return out;
+    }
 	function CORSSafeReq (req) {
 		var hostUrls = (meta.config['blog-comments:url'] || '').split(','),
 			url;
@@ -100,6 +112,11 @@
 					post.isReply = post.hasOwnProperty('toPid') && parseInt(post.toPid) !== parseInt(data.tid) - 1;
 					post.parentUsername = post.parent ? post.parent.username || '' : '';
 					post.deletedReply = (post.parent && !post.parent.username) ? true : false;
+            if(!post.hasOwnProperty('toPid')) {
+                post.toPid = null;
+            } else {
+                console.log('pid', post.toPid);
+            }
 				});
 
 				var top = true;
@@ -109,6 +126,7 @@
 
 				res.json({
 					posts: posts,
+          nestedPosts: getNestedChildren(posts),
 					postCount: data.postCount,
 					user: data.user,
 					template: Comments.template,
