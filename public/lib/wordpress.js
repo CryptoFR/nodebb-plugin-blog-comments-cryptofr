@@ -13,6 +13,74 @@
             link.setAttribute('data-bookmarked', false);
         }
     }
+    function changeAttribute(elements, attribute, value) {
+        for(var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            if (el !== null) {
+                el.setAttribute(attribute, value);
+            }
+        }
+    }
+    function addClassHelper(element, value, classTrueValue, classFalseValue) {
+        var classToAdd = value ? classTrueValue : classFalseValue;
+        var classToRemove = !value ? classTrueValue : classFalseValue;
+        if (element.classList.contains(classToRemove)) {
+            element.classList.remove(classToRemove);
+        }
+        element.classList.add(classToAdd);
+    }
+    function createNestedComments(comments, template) {
+        function createNestedCommentsInternal(comment) {
+            var clone = template.cloneNode(true);
+            // Here we should manipulate the node
+            changeAttribute(clone.querySelectorAll('[data-pid]'), 'data-pid', comment.pid);
+            changeAttribute(clone.querySelectorAll('[data-uid]'), 'data-uid', comment.uid);
+            changeAttribute(clone.querySelectorAll('[data-userslug]'), 'data-userslug', comment.user.userslug);
+            changeAttribute(clone.querySelectorAll('[data-bookmarked]'), 'data-bookmarked', comment.bookmarked);
+            changeAttribute(clone.querySelectorAll('[data-upvoted]'), 'data-upvoted', comment.upvoted);
+            changeAttribute(clone.querySelectorAll('[data-votes]'), 'data-votes', comment.votes);
+            var upvoteCountEl = clone.querySelector('span.upvote-count');
+            if (comment.votes) {
+                upvoteCountEl.classList.remove('hidden');
+                upvoteCountEl.innerText = comment.votes;
+            } else {
+                upvoteCountEl.classList.add('hidden');
+            }
+            addClassHelper(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
+            addClassHelper(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
+            addClassHelper(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbsdown-alt', 'icon-thumbsdown');
+            var img = [clone.querySelector('img.profile-image')];
+            changeAttribute(img, 'src', comment.user.picture);
+            changeAttribute(img, 'alt', comment.user.username);
+            changeAttribute(img, 'title', comment.user.username);
+            var divImgText = [clone.querySelector('div.profile-image')];
+            changeAttribute(divImgText, 'title', comment.user.username);
+            changeAttribute(divImgText, 'alt', comment.user.username);
+            clone.querySelector('div.post-body').innerHTML = comment.content;
+            clone.querySelector('span[data-timestamp]').innerText = "commented " + comment.timestamp;
+            if (divImgText[0]) {
+                divImgText[0].innerText = comment.user['icon:text'];
+            }
+            clone.querySelector('strong[data-strong-username]').innerText = comment.user.username;
+            // Finish manipulation
+            if (comment.children) {
+                var ul = document.createElement('ul');
+                for (var i = 0; i < comment.children.length; i++) {
+                    var el = comment.children[i];
+                    ul.appendChild(
+                        createNestedCommentsInternal(el)
+                    );
+                }
+                clone.append(ul);
+            }
+            return clone;
+        }
+        var retVal = document.createElement('div');
+        for (var i = 0; i < comments.length; i++) {
+            retVal.appendChild(createNestedCommentsInternal(comments[i]));
+        }
+        return retVal;
+    }
 
 var bindOnClick = function(nodeList, handler) {
     for (var i = nodeList.length - 1; i >= 0; i--) {
@@ -422,7 +490,6 @@ var bindOnClick = function(nodeList, handler) {
 			if (!data || data.length == 0) {
 				template = '';
 			}
-
 			function checkConditional(key, value) {
 				var conditional = makeConditionalRegex(key),
 					matches = template.match(conditional);
@@ -502,7 +569,6 @@ var bindOnClick = function(nodeList, handler) {
 					}
 				}
 			}
-
 			if (namespace) {
 				var regex = new RegExp("{" + namespace + "[\\s\\S]*?}", 'g');
 				template = template.replace(regex, '');
@@ -512,7 +578,14 @@ var bindOnClick = function(nodeList, handler) {
 				template = template.replace(/<!-- ELSE -->/gi, 'ENDIF -->')
 									.replace(/<!-- IF([^@]*?)ENDIF([^@]*?)-->/gi, '');
 			}
-
+        var div = document.createElement('div');
+        div.innerHTML = template;
+        if (data.hasOwnProperty('nestedPosts')) {
+            // TODO try to use parse function again
+            var nested = createNestedComments(data.nestedPosts, div.querySelector('#nodebb-comments-list li'));
+            div.querySelector("#nodebb-comments-list").innerHTML = nested.innerHTML;
+            template = div.innerHTML;
+        }
 			return template;
 
 		})(data, "", template);
