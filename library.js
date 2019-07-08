@@ -106,7 +106,7 @@
 
 				res.json({
 					posts: data.posts,
-					postCount: data.postCount,
+					postCount: data.postCount - 1,
 					user: data.user,
 					template: Comments.template,
 					singleCommentTpl: Comments.singleCommentTpl,

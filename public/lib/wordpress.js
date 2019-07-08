@@ -66,6 +66,7 @@
             } else {
                 upvoteCountEl.classList.add('hidden');
             }
+            clone.querySelector('span.post-value').innerText = '' + comment.votes;
             clone.querySelector('button[data-reply-button]').innerText = "Reply to " + comment.user.username;
             addClassHelper(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
             addClassHelper(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
