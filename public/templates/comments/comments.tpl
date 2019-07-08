@@ -28,18 +28,23 @@
 				<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
 			<!-- ELSE -->
 				<!-- IF user.picture -->
+				<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne"></i>
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
+				<span class="user-status {user.status}"></span>
 				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
+				<span class="user-status {user.status}"></span>
 				<!-- ENDIF user.picture -->
 			<!-- ENDIF !isLoggedIn -->
 		</div>
 
 		<!-- IF isLoggedIn -->
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
-			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
-			<small>Connecté en tant que <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
-			<button class="btn btn-primary">Répondre</button>
+			<small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
+			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoignez la discussion" rows="3"></textarea>
+			<div class="comments-toolbar">
+				<button class="btn btn-primary">Répondre</button>
+			</div>
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
@@ -55,6 +60,10 @@
 
 		<!-- ENDIF isLoggedIn -->
 	<!-- ENDIF atTop -->
+
+	<div class="sortbar">
+		<div data-postcount="{postCount}"><span class="posts-count">{postCount}</span> commentaires</div>
+	</div>
 
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
 		<!-- BEGIN posts -->
@@ -73,27 +82,6 @@
 					<div class="topic-text">
 						<div class="post-content" itemprop="text">
 							<small>
-								<span class="nodebb-post-tools post-tools no-select">
-									<a data-component="post/reply" style="color: inherit; text-decoration: none;" title="Reply">
-										<i class="icon-reply"></i>
-									</a>
-									<a data-component="post/quote" style="color: inherit; text-decoration: none;" title="Quote">
-										<i class="icon-quote-right"></i>
-									</a>
-									<a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
-										<i class="i-bookmark <!-- IF posts.bookmarked --> icon-bookmark <!-- ELSE --> icon-bookmark-empty <!-- ENDIF posts.bookmarked -->"></i>
-									</a>
-									<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
-										<i class="i-upvote <!-- IF posts.upvoted --> icon-thumbs-up-alt <!-- ELSE --> icon-thumbs-up <!-- ENDIF posts.upvoted -->"></i>
-										<span class="upvote-count <!-- IF !posts.votes --> hidden <!-- ENDIF !posts.votes -->">
-											{posts.votes}
-										</span>
-									</a>
-									<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
-										<i class="i-downvote <!-- IF posts.downvoted --> icon-thumbs-down-alt <!-- ELSE --> icon-thumbs-down <!-- ENDIF posts.downvoted -->"></i>
-									</a>
-									<!-- <a data-component="post/quote"><i class="fa fa-quote-left"></i> quote</a> -->
-								</span>
 								<a href="{relative_path}/user/{user.userslug}" style="color: inherit; text-decoration: none;"><strong data-strong-username="">{user.username}</strong></a>
 								<span data-timestamp="" title="{posts.timestampISO}">commented {posts.timestamp}</span>
 								<!-- IF posts.isReply -->
@@ -106,6 +94,27 @@
 							</small>
 							<br />
 							<div class="post-body">{posts.content}</div>
+							<div class="nodebb-post-tools post-tools no-select">
+								<a data-component="post/reply" style="color: inherit; text-decoration: none;" title="Reply">
+									<i class="icon-reply"></i>
+								</a>
+								<a data-component="post/quote" style="color: inherit; text-decoration: none;" title="Quote">
+									<i class="icon-quote-right"></i>
+								</a>
+								<a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
+									<i class="i-bookmark <!-- IF posts.bookmarked --> icon-bookmark <!-- ELSE --> icon-bookmark-empty <!-- ENDIF posts.bookmarked -->"></i>
+								</a>
+								<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
+									<i class="i-upvote <!-- IF posts.upvoted --> icon-thumbs-up-alt <!-- ELSE --> icon-thumbs-up <!-- ENDIF posts.upvoted -->"></i>
+									<span class="upvote-count <!-- IF !posts.votes --> hidden <!-- ENDIF !posts.votes -->">
+										{posts.votes}
+									</span>
+								</a>
+								<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
+									<i class="i-downvote <!-- IF posts.downvoted --> icon-thumbs-down-alt <!-- ELSE --> icon-thumbs-down <!-- ENDIF posts.downvoted -->"></i>
+								</a>
+								<!-- <a data-component="post/quote"><i class="fa fa-quote-left"></i> quote</a> -->
+							</div>
 						</div>
 					</div>
 				</div>

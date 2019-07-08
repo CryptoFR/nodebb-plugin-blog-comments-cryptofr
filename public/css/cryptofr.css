@@ -2,14 +2,6 @@
 
 
 
-#nodebb .btn.btn-primary {
-    background: none repeat scroll 0% 0% #337AB7;
-    color: #FFF;
-    border-radius: 3px;
-    border: 1px solid #337AB7;
-    float: right;
-}
-
 /***********
 
   TOP CSS
@@ -22,6 +14,7 @@
     left: auto;
     width: 90px;
     margin: 0;
+    margin-top: 36px;
 }
 
 #nodebb .topic-profile-pic.user.first-image .profile-image {
@@ -36,3 +29,126 @@
     margin-bottom: 40px;
 }
 
+
+small.logged-as {
+    font-size: 14px;
+}
+
+/*******************
+
+    COMMENTS FORM
+
+********************/
+
+#nodebb .form-control {
+    background: #F6F6F6;
+    border: 2px solid #DEDEDE;
+    font-size: 16px;
+}
+#nodebb .form-control:focus
+{
+    background: white;
+    border: 2px solid #DEDEDE;
+    box-shadow: none;
+}
+
+.comments-toolbar {
+    border: 2px solid #dedede;
+    border-top: none;
+    display: inline-block;
+    width: 100%;
+    background: #EBEBEB;
+    height: 45px;
+}
+
+#nodebb .btn.btn-primary {
+    background: none repeat scroll 0% 0% #337AB7;
+    color: #FFF;
+    border-radius: 3px;
+    border: 1px solid #337AB7;
+    float: right;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 6px 10px;
+}
+
+/***********
+
+  SORT BAR
+
+************/
+
+.sortbar {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #DEDEDE;
+    font-size: 16px;
+    color: #797979;
+}
+
+/***********
+
+  POSTS CSS
+
+************/
+
+#nodebb .post-tools {
+    float: left;
+    text-transform: lowercase;
+    margin-top: 4px;
+}
+
+#nodebb .topic-item {
+    padding-left: 50px;
+}
+
+#nodebb .topic-profile-pic {
+    float: left;
+    margin-top: 4px;
+    margin-right: 0;
+    margin-left: 0;
+    width: 50px;
+    position: absolute;
+    left: 0px;
+}
+
+#nodebb .username {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+.post-body {
+    font-size: 16px;
+}
+
+/***********
+
+  USER CSS
+
+************/
+
+.user-status {
+    display: flex;
+    float: left;
+    background: #333;
+    width: 10px;
+    height: 10px;
+    margin-top: -90px;
+    margin-left: 70px;
+    border-radius: 100%;
+    z-index: 100000000;
+}
+
+.user-status.online {
+    background: #4caf50;
+}
+.user-status.away {
+    color: #ff6d00;
+}
+.user-status.dnd {
+    color: #f44336;
+}
+.user-status.offline {
+    color: #333;
+}

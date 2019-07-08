@@ -37,7 +37,11 @@
         if (node === null) return;
         node.parentNode.removeChild(node);
     }
-    function createNestedComments(comments, template) {
+    function createNestedComments(comments, template, otherData) {
+        var tid = otherData.tid;
+        var token = otherData.token;
+        var redirectURL = otherData.redirect_url;
+        var relativePath = otherData.relative_path;
         function createNestedCommentsInternal(comment) {
             var clone = template.cloneNode(true);
             // Here we should manipulate the node
@@ -49,6 +53,12 @@
             changeAttribute(clone.querySelectorAll('[data-upvoted]'), 'data-upvoted', comment.upvoted);
             changeAttribute(clone.querySelectorAll('[data-downvoted]'), 'data-downvoted', comment.downvoted);
             changeAttribute(clone.querySelectorAll('[data-votes]'), 'data-votes', comment.votes);
+            var form = clone.querySelector('form');
+            form.setAttribute('action', relativePath + "/comments/reply");
+            changeAttribute(form.querySelectorAll('input[name="_csrf"]'), 'value', token);
+            changeAttribute(form.querySelectorAll('input[name="tid"]'), 'value', tid);
+            changeAttribute(form.querySelectorAll('input[name="url"]'), 'value', redirectURL);
+            changeAttribute(form.querySelectorAll('input[name="toPid"]'), 'value', comment.pid);
             var upvoteCountEl = clone.querySelector('span.upvote-count');
             if (comment.votes) {
                 upvoteCountEl.classList.remove('hidden');
@@ -206,11 +216,11 @@ var bindOnClick = function(nodeList, handler) {
       xpost(voteXHR, nodeBBURL + '/comments/downvote', {toPid: pid, isDownvote: isDownvote });
   }
   function bookmarkPost (topicItem, pid, bookmarked) {
-    if (bookmarkXHR.isBusy) return;
-    bookmarkXHR.isBusy = true;
-    bookmarkXHR.topicItem = topicItem;
-    bookmarkXHR.isBookmark = !bookmarked;
-    xpost(bookmarkXHR, nodeBBURL + '/comments/bookmark', {toPid: pid, isBookmark: !bookmarked});
+    if (voteXHR.isBusy) return;
+    voteXHR.isBusy = true;
+    voteXHR.topicItem = topicItem;
+    voteXHR.isBookmark = !bookmarked;
+    xpost(voteXHR, nodeBBURL + '/comments/bookmark', {toPid: pid, isBookmark: !bookmarked});
   }
 	function authenticate(type) {
 		savedText = contentDiv.value;
@@ -614,7 +624,11 @@ var bindOnClick = function(nodeList, handler) {
         div.innerHTML = template;
         if (data.hasOwnProperty('posts')) {
             // TODO try to use parse function again
-            var nested = createNestedComments(data.posts, divPost.querySelector('li'));
+            var nested = createNestedComments(
+                data.posts,
+                divPost.querySelector('li'),
+                data
+            );
             div.querySelector("#nodebb-comments-list").innerHTML = nested.innerHTML;
             template = div.innerHTML;
         }

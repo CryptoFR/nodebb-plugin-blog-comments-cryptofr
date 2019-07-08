@@ -1,5 +1,5 @@
 
-		<li class="nodebb-post-fadein" data-pid="{posts.pid}">
+		<li data-pid="{posts.pid}">
 			<div class="topic-item" data-pid="{posts.pid}" data-userslug="{user.userslug}" data-uid="{posts.uid}">
 				<div class="topic-body">
 					<div class="topic-profile-pic">
@@ -14,27 +14,7 @@
 					<div class="topic-text">
 						<div class="post-content" itemprop="text">
 							<small>
-								<span class="nodebb-post-tools post-tools no-select">
-									<a data-component="post/reply" style="color: inherit; text-decoration: none;" title="Reply">
-										<i class="icon-reply"></i>
-									</a>
-									<a data-component="post/quote" style="color: inherit; text-decoration: none;" title="Quote">
-										<i class="icon-quote-right"></i>
-									</a>
-									<a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
-										<i class="i-bookmark icon-bookmark icon-bookmark-empty"></i>
-									</a>
-									<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
-										<i class="i-upvote icon-thumbs-up-alt icon-thumbs-up"></i>
-										<span class="upvote-count">
-											{posts.votes}
-										</span>
-									</a>
-									<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
-										<i class="i-downvote icon-thumbs-down-alt icon-thumbs-down"></i>
-									</a>
-								</span>
-								<a href="{relative_path}/user/{user.userslug}" style="color: inherit; text-decoration: none;"><strong data-strong-username="">{user.username}</strong></a>
+								<a href="{relative_path}/user/{user.userslug}" class="username" style="color: inherit; text-decoration: none;"><strong data-strong-username="">{user.username}</strong></a>
 								<span data-timestamp="" title="{posts.timestampISO}">commented {posts.timestamp}</span>
 								<!-- IF posts.isReply -->
 								<!-- IF !posts.deletedReply -->
@@ -46,6 +26,29 @@
 							</small>
 							<br />
 							<div class="post-body">{posts.content}</div>
+							<div class="nodebb-post-tools post-tools no-select">
+								<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
+									<i class="i-upvote icon-thumbs-up-alt icon-thumbs-up"></i>
+									<span class="upvote-count">
+										{posts.votes}
+									</span>
+								</a>
+								<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
+									<i class="i-downvote icon-thumbs-down-alt icon-thumbs-down"></i>
+								</a>
+								<span class="post-value">
+									{posts.votes}
+								</span>
+								<a data-component="post/reply" style="color: inherit; text-decoration: none;" title="Reply">
+									<i class="icon-reply"></i>
+								</a>
+								<a data-component="post/quote" style="color: inherit; text-decoration: none;" title="Quote">
+									<i class="icon-quote-right"></i>
+								</a>
+								<a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
+									<i class="i-bookmark icon-bookmark icon-bookmark-empty"></i>
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
