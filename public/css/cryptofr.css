@@ -1,0 +1,38 @@
+/* CSS File for CryptoFR plugin */
+
+
+
+#nodebb .btn.btn-primary {
+    background: none repeat scroll 0% 0% #337AB7;
+    color: #FFF;
+    border-radius: 3px;
+    border: 1px solid #337AB7;
+    float: right;
+}
+
+/***********
+
+  TOP CSS
+
+************/
+
+#nodebb .topic-profile-pic.user.first-image {
+    position: relative;
+    float: left;
+    left: auto;
+    width: 90px;
+    margin: 0;
+}
+
+#nodebb .topic-profile-pic.user.first-image .profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+}
+
+.top-post-form.logged-in {
+    margin-left: 90px;
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
