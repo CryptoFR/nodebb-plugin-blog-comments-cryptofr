@@ -70,13 +70,13 @@ var blogComments2Common = function (commentPositionDiv, nbb, kwargs) {
 
     function timeAgo(time){
         var time_formats = [
-            [60, 'seconds', 1],
-            [120, '1 minute ago'],
+            [60, 'secondes', 1],
+            [120, 'Il y a une minute'],
             [3600, 'minutes', 60],
-            [7200, '1 hour ago'],
-            [86400, 'hours', 3600],
-            [172800, 'yesterday'],
-            [604800, 'days', 86400],
+            [7200, 'Il y a une heure'],
+            [86400, 'heures', 3600],
+            [172800, 'hier'],
+            [604800, 'jours', 86400],
             [1209600, 'last week'],
             [2419200, 'weeks', 604800],
             [4838400, 'last month'],

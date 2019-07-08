@@ -36,6 +36,7 @@
 
 
 	loadCSS(nbb.commentsCSS || (nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments.css'));
+	loadCSS(nbb.commentsCSS || (nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/cryptofr.css'));
 
 	var commentPositionDiv = document.getElementById('nodebb-comments');
     if (!commentPositionDiv) {

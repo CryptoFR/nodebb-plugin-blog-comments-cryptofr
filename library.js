@@ -2,7 +2,10 @@
 	"use strict";
 
 	var Comments = {};
-
+    const {
+        getNestedChildren,
+        getNestedPosts,
+    } = require('./src/helper');
 	var db = require.main.require('./src/database'),
 		meta = require.main.require('./src/meta'),
 		posts = require.main.require('./src/posts'),
@@ -15,19 +18,6 @@
 		winston = require.main.require('winston');
 
 	module.exports = Comments;
-    function getNestedChildren(arr, parent=null) {
-        const out = [];
-        for(const post of arr) {
-            if(String(post.toPid) === String(parent)) {
-                const children = getNestedChildren(arr, post.pid);
-                if(children.length) {
-                    post.children = children;
-                }
-                out.push(post);
-            }
-        }
-        return out;
-    }
 	function CORSSafeReq (req) {
 		var hostUrls = (meta.config['blog-comments:url'] || '').split(','),
 			url;
@@ -67,7 +57,10 @@
 			callback(err, tid);
 		});
 	};
-
+    Comments.test = async function (req, res) {
+        var tid = "19014";
+        return res.send(await getNestedPosts(tid));
+    };
 	Comments.getCommentData = function(req, res) {
 		var commentID = req.params.id,
 			blogger = req.params.blogger || 'default',
@@ -77,11 +70,12 @@
 			var disabled = false;
 
 			async.parallel({
-				posts: function(next) {
+				posts: async function getPosts() {
 					if (disabled) {
-						next(err, []);
+              throw err;
 					} else {
-						topics.getTopicPosts(tid, 'tid:' + tid + ':posts', 0 + req.params.pagination * 10, 9 + req.params.pagination * 9, uid, true, next);
+						// topics.getTopicPosts(tid, 'tid:' + tid + ':posts', 0 + req.params.pagination * 10, 9 + req.params.pagination * 9, uid, true, next);
+              return getNestedPosts(tid, uid);
 					}
 				},
 				postCount: function(next) {
@@ -105,31 +99,17 @@
 			}, function(err, data) {
 				CORSFilter(req, res);
 
-				var posts = data.posts.filter(function(post) {
-					return !post.deleted;
-				});
-				posts.forEach(function(post){
-					post.isReply = post.hasOwnProperty('toPid') && parseInt(post.toPid) !== parseInt(data.tid) - 1;
-					post.parentUsername = post.parent ? post.parent.username || '' : '';
-					post.deletedReply = (post.parent && !post.parent.username) ? true : false;
-            if(!post.hasOwnProperty('toPid')) {
-                post.toPid = null;
-            } else {
-                console.log('pid', post.toPid);
-            }
-				});
-
 				var top = true;
 				var bottom = false;
 				var compose_location = meta.config['blog-comments:compose-location'];
 				if (compose_location == "bottom"){ bottom = true; top = false;}
 
 				res.json({
-					posts: posts,
-          nestedPosts: getNestedChildren(posts),
+					posts: data.posts,
 					postCount: data.postCount,
 					user: data.user,
 					template: Comments.template,
+					singleCommentTpl: Comments.singleCommentTpl,
 					token: req.csrfToken(),
 					isAdmin: !data.isAdministrator ? data.isPublisher : data.isAdministrator,
 					isLoggedIn: !!uid,
@@ -342,6 +322,9 @@
 		fs.readFile(path.resolve(__dirname, './public/templates/comments/comments.tpl'), function (err, data) {
 			Comments.template = data.toString();
 		});
+		  fs.readFile(path.resolve(__dirname, './public/templates/comments/single.tpl'), function (err, data) {
+			    Comments.singleCommentTpl = data.toString();
+		  });
 
 		app.get('/comments/get/:blogger/:id/:pagination?', middleware.applyCSRF, Comments.getCommentData);
 		app.post('/comments/reply', Comments.replyToComment);
@@ -353,7 +336,7 @@
 
 		app.get('/admin/blog-comments', middleware.admin.buildHeader, renderAdmin);
 		app.get('/api/admin/blog-comments', renderAdmin);
-
+      app.get('/comments/test', Comments.test);
 		callback();
 	};
 

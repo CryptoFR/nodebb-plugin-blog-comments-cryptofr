@@ -1,5 +1,6 @@
 (function() {
 	"use strict";
+    var postTemplate;
     function onBookmarked (topicItem, isBookmark) {
         var el = topicItem.querySelector('.i-bookmark');
         var link = topicItem.querySelector('[data-component="post/bookmark"]');
@@ -24,6 +25,9 @@
     function addClassHelper(element, value, classTrueValue, classFalseValue) {
         var classToAdd = value ? classTrueValue : classFalseValue;
         var classToRemove = !value ? classTrueValue : classFalseValue;
+        if (element === null) {
+            return;
+        }
         if (element.classList.contains(classToRemove)) {
             element.classList.remove(classToRemove);
         }
@@ -38,6 +42,7 @@
             changeAttribute(clone.querySelectorAll('[data-userslug]'), 'data-userslug', comment.user.userslug);
             changeAttribute(clone.querySelectorAll('[data-bookmarked]'), 'data-bookmarked', comment.bookmarked);
             changeAttribute(clone.querySelectorAll('[data-upvoted]'), 'data-upvoted', comment.upvoted);
+            changeAttribute(clone.querySelectorAll('[data-downvoted]'), 'data-downvoted', comment.downvoted);
             changeAttribute(clone.querySelectorAll('[data-votes]'), 'data-votes', comment.votes);
             var upvoteCountEl = clone.querySelector('span.upvote-count');
             if (comment.votes) {
@@ -48,7 +53,7 @@
             }
             addClassHelper(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
             addClassHelper(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
-            addClassHelper(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbsdown-alt', 'icon-thumbsdown');
+            addClassHelper(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbs-down-alt', 'icon-thumbs-down');
             var img = [clone.querySelector('img.profile-image')];
             changeAttribute(img, 'src', comment.user.picture);
             changeAttribute(img, 'alt', comment.user.username);
@@ -57,11 +62,18 @@
             changeAttribute(divImgText, 'title', comment.user.username);
             changeAttribute(divImgText, 'alt', comment.user.username);
             clone.querySelector('div.post-body').innerHTML = comment.content;
-            clone.querySelector('span[data-timestamp]').innerText = "commented " + comment.timestamp;
             if (divImgText[0]) {
                 divImgText[0].innerText = comment.user['icon:text'];
             }
             clone.querySelector('strong[data-strong-username]').innerText = comment.user.username;
+            if (comment.parent && comment.parent.username) {
+                clone.querySelector('span[data-parent-username]').innerText = "@" + comment.parent.username;
+                comment.timestamp = timeAgo(parseInt(comment.timestamp, 10));
+            } else {
+                var buttonReply = clone.querySelector('button.reply-label');
+                buttonReply.parentNode.removeChild(buttonReply);
+            }
+            clone.querySelector('span[data-timestamp]').innerText = "commented " + comment.timestamp;
             // Finish manipulation
             if (comment.children) {
                 var ul = document.createElement('ul');
@@ -97,7 +109,13 @@ var bindOnClick = function(nodeList, handler) {
 	stylesheet.setAttribute("type", "text/css");
 	stylesheet.setAttribute("href", pluginURL + '/css/comments.css');
 
+    var stylesheetCryptoFR = document.createElement("link");
+    stylesheetCryptoFR.setAttribute("rel", "stylesheet");
+    stylesheetCryptoFR.setAttribute("type", "text/css");
+    stylesheetCryptoFR.setAttribute("href", pluginURL + '/css/cryptofr.css');
+
 	document.getElementsByTagName("head")[0].appendChild(stylesheet);
+    document.getElementsByTagName("head")[0].appendChild(stylesheetCryptoFR);
 	document.getElementById('nodebb-comments').insertAdjacentHTML('beforebegin', '<div class="comments-area" id="nodebb"></div>');
 	nodebbDiv = document.getElementById('nodebb');
 
@@ -207,7 +225,7 @@ var bindOnClick = function(nodeList, handler) {
 			commentsCounter = document.getElementById('nodebb-comments-count');
 			commentsAuthor = document.getElementById('nodebb-comments-author');
 			commentsCategory = document.getElementById('nodebb-comments-category');
-
+        postTemplate = data.singleCommentTpl;
 			data.relative_path = nodeBBURL;
 			data.redirect_url = articlePath;
 			data.article_id = articleID;
@@ -216,7 +234,7 @@ var bindOnClick = function(nodeList, handler) {
 
 			for (var post in data.posts) {
 				if (data.posts.hasOwnProperty(post)) {
-					data.posts[post].timestamp = timeAgo(parseInt(data.posts[post].timestamp), 10);
+            data.posts[post].timestamp = timeAgo(parseInt(data.posts[post].timestamp), 10);
 					if (data.posts[post]['blog-comments:url']) {
 						delete data.posts[post];
 					}
@@ -324,18 +342,18 @@ var bindOnClick = function(nodeList, handler) {
 			}
 
 			if (data.tid) {
-				var loadMore = document.getElementById('nodebb-load-more');
-				loadMore.onclick = function() {
-					pagination++;
-					reloadComments();
-				}
-				if (data.posts.length) {
-					loadMore.style.display = 'inline-block';
-				}
+				// var loadMore = document.getElementById('nodebb-load-more');
+				// loadMore.onclick = function() {
+				// 	pagination++;
+				// 	reloadComments();
+				// }
+				// if (data.posts.length) {
+				// 	loadMore.style.display = 'inline-block';
+				// }
 
-				if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
-					loadMore.style.display = 'none';
-				}
+				// if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
+				// 	loadMore.style.display = 'none';
+				// }
 
 				if (typeof jQuery !== 'undefined' && jQuery() && jQuery().fitVids) {
 					jQuery(nodebbDiv).fitVids();
@@ -410,8 +428,8 @@ var bindOnClick = function(nodeList, handler) {
 
 	reloadComments();
 
-	function timeAgo(time){
-		var time_formats = [
+	  function timeAgo(time) {
+		    var time_formats = [
 			[60, 'seconds', 1],
 			[120, '1 minute ago'],
 			[3600, 'minutes', 60],
@@ -578,11 +596,13 @@ var bindOnClick = function(nodeList, handler) {
 				template = template.replace(/<!-- ELSE -->/gi, 'ENDIF -->')
 									.replace(/<!-- IF([^@]*?)ENDIF([^@]*?)-->/gi, '');
 			}
+        var divPost = document.createElement('div');
+        divPost.innerHTML = postTemplate;
         var div = document.createElement('div');
         div.innerHTML = template;
-        if (data.hasOwnProperty('nestedPosts')) {
+        if (data.hasOwnProperty('posts')) {
             // TODO try to use parse function again
-            var nested = createNestedComments(data.nestedPosts, div.querySelector('#nodebb-comments-list li'));
+            var nested = createNestedComments(data.posts, divPost.querySelector('li'));
             div.querySelector("#nodebb-comments-list").innerHTML = nested.innerHTML;
             template = div.innerHTML;
         }

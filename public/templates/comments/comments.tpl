@@ -25,7 +25,7 @@
 		<div class="topic-profile-pic user first-image">
 
 			<!-- IF !isLoggedIn -->
-				<img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" />
+				<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
 			<!-- ELSE -->
 				<!-- IF user.picture -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
@@ -35,19 +35,20 @@
 			<!-- ENDIF !isLoggedIn -->
 		</div>
 
-		<form action="{relative_path}/comments/reply" class="clearfix" method="post">
-			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
 		<!-- IF isLoggedIn -->
-			<small>Signed in as <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
-			<button class="btn btn-primary">Post a Reply</button>
+		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
+			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
+			<small>Connecté en tant que <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
+			<button class="btn btn-primary">Répondre</button>
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
 		</form>
 		<!-- ELSE -->
+		<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
 		</form>
-		<button class="btn btn-primary" id="nodebb-register">Register</button>
-		<button class="btn btn-primary" id="nodebb-login">Login</button>
+		<button class="btn btn-primary" id="nodebb-register">S'enregister</button>
+		<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
 
 		<!-- This button is here just for making the css margin right -->
 		<button style="visibility: hidden; padding-top: 8px;"> </button>
@@ -62,7 +63,7 @@
 				<div class="topic-body">
 					<div class="topic-profile-pic">
 						<a href="{relative_path}/user/{user.userslug}">
-							<!-- IF user.picture -->
+							<!-- IF user.picture.length -->
 							<img src="{user.picture}" alt="{user.username}" class="profile-image" title="{user.username}">
 							<!-- ELSE -->
 							<div class="profile-image" style="background-color: {user.icon:bgColor}" title="{user.username}" alt="{user.username}">{user.icon:text}</div>
@@ -118,8 +119,8 @@
  					<input type="hidden" name="url" value="{redirect_url}" />
  				</form>
         <div data-recursive-replies=""></div>
+      </div>
 		</li>
-</div>
 		<!-- END posts -->
 	</ul>
 
