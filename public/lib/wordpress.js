@@ -55,6 +55,7 @@
             } else {
                 upvoteCountEl.classList.add('hidden');
             }
+            clone.querySelector('button[data-reply-button]').innerText = "Reply to " + comment.user.username;
             addClassHelper(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
             addClassHelper(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
             addClassHelper(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbs-down-alt', 'icon-thumbs-down');
@@ -78,6 +79,7 @@
             clone.querySelector('strong[data-strong-username]').innerText = comment.user.username;
             if (comment.parent && comment.parent.username) {
                 clone.querySelector('span[data-parent-username]').innerText = "@" + comment.parent.username;
+                // We update here because in another method timestamps are updated for parent comments
                 comment.timestamp = timeAgo(parseInt(comment.timestamp, 10));
             } else {
                 removeNode(clone.querySelector('button.reply-label'));
