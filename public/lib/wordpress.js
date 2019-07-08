@@ -33,6 +33,10 @@
         }
         element.classList.add(classToAdd);
     }
+    function removeNode(node) {
+        if (node === null) return;
+        node.parentNode.removeChild(node);
+    }
     function createNestedComments(comments, template) {
         function createNestedCommentsInternal(comment) {
             var clone = template.cloneNode(true);
@@ -54,24 +58,29 @@
             addClassHelper(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
             addClassHelper(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
             addClassHelper(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbs-down-alt', 'icon-thumbs-down');
-            var img = [clone.querySelector('img.profile-image')];
-            changeAttribute(img, 'src', comment.user.picture);
-            changeAttribute(img, 'alt', comment.user.username);
-            changeAttribute(img, 'title', comment.user.username);
-            var divImgText = [clone.querySelector('div.profile-image')];
-            changeAttribute(divImgText, 'title', comment.user.username);
-            changeAttribute(divImgText, 'alt', comment.user.username);
             clone.querySelector('div.post-body').innerHTML = comment.content;
-            if (divImgText[0]) {
-                divImgText[0].innerText = comment.user['icon:text'];
+            var img = [clone.querySelector('img.profile-image')];
+            var divImgText = [clone.querySelector('div.profile-image')];
+            if (comment.user.picture) {
+                changeAttribute(img, 'src', comment.user.picture);
+                changeAttribute(img, 'alt', comment.user.username);
+                changeAttribute(img, 'title', comment.user.username);
+                removeNode(divImgText[0]);
+            } else {
+                changeAttribute(divImgText, 'title', comment.user.username);
+                changeAttribute(divImgText, 'alt', comment.user.username);
+                if (divImgText[0]) {
+                    divImgText[0].innerText = comment.user['icon:text'];
+                    divImgText[0].style.backgroundColor = comment.user['icon:bgColor'];
+                }
+                removeNode(img[0]);
             }
             clone.querySelector('strong[data-strong-username]').innerText = comment.user.username;
             if (comment.parent && comment.parent.username) {
                 clone.querySelector('span[data-parent-username]').innerText = "@" + comment.parent.username;
                 comment.timestamp = timeAgo(parseInt(comment.timestamp, 10));
             } else {
-                var buttonReply = clone.querySelector('button.reply-label');
-                buttonReply.parentNode.removeChild(buttonReply);
+                removeNode(clone.querySelector('button.reply-label'));
             }
             clone.querySelector('span[data-timestamp]').innerText = "commented " + comment.timestamp;
             // Finish manipulation
