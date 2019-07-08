@@ -41,6 +41,7 @@
         function createNestedCommentsInternal(comment) {
             var clone = template.cloneNode(true);
             // Here we should manipulate the node
+            clone.setAttribute('data-pid', comment.pid);
             changeAttribute(clone.querySelectorAll('[data-pid]'), 'data-pid', comment.pid);
             changeAttribute(clone.querySelectorAll('[data-uid]'), 'data-uid', comment.uid);
             changeAttribute(clone.querySelectorAll('[data-userslug]'), 'data-userslug', comment.user.userslug);
