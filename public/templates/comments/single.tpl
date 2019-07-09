@@ -29,25 +29,25 @@
 							<div class="nodebb-post-tools post-tools no-select">
 								<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
 									<i class="i-upvote icon-thumbs-up-alt icon-thumbs-up"></i>
-									<span class="upvote-count">
+									<span class="upvote-count" style="display: none;">
 										{posts.votes}
 									</span>
 								</a>
 								<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
 									<i class="i-downvote icon-thumbs-down-alt icon-thumbs-down"></i>
 								</a>
-								<span class="post-value">
-									{posts.votes}
-								</span>
-								<a data-component="post/reply" style="color: inherit; text-decoration: none;" title="Reply">
-									<i class="icon-reply"></i>
+								<div class="posts-vote">
+									<span class="post-value">{posts.votes}</span> points
+								</div>
+								<a data-component="post/reply" class="reply" style="color: inherit; text-decoration: none;" title="Reply">
+									Répondre
 								</a>
-								<a data-component="post/quote" style="color: inherit; text-decoration: none;" title="Quote">
-									<i class="icon-quote-right"></i>
+								<a data-component="post/quote" class="quote" style="color: inherit; text-decoration: none;" title="Quote">
+									Citer
 								</a>
-								<a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
+								<!-- <a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
 									<i class="i-bookmark icon-bookmark icon-bookmark-empty"></i>
-								</a>
+								</a> -->
 							</div>
 						</div>
 					</div>

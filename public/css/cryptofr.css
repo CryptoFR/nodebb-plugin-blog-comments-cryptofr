@@ -98,15 +98,45 @@ small.logged-as {
     margin-top: 4px;
 }
 
+#nodebb ul {
+    margin-bottom: 0px;
+    margin-top: 15px;
+    padding: 0px;
+    border-left: 2px solid #E8E8E8;
+    margin-left: 15px;
+    list-style-type: none;
+}
+
+#nodebb > ul ul {
+    list-style-type: none;
+    margin-left: 35px;
+}
+
+#nodebb > ul li {
+    margin-top: 20px;
+}
+
+#nodebb > ul > li {
+    box-shadow: none;
+    margin-bottom: 0px;
+}
+
+#nodebb .profile-image {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 25px;
+}
+
 #nodebb .topic-item {
-    padding-left: 50px;
+    padding-left: 25px;
 }
 
 #nodebb .topic-profile-pic {
     float: left;
-    margin-top: 4px;
+    margin-top: -12px;
     margin-right: 0;
-    margin-left: 0;
+    margin-left: -25px;
     width: 50px;
     position: absolute;
     left: 0px;
@@ -120,6 +150,65 @@ small.logged-as {
 
 .post-body {
     font-size: 16px;
+}
+
+#nodebb .post-tools a {
+    padding-right: 0px;
+}
+
+#nodebb .topic-text {
+    margin-top: -15px;
+}
+
+.posts-vote {
+    float: left;
+    margin-top: 4px;
+    margin-left: 3px;
+    font-size: 15px;
+    color: #9c9c9c;
+    margin-right: -6px;
+}
+
+.reply:before, .quote:before {
+    content: ".";
+    font-size: 50px;
+    line-height: 0px;
+    margin-right: 5px;
+    display: contents;
+    color: #E1E1E1;
+}
+
+.reply, .quote {
+    font-size: 15px;
+    color: #3d64bb !important;
+}
+
+i.i-upvote, i.i-downvote {
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    float: left;
+    margin-right: 2px;
+}
+
+i.i-upvote.icon-thumbs-up {
+    background: no-repeat center url(https://i.gyazo.com/2283ea88abe193d981140ab99c35de05.png);
+}
+
+i.i-upvote.icon-thumbs-up-alt {
+    background: no-repeat center url(https://i.gyazo.com/78f59e525a12241b2c1ef6fe9381bb1c.png);
+}
+
+i.i-downvote.icon-thumbs-down {
+    background: no-repeat center url(https://i.gyazo.com/0abb2c530019a34f1ecc9edb309f5b3f.png);
+}
+
+i.i-downvote.icon-thumbs-down-alt {
+    background: no-repeat center url(https://i.gyazo.com/866cd63d0b43600b538fdc75d7be3216.png);
+}
+
+#nodebb [class^="icon-thumbs"]:before, #nodebb [class*=" icon-thumbs"]:before {
+    display: none;
 }
 
 /***********

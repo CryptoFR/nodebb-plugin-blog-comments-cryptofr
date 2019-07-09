@@ -1,5 +1,5 @@
 <!-- IF isValid -->
-	<div class="top-tool-box">
+	<!-- <div class="top-tool-box">
 		<a href="" class='need-more-share2'
 		    data-shareUrl='{redirect_url}'
 		    title="Share"
@@ -20,7 +20,7 @@
 			<span class="downvote-count">
 			</span>
 		</a>
-	</div>
+	</div> -->
 	<!-- IF atTop -->
 		<div class="topic-profile-pic user first-image">
 
@@ -62,7 +62,10 @@
 	<!-- ENDIF atTop -->
 
 	<div class="sortbar">
-		<div data-postcount="{postCount}"><span class="posts-count">{postCount}</span> commentaires</div>
+		<div class="postCounts" data-postcount="{postCount}">
+			<img src="https://i.gyazo.com/2880209dbbf7a5ebc1c1daadfa958f97.png" alt="{postCount} commentaires" class="icon"> 
+			<span class="posts-count">{postCount}</span> commentaires
+		</div>
 	</div>
 
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
@@ -114,7 +117,7 @@
 									<i class="i-downvote <!-- IF posts.downvoted --> icon-thumbs-down-alt <!-- ELSE --> icon-thumbs-down <!-- ENDIF posts.downvoted -->"></i>
 								</a>
 								<span class="post-value">
-									{posts.votes}
+									{posts.votes} points
 								</span>
 								<!-- <a data-component="post/quote"><i class="fa fa-quote-left"></i> quote</a> -->
 							</div>
