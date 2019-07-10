@@ -59,7 +59,8 @@
             changeAttribute(form.querySelectorAll('input[name="_csrf"]'), 'value', token);
             changeAttribute(form.querySelectorAll('input[name="tid"]'), 'value', tid);
             changeAttribute(form.querySelectorAll('input[name="url"]'), 'value', redirectURL);
-            changeAttribute(form.querySelectorAll('input[name="toPid"]'), 'value', comment.pid);
+            var toPid = level >= 2 ? comment.toPid : comment.pid;
+            changeAttribute(form.querySelectorAll('input[name="toPid"]'), 'value', toPid);
             var upvoteCountEl = clone.querySelector('span.upvote-count');
             if (comment.votes) {
                 upvoteCountEl.classList.remove('hidden');
@@ -108,12 +109,6 @@
                     );
                 }
                 clone.append(ul);
-            }
-            if (level >= 2) {
-                var toRemove = clone.querySelectorAll('a.reply, a.quote');
-                for (var t = 0; t < toRemove.length; t++) {
-                    removeNode(toRemove[t]);
-                }
             }
             return clone;
         }
