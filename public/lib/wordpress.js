@@ -325,7 +325,6 @@ var bindOnClick = function(nodeList, handler) {
                             formInput.value = '@' + topicItem.getAttribute('data-userslug') + ' said:\n' + quote + formInput.value;
                             elementForm.classList.remove('hidden');
                         } else if (/\/reply$/.test(this.getAttribute('data-component'))) {
-                            formInput.value = '@' + topicItem.getAttribute('data-userslug') + ': ' + formInput.value;
                             elementForm.classList.remove('hidden');
                         } else if (/\/upvote$/.test(this.getAttribute('data-component'))) {
                             if(data.user.uid != uid) {
