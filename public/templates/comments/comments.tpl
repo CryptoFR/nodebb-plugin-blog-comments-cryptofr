@@ -30,10 +30,10 @@
 				<!-- IF user.picture -->
 				<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne"></i>
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
-				<span class="user-status {user.status}"></span>
+				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
-				<span class="user-status {user.status}"></span>
+				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ENDIF user.picture -->
 			<!-- ENDIF !isLoggedIn -->
 		</div>

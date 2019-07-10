@@ -10,6 +10,7 @@
 							<div class="profile-image" style="background-color: {user.icon:bgColor}" title="{user.username}" alt="{user.username}">{user.icon:text}</div>
 							<!-- ENDIF user.picture -->
 						</a>
+            <span class="user-status user-status-comments"></span>
 					</div>
 					<div class="topic-text">
 						<div class="post-content" itemprop="text">

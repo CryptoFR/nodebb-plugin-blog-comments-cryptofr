@@ -1,7 +1,6 @@
 /* CSS File for CryptoFR plugin */
 
 
-
 /***********
 
   TOP CSS
@@ -240,4 +239,12 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 .user-status.offline {
     color: #333;
+}
+
+.user-status-comments {
+    transform: translate(-25px, 38px);
+}
+
+.user-status-main {
+    transform: translate(0px, 5px);
 }

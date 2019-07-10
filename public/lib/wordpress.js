@@ -42,10 +42,11 @@
         var token = otherData.token;
         var redirectURL = otherData.redirect_url;
         var relativePath = otherData.relative_path;
-        function createNestedCommentsInternal(comment) {
+        function createNestedCommentsInternal(comment, level) {
             var clone = template.cloneNode(true);
             // Here we should manipulate the node
             clone.setAttribute('data-pid', comment.pid);
+            clone.querySelector('span.user-status').classList.add(comment.user.status);
             changeAttribute(clone.querySelectorAll('[data-pid]'), 'data-pid', comment.pid);
             changeAttribute(clone.querySelectorAll('[data-uid]'), 'data-uid', comment.uid);
             changeAttribute(clone.querySelectorAll('[data-userslug]'), 'data-userslug', comment.user.userslug);
@@ -98,21 +99,27 @@
             }
             clone.querySelector('span[data-timestamp]').innerText = "commented " + comment.timestamp;
             // Finish manipulation
-            if (comment.children) {
+            if (comment.children && level <= 2) {
                 var ul = document.createElement('ul');
                 for (var i = 0; i < comment.children.length; i++) {
                     var el = comment.children[i];
                     ul.appendChild(
-                        createNestedCommentsInternal(el)
+                        createNestedCommentsInternal(el, level + 1)
                     );
                 }
                 clone.append(ul);
+            }
+            if (level >= 2) {
+                var toRemove = clone.querySelectorAll('a.reply, a.quote');
+                for (var t = 0; t < toRemove.length; t++) {
+                    removeNode(toRemove[t]);
+                }
             }
             return clone;
         }
         var retVal = document.createElement('div');
         for (var i = 0; i < comments.length; i++) {
-            retVal.appendChild(createNestedCommentsInternal(comments[i]));
+            retVal.appendChild(createNestedCommentsInternal(comments[i], 0));
         }
         return retVal;
     }
