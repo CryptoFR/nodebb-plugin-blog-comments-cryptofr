@@ -2,20 +2,22 @@
 	"use strict";
 
 	var Comments = {};
-
-	var db = module.parent.require('../src/database.js'),
-		meta = module.parent.require('../src/meta.js'),
-		posts = module.parent.require('../src/posts.js'),
-		topics = module.parent.require('../src/topics.js'),
-		user = module.parent.require('../src/user.js'),
-		groups = module.parent.require('../src/groups.js'),
-		fs = module.parent.require('fs'),
-		path = module.parent.require('path'),
-		async = module.parent.require('async'),
-		winston = module.parent.require('winston');
+    const {
+        getNestedChildren,
+        getNestedPosts,
+    } = require('./src/helper');
+	var db = require.main.require('./src/database'),
+		meta = require.main.require('./src/meta'),
+		posts = require.main.require('./src/posts'),
+		topics = require.main.require('./src/topics'),
+		user = require.main.require('./src/user'),
+		groups = require.main.require('./src/groups'),
+		fs = require.main.require('fs'),
+		path = require.main.require('path'),
+		async = require.main.require('async'),
+		winston = require.main.require('winston');
 
 	module.exports = Comments;
-
 	function CORSSafeReq (req) {
 		var hostUrls = (meta.config['blog-comments:url'] || '').split(','),
 			url;
@@ -32,7 +34,7 @@
 		});
 
 		if (!url) {
-			winston.warn('[nodebb-plugin-blog-comments2] Origin (' + req.get('origin') + ') does not match hostUrls: ' + hostUrls.join(', '));
+			winston.warn('[nodebb-plugin-blog-comments-cryptofr] Origin (' + req.get('origin') + ') does not match hostUrls: ' + hostUrls.join(', '));
 		}
 		return url;
 	}
@@ -55,7 +57,10 @@
 			callback(err, tid);
 		});
 	};
-
+    Comments.test = async function (req, res) {
+        var tid = "19014";
+        return res.send(await getNestedPosts(tid));
+    };
 	Comments.getCommentData = function(req, res) {
 		var commentID = req.params.id,
 			blogger = req.params.blogger || 'default',
@@ -65,11 +70,12 @@
 			var disabled = false;
 
 			async.parallel({
-				posts: function(next) {
+				posts: async function getPosts() {
 					if (disabled) {
-						next(err, []);
+              throw err;
 					} else {
-						topics.getTopicPosts(tid, 'tid:' + tid + ':posts', 0 + req.params.pagination * 10, 9 + req.params.pagination * 9, uid, true, next);
+						// topics.getTopicPosts(tid, 'tid:' + tid + ':posts', 0 + req.params.pagination * 10, 9 + req.params.pagination * 9, uid, true, next);
+              return getNestedPosts(tid, uid);
 					}
 				},
 				postCount: function(next) {
@@ -93,25 +99,17 @@
 			}, function(err, data) {
 				CORSFilter(req, res);
 
-				var posts = data.posts.filter(function(post) {
-					return post.deleted === false;
-				});
-				posts.forEach(function(post){
-					post.isReply = post.hasOwnProperty('toPid') && parseInt(post.toPid) !== parseInt(data.tid) - 1;
-					post.parentUsername = post.parent ? post.parent.username || '' : '';
-					post.deletedReply = (post.parent && !post.parent.username) ? true : false;
-				});
-
 				var top = true;
 				var bottom = false;
 				var compose_location = meta.config['blog-comments:compose-location'];
 				if (compose_location == "bottom"){ bottom = true; top = false;}
 
 				res.json({
-					posts: posts,
-					postCount: data.postCount,
+					posts: data.posts,
+					postCount: data.postCount - 1,
 					user: data.user,
 					template: Comments.template,
+					singleCommentTpl: Comments.singleCommentTpl,
 					token: req.csrfToken(),
 					isAdmin: !data.isAdministrator ? data.isPublisher : data.isAdministrator,
 					isLoggedIn: !!uid,
@@ -147,17 +145,29 @@
 		if (!CORSSafeReq(req)) {
 			return;
 		}
-		var toPid = req.body.toPid,
-		    isUpvote = JSON.parse(req.body.isUpvote),
+		  var toPid = req.body.toPid,
+          isUpvote = JSON.parse(req.body.isUpvote),
 			uid = req.user ? req.user.uid : 0;
-
-		var func = isUpvote ? 'upvote' : 'unvote';
-
-		posts[func](toPid, uid, function (err, result) {
+      const fn = isUpvote ? "upvote" : "unvote";
+		posts[fn](toPid, uid, function (err, result) {
 			CORSFilter(req, res);
 			res.json({error: err && err.message, result: result});
 		});
 	};
+
+    Comments.downvotePost = function (req, res, callback) {
+		    if (!CORSSafeReq(req)) {
+			      return;
+		    }
+		    var toPid = req.body.toPid,
+            isDownvote = JSON.parse(req.body.isDownvote),
+			      uid = req.user ? req.user.uid : 0;
+        const fn = isDownvote ? "downvote" : "unvote";
+		    posts[fn](toPid, uid, function (err, result) {
+			      CORSFilter(req, res);
+			      res.json({error: err && err.message, result: result});
+		    });
+    };
 
 	Comments.bookmarkPost = function (req, res, callback) {
 		if (!CORSSafeReq(req)) {
@@ -312,17 +322,21 @@
 		fs.readFile(path.resolve(__dirname, './public/templates/comments/comments.tpl'), function (err, data) {
 			Comments.template = data.toString();
 		});
+		  fs.readFile(path.resolve(__dirname, './public/templates/comments/single.tpl'), function (err, data) {
+			    Comments.singleCommentTpl = data.toString();
+		  });
 
 		app.get('/comments/get/:blogger/:id/:pagination?', middleware.applyCSRF, Comments.getCommentData);
 		app.post('/comments/reply', Comments.replyToComment);
 		app.post('/comments/publish', Comments.publishArticle);
 		app.post('/comments/vote', Comments.votePost);
+		  app.post('/comments/downvote', Comments.downvotePost);
 		app.post('/comments/bookmark', Comments.bookmarkPost);
-		app.post('/comments/edit', Comments.editPost);
+		// app.post('/comments/edit', Comments.editPost);
 
 		app.get('/admin/blog-comments', middleware.admin.buildHeader, renderAdmin);
 		app.get('/api/admin/blog-comments', renderAdmin);
-
+      app.get('/comments/test', Comments.test);
 		callback();
 	};
 

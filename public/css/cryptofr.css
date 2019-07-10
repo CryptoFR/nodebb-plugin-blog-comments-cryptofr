@@ -1,0 +1,250 @@
+/* CSS File for CryptoFR plugin */
+
+
+/***********
+
+  TOP CSS
+
+************/
+
+#nodebb .topic-profile-pic.user.first-image {
+    position: relative;
+    float: left;
+    left: auto;
+    width: 90px;
+    margin: 0;
+    margin-top: 36px;
+}
+
+#nodebb .topic-profile-pic.user.first-image .profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+}
+
+.top-post-form.logged-in {
+    margin-left: 90px;
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+
+
+small.logged-as {
+    font-size: 14px;
+}
+
+/*******************
+
+    COMMENTS FORM
+
+********************/
+
+#nodebb .form-control {
+    background: #F6F6F6;
+    border: 2px solid #DEDEDE;
+    font-size: 16px;
+}
+#nodebb .form-control:focus
+{
+    background: white;
+    border: 2px solid #DEDEDE;
+    box-shadow: none;
+}
+
+.comments-toolbar {
+    border: 2px solid #dedede;
+    border-top: none;
+    display: inline-block;
+    width: 100%;
+    background: #EBEBEB;
+    height: 45px;
+}
+
+#nodebb .btn.btn-primary {
+    background: none repeat scroll 0% 0% #337AB7;
+    color: #FFF;
+    border-radius: 3px;
+    border: 1px solid #337AB7;
+    float: right;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding: 6px 10px;
+}
+
+/***********
+
+  SORT BAR
+
+************/
+
+.sortbar {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #DEDEDE;
+    font-size: 16px;
+    color: #797979;
+}
+
+/***********
+
+  POSTS CSS
+
+************/
+
+#nodebb .post-tools {
+    float: left;
+    text-transform: lowercase;
+    margin-top: 4px;
+}
+
+#nodebb ul {
+    margin-bottom: 0px;
+    margin-top: 15px;
+    padding: 0px;
+    border-left: 2px solid #E8E8E8;
+    margin-left: 15px;
+    list-style-type: none;
+}
+
+#nodebb > ul ul {
+    list-style-type: none;
+    margin-left: 35px;
+}
+
+#nodebb > ul li {
+    margin-top: 20px;
+}
+
+#nodebb > ul > li {
+    box-shadow: none;
+    margin-bottom: 0px;
+}
+
+#nodebb .profile-image {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 25px;
+}
+
+#nodebb .topic-item {
+    padding-left: 25px;
+}
+
+#nodebb .topic-profile-pic {
+    float: left;
+    margin-top: -12px;
+    margin-right: 0;
+    margin-left: -25px;
+    width: 50px;
+    position: absolute;
+    left: 0px;
+}
+
+#nodebb .username {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+.post-body {
+    font-size: 16px;
+}
+
+#nodebb .post-tools a {
+    padding-right: 0px;
+}
+
+#nodebb .topic-text {
+    margin-top: -15px;
+}
+
+.posts-vote {
+    float: left;
+    margin-top: 4px;
+    margin-left: 3px;
+    font-size: 15px;
+    color: #9c9c9c;
+    margin-right: -6px;
+}
+
+.reply:before, .quote:before {
+    content: ".";
+    font-size: 50px;
+    line-height: 0px;
+    margin-right: 5px;
+    display: contents;
+    color: #E1E1E1;
+}
+
+.reply, .quote {
+    font-size: 15px;
+    color: #3d64bb !important;
+}
+
+i.i-upvote, i.i-downvote {
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    float: left;
+    margin-right: 2px;
+}
+
+i.i-upvote.icon-thumbs-up {
+    background: no-repeat center url(https://i.gyazo.com/2283ea88abe193d981140ab99c35de05.png);
+}
+
+i.i-upvote.icon-thumbs-up-alt {
+    background: no-repeat center url(https://i.gyazo.com/78f59e525a12241b2c1ef6fe9381bb1c.png);
+}
+
+i.i-downvote.icon-thumbs-down {
+    background: no-repeat center url(https://i.gyazo.com/0abb2c530019a34f1ecc9edb309f5b3f.png);
+}
+
+i.i-downvote.icon-thumbs-down-alt {
+    background: no-repeat center url(https://i.gyazo.com/866cd63d0b43600b538fdc75d7be3216.png);
+}
+
+#nodebb [class^="icon-thumbs"]:before, #nodebb [class*=" icon-thumbs"]:before {
+    display: none;
+}
+
+/***********
+
+  USER CSS
+
+************/
+
+.user-status {
+    display: flex;
+    float: left;
+    background: #333;
+    width: 10px;
+    height: 10px;
+    margin-top: -90px;
+    margin-left: 70px;
+    border-radius: 100%;
+    z-index: 100000000;
+}
+
+.user-status.online {
+    background: #4caf50;
+}
+.user-status.away {
+    color: #ff6d00;
+}
+.user-status.dnd {
+    color: #f44336;
+}
+.user-status.offline {
+    color: #333;
+}
+
+.user-status-comments {
+    transform: translate(-25px, 38px);
+}
+
+.user-status-main {
+    transform: translate(0px, 5px);
+}

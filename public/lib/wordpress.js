@@ -1,9 +1,137 @@
 (function() {
 	"use strict";
+    var postTemplate;
+    function onBookmarked (topicItem, isBookmark) {
+        var el = topicItem.querySelector('.i-bookmark');
+        var link = topicItem.querySelector('[data-component="post/bookmark"]');
+        if (isBookmark) {
+            el.classList.add('icon-bookmark');
+            el.classList.remove('icon-bookmark-empty');
+            link.setAttribute('data-bookmarked', true);
+        } else {
+            el.classList.remove('icon-bookmark');
+            el.classList.add('icon-bookmark-empty');
+            link.setAttribute('data-bookmarked', false);
+        }
+    }
+    function changeAttribute(elements, attribute, value) {
+        for(var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            if (el !== null) {
+                el.setAttribute(attribute, value);
+            }
+        }
+    }
+    function addClassHelper(element, value, classTrueValue, classFalseValue) {
+        var classToAdd = value ? classTrueValue : classFalseValue;
+        var classToRemove = !value ? classTrueValue : classFalseValue;
+        if (element === null) {
+            return;
+        }
+        if (element.classList.contains(classToRemove)) {
+            element.classList.remove(classToRemove);
+        }
+        element.classList.add(classToAdd);
+    }
+    function removeNode(node) {
+        if (node === null) return;
+        node.parentNode.removeChild(node);
+    }
+    function createNestedComments(comments, template, otherData) {
+        var tid = otherData.tid;
+        var token = otherData.token;
+        var redirectURL = otherData.redirect_url;
+        var relativePath = otherData.relative_path;
+        function createNestedCommentsInternal(comment, level) {
+            var clone = template.cloneNode(true);
+            // Here we should manipulate the node
+            clone.setAttribute('data-pid', comment.pid);
+            clone.querySelector('span.user-status').classList.add(comment.user.status);
+            changeAttribute(clone.querySelectorAll('[data-pid]'), 'data-pid', comment.pid);
+            changeAttribute(clone.querySelectorAll('[data-uid]'), 'data-uid', comment.uid);
+            changeAttribute(clone.querySelectorAll('[data-userslug]'), 'data-userslug', comment.user.userslug);
+            changeAttribute(clone.querySelectorAll('[data-bookmarked]'), 'data-bookmarked', comment.bookmarked);
+            changeAttribute(clone.querySelectorAll('[data-upvoted]'), 'data-upvoted', comment.upvoted);
+            changeAttribute(clone.querySelectorAll('[data-downvoted]'), 'data-downvoted', comment.downvoted);
+            changeAttribute(clone.querySelectorAll('[data-votes]'), 'data-votes', comment.votes);
+            var form = clone.querySelector('form');
+            form.setAttribute('action', relativePath + "/comments/reply");
+            changeAttribute(form.querySelectorAll('input[name="_csrf"]'), 'value', token);
+            changeAttribute(form.querySelectorAll('input[name="tid"]'), 'value', tid);
+            changeAttribute(form.querySelectorAll('input[name="url"]'), 'value', redirectURL);
+            changeAttribute(form.querySelectorAll('input[name="toPid"]'), 'value', comment.pid);
+            var upvoteCountEl = clone.querySelector('span.upvote-count');
+            if (comment.votes) {
+                upvoteCountEl.classList.remove('hidden');
+                upvoteCountEl.innerText = comment.votes;
+            } else {
+                upvoteCountEl.classList.add('hidden');
+            }
+            clone.querySelector('span.post-value').innerText = '' + comment.votes;
+            clone.querySelector('button[data-reply-button]').innerText = "Reply to " + comment.user.username;
+            addClassHelper(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
+            addClassHelper(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
+            addClassHelper(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbs-down-alt', 'icon-thumbs-down');
+            clone.querySelector('div.post-body').innerHTML = comment.content;
+            var img = [clone.querySelector('img.profile-image')];
+            var divImgText = [clone.querySelector('div.profile-image')];
+            if (comment.user.picture) {
+                changeAttribute(img, 'src', comment.user.picture);
+                changeAttribute(img, 'alt', comment.user.username);
+                changeAttribute(img, 'title', comment.user.username);
+                removeNode(divImgText[0]);
+            } else {
+                changeAttribute(divImgText, 'title', comment.user.username);
+                changeAttribute(divImgText, 'alt', comment.user.username);
+                if (divImgText[0]) {
+                    divImgText[0].innerText = comment.user['icon:text'];
+                    divImgText[0].style.backgroundColor = comment.user['icon:bgColor'];
+                }
+                removeNode(img[0]);
+            }
+            clone.querySelector('strong[data-strong-username]').innerText = comment.user.username;
+            if (comment.parent && comment.parent.username) {
+                clone.querySelector('span[data-parent-username]').innerText = "@" + comment.parent.username;
+                // We update here because in another method timestamps are updated for parent comments
+                comment.timestamp = timeAgo(parseInt(comment.timestamp, 10));
+            } else {
+                removeNode(clone.querySelector('button.reply-label'));
+            }
+            clone.querySelector('span[data-timestamp]').innerText = "commented " + comment.timestamp;
+            // Finish manipulation
+            if (comment.children && level <= 2) {
+                var ul = document.createElement('ul');
+                for (var i = 0; i < comment.children.length; i++) {
+                    var el = comment.children[i];
+                    ul.appendChild(
+                        createNestedCommentsInternal(el, level + 1)
+                    );
+                }
+                clone.append(ul);
+            }
+            if (level >= 2) {
+                var toRemove = clone.querySelectorAll('a.reply, a.quote');
+                for (var t = 0; t < toRemove.length; t++) {
+                    removeNode(toRemove[t]);
+                }
+            }
+            return clone;
+        }
+        var retVal = document.createElement('div');
+        for (var i = 0; i < comments.length; i++) {
+            retVal.appendChild(createNestedCommentsInternal(comments[i], 0));
+        }
+        return retVal;
+    }
 
+var bindOnClick = function(nodeList, handler) {
+    for (var i = nodeList.length - 1; i >= 0; i--) {
+        nodeList[i].onclick = handler;
+    }
+};
 	var articlePath = window.location.protocol + '//' + window.location.host + window.location.pathname;
 
-	var pluginURL = nodeBBURL + '/plugins/nodebb-plugin-blog-comments2',
+	var pluginURL = nodeBBURL + '/plugins/nodebb-plugin-blog-comments-cryptofr',
 		savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory;
 
 	var stylesheet = document.createElement("link");
@@ -11,8 +139,14 @@
 	stylesheet.setAttribute("type", "text/css");
 	stylesheet.setAttribute("href", pluginURL + '/css/comments.css');
 
+    var stylesheetCryptoFR = document.createElement("link");
+    stylesheetCryptoFR.setAttribute("rel", "stylesheet");
+    stylesheetCryptoFR.setAttribute("type", "text/css");
+    stylesheetCryptoFR.setAttribute("href", pluginURL + '/css/cryptofr.css');
+
 	document.getElementsByTagName("head")[0].appendChild(stylesheet);
-	document.getElementById('nodebb-comments').insertAdjacentHTML('beforebegin', '<div id="nodebb"></div>');
+    document.getElementsByTagName("head")[0].appendChild(stylesheetCryptoFR);
+	document.getElementById('nodebb-comments').insertAdjacentHTML('beforebegin', '<div class="comments-area" id="nodebb"></div>');
 	nodebbDiv = document.getElementById('nodebb');
 
 	function newXHR() {
@@ -27,8 +161,75 @@
 	    }
 	}
 
-	var XHR = newXHR(), pagination = 0, modal;
+  function xget (xhr, path) {
+    xhr.open('GET', path, true);
+    xhr.withCredentials = true;
+    xhr.send();
+    return xhr;
+  }
+  function encodeData (data) {
+    var encodedString = '';
+    for (var prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        if (encodedString.length > 0) {
+          encodedString += '&';
+        }
+        encodedString += encodeURI(prop + '=' + data[prop]);
+      }
+    }
+    return encodedString;
+  }
 
+  function xpost (xhr, path, data) {
+    var encodedString = '';
+    for (var prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        if (encodedString.length > 0) {
+          encodedString += '&';
+        }
+        encodedString += encodeURI(prop + '=' + data[prop]);
+      }
+    }
+    xhr.open('POST', path, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.withCredentials = true;
+    xhr.send(encodedString);
+    return xhr;
+  }
+    function onLoadFunction(xhr) {
+        return function onLoadImpl() {
+            xhr.isBusy = false;
+            reloadComments();
+        };
+    }
+	var XHR = newXHR(), pagination = 0, modal;
+  var voteXHR = newXHR();
+  var bookmarkXHR = newXHR();
+    XHR.onload = onLoadFunction(XHR);
+    bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
+    voteXHR.onload = onLoadFunction(voteXHR);
+  function upvotePost (topicItem, pid, upvoted) {
+    var isUpvote = !upvoted;
+    if (voteXHR.isBusy) return;
+    voteXHR.isBusy = true;
+    voteXHR.topicItem = topicItem;
+    xpost(voteXHR, nodeBBURL + '/comments/vote', {toPid: pid, isUpvote: isUpvote});
+  }
+
+  function downvotePost (topicItem, pid, downvoted) {
+      var isDownvote = !downvoted;
+      if (voteXHR.isBusy) return;
+      voteXHR.isBusy = true;
+      voteXHR.topicItem = topicItem;
+      xpost(voteXHR, nodeBBURL + '/comments/downvote', {toPid: pid, isDownvote: isDownvote });
+  }
+  function bookmarkPost (topicItem, pid, bookmarked) {
+    if (voteXHR.isBusy) return;
+    voteXHR.isBusy = true;
+    voteXHR.topicItem = topicItem;
+    voteXHR.isBookmark = !bookmarked;
+    xpost(voteXHR, nodeBBURL + '/comments/bookmark', {toPid: pid, isBookmark: !bookmarked});
+  }
 	function authenticate(type) {
 		savedText = contentDiv.value;
 		modal = window.open(nodeBBURL + "/" + type + "/#blog/authenticate","_blank","toolbar=no, scrollbars=no, resizable=no, width=600, height=675");
@@ -54,7 +255,7 @@
 			commentsCounter = document.getElementById('nodebb-comments-count');
 			commentsAuthor = document.getElementById('nodebb-comments-author');
 			commentsCategory = document.getElementById('nodebb-comments-category');
-
+        postTemplate = data.singleCommentTpl;
 			data.relative_path = nodeBBURL;
 			data.redirect_url = articlePath;
 			data.article_id = articleID;
@@ -63,7 +264,7 @@
 
 			for (var post in data.posts) {
 				if (data.posts.hasOwnProperty(post)) {
-					data.posts[post].timestamp = timeAgo(parseInt(data.posts[post].timestamp), 10);
+            data.posts[post].timestamp = timeAgo(parseInt(data.posts[post].timestamp), 10);
 					if (data.posts[post]['blog-comments:url']) {
 						delete data.posts[post];
 					}
@@ -89,9 +290,74 @@
 				html = parse(data, data.template);
 				nodebbDiv.innerHTML = normalizePost(html);
 			}
+        var nodebbCommentsList = nodebbDiv.querySelector('#nodebb-comments-list');
+        var selectors = [
+            '[data-component="post/reply"]',
+            '[data-component="post/quote"]',
+            '[data-component="post/bookmark"]',
+            '[data-component="post/upvote"]',
+            '[data-component="post/downvote"]',
+        ].join(',');
+                bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
+                    if (!data.user || !data.user.uid) {
+                        authenticate('login');
+                        return;
+                    }
 
+                    var topicItem = event.target;
+                    var bookmarked = JSON.parse(this.getAttribute('data-bookmarked'));
+                    var upvoted = JSON.parse(this.getAttribute('data-upvoted'));
+                    var downvoted = JSON.parse(this.getAttribute('data-downvoted'));
+
+                    while (topicItem && !topicItem.classList.contains('topic-item')) {
+                        topicItem = topicItem.parentElement;
+                    }
+
+                    if (topicItem) {
+                        var elementForm = topicItem.querySelector('form');
+                        var visibleForm = nodebbCommentsList.querySelector('li .topic-item form:not(.hidden)');
+                        var formInput = elementForm.querySelector('textarea');
+                        var pid = topicItem.getAttribute('data-pid');
+                        var uid = topicItem.getAttribute('data-uid');
+
+                        if (visibleForm && visibleForm !== elementForm) {
+                            visibleForm.classList.add('hidden');
+                        }
+
+                        if (/\/quote$/.test(this.getAttribute('data-component'))) {
+                            var postBody = topicItem.querySelector('.post-content .post-body');
+                            var quote = (postBody.innerText ? postBody.innerText : postBody.textContent).split('\n').map(function(line) { return line ? '> ' + line : line; }).join('\n');
+                            formInput.value = '@' + topicItem.getAttribute('data-userslug') + ' said:\n' + quote + formInput.value;
+                            elementForm.classList.remove('hidden');
+                        } else if (/\/reply$/.test(this.getAttribute('data-component'))) {
+                            formInput.value = '@' + topicItem.getAttribute('data-userslug') + ': ' + formInput.value;
+                            elementForm.classList.remove('hidden');
+                        } else if (/\/upvote$/.test(this.getAttribute('data-component'))) {
+                            if(data.user.uid != uid) {
+                                upvotePost(topicItem, pid, upvoted);
+                            }
+                        } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
+                            if(data.user.uid != uid) {
+                                downvotePost(topicItem, pid, downvoted);
+                            }
+                        } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
+                            bookmarkPost(topicItem, pid, bookmarked);
+                        }
+                    } else {
+
+                        if (/\/upvote$/.test(this.getAttribute('data-component'))) {
+                            if(data.user.uid != mainPost.uid) {
+                                upvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, upvoted);
+                            }
+                        } else if (/\/bookmark$/.test(this.getAttribute('data-component'))) {
+                            bookmarkPost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, bookmarked);
+                        } else if (/\/downvote$/.test(this.getAttribute('data-component'))) {
+                            downvotePost(nodebbDiv.querySelector('.top-tool-box'), mainPost.pid, downvoted);
+                        }
+                    }
+
+                });
 			contentDiv = document.getElementById('nodebb-content');
-
 			setTimeout(function() {
 				var lists = nodebbDiv.getElementsByTagName("li");
 				for (var list in lists) {
@@ -106,18 +372,18 @@
 			}
 
 			if (data.tid) {
-				var loadMore = document.getElementById('nodebb-load-more');
-				loadMore.onclick = function() {
-					pagination++;
-					reloadComments();
-				}
-				if (data.posts.length) {
-					loadMore.style.display = 'inline-block';
-				}
+				// var loadMore = document.getElementById('nodebb-load-more');
+				// loadMore.onclick = function() {
+				// 	pagination++;
+				// 	reloadComments();
+				// }
+				// if (data.posts.length) {
+				// 	loadMore.style.display = 'inline-block';
+				// }
 
-				if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
-					loadMore.style.display = 'none';
-				}
+				// if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
+				// 	loadMore.style.display = 'none';
+				// }
 
 				if (typeof jQuery !== 'undefined' && jQuery() && jQuery().fitVids) {
 					jQuery(nodebbDiv).fitVids();
@@ -143,37 +409,26 @@
 					document.getElementById('nodebb-login').onclick = function() {
 						authenticate('login');
 					};
-
-					// hide post tools.
-					var nodeList = document.getElementsByClassName('nodebb-post-tools');
-					for (var i = nodeList.length - 1; i >= 0; i--) {
-                      nodeList[i].style.display = 'none';
-                    }
-
 				}
 			} else {
 				if (data.isAdmin) {
 					var adminXHR = newXHR();
-					adminXHR.open('GET', wordpressURL + '?json=get_post&post_type='+articleType+'&post_id=' + articleID);
+					//adminXHR.open('GET', wordpressURL + '?json=get_post&post_type='+articleType+'&post_id=' + articleID);
+					// TODO Get articles too, not only post types
+					adminXHR.open('GET', wordpressURL + "/wp-json/wp/v2/posts/" + articleID);
 					adminXHR.onload = function() {
 						if (adminXHR.status >= 200 && adminXHR.status < 400) {
-							var articleData = JSON.parse(adminXHR.responseText.toString()).post,
+							// We need tags
+							var articleData = JSON.parse(adminXHR.responseText.toString()),
 								translator = document.createElement('span'),
-								wptags = articleData.tags,
-								tags = [];
+								tags = articleData.tags;
 
-							translator.innerHTML = articleData.excerpt;
+							translator.innerHTML = articleData.excerpt ? articleData.excerpt.rendered : '';
 
 							var markdown = translator.firstChild.innerHTML + '\n\n**Click [here]('+articlePath+') to see the full blog post**';
 
-							for (var tag in wptags) {
-								if (wptags.hasOwnProperty(tag)) {
-									tags.push(wptags[tag].title);
-								}
-							}
-
 							document.getElementById('nodebb-content-markdown').value = markdown;
-							document.getElementById('nodebb-content-title').value = articleData.title_plain;
+							document.getElementById('nodebb-content-title').value = articleData.title.rendered;
 							document.getElementById('nodebb-content-cid').value = categoryID || -1;
 							document.getElementById('nodebb-content-tags').value = JSON.stringify(tags);
 							document.getElementById('nodebb-content-blogger').value = window.blogger || 'default';
@@ -196,9 +451,8 @@
 
 	reloadComments();
 
-
-	function timeAgo(time){
-		var time_formats = [
+	  function timeAgo(time) {
+		    var time_formats = [
 			[60, 'seconds', 1],
 			[120, '1 minute ago'],
 			[3600, 'minutes', 60],
@@ -271,10 +525,12 @@
 		var regex, block;
 
 		return (function parse(data, namespace, template, blockInfo) {
+        if(!template) {
+            return '';
+        }
 			if (!data || data.length == 0) {
 				template = '';
 			}
-
 			function checkConditional(key, value) {
 				var conditional = makeConditionalRegex(key),
 					matches = template.match(conditional);
@@ -354,7 +610,6 @@
 					}
 				}
 			}
-
 			if (namespace) {
 				var regex = new RegExp("{" + namespace + "[\\s\\S]*?}", 'g');
 				template = template.replace(regex, '');
@@ -364,7 +619,20 @@
 				template = template.replace(/<!-- ELSE -->/gi, 'ENDIF -->')
 									.replace(/<!-- IF([^@]*?)ENDIF([^@]*?)-->/gi, '');
 			}
-
+        var divPost = document.createElement('div');
+        divPost.innerHTML = postTemplate;
+        var div = document.createElement('div');
+        div.innerHTML = template;
+        if (data.hasOwnProperty('posts')) {
+            // TODO try to use parse function again
+            var nested = createNestedComments(
+                data.posts,
+                divPost.querySelector('li'),
+                data
+            );
+            div.querySelector("#nodebb-comments-list").innerHTML = nested.innerHTML;
+            template = div.innerHTML;
+        }
 			return template;
 
 		})(data, "", template);

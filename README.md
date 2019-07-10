@@ -32,7 +32,7 @@ Articles are published to a forum category of your choice, and will gain a tag t
 
 First install the plugin:
 
-    npm install nodebb-plugin-blog-comments2
+    npm install nodebb-plugin-blog-comments-cryptofr
 
 Activate the plugin in the ACP and reboot NodeBB. Head over to the Blog Comments section in the ACP and select the Category ID you'd like to publish your blog content to (default is Category 1). Make sure you put the correct URL to your blog.
 
@@ -47,7 +47,7 @@ $(document).ready(function() {
    nbb.url = '//yournodebb.com'; // your forum url.
    nbb.cid = 79;   // the category where to publish.
    nbb.blogger = 'yourname';   // the name to distingush with different blog, omit it to fallback to 'default'.
-   nbb.commentsCSS = nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/comments2.css'; // which style you prefer, omit it to fallback to the default comments.css
+   nbb.commentsCSS = nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments2.css'; // which style you prefer, omit it to fallback to the default comments.css
    nbb.articleID = <Function to get the unique article id>   // To get the unique article id, see explations below.
    nbb.articleTitle = document.title;                       // To get the article title, document.title is the default.
    nbb.commentElement = document.getElementById('nodebb-comments');  // Where you put the comments widget, "nodebb-comments" element is the default.
@@ -57,7 +57,7 @@ $(document).ready(function() {
    nbb.script = document.createElement('script');
    nbb.script.type = 'text/javascript';
    nbb.script.async = true;
-   nbb.script.src = nbb.url + '/plugins/nodebb-plugin-blog-comments2/lib/general.js';  // load general.js async.
+   nbb.script.src = nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/general.js';  // load general.js async.
    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(nbb.script);
 });
 </script>
@@ -85,7 +85,7 @@ nbb.blogger = 'blogger_name';	//  Omit it to fallback to 'default'.
 nbb.articleID = '{{../post.id}}';
 nbb.tags = [{{#../post.tags}}"{{name}}",{{/../post.tags}}];
 nbb.script = document.createElement('script'); nbb.script.type = 'text/javascript'; nbb.script.async = true;
-nbb.script.src = nbb.url + '/plugins/nodebb-plugin-blog-comments2/lib/ghost.js';
+nbb.script.src = nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/ghost.js';
 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(nbb.script);
 })();
 </script>
@@ -104,7 +104,7 @@ Since some blogs might installed with docker, couldn't change the theme file, I 
 Just add this any where on your blog's page:
 
 ```
-<script id='nodebb-comments-script' ourl="//your.nodebb.com" ocid="1" blogger='name' src="//your.nodebb.com/plugins/nodebb-plugin-blog-comments2/lib/simple-ghost.js"></script>
+<script id='nodebb-comments-script' ourl="//your.nodebb.com" ocid="1" blogger='name' src="//your.nodebb.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/simple-ghost.js"></script>
 ```
 Note: ocid is the category id in your NodeBB, blogger is set for distinguish posts from different blogs.
 
@@ -113,7 +113,7 @@ See demo at [Wave's blog](http://blog.lovejog.com), his blog is using this scrip
 ### Simple Hugo Installation
 
 ```
-<script id='nodebb-comments-script' ourl="//your.nodebb.com" ocid="1" blogger='name' src="//your.nodebb.com/plugins/nodebb-plugin-blog-comments2/lib/simple-hugo.js"></script>
+<script id='nodebb-comments-script' ourl="//your.nodebb.com" ocid="1" blogger='name' src="//your.nodebb.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/simple-hugo.js"></script>
 ```
 
 See demo at [Leyafo's blog](http://www.leyafo.com/), his blog is using this script to connect with [V2MM](https://v2mm.tech).
@@ -121,7 +121,7 @@ See demo at [Leyafo's blog](http://www.leyafo.com/), his blog is using this scri
 ### Simple Pelican Installation
 
 ```
-<script id='nodebb-comments-script' ourl="//your.nodebb.com" ocid="1" blogger='name' src="//your.nodebb.com/plugins/nodebb-plugin-blog-comments2/lib/simple-pelican.js"></script>
+<script id='nodebb-comments-script' ourl="//your.nodebb.com" ocid="1" blogger='name' src="//your.nodebb.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/simple-pelican.js"></script>
 ```
 
 See demo at [Cycleuser's blog](http://blog.cycleuser.org), his blog is using this script to connect with [V2MM](https://v2mm.tech).
@@ -152,7 +152,7 @@ var nodeBBURL = '//your.nodebb.com',
 
 (function() {
 var nbb = document.createElement('script'); nbb.type = 'text/javascript'; nbb.async = true;
-nbb.src = nodeBBURL + '/plugins/nodebb-plugin-blog-comments2/lib/wordpress.js';
+nbb.src = nodeBBURL + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/wordpress.js';
 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(nbb);
 })();
 </script>

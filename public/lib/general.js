@@ -35,7 +35,8 @@
 	nbb.loadCSS = loadCSS;
 
 
-	loadCSS(nbb.commentsCSS || (nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/comments.css'));
+	loadCSS(nbb.commentsCSS || (nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments.css'));
+	loadCSS(nbb.commentsCSS || (nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/cryptofr.css'));
 
 	var commentPositionDiv = document.getElementById('nodebb-comments');
     if (!commentPositionDiv) {
@@ -49,7 +50,7 @@
         nbb.commentElement.appendChild(commentPositionDiv);
     }
 
-	loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments2/lib/common.js', function () {
+	loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/common.js', function () {
 		blogComments2Common(commentPositionDiv, nbb);
 	});
 

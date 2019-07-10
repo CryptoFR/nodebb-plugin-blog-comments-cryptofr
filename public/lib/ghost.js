@@ -34,16 +34,16 @@
 	nbb.loadScript = loadScript;
 	nbb.loadCSS = loadCSS;
 
-	loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/comments.css');
+	loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/comments.css');
 
 	// fix youtube embed video
 	if (window.jQuery) {
 		loadScript(nbb.url + '/plugins/nodebb-plugin-youtube-embed/static/lib/lazyYT.js');
-		loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments2/css/youtube-embed-video.css');
+		loadCSS(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/css/youtube-embed-video.css');
 	}
 
 	var posDiv = document.getElementById('nodebb-comments');
-	loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments2/lib/common.js', function () {
+	loadScript(nbb.url + '/plugins/nodebb-plugin-blog-comments-cryptofr/lib/common.js', function () {
 		blogComments2Common(posDiv, nbb);
 	});
 
