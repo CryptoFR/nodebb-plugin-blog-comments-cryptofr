@@ -46,6 +46,7 @@
             var clone = template.cloneNode(true);
             // Here we should manipulate the node
             clone.setAttribute('data-pid', comment.pid);
+            clone.querySelector('div.topic-item').setAttribute('data-level', level);
             clone.querySelector('span.user-status').classList.add(comment.user.status);
             changeAttribute(clone.querySelectorAll('[data-pid]'), 'data-pid', comment.pid);
             changeAttribute(clone.querySelectorAll('[data-uid]'), 'data-uid', comment.uid);
@@ -314,6 +315,7 @@ var bindOnClick = function(nodeList, handler) {
                         var formInput = elementForm.querySelector('textarea');
                         var pid = topicItem.getAttribute('data-pid');
                         var uid = topicItem.getAttribute('data-uid');
+                        var level = topicItem.getAttribute('data-level');
 
                         if (visibleForm && visibleForm !== elementForm) {
                             visibleForm.classList.add('hidden');
@@ -325,6 +327,17 @@ var bindOnClick = function(nodeList, handler) {
                             formInput.value = '@' + topicItem.getAttribute('data-userslug') + ' said:\n' + quote + formInput.value;
                             elementForm.classList.remove('hidden');
                         } else if (/\/reply$/.test(this.getAttribute('data-component'))) {
+                            if (level >= 2) {
+                                var atStr = '@' + topicItem.getAttribute('data-userslug') + ':';
+                                var regex = new RegExp('^' + atStr, 'i');
+                                if (regex.test(formInput.value)) {
+                                    if (formInput.value.trim() !== atStr) {
+                                        formInput.value = formInput.value.replace(regex, '').trim();
+                                    }
+                                } else {
+                                    formInput.value = atStr + ' ' + formInput.value;
+                                }
+                            }
                             elementForm.classList.remove('hidden');
                         } else if (/\/upvote$/.test(this.getAttribute('data-component'))) {
                             if(data.user.uid != uid) {
