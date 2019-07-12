@@ -74,7 +74,6 @@
 					if (disabled) {
               throw err;
 					} else {
-						// topics.getTopicPosts(tid, 'tid:' + tid + ':posts', 0 + req.params.pagination * 10, 9 + req.params.pagination * 9, uid, true, next);
               return getNestedPosts(tid, uid);
 					}
 				},
