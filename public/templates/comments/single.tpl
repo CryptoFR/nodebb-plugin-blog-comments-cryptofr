@@ -56,7 +56,9 @@
 
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
  					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
- 					<button data-reply-button="" class="btn btn-primary" type="submit">Reply to {user.username}</button>
+ 					<div class="comments-toolbar">
+						<button class="btn btn-primary">Répondre à {user.username}</button>
+					</div>
  					<input type="hidden" name="_csrf" value="{token}" />
  					<input type="hidden" name="tid" value="{tid}" />
  					<input type="hidden" name="toPid" value="{posts.pid}" />
