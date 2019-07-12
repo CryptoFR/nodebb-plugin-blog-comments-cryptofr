@@ -3,7 +3,7 @@
 			<div class="topic-item" data-pid="{posts.pid}" data-userslug="{user.userslug}" data-uid="{posts.uid}">
 				<div class="topic-body">
 					<div class="topic-profile-pic">
-						<a href="{relative_path}/user/{user.userslug}">
+						<a href="{relative_path}/user/{user.userslug}">{user.uid}
 							<!-- IF user.picture.length -->
 							<img src="{user.picture}" alt="{user.username}" class="profile-image" title="{user.username}">
 							<!-- ELSE -->
@@ -16,7 +16,7 @@
 						<div class="post-content" itemprop="text">
 							<small>
 								<a href="{relative_path}/user/{user.userslug}" class="username" style="color: inherit; text-decoration: none;"><strong data-strong-username="">{user.username}</strong></a>
-								<span data-timestamp="" title="{posts.timestampISO}">commented {posts.timestamp}</span>
+								<span class="post-time" data-timestamp="" title="{posts.timestampISO}">{posts.timestamp}</span>
 								<!-- IF posts.isReply -->
 								<!-- IF !posts.deletedReply -->
 									<button data-component="post/parent" class="reply-label no-select" data-topid="{posts.toPid}">
@@ -56,7 +56,9 @@
 
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
  					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
- 					<button data-reply-button="" class="btn btn-primary" type="submit">Reply to {user.username}</button>
+ 					<div class="comments-toolbar">
+						<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
+					</div>
  					<input type="hidden" name="_csrf" value="{token}" />
  					<input type="hidden" name="tid" value="{tid}" />
  					<input type="hidden" name="toPid" value="{posts.pid}" />

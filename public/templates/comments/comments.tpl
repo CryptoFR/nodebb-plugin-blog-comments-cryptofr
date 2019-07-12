@@ -86,7 +86,7 @@
 						<div class="post-content" itemprop="text">
 							<small>
 								<a href="{relative_path}/user/{user.userslug}" style="color: inherit; text-decoration: none;"><strong data-strong-username="">{user.username}</strong></a>
-								<span data-timestamp="" title="{posts.timestampISO}">commented {posts.timestamp}</span>
+								<span class="post-time" data-timestamp="" title="{posts.timestampISO}"> {posts.timestamp}</span>
 								<!-- IF posts.isReply -->
 								<!-- IF !posts.deletedReply -->
 									<button data-component="post/parent" class="reply-label no-select" data-topid="{posts.toPid}">
@@ -126,8 +126,10 @@
 				</div>
 
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
- 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
- 					<button class="btn btn-primary">Reply to {user.username}</button>
+ 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Répondre" rows="3"></textarea>
+ 					<div class="comments-toolbar">
+						<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
+					</div>
  					<input type="hidden" name="_csrf" value="{token}" />
  					<input type="hidden" name="tid" value="{tid}" />
  					<input type="hidden" name="toPid" value="{posts.pid}" />
@@ -150,16 +152,16 @@
 		<form action="{relative_path}/comments/reply" method="post">
 			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
 		<!-- IF isLoggedIn -->
-			<small>Signed in as <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
-			<button class="btn btn-primary">Post a Reply</button>
+			<small>Connecté comme <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
+			<button class="btn btn-primary">Répondre</button>
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
 		</form>
 		<!-- ELSE -->
 		</form>
-		<button class="btn btn-primary" id="nodebb-register">Register</button>
-		<button class="btn btn-primary" id="nodebb-login">Login</button>
+		<button class="btn btn-primary" id="nodebb-register">S'enregistrer</button>
+		<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
 
 		<!-- This button is here just for making the css margin right -->
 		<button style="visibility: hidden; padding-top: 8px;"> </button>
@@ -167,13 +169,13 @@
 		<!-- ENDIF isLoggedIn -->
 	<!-- ENDIF atBottom -->
 
-	<small class="nodebb-copyright">Powered by <a href="{relative_path}" target="_blank">{siteTitle}</a> &bull; <a href="{relative_path}/topic/{tid}">View original thread</a></small>
-	<button class="btn btn-primary" <!-- IF !posts.length -->style="display: none"<!-- ENDIF !posts.length --> id="nodebb-load-more">Load more comments...</button>
+	<small class="nodebb-copyright">Commentaires avec <a href="{relative_path}" target="_blank">{siteTitle}</a> &bull; <a href="{relative_path}/topic/{tid}">Topic originel</a></small>
+	<button class="btn btn-primary" <!-- IF !posts.length -->style="display: none"<!-- ENDIF !posts.length --> id="nodebb-load-more">Charger plus de commentaires...</button>
 <!-- ELSE -->
-	{siteTitle} Commenting has been disabled.
+	{siteTitle} Les commantaires sont désactivés.
 	<!-- IF isAdmin -->
 	<form action="{relative_path}/comments/publish" method="post">
-		<button class="btn btn-primary">Publish this article to {siteTitle}</button>
+		<button class="btn btn-primary">Publier cet article sur {siteTitle}</button>
 		<input type="hidden" name="markdown" id="nodebb-content-markdown" />
 		<input type="hidden" name="title" id="nodebb-content-title" />
 		<input type="hidden" name="cid" id="nodebb-content-cid" />

@@ -168,13 +168,18 @@ small.logged-as {
     margin-right: -6px;
 }
 
-.reply:before, .quote:before {
+.reply:before, .quote:before, .post-time:before {
     content: ".";
     font-size: 50px;
     line-height: 0px;
     margin-right: 5px;
     display: contents;
     color: #E1E1E1;
+}
+
+.post-time:before {
+    margin-right: 3px;
+    display: inline-block;
 }
 
 .reply, .quote {
@@ -220,12 +225,13 @@ i.i-downvote.icon-thumbs-down-alt {
     display: flex;
     float: left;
     background: #333;
-    width: 10px;
-    height: 10px;
-    margin-top: -90px;
-    margin-left: 70px;
+    width: 12px;
+    height: 12px;
     border-radius: 100%;
     z-index: 100000000;
+    margin-left: 62px;
+    margin-top: -86px;
+    border: 2px solid white;
 }
 
 .user-status.online {
@@ -247,4 +253,9 @@ i.i-downvote.icon-thumbs-down-alt {
 
 .user-status-main {
     transform: translate(0px, 5px);
+    width: 17px;
+    height: 17px;
+    border: 4px solid white;
+    margin-left: 58px;
+    margin-top: -92px;
 }
