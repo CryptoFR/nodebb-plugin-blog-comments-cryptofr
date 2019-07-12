@@ -168,7 +168,7 @@ small.logged-as {
     margin-right: -6px;
 }
 
-.reply:before, .quote:before {
+.reply:before, .quote:before, .post-time:before {
     content: ".";
     font-size: 50px;
     line-height: 0px;
