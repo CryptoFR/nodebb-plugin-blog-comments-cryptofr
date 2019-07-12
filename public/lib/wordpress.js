@@ -199,11 +199,12 @@ var bindOnClick = function(nodeList, handler) {
         };
     }
 	var XHR = newXHR(), pagination = 0, modal;
-  var voteXHR = newXHR();
-  var bookmarkXHR = newXHR();
+    var voteXHR = newXHR();
+    var bookmarkXHR = newXHR();
     XHR.onload = onLoadFunction(XHR);
     bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
     voteXHR.onload = onLoadFunction(voteXHR);
+
   function upvotePost (topicItem, pid, upvoted) {
     var isUpvote = !upvoted;
     if (voteXHR.isBusy) return;
@@ -251,7 +252,7 @@ var bindOnClick = function(nodeList, handler) {
 			commentsCounter = document.getElementById('nodebb-comments-count');
 			commentsAuthor = document.getElementById('nodebb-comments-author');
 			commentsCategory = document.getElementById('nodebb-comments-category');
-        postTemplate = data.singleCommentTpl;
+      postTemplate = data.singleCommentTpl;
 			data.relative_path = nodeBBURL;
 			data.redirect_url = articlePath;
 			data.article_id = articleID;

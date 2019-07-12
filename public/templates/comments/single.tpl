@@ -3,7 +3,7 @@
 			<div class="topic-item" data-pid="{posts.pid}" data-userslug="{user.userslug}" data-uid="{posts.uid}">
 				<div class="topic-body">
 					<div class="topic-profile-pic">
-						<a href="{relative_path}/user/{user.userslug}">
+						<a href="{relative_path}/user/{user.userslug}">{user.uid}
 							<!-- IF user.picture.length -->
 							<img src="{user.picture}" alt="{user.username}" class="profile-image" title="{user.username}">
 							<!-- ELSE -->
