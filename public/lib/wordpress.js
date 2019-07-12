@@ -70,7 +70,7 @@
                 upvoteCountEl.classList.add('hidden');
             }
             clone.querySelector('span.post-value').innerText = '' + comment.votes;
-            clone.querySelector('button[data-reply-button]').innerText = "Reply to " + comment.user.username;
+            clone.querySelector('button[data-reply-button]').innerText = "Répondre à " + comment.user.username;
             addClassHelper(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
             addClassHelper(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
             addClassHelper(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbs-down-alt', 'icon-thumbs-down');
@@ -458,27 +458,28 @@ var bindOnClick = function(nodeList, handler) {
 
 	reloadComments();
 
-	  function timeAgo(time) {
-		    var time_formats = [
-			[60, 'seconds', 1],
-			[120, '1 minute ago'],
+    // DISPLAY TIME AGO
+	function timeAgo(time) {
+		var time_formats = [
+			[60, 'secondes', 1],
+			[120, 'Il y a une minute'],
 			[3600, 'minutes', 60],
-			[7200, '1 hour ago'],
-			[86400, 'hours', 3600],
-			[172800, 'yesterday'],
-			[604800, 'days', 86400],
-			[1209600, 'last week'],
-			[2419200, 'weeks', 604800],
-			[4838400, 'last month'],
-			[29030400, 'months', 2419200],
-			[58060800, 'last year'],
-			[2903040000, 'years', 29030400]
+			[7200, 'Il y a une heure'],
+			[86400, 'heures', 3600],
+			[172800, 'hier'],
+			[604800, 'jours', 86400],
+			[1209600, 'la semaine dernière'],
+			[2419200, 'semaines', 604800],
+			[4838400, 'le mois dernier'],
+			[29030400, 'mois', 2419200],
+			[58060800, 'il y a un an'],
+			[2903040000, 'ans', 29030400]
 		];
 
 		var seconds = (+new Date() - time) / 1000;
 
 		if (seconds < 10) {
-			return 'just now';
+			return "à l'instant";
 		}
 
 		var i = 0, format;
