@@ -31,5 +31,9 @@
     "compatibility": "^0.6.0 || ^0.7.0 || ^0.8.0 || ^0.9.0 || ^1.0.0 || ^1.2.0 || ^1.3.0"
   },
   "readme": "",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "emojione": "^4.5.0",
+    "rm-emoji-picker": "^0.4.0"
+  }
 }
