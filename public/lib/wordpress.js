@@ -488,7 +488,7 @@ var bindOnClick = function(nodeList, handler) {
 				if (!format[2]) {
 					return format[1];
 				} else {
-					return 'il y a' + Math.floor(seconds / format[2]) + ' ' + format[1];
+					return 'il y a ' + Math.floor(seconds / format[2]) + ' ' + format[1];
 				}
 			}
 		}

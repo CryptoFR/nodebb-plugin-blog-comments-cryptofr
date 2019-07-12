@@ -16,7 +16,7 @@
 						<div class="post-content" itemprop="text">
 							<small>
 								<a href="{relative_path}/user/{user.userslug}" class="username" style="color: inherit; text-decoration: none;"><strong data-strong-username="">{user.username}</strong></a>
-								<span class="post-time" data-timestamp="" title="{posts.timestampISO}">commented {posts.timestamp}</span>
+								<span class="post-time" data-timestamp="" title="{posts.timestampISO}">{posts.timestamp}</span>
 								<!-- IF posts.isReply -->
 								<!-- IF !posts.deletedReply -->
 									<button data-component="post/parent" class="reply-label no-select" data-topid="{posts.toPid}">

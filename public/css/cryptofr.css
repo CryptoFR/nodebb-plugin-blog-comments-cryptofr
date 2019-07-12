@@ -177,6 +177,11 @@ small.logged-as {
     color: #E1E1E1;
 }
 
+.post-time:before {
+    margin-right: 3px;
+    display: inline-block;
+}
+
 .reply, .quote {
     font-size: 15px;
     color: #3d64bb !important;
