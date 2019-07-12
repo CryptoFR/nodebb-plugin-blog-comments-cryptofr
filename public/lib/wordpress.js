@@ -462,9 +462,9 @@ var bindOnClick = function(nodeList, handler) {
 	function timeAgo(time) {
 		var time_formats = [
 			[60, 'secondes', 1],
-			[120, 'Il y a une minute'],
+			[120, 'il y a une minute'],
 			[3600, 'minutes', 60],
-			[7200, 'Il y a une heure'],
+			[7200, 'il y a une heure'],
 			[86400, 'heures', 3600],
 			[172800, 'hier'],
 			[604800, 'jours', 86400],
@@ -488,7 +488,7 @@ var bindOnClick = function(nodeList, handler) {
 				if (!format[2]) {
 					return format[1];
 				} else {
-					return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ago';
+					return 'il y a' + Math.floor(seconds / format[2]) + ' ' + format[1];
 				}
 			}
 		}
