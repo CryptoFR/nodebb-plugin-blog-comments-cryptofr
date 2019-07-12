@@ -42,6 +42,7 @@
         var token = otherData.token;
         var redirectURL = otherData.redirect_url;
         var relativePath = otherData.relative_path;
+	var uid = otherData.user.uid;
         function createNestedCommentsInternal(comment, level) {
             var clone = template.cloneNode(true);
             // Here we should manipulate the node
@@ -100,6 +101,12 @@
                 removeNode(clone.querySelector('button.reply-label'));
             }
             clone.querySelector('span[data-timestamp]').innerText = "commented " + comment.timestamp;
+            if (uid === comment.user.uid) {
+               var toRemoveAnchors = clone.querySelectorAll('a[data-component="post/upvote"], a[data-component="post/downvote"]');
+	       for (var i = 0; i < toRemoveAnchors.length; i++) {
+	           removeNode(toRemoveAnchors[i]);
+	       }
+	    }
             // Finish manipulation
             if (comment.children && level <= 2) {
                 var ul = document.createElement('ul');
