@@ -168,7 +168,7 @@ small.logged-as {
     margin-right: -6px;
 }
 
-.reply:before, .quote:before, .post-time:before {
+.reply:before, .quote:before, .post-time:before, .edit:before {
     content: ".";
     font-size: 50px;
     line-height: 0px;
@@ -182,7 +182,7 @@ small.logged-as {
     display: inline-block;
 }
 
-.reply, .quote {
+.reply, .quote, .edit {
     font-size: 15px;
     color: #3d64bb !important;
 }

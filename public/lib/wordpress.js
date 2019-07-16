@@ -43,6 +43,33 @@
     var redirectURL = otherData.redirect_url;
     var relativePath = otherData.relative_path;
     var uid = otherData.user.uid;
+    function changeFormValue(comment, form, level, url) {
+      if (form.classList.contains("sub-reply-input")) {
+        form.setAttribute("action", relativePath + "/comments/reply");
+      } else {
+        form.setAttribute(
+          "action",
+          relativePath + "/comments/edit/" + form.getAttribute("data-pid")
+        );
+      }
+      changeAttribute(
+        form.querySelectorAll('input[name="_csrf"]'),
+        "value",
+        token
+      );
+      changeAttribute(form.querySelectorAll('input[name="tid"]'), "value", tid);
+      changeAttribute(
+        form.querySelectorAll('input[name="url"]'),
+        "value",
+        redirectURL
+      );
+      var toPid = level >= 2 ? comment.toPid : comment.pid;
+      changeAttribute(
+        form.querySelectorAll('input[name="toPid"]'),
+        "value",
+        toPid
+      );
+    }
     function createNestedCommentsInternal(comment, level) {
       var clone = template.cloneNode(true);
       // Here we should manipulate the node
@@ -86,25 +113,8 @@
         "data-votes",
         comment.votes
       );
-      var form = clone.querySelector("form");
-      form.setAttribute("action", relativePath + "/comments/reply");
-      changeAttribute(
-        form.querySelectorAll('input[name="_csrf"]'),
-        "value",
-        token
-      );
-      changeAttribute(form.querySelectorAll('input[name="tid"]'), "value", tid);
-      changeAttribute(
-        form.querySelectorAll('input[name="url"]'),
-        "value",
-        redirectURL
-      );
-      var toPid = level >= 2 ? comment.toPid : comment.pid;
-      changeAttribute(
-        form.querySelectorAll('input[name="toPid"]'),
-        "value",
-        toPid
-      );
+      var forms = clone.querySelectorAll("form");
+      forms.forEach(f => changeFormValue(comment, f, level));
       var upvoteCountEl = clone.querySelector("span.upvote-count");
       if (comment.votes) {
         upvoteCountEl.classList.remove("hidden");
@@ -412,7 +422,8 @@
         '[data-component="post/quote"]',
         '[data-component="post/bookmark"]',
         '[data-component="post/upvote"]',
-        '[data-component="post/downvote"]'
+        '[data-component="post/downvote"]',
+        '[data-component="post/edit"]'
       ].join(",");
       bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
         if (!data.user || !data.user.uid) {
@@ -420,6 +431,7 @@
           return;
         }
 
+        var dataComponent = this.getAttribute("data-component");
         var topicItem = event.target;
         var bookmarked = JSON.parse(this.getAttribute("data-bookmarked"));
         var upvoted = JSON.parse(this.getAttribute("data-upvoted"));
@@ -442,9 +454,12 @@
           if (visibleForm && visibleForm !== elementForm) {
             visibleForm.classList.add("hidden");
           }
+          var postBody;
+          if (/\/(quote|edit)$/.test(dataComponent)) {
+            postBody = topicItem.querySelector(".post-content .post-body");
+          }
 
-          if (/\/quote$/.test(this.getAttribute("data-component"))) {
-            var postBody = topicItem.querySelector(".post-content .post-body");
+          if (/\/quote$/.test(dataComponent)) {
             var quote = (postBody.innerText
               ? postBody.innerText
               : postBody.textContent
@@ -461,7 +476,7 @@
               quote +
               formInput.value;
             elementForm.classList.remove("hidden");
-          } else if (/\/reply$/.test(this.getAttribute("data-component"))) {
+          } else if (/\/reply$/.test(dataComponent)) {
             if (level >= 2) {
               var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
               var regex = new RegExp("^" + atStr, "i");
@@ -472,21 +487,26 @@
               } else {
                 formInput.value = atStr + " " + formInput.value;
               }
+            } else {
+              formInput.value = "";
             }
             elementForm.classList.remove("hidden");
-          } else if (/\/upvote$/.test(this.getAttribute("data-component"))) {
+          } else if (/\/edit$/.test(dataComponent)) {
+            formInput.value = postBody.textContent;
+            elementForm.classList.remove("hidden");
+          } else if (/\/upvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
               upvotePost(topicItem, pid, upvoted);
             }
-          } else if (/\/downvote$/.test(this.getAttribute("data-component"))) {
+          } else if (/\/downvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
               downvotePost(topicItem, pid, downvoted);
             }
-          } else if (/\/bookmark$/.test(this.getAttribute("data-component"))) {
+          } else if (/\/bookmark$/.test(dataComponent)) {
             bookmarkPost(topicItem, pid, bookmarked);
           }
         } else {
-          if (/\/upvote$/.test(this.getAttribute("data-component"))) {
+          if (/\/upvote$/.test(dataComponent)) {
             if (data.user.uid != mainPost.uid) {
               upvotePost(
                 nodebbDiv.querySelector(".top-tool-box"),
@@ -494,13 +514,13 @@
                 upvoted
               );
             }
-          } else if (/\/bookmark$/.test(this.getAttribute("data-component"))) {
+          } else if (/\/bookmark$/.test(dataComponent)) {
             bookmarkPost(
               nodebbDiv.querySelector(".top-tool-box"),
               mainPost.pid,
               bookmarked
             );
-          } else if (/\/downvote$/.test(this.getAttribute("data-component"))) {
+          } else if (/\/downvote$/.test(dataComponent)) {
             downvotePost(
               nodebbDiv.querySelector(".top-tool-box"),
               mainPost.pid,

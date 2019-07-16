@@ -46,6 +46,9 @@
 								<a data-component="post/quote" class="quote" style="color: inherit; text-decoration: none;" title="Quote">
 									Citer
 								</a>
+								<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;" title="Edit">
+								  Éditer
+								</a>
 								<!-- <a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
 									<i class="i-bookmark icon-bookmark icon-bookmark-empty"></i>
 								</a> -->
@@ -62,6 +65,15 @@
  					<input type="hidden" name="_csrf" value="{token}" />
  					<input type="hidden" name="tid" value="{tid}" />
  					<input type="hidden" name="toPid" value="{posts.pid}" />
+ 					<input type="hidden" name="url" value="{redirect_url}" />
+ 				</form>
+				<form action="{relative_path}/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="{pid}">
+ 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3"></textarea>
+ 					<div class="comments-toolbar">
+						<button data-reply-button="" class="btn btn-primary" type="submit">Éditer</button>
+					</div>
+ 					<input type="hidden" name="_csrf" value="{token}" />
+ 					<input type="hidden" name="tid" value="{tid}" />
  					<input type="hidden" name="url" value="{redirect_url}" />
  				</form>
         <div data-recursive-replies=""></div>
