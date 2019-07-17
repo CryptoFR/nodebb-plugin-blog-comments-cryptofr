@@ -33,7 +33,7 @@
     }
     element.classList.add(classToAdd);
   }
-  function removeNode(node) {
+  function removeNodes(node) {
     if (node === null) return;
     node.parentNode.removeChild(node);
   }
@@ -150,7 +150,7 @@
         changeAttribute(img, "src", comment.user.picture);
         changeAttribute(img, "alt", comment.user.username);
         changeAttribute(img, "title", comment.user.username);
-        removeNode(divImgText[0]);
+        removeNodes(divImgText[0]);
       } else {
         changeAttribute(divImgText, "title", comment.user.username);
         changeAttribute(divImgText, "alt", comment.user.username);
@@ -158,7 +158,7 @@
           divImgText[0].innerText = comment.user["icon:text"];
           divImgText[0].style.backgroundColor = comment.user["icon:bgColor"];
         }
-        removeNode(img[0]);
+        removeNodes(img[0]);
       }
       clone.querySelector("strong[data-strong-username]").innerText =
         comment.user.username;
@@ -168,10 +168,10 @@
         // We update here because in another method timestamps are updated for parent comments
         comment.timestamp = timeAgo(parseInt(comment.timestamp, 10));
       } else {
-        removeNode(clone.querySelector("button.reply-label"));
+        removeNodes(clone.querySelector("button.reply-label"));
       }
       if (comment.uid !== uid) {
-        removeNode(clone.querySelector("a.edit"));
+        removeNodes(clone.querySelector("a.edit"));
       }
       clone.querySelector("span[data-timestamp]").innerText =
         "commented " + comment.timestamp;
@@ -180,7 +180,7 @@
           'a[data-component="post/upvote"], a[data-component="post/downvote"]'
         );
         for (var i = 0; i < toRemoveAnchors.length; i++) {
-          removeNode(toRemoveAnchors[i]);
+          removeNodes(toRemoveAnchors[i]);
         }
       }
       // Finish manipulation
