@@ -15,6 +15,7 @@
     }
   }
   function changeAttribute(elements, attribute, value) {
+    elements = elements.length !== undefined ? elements : [elements];
     for (var i = 0; i < elements.length; i++) {
       var el = elements[i];
       if (el !== null) {
@@ -33,9 +34,13 @@
     }
     element.classList.add(classToAdd);
   }
-  function removeNodes(node) {
-    if (node === null) return;
-    node.parentNode.removeChild(node);
+  function removeNodes(nodes) {
+    var nodeList = nodes.length !== undefined ? nodes : [nodes];
+    var len = nodeList.length;
+    for (var i = 0; i < len; i++) {
+      var node = nodeList[i];
+      node.parentNode.removeChild(node);
+    }
   }
   function createNestedComments(comments, template, otherData) {
     var tid = otherData.tid;
@@ -144,21 +149,21 @@
         "icon-thumbs-down"
       );
       clone.querySelector("div.post-body").innerHTML = comment.content;
-      var img = [clone.querySelector("img.profile-image")];
-      var divImgText = [clone.querySelector("div.profile-image")];
+      var img = clone.querySelector("img.profile-image");
+      var divImgText = clone.querySelector("div.profile-image");
       if (comment.user.picture) {
         changeAttribute(img, "src", comment.user.picture);
         changeAttribute(img, "alt", comment.user.username);
         changeAttribute(img, "title", comment.user.username);
-        removeNodes(divImgText[0]);
+        removeNodes(divImgText);
       } else {
         changeAttribute(divImgText, "title", comment.user.username);
         changeAttribute(divImgText, "alt", comment.user.username);
-        if (divImgText[0]) {
-          divImgText[0].innerText = comment.user["icon:text"];
-          divImgText[0].style.backgroundColor = comment.user["icon:bgColor"];
+        if (divImgText) {
+          divImgText.innerText = comment.user["icon:text"];
+          divImgText.style.backgroundColor = comment.user["icon:bgColor"];
         }
-        removeNodes(img[0]);
+        removeNodes(img);
       }
       clone.querySelector("strong[data-strong-username]").innerText =
         comment.user.username;
