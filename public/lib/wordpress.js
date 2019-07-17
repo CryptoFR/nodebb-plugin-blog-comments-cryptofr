@@ -170,6 +170,9 @@
       } else {
         removeNode(clone.querySelector("button.reply-label"));
       }
+      if (comment.uid !== uid) {
+        removeNode(clone.querySelector("a.edit"));
+      }
       clone.querySelector("span[data-timestamp]").innerText =
         "commented " + comment.timestamp;
       if (uid === comment.user.uid) {
@@ -442,15 +445,17 @@
         }
 
         if (topicItem) {
-          var elementForm = topicItem.querySelector("form");
-          var visibleForm = nodebbCommentsList.querySelector(
-            "li .topic-item form:not(.hidden)"
-          );
-          var formInput = elementForm.querySelector("textarea");
           var pid = topicItem.getAttribute("data-pid");
           var uid = topicItem.getAttribute("data-uid");
           var level = topicItem.getAttribute("data-level");
-
+          var formClass = /\/edit$/.test(dataComponent)
+            ? ".sub-edit-input"
+            : ".sub-reply-input";
+          var elementForm = topicItem.querySelector("form" + formClass);
+          var formInput = elementForm.querySelector("textarea");
+          var visibleForm = nodebbCommentsList.querySelector(
+            "li .topic-item form:not(.hidden)" + ":not(" + formClass + ")"
+          );
           if (visibleForm && visibleForm !== elementForm) {
             visibleForm.classList.add("hidden");
           }
