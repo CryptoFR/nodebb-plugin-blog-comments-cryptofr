@@ -220,7 +220,24 @@
       }
     );
   };
+  Comments.editPost = function(req, res) {
+    const { pid } = req.params;
+    const content = req.body.content,
+      url = req.body.url,
+      uid = req.user ? req.user.uid : 0;
 
+    posts.edit(
+      {
+        uid,
+        content,
+        pid,
+        req
+      },
+      function(err, postData) {
+        res.redirect(get_redirect_url(url, err));
+      }
+    );
+  };
   Comments.publishArticle = function(req, res, callback) {
     var markdown = req.body.markdown,
       title = req.body.title,
@@ -393,11 +410,10 @@
     app.post("/comments/vote", Comments.votePost);
     app.post("/comments/downvote", Comments.downvotePost);
     app.post("/comments/bookmark", Comments.bookmarkPost);
-    // app.post('/comments/edit', Comments.editPost);
+    app.post("/comments/edit/:pid", Comments.editPost);
 
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
-    app.get("/comments/test", Comments.test);
     callback();
   };
 })(module);
