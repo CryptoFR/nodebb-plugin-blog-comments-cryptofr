@@ -1,6 +1,5 @@
 /* CSS File for CryptoFR plugin */
 
-
 /***********
 
   TOP CSS
@@ -8,29 +7,28 @@
 ************/
 
 #nodebb .topic-profile-pic.user.first-image {
-    position: relative;
-    float: left;
-    left: auto;
-    width: 90px;
-    margin: 0;
-    margin-top: 36px;
+  position: relative;
+  float: left;
+  left: auto;
+  width: 90px;
+  margin: 0;
+  margin-top: 36px;
 }
 
 #nodebb .topic-profile-pic.user.first-image .profile-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 100%;
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
 }
 
 .top-post-form.logged-in {
-    margin-left: 90px;
-    margin-top: 0px;
-    margin-bottom: 40px;
+  margin-left: 90px;
+  margin-top: 0px;
+  margin-bottom: 40px;
 }
 
-
 small.logged-as {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 /*******************
@@ -40,35 +38,34 @@ small.logged-as {
 ********************/
 
 #nodebb .form-control {
-    background: #F6F6F6;
-    border: 2px solid #DEDEDE;
-    font-size: 16px;
+  background: #f6f6f6;
+  border: 2px solid #dedede;
+  font-size: 16px;
 }
-#nodebb .form-control:focus
-{
-    background: white;
-    border: 2px solid #DEDEDE;
-    box-shadow: none;
+#nodebb .form-control:focus {
+  background: white;
+  border: 2px solid #dedede;
+  box-shadow: none;
 }
 
 .comments-toolbar {
-    border: 2px solid #dedede;
-    border-top: none;
-    display: inline-block;
-    width: 100%;
-    background: #EBEBEB;
-    height: 45px;
+  border: 2px solid #dedede;
+  border-top: none;
+  display: inline-block;
+  width: 100%;
+  background: #ebebeb;
+  height: 45px;
 }
 
 #nodebb .btn.btn-primary {
-    background: none repeat scroll 0% 0% #337AB7;
-    color: #FFF;
-    border-radius: 3px;
-    border: 1px solid #337AB7;
-    float: right;
-    margin-right: 5px;
-    margin-top: 5px;
-    padding: 6px 10px;
+  background: none repeat scroll 0% 0% #337ab7;
+  color: #fff;
+  border-radius: 3px;
+  border: 1px solid #337ab7;
+  float: right;
+  margin-right: 5px;
+  margin-top: 5px;
+  padding: 6px 10px;
 }
 
 /***********
@@ -78,11 +75,11 @@ small.logged-as {
 ************/
 
 .sortbar {
-    margin-top: 15px;
-    margin-bottom: 30px;
-    border-bottom: 2px solid #DEDEDE;
-    font-size: 16px;
-    color: #797979;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #dedede;
+  font-size: 16px;
+  color: #797979;
 }
 
 /***********
@@ -92,127 +89,138 @@ small.logged-as {
 ************/
 
 #nodebb .post-tools {
-    float: left;
-    text-transform: lowercase;
-    margin-top: 4px;
+  float: left;
+  text-transform: lowercase;
+  margin-top: 4px;
 }
 
 #nodebb ul {
-    margin-bottom: 0px;
-    margin-top: 15px;
-    padding: 0px;
-    border-left: 2px solid #E8E8E8;
-    margin-left: 15px;
-    list-style-type: none;
+  margin-bottom: 0px;
+  margin-top: 15px;
+  padding: 0px;
+  border-left: 2px solid #e8e8e8;
+  margin-left: 15px;
+  list-style-type: none;
 }
 
 #nodebb > ul ul {
-    list-style-type: none;
-    margin-left: 35px;
+  list-style-type: none;
+  margin-left: 35px;
 }
 
 #nodebb > ul li {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 #nodebb > ul > li {
-    box-shadow: none;
-    margin-bottom: 0px;
+  box-shadow: none;
+  margin-bottom: 0px;
 }
 
 #nodebb .profile-image {
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    font-size: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 25px;
 }
 
 #nodebb .topic-item {
-    padding-left: 25px;
+  padding-left: 25px;
 }
 
 #nodebb .topic-profile-pic {
-    float: left;
-    margin-top: -12px;
-    margin-right: 0;
-    margin-left: -25px;
-    width: 50px;
-    position: absolute;
-    left: 0px;
+  float: left;
+  margin-top: -12px;
+  margin-right: 0;
+  margin-left: -25px;
+  width: 50px;
+  position: absolute;
+  left: 0px;
 }
 
 #nodebb .username {
-    font-size: 16px;
-    color: #333;
-    font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
 }
 
 .post-body {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 #nodebb .post-tools a {
-    padding-right: 0px;
+  padding-right: 0px;
 }
 
 #nodebb .topic-text {
-    margin-top: -15px;
+  margin-top: -15px;
 }
 
 .posts-vote {
-    float: left;
-    margin-top: 4px;
-    margin-left: 3px;
-    font-size: 15px;
-    color: #9c9c9c;
-    margin-right: -6px;
+  float: left;
+  margin-top: 4px;
+  margin-left: 3px;
+  font-size: 15px;
+  color: #9c9c9c;
+  margin-right: -6px;
 }
 
-.reply:before, .quote:before, .post-time:before, .edit:before {
-    content: ".";
-    font-size: 50px;
-    line-height: 0px;
-    margin-right: 5px;
-    display: contents;
-    color: #E1E1E1;
+.reply:before,
+.quote:before,
+.post-time:before,
+.edit:before {
+  content: ".";
+  font-size: 50px;
+  line-height: 0px;
+  margin-right: 5px;
+  display: contents;
+  color: #e1e1e1;
 }
 
 .post-time:before {
-    margin-right: 3px;
-    display: inline-block;
+  margin-right: 3px;
+  display: inline-block;
 }
 
-.reply, .quote, .edit {
-    font-size: 15px;
-    color: #3d64bb !important;
+.reply,
+.quote,
+.edit {
+  font-size: 15px;
+  color: #3d64bb !important;
 }
 
-i.i-upvote, i.i-downvote {
-    height: 24px;
-    width: 24px;
-    display: inline-block;
-    float: left;
-    margin-right: 2px;
+i.i-upvote,
+i.i-downvote {
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+  float: left;
+  margin-right: 2px;
 }
 
 i.i-upvote.icon-thumbs-up {
-    background: no-repeat center url(https://i.gyazo.com/2283ea88abe193d981140ab99c35de05.png);
+  background: no-repeat center
+    url(https://i.gyazo.com/2283ea88abe193d981140ab99c35de05.png);
 }
 
 i.i-upvote.icon-thumbs-up-alt {
-    background: no-repeat center url(https://i.gyazo.com/78f59e525a12241b2c1ef6fe9381bb1c.png);
+  background: no-repeat center
+    url(https://i.gyazo.com/78f59e525a12241b2c1ef6fe9381bb1c.png);
 }
 
 i.i-downvote.icon-thumbs-down {
-    background: no-repeat center url(https://i.gyazo.com/0abb2c530019a34f1ecc9edb309f5b3f.png);
+  background: no-repeat center
+    url(https://i.gyazo.com/0abb2c530019a34f1ecc9edb309f5b3f.png);
 }
 
 i.i-downvote.icon-thumbs-down-alt {
-    background: no-repeat center url(https://i.gyazo.com/866cd63d0b43600b538fdc75d7be3216.png);
+  background: no-repeat center
+    url(https://i.gyazo.com/866cd63d0b43600b538fdc75d7be3216.png);
 }
 
-#nodebb [class^="icon-thumbs"]:before, #nodebb [class*=" icon-thumbs"]:before {
-    display: none;
+#nodebb [class^="icon-thumbs"]:before,
+#nodebb [class*=" icon-thumbs"]:before {
+  display: none;
 }
 
 /***********
@@ -222,40 +230,136 @@ i.i-downvote.icon-thumbs-down-alt {
 ************/
 
 .user-status {
-    display: flex;
-    float: left;
-    background: #333;
-    width: 12px;
-    height: 12px;
-    border-radius: 100%;
-    z-index: 100000000;
-    margin-left: 62px;
-    margin-top: -86px;
-    border: 2px solid white;
+  display: flex;
+  float: left;
+  background: #333;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  z-index: 100;
+  margin-left: 62px;
+  margin-top: -86px;
+  border: 2px solid white;
 }
 
 .user-status.online {
-    background: #4caf50;
+  background: #4caf50;
 }
 .user-status.away {
-    color: #ff6d00;
+  color: #ff6d00;
 }
 .user-status.dnd {
-    color: #f44336;
+  color: #f44336;
 }
 .user-status.offline {
-    color: #333;
+  color: #333;
 }
 
 .user-status-comments {
-    transform: translate(-25px, 38px);
+  transform: translate(-25px, 38px);
 }
 
 .user-status-main {
-    transform: translate(0px, 5px);
-    width: 17px;
-    height: 17px;
-    border: 4px solid white;
-    margin-left: 58px;
-    margin-top: -92px;
+  transform: translate(0px, 5px);
+  width: 17px;
+  height: 17px;
+  border: 4px solid white;
+  margin-left: 58px;
+  margin-top: -92px;
+}
+
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10000; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-header-first-row {
+    position: relative;
+    height: 80px;
+}
+
+.modal-header-icon {
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    border-top-left-radius: 20%;
+    border-top-right-radius: 20%;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+/* The Close Button */
+.modal-close {
+  color: black;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: white;
+  color: black;
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #white;
+  color: black;
 }
