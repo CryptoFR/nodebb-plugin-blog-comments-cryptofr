@@ -300,8 +300,7 @@
     };
   }
   var XHR = newXHR(),
-    pagination = 0,
-    modal;
+    pagination = 0;
   var voteXHR = newXHR();
   var bookmarkXHR = newXHR();
   XHR.onload = onLoadFunction(XHR);
@@ -340,17 +339,21 @@
     });
   }
   function openModal() {
-    return window.open(
-      nodeBBURL + "/" + type + "/#blog/authenticate",
-      "_blank",
-      "toolbar=no, scrollbars=no, resizable=no, width=600, height=675"
-    );
+    var modalElement = document.querySelector("#myModal");
+    modalElement.style.display = "block";
+    modalElement.setAttribute("data-closed", "0");
+    return modalElement;
+  }
+  function closeModal() {
+    var modalElement = document.querySelector("#myModal");
+    modalElement.setAttribute("data-closed", "1");
+    modalElement.style.display = "none";
   }
   function authenticate(type) {
     savedText = contentDiv.value;
     var modal = openModal();
     var timer = setInterval(function() {
-      if (modal.closed) {
+      if (modal.getAttribute("data-closed") === "1") {
         clearInterval(timer);
         pagination = 0;
         reloadComments();
@@ -383,6 +386,7 @@
       setTimeout(function() {
         var div = document.createElement("div");
         div.innerHTML = data.modalTemplate;
+        div.querySelector("span.modal-close").onclick = closeModal;
         document.querySelector("body").appendChild(div);
       }, 0);
 
