@@ -367,6 +367,16 @@
       .replace(/src="\/(?=\w)/g, 'src="' + nodeBBURL + "/");
   }
 
+  function prepareModal(modalTemplate, token) {
+    var div = document.createElement("div");
+    div.innerHTML = modalTemplate;
+    div.querySelector("span.modal-close").onclick = closeModal;
+    var form = div.querySelector("form");
+    form.setAttribute("action", nodeBBURL + "/login");
+    form.querySelector("input[name='_csrf']").setAttribute("value", token);
+    return div;
+  }
+
   XHR.onload = function() {
     if (XHR.status >= 200 && XHR.status < 400) {
       var data = JSON.parse(XHR.responseText),
@@ -384,10 +394,9 @@
       data.postCount = parseInt(data.postCount, 10);
       data.modalTemplate = data.modalTemplate;
       setTimeout(function() {
-        var div = document.createElement("div");
-        div.innerHTML = data.modalTemplate;
-        div.querySelector("span.modal-close").onclick = closeModal;
-        document.querySelector("body").appendChild(div);
+        document
+          .querySelector("body")
+          .appendChild(prepareModal(data.modalTemplate, data.token));
       }, 0);
 
       for (var post in data.posts) {

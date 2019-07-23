@@ -16,6 +16,7 @@
         <form action="/login">
           <input class="modal-input" name="email" type="text" value="" placeholder="Email" />
           <input class="modal-input" name="password" type="text" value="" placeholder="Password" />
+          <input name="_csrf" type="hidden" value=""/>
           <button class="modal-button" type="submit">Login</button>
         </form>
         <a href="#" class="modal-forgot-password">Forgot your password</a>
