@@ -339,13 +339,16 @@
       isBookmark: !bookmarked
     });
   }
-  function authenticate(type) {
-    savedText = contentDiv.value;
-    modal = window.open(
+  function openModal() {
+    return window.open(
       nodeBBURL + "/" + type + "/#blog/authenticate",
       "_blank",
       "toolbar=no, scrollbars=no, resizable=no, width=600, height=675"
     );
+  }
+  function authenticate(type) {
+    savedText = contentDiv.value;
+    var modal = openModal();
     var timer = setInterval(function() {
       if (modal.closed) {
         clearInterval(timer);
