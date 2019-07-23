@@ -122,6 +122,7 @@
             user: data.user,
             template: Comments.template,
             singleCommentTpl: Comments.singleCommentTpl,
+            modalTemplate: Comments.modalTemplate,
             token: req.csrfToken(),
             isAdmin: !data.isAdministrator
               ? data.isPublisher
@@ -397,6 +398,12 @@
       path.resolve(__dirname, "./public/templates/comments/single.tpl"),
       function(err, data) {
         Comments.singleCommentTpl = data.toString();
+      }
+    );
+    fs.readFile(
+      path.resolve(__dirname, "./public/templates/comments/modal.tpl"),
+      function(err, data) {
+        Comments.modalTemplate = data.toString();
       }
     );
 

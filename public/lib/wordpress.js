@@ -376,6 +376,12 @@
       data.article_id = articleID;
       data.pagination = pagination;
       data.postCount = parseInt(data.postCount, 10);
+      data.modalTemplate = data.modalTemplate;
+      setTimeout(function() {
+        var div = document.createElement("div");
+        div.innerHTML = data.modalTemplate;
+        document.querySelector("body").appendChild(div);
+      }, 0);
 
       for (var post in data.posts) {
         if (data.posts.hasOwnProperty(post)) {
