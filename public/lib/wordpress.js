@@ -353,7 +353,6 @@
     });
   }
   function openModal() {
-      console.trace("Open Modal");
     var modalElement = document.querySelector("#myModal");
     if (modalElement.getAttribute("data-closed") === "0") {
       return modalElement;
