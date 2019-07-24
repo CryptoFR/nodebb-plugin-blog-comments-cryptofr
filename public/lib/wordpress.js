@@ -302,7 +302,9 @@
   var XHR = newXHR(),
     pagination = 0;
   var voteXHR = newXHR();
+  var loginXHR = newXHR();
   var bookmarkXHR = newXHR();
+  loginXHR.onload = reloadComments;
   XHR.onload = onLoadFunction(XHR);
   bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
   voteXHR.onload = onLoadFunction(voteXHR);
@@ -315,6 +317,18 @@
     xpost(voteXHR, nodeBBURL + "/comments/vote", {
       toPid: pid,
       isUpvote: isUpvote
+    });
+  }
+
+  function login(username, password, token) {
+    if (loginXHR.isBusy) return;
+    loginXHR.isBusy = true;
+    xpost(loginXHR, nodeBBURL + "/login", {
+      username: username,
+      password: password,
+      _csrf: token,
+      remember: "on",
+      noscript: false
     });
   }
 
@@ -339,7 +353,11 @@
     });
   }
   function openModal() {
+      console.trace("Open Modal");
     var modalElement = document.querySelector("#myModal");
+    if (modalElement.getAttribute("data-closed") === "0") {
+      return modalElement;
+    }
     modalElement.style.display = "block";
     modalElement.setAttribute("data-closed", "0");
     return modalElement;
@@ -372,9 +390,20 @@
     div.innerHTML = modalTemplate;
     div.querySelector("span.modal-close").onclick = closeModal;
     var form = div.querySelector("form");
+    form.onsubmit = onSubmitLogin;
     form.setAttribute("action", nodeBBURL + "/login");
     form.querySelector("input[name='_csrf']").setAttribute("value", token);
     return div;
+  }
+
+  function onSubmitLogin(e) {
+    e.preventDefault();
+    login(
+      e.target.querySelector("input[name='email']").value,
+      e.target.querySelector("input[name='password']").value,
+      e.target.querySelector("input[name='_csrf']").value
+    );
+    setTimeout(closeModal, 500);
   }
 
   XHR.onload = function() {

@@ -13,9 +13,9 @@
     <div class="modal-body clearfix">
       <div class="modal-col">
         <h3 class="modal-subtitle">Login with email</h3>
-        <form action="/login">
+        <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="text" value="" placeholder="Email" />
-          <input class="modal-input" name="password" type="text" value="" placeholder="Password" />
+          <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
           <input name="_csrf" type="hidden" value=""/>
           <button class="modal-button" type="submit">Login</button>
         </form>
