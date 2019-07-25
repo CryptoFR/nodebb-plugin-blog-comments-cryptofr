@@ -304,7 +304,11 @@
   var voteXHR = newXHR();
   var loginXHR = newXHR();
   var bookmarkXHR = newXHR();
-  loginXHR.onload = reloadComments;
+  loginXHR.onload = function() {
+    reloadComments();
+    setTimeout(removeLoader, 1000);
+  };
+  loginXHR.onerror = removeLoader;
   XHR.onload = onLoadFunction(XHR);
   bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
   voteXHR.onload = onLoadFunction(voteXHR);
@@ -330,6 +334,18 @@
       remember: "on",
       noscript: false
     });
+    addLoader();
+  }
+
+  function addLoader() {
+    var div = document.createElement("div");
+    div.classList.add("loading");
+    document.querySelector("body").appendChild(div);
+  }
+
+  function removeLoader() {
+    var div = document.querySelector("div.loading");
+    removeNodes(div);
   }
 
   function downvotePost(topicItem, pid, downvoted) {
