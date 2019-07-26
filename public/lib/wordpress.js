@@ -305,6 +305,7 @@
   var loginXHR = newXHR();
   var bookmarkXHR = newXHR();
   loginXHR.onload = function() {
+    console.log(arguments);
     reloadComments();
     setTimeout(removeLoader, 1000);
   };
