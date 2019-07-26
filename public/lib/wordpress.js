@@ -305,9 +305,16 @@
   var loginXHR = newXHR();
   var bookmarkXHR = newXHR();
   loginXHR.onload = function() {
-    console.log(arguments);
-    reloadComments();
-    setTimeout(removeLoader, 1000);
+    if (loginXHR.status === 200) {
+      reloadComments();
+      setTimeout(function() {
+        removeLoader();
+        createSnackbar("Login success", true);
+      }, 1500);
+    } else {
+      removeLoader();
+      createSnackbar("Login failed", false);
+    }
   };
   loginXHR.onerror = removeLoader;
   XHR.onload = onLoadFunction(XHR);
@@ -368,6 +375,17 @@
       toPid: pid,
       isBookmark: !bookmarked
     });
+  }
+  function createSnackbar(text, success) {
+    var div = document.createElement("div");
+    div.classList.add("snackbar");
+    div.classList.add("show-snackbar");
+    div.classList.add(success ? "success" : "error");
+    div.innerText = text;
+    document.querySelector("body").appendChild(div);
+    setTimeout(function removeSnackbar() {
+      removeNodes(div);
+    }, 3000);
   }
   function openModal() {
     var modalElement = document.querySelector("#myModal");
