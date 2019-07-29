@@ -388,7 +388,8 @@
     }, 3000);
   }
   function openModal(type) {
-    var modalElement = document.querySelector("#myModal");
+    var modalSelector = type === "login" ? "#login-modal" : "#register-modal";
+    var modalElement = document.querySelector(modalSelector);
     if (modalElement.getAttribute("data-closed") === "0") {
       return modalElement;
     }
@@ -460,6 +461,7 @@
       setTimeout(function() {
         var body = document.querySelector("body");
         body.appendChild(prepareModal(data.loginModalTemplate, data.token));
+        body.appendChild(prepareModal(data.registerModalTemplate, data.token));
       }, 0);
 
       for (var post in data.posts) {
