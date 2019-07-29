@@ -15,21 +15,13 @@
         <h3 class="modal-subtitle">Login with email</h3>
         <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="email" value="" placeholder="Email" />
+          <input class="modal-input" name="username" type="text" value="" placeholder="Username" />
           <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
+          <input class="modal-input" name="password-confirm" type="password" value="" placeholder="Confirm password" />
           <input name="_csrf" type="hidden" value=""/>
-          <button class="modal-button" type="submit">Login</button>
+          <button class="modal-button" type="submit">Register</button>
         </form>
-        <a href="#" class="modal-forgot-password">Forgot your password</a>
-        <div class="modal-create-account-div">
-          <p>New to us</p>
-          <p>
-            <a href="#">Create new account</a>
-          </p>
-        </div>
       </div>
-      <p class="modal-or">
-        or
-      </p>
       <div class="modal-col">
         <h3 class="modal-subtitle">Using social networks</h3>
         <img class="modal-login" alt="Facebook" src="https://via.placeholder.com/240x50.png?text=Facebook%20Login"/>
