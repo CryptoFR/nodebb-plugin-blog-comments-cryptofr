@@ -123,6 +123,7 @@
             template: Comments.template,
             singleCommentTpl: Comments.singleCommentTpl,
             loginModalTemplate: Comments.loginModalTemplate,
+            registerModalTemplate: Comments.registerModalTemplate,
             token: req.csrfToken(),
             isAdmin: !data.isAdministrator
               ? data.isPublisher
@@ -388,25 +389,17 @@
       middleware = params.middleware,
       controllers = params.controllers;
 
-    fs.readFile(
-      path.resolve(__dirname, "./public/templates/comments/comments.tpl"),
-      function(err, data) {
-        Comments.template = data.toString();
-      }
-    );
-    fs.readFile(
-      path.resolve(__dirname, "./public/templates/comments/single.tpl"),
-      function(err, data) {
-        Comments.singleCommentTpl = data.toString();
-      }
-    );
-    fs.readFile(
-      path.resolve(__dirname, "./public/templates/comments/loginModal.tpl"),
-      function(err, data) {
-        Comments.loginModalTemplate = data.toString();
-      }
-    );
-
+    const registerTemplate = (fileName, key) =>
+      fs.readFile(
+        path.resolve(__dirname, `./public/templates/comments/${fileName}.tpl`),
+        function(err, data) {
+          Comments[key] = data.toString();
+        }
+      );
+    registerTemplate("comments", "template");
+    registerTemplate("single", "singleCommentTpl");
+    registerTemplate("loginModal", "loginModalTemplate");
+    registerTemplate("registerModal", "registerModalTemplate");
     app.get(
       "/comments/get/:blogger/:id/:pagination?",
       middleware.applyCSRF,
