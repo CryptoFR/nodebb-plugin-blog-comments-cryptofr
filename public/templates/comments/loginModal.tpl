@@ -1,4 +1,4 @@
-<div id="myModal" class="modal" data-closed="1">
+<div id="login-modal" class="modal" data-closed="1">
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
