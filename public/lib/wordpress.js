@@ -457,7 +457,6 @@
       data.article_id = articleID;
       data.pagination = pagination;
       data.postCount = parseInt(data.postCount, 10);
-      data.loginModalTemplate = data.loginModalTemplate;
       setTimeout(function() {
         document
           .querySelector("body")
