@@ -397,9 +397,11 @@
     return modalElement;
   }
   function closeModal() {
-    var modalElement = document.querySelector("#myModal");
-    modalElement.setAttribute("data-closed", "1");
-    modalElement.style.display = "none";
+    var modalElement = document.querySelector("div.modal[data-closed='0']");
+    if (modalElement) {
+      modalElement.setAttribute("data-closed", "1");
+      modalElement.style.display = "none";
+    }
   }
   function authenticate(type) {
     savedText = contentDiv.value;
