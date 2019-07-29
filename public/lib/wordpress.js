@@ -387,7 +387,7 @@
       removeNodes(div);
     }, 3000);
   }
-  function openModal() {
+  function openModal(type) {
     var modalElement = document.querySelector("#myModal");
     if (modalElement.getAttribute("data-closed") === "0") {
       return modalElement;
@@ -405,7 +405,7 @@
   }
   function authenticate(type) {
     savedText = contentDiv.value;
-    var modal = openModal();
+    var modal = openModal(type);
     var timer = setInterval(function() {
       if (modal.getAttribute("data-closed") === "1") {
         clearInterval(timer);
