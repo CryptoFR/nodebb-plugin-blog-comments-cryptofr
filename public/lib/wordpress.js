@@ -458,9 +458,8 @@
       data.pagination = pagination;
       data.postCount = parseInt(data.postCount, 10);
       setTimeout(function() {
-        document
-          .querySelector("body")
-          .appendChild(prepareModal(data.loginModalTemplate, data.token));
+        var body = document.querySelector("body");
+        body.appendChild(prepareModal(data.loginModalTemplate, data.token));
       }, 0);
 
       for (var post in data.posts) {
