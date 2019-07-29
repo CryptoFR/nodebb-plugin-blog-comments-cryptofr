@@ -122,7 +122,7 @@
             user: data.user,
             template: Comments.template,
             singleCommentTpl: Comments.singleCommentTpl,
-            modalTemplate: Comments.modalTemplate,
+            loginModalTemplate: Comments.loginModalTemplate,
             token: req.csrfToken(),
             isAdmin: !data.isAdministrator
               ? data.isPublisher
@@ -401,9 +401,9 @@
       }
     );
     fs.readFile(
-      path.resolve(__dirname, "./public/templates/comments/modal.tpl"),
+      path.resolve(__dirname, "./public/templates/comments/loginModal.tpl"),
       function(err, data) {
-        Comments.modalTemplate = data.toString();
+        Comments.loginModalTemplate = data.toString();
       }
     );
 

@@ -457,11 +457,11 @@
       data.article_id = articleID;
       data.pagination = pagination;
       data.postCount = parseInt(data.postCount, 10);
-      data.modalTemplate = data.modalTemplate;
+      data.loginModalTemplate = data.loginModalTemplate;
       setTimeout(function() {
         document
           .querySelector("body")
-          .appendChild(prepareModal(data.modalTemplate, data.token));
+          .appendChild(prepareModal(data.loginModalTemplate, data.token));
       }, 0);
 
       for (var post in data.posts) {
