@@ -271,7 +271,7 @@
         if (encodedString.length > 0) {
           encodedString += "&";
         }
-        encodedString += encodeURI(prop + "=" + data[prop]);
+        encodedString += encodeURIComponent(prop + "=" + data[prop]);
       }
     }
     return encodedString;
@@ -345,10 +345,17 @@
     addLoader();
   }
 
-  function signUp(username, email, password, passwordConfirm, token) {
+  function signUp(
+    username,
+    email,
+    password,
+    passwordConfirm,
+    token,
+    checkedTerms
+  ) {
     if (authXHR.isBusy) return;
     authXHR.isBusy = true;
-    xpost(authXHR, nodeBBURL + "/register", {
+    xpost(authXHR, nodeBBURL + "/comments/plugin/register", {
       username: username,
       password: password,
       email: email,
@@ -357,7 +364,8 @@
       userLang: "fr",
       referrer: "",
       token: "",
-      noscript: false
+      noscript: false,
+      terms: checkedTerms
     });
     addLoader();
   }
@@ -458,8 +466,9 @@
     var password = t.querySelector("input[name='password']").value;
     var passwordConfirm = t.querySelector("input[name='password-confirm']")
       .value;
+    var checkedTerms = t.querySelector("input[name='terms']").checked;
     var token = t.querySelector("input[name='_csrf']").value;
-    signUp(username, email, password, passwordConfirm, token);
+    signUp(username, email, password, passwordConfirm, token, checkedTerms);
     setTimeout(closeModal, 500);
   }
 

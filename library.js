@@ -384,6 +384,25 @@
     res.render("comments/admin", {});
   }
 
+  function register(req, res) {
+    if (req.body.terms) {
+      return user.create(req.body, function userCreateCb(err, uid) {
+        // TODO Add status for user endpoint
+        return res.json({
+          error: err && err.message,
+          results: {
+            uid
+          }
+        });
+      });
+    } else {
+      return res.json({
+        error: "Terms are not accepted",
+        results: {}
+      });
+    }
+  }
+
   Comments.init = function(params, callback) {
     var app = params.router,
       middleware = params.middleware,
@@ -405,6 +424,7 @@
       middleware.applyCSRF,
       Comments.getCommentData
     );
+    app.post("/comments/plugin/register", register);
     app.post("/comments/reply", Comments.replyToComment);
     app.post("/comments/publish", Comments.publishArticle);
     app.post("/comments/vote", Comments.votePost);
