@@ -302,10 +302,10 @@
   var XHR = newXHR(),
     pagination = 0;
   var voteXHR = newXHR();
-  var loginXHR = newXHR();
+  var authXHR = newXHR();
   var bookmarkXHR = newXHR();
-  loginXHR.onload = function() {
-    if (loginXHR.status === 200) {
+  authXHR.onload = function() {
+    if (authXHR.status === 200) {
       reloadComments();
       setTimeout(function() {
         removeLoader();
@@ -316,7 +316,7 @@
       createSnackbar("Login failed", false);
     }
   };
-  loginXHR.onerror = removeLoader;
+  authXHR.onerror = removeLoader;
   XHR.onload = onLoadFunction(XHR);
   bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
   voteXHR.onload = onLoadFunction(voteXHR);
@@ -333,9 +333,9 @@
   }
 
   function login(username, password, token) {
-    if (loginXHR.isBusy) return;
-    loginXHR.isBusy = true;
-    xpost(loginXHR, nodeBBURL + "/login", {
+    if (authXHR.isBusy) return;
+    authXHR.isBusy = true;
+    xpost(authXHR, nodeBBURL + "/login", {
       username: username,
       password: password,
       _csrf: token,
@@ -422,12 +422,12 @@
       .replace(/src="\/(?=\w)/g, 'src="' + nodeBBURL + "/");
   }
 
-  function prepareModal(modalTemplate, token) {
+  function prepareModal(modalTemplate, token, onSubmit) {
     var div = document.createElement("div");
     div.innerHTML = modalTemplate;
     div.querySelector("span.modal-close").onclick = closeModal;
     var form = div.querySelector("form");
-    form.onsubmit = onSubmitLogin;
+    form.onsubmit = onSubmit;
     form.setAttribute("action", nodeBBURL + "/login");
     form.querySelector("input[name='_csrf']").setAttribute("value", token);
     return div;
@@ -460,8 +460,12 @@
       data.postCount = parseInt(data.postCount, 10);
       setTimeout(function() {
         var body = document.querySelector("body");
-        body.appendChild(prepareModal(data.loginModalTemplate, data.token));
-        body.appendChild(prepareModal(data.registerModalTemplate, data.token));
+        body.appendChild(
+          prepareModal(data.loginModalTemplate, data.token, onSubmitLogin)
+        );
+        body.appendChild(
+          prepareModal(data.registerModalTemplate, data.token, onSubmitLogin)
+        );
       }, 0);
 
       for (var post in data.posts) {
