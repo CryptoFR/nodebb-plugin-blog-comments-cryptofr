@@ -12,7 +12,7 @@
     </div>
     <div class="modal-body clearfix">
       <div class="modal-col">
-        <h3 class="modal-subtitle">Login with email</h3>
+        <h3 class="modal-subtitle">Register</h3>
         <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="email" value="" placeholder="Email" />
           <input class="modal-input" name="username" type="text" value="" placeholder="Username" />

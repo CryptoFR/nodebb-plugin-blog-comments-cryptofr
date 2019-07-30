@@ -345,6 +345,23 @@
     addLoader();
   }
 
+  function signUp(username, email, password, passwordConfirm, token) {
+    if (authXHR.isBusy) return;
+    authXHR.isBusy = true;
+    xpost(authXHR, nodeBBURL + "/register", {
+      username: username,
+      password: password,
+      email: email,
+      "password-confirm": passwordConfirm,
+      _csrf: token,
+      userLang: "fr",
+      referrer: "",
+      token: "",
+      noscript: false
+    });
+    addLoader();
+  }
+
   function addLoader() {
     var div = document.createElement("div");
     div.classList.add("loading");
@@ -433,12 +450,26 @@
     return div;
   }
 
+  function onSubmitSignUp(e) {
+    e.preventDefault();
+    var t = e.target;
+    var username = t.querySelector("input[name='username']").value;
+    var email = t.querySelector("input[name='email']").value;
+    var password = t.querySelector("input[name='password']").value;
+    var passwordConfirm = t.querySelector("input[name='password-confirm']")
+      .value;
+    var token = t.querySelector("input[name='_csrf']").value;
+    signUp(username, email, password, passwordConfirm, token);
+    setTimeout(closeModal, 500);
+  }
+
   function onSubmitLogin(e) {
     e.preventDefault();
+    var t = e.target;
     login(
-      e.target.querySelector("input[name='email']").value,
-      e.target.querySelector("input[name='password']").value,
-      e.target.querySelector("input[name='_csrf']").value
+      t.querySelector("input[name='email']").value,
+      t.querySelector("input[name='password']").value,
+      t.querySelector("input[name='_csrf']").value
     );
     setTimeout(closeModal, 500);
   }
@@ -464,7 +495,7 @@
           prepareModal(data.loginModalTemplate, data.token, onSubmitLogin)
         );
         body.appendChild(
-          prepareModal(data.registerModalTemplate, data.token, onSubmitLogin)
+          prepareModal(data.registerModalTemplate, data.token, onSubmitSignUp)
         );
       }, 0);
 
