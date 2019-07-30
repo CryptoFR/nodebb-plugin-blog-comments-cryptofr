@@ -356,9 +356,8 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 
 .modal-body {
-  padding: 2px 16px;
+  padding: 5px 16px;
   position: relative;
-  height: 65vh;
 }
 
 .modal-login {
