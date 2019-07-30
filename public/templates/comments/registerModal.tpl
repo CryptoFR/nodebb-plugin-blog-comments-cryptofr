@@ -19,6 +19,10 @@
           <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
           <input class="modal-input" name="password-confirm" type="password" value="" placeholder="Confirm password" />
           <input name="_csrf" type="hidden" value=""/>
+          <div class="modal-input">
+            <input name="terms" type="checkbox" value=""/>
+            <span>I have read terms and conditions</span>
+          </div>
           <button class="modal-button" type="submit">Register</button>
         </form>
       </div>
