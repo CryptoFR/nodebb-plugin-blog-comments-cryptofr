@@ -246,6 +246,7 @@
     );
   nodebbDiv = document.getElementById("nodebb");
 
+  // TODO Remove XHR assignation
   function newXHR() {
     try {
       return (XHR = new XMLHttpRequest());
@@ -257,7 +258,17 @@
       }
     }
   }
-
+  function newXHRFixed() {
+    try {
+      return new XMLHttpRequest();
+    } catch (e) {
+      try {
+        return new ActiveXObject("Microsoft.XMLHTTP");
+      } catch (e) {
+        return new ActiveXObject("Msxml2.XMLHTTP");
+      }
+    }
+  }
   function xget(xhr, path) {
     xhr.open("GET", path, true);
     xhr.withCredentials = true;
@@ -316,6 +327,28 @@
       createSnackbar("Login failed", false);
     }
   };
+  var signUpXHR = newXHRFixed();
+  signUpXHR.onload = function signUpXHROnload() {
+    function onRegisterFailed() {
+      removeLoader();
+      createSnackbar("Register failed", false);
+    }
+    if (signUpXHR.status === 200) {
+      var response = JSON.parse(signUpXHR.responseText);
+      if (!response.error) {
+        reloadComments();
+        setTimeout(function() {
+          removeLoader();
+          createSnackbar("Register success", true);
+        }, 1500);
+      } else {
+        onRegisterFailed();
+      }
+    } else {
+      onRegisterFailed();
+    }
+  };
+  signUpXHR.onerror = removeLoader;
   authXHR.onerror = removeLoader;
   XHR.onload = onLoadFunction(XHR);
   bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
@@ -353,9 +386,9 @@
     token,
     checkedTerms
   ) {
-    if (authXHR.isBusy) return;
-    authXHR.isBusy = true;
-    xpost(authXHR, nodeBBURL + "/comments/plugin/register", {
+    if (signUpXHR.isBusy) return;
+    signUpXHR.isBusy = true;
+    xpost(signUpXHR, nodeBBURL + "/comments/plugin/register", {
       username: username,
       password: password,
       email: email,
