@@ -339,7 +339,10 @@
         reloadComments();
         setTimeout(function() {
           removeLoader();
-          createSnackbar("Register success", true);
+          createSnackbar(
+            "Merci de confirmer votre inscription via le lien envoyé à votre email",
+            true
+          );
         }, 1500);
       } else {
         onRegisterFailed();
