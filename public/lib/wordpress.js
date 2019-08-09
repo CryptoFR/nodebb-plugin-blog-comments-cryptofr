@@ -235,7 +235,6 @@
   stylesheetCryptoFR.setAttribute("rel", "stylesheet");
   stylesheetCryptoFR.setAttribute("type", "text/css");
   stylesheetCryptoFR.setAttribute("href", pluginURL + "/css/cryptofr.css");
-
   document.getElementsByTagName("head")[0].appendChild(stylesheet);
   document.getElementsByTagName("head")[0].appendChild(stylesheetCryptoFR);
   document
@@ -245,7 +244,27 @@
       '<div class="comments-area" id="nodebb"></div>'
     );
   nodebbDiv = document.getElementById("nodebb");
-
+  var renderedCaptcha;
+  function grecaptchaGrab() {
+    if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
+      window.grecaptcha.ready(function() {
+        var interval = setInterval(renderCallback, 1000);
+        function renderCallback() {
+          var container = document.getElementById("google-callback");
+          if (container) {
+            renderedCaptcha = window.grecaptcha.render(container, {
+              sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
+            });
+            clearInterval(interval);
+          }
+        }
+        renderCallback();
+      });
+    } else {
+      setTimeout(grecaptchaGrab, 1000);
+    }
+  }
+  setTimeout(grecaptchaGrab, 1000);
   // TODO Remove XHR assignation
   function newXHR() {
     try {
@@ -401,7 +420,8 @@
       referrer: "",
       token: "",
       noscript: false,
-      terms: checkedTerms
+      terms: checkedTerms,
+      captcha: grecaptcha.getResponse(renderedCaptcha)
     });
     addLoader();
   }
@@ -519,6 +539,48 @@
     setTimeout(closeModal, 500);
   }
 
+  function addRegisterValidators(modal) {
+    var email = modal.querySelector("input[name='email']");
+    var emailErrors = modal.querySelector("div.email-errors");
+    email.addEventListener("blur", function emailBlurListener() {
+      var url =
+        nodeBBURL +
+        "/comments/plugin/email?email=" +
+        encodeURIComponent(email.value);
+      fetch(url)
+        .then(function(res) {
+          return res.json();
+        })
+        .then(function(json) {
+          if (!json.errors && !json.results.available) {
+            emailErrors.innerText = "The email is taken";
+          } else {
+            emailErrors.innerText = "";
+          }
+        });
+    });
+
+    var username = modal.querySelector("input[name='username']");
+    var usernameErrors = modal.querySelector("div.username-errors");
+    username.addEventListener("blur", function emailBlurListener() {
+      var url =
+        nodeBBURL +
+        "/comments/plugin/username?username=" +
+        encodeURIComponent(username.value);
+      fetch(url)
+        .then(function(res) {
+          return res.json();
+        })
+        .then(function(json) {
+          if (!json.errors && json.results.exists) {
+            usernameErrors.innerText = "The username is taken";
+          } else {
+            usernameErrors.innerText = "";
+          }
+        });
+    });
+  }
+
   XHR.onload = function() {
     if (XHR.status >= 200 && XHR.status < 400) {
       var data = JSON.parse(XHR.responseText),
@@ -539,9 +601,13 @@
         body.appendChild(
           prepareModal(data.loginModalTemplate, data.token, onSubmitLogin)
         );
-        body.appendChild(
-          prepareModal(data.registerModalTemplate, data.token, onSubmitSignUp)
+        var registerModal = prepareModal(
+          data.registerModalTemplate,
+          data.token,
+          onSubmitSignUp
         );
+        addRegisterValidators(registerModal);
+        body.appendChild(registerModal);
       }, 0);
 
       for (var post in data.posts) {

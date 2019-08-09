@@ -15,6 +15,8 @@
 				<option value="top">Compose on top</option>
 				<option value="bottom">Compose on bottom</option>
 			</select>
+			<label>Captcha Secret API key for register form</label> <br/>
+			<input type="text" data-field="blog-comments:captcha-api-key" title="Captcha API Key" class="form-control" placeholder="Captcha API Key"><br />
 		</form>
 	</div>
 </div>

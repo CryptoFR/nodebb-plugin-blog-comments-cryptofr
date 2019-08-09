@@ -13,6 +13,7 @@
     path = require.main.require("path"),
     async = require.main.require("async"),
     winston = require.main.require("winston");
+  var simpleRecaptcha = require.main.require("simple-recaptcha-new");
 
   module.exports = Comments;
   function CORSSafeReq(req) {
@@ -384,12 +385,27 @@
     res.render("comments/admin", {});
   }
 
+  function captchaMiddleware(req, res, next) {
+    const privateKey = meta.config["blog-comments:captcha-api-key"]; // your private key here
+    const ip = req.ip; // this is an optional parameter
+    const response = req.body.captcha;
+    simpleRecaptcha(privateKey, ip, response, function(err) {
+      if (err)
+        return res.status(500).send({
+          error: err.message,
+          results: {}
+        });
+      return next();
+    });
+  }
+
   function register(req, res) {
     if (req.body.terms) {
       return user.create(req.body, function userCreateCb(err, uid) {
         // TODO Add status for user endpoint
-        return res.json({
-          error: err && err.message,
+        const error = err && err.message;
+        return res.status(error ? 403 : 200).json({
+          error,
           results: {
             uid
           }
@@ -403,6 +419,49 @@
     }
   }
 
+  function userExists(req, res) {
+    const { username } = req.query;
+    if (username) {
+      return user.existsBySlug(username, function cb(err, exists) {
+        const error = err && err.message;
+        return res.status(error ? 403 : 200).json({
+          error,
+          results: {
+            exists
+          }
+        });
+      });
+    } else {
+      return res.json({
+        error: null,
+        results: {
+          exists: true
+        }
+      });
+    }
+  }
+
+  function emailExists(req, res) {
+    const { email } = req.query;
+    if (email) {
+      return user.email.available(email, function cb(err, available) {
+        const error = err && err.message;
+        return res.status(error ? 403 : 200).json({
+          error,
+          results: {
+            available
+          }
+        });
+      });
+    } else {
+      return res.json({
+        error: null,
+        results: {
+          available: true
+        }
+      });
+    }
+  }
   Comments.init = function(params, callback) {
     var app = params.router,
       middleware = params.middleware,
@@ -419,18 +478,21 @@
     registerTemplate("single", "singleCommentTpl");
     registerTemplate("loginModal", "loginModalTemplate");
     registerTemplate("registerModal", "registerModalTemplate");
+    // TODO Apply CSRF to everything
     app.get(
       "/comments/get/:blogger/:id/:pagination?",
       middleware.applyCSRF,
       Comments.getCommentData
     );
-    app.post("/comments/plugin/register", register);
+    app.post("/comments/plugin/register", captchaMiddleware, register);
     app.post("/comments/reply", Comments.replyToComment);
     app.post("/comments/publish", Comments.publishArticle);
     app.post("/comments/vote", Comments.votePost);
     app.post("/comments/downvote", Comments.downvotePost);
     app.post("/comments/bookmark", Comments.bookmarkPost);
     app.post("/comments/edit/:pid", Comments.editPost);
+    app.get("/comments/plugin/email", emailExists);
+    app.get("/comments/plugin/username", userExists);
 
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
