@@ -35,16 +35,16 @@
       </div>
       <div class="modal-col">
         <h3 class="modal-subtitle">Using social networks</h3>
-        <a href="https://cryptoforum.testing/auth/facebook" target="_blank">
+        <a data-link="https://cryptoforum.testing/auth/facebook" href="#" data-network="Facebook">
           <img alt="Facebook" class="modal-login" src="https://via.placeholder.com/240x50.png?text=Facebook%20Login"/>
         </a>
-        <a href="https://cryptoforum.testing/auth/google" target="_blank">
+        <a data-link="https://cryptoforum.testing/auth/google" href="#" data-network="Google">
           <img class="modal-login" alt="Google" src="https://via.placeholder.com/240x50.png?text=Google%20Login"/>
         </a>
-        <a href="https://cryptoforum.testing/auth/twitter">
+        <a data-link="https://cryptoforum.testing/auth/twitter" href="#" data-network="Twitter">
         <img class="modal-login" alt="Twitter" src="https://via.placeholder.com/240x50.png?text=Twitter%20Login"/>
         </a>
-        <a href="https://cryptoforum.testing/auth/github">
+        <a data-link="https://cryptoforum.testing/auth/github" href="#" data-network="Github">
         <img class="modal-login" alt="Github" src="https://via.placeholder.com/240x50.png?text=Github%20Login"/>
         </a>
       </div>

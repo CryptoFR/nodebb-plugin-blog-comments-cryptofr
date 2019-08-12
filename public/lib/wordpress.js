@@ -231,6 +231,10 @@
   stylesheet.setAttribute("type", "text/css");
   stylesheet.setAttribute("href", pluginURL + "/css/comments.css");
 
+  document.querySelector(".entry-content p").addEventListener("click", () => {
+    var w = window.open("https://google.co.ve", "Nombre", "_target=blank");
+    w.addEventListener("close", () => console.log("Closed"));
+  });
   var stylesheetCryptoFR = document.createElement("link");
   stylesheetCryptoFR.setAttribute("rel", "stylesheet");
   stylesheetCryptoFR.setAttribute("type", "text/css");
@@ -581,6 +585,31 @@
     });
   }
 
+  function onClickSocialAuth(event) {
+    var t = event.target;
+    var w = window.open(
+      t.getAttribute("data-link"),
+      t.getAttribute("data-network"),
+      "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes"
+    );
+    var interval = setInterval(function checkSocialAuth() {
+      console.log("Checking social auth");
+      if (w === null || w.closed === true) {
+        console.log("Clearing modal");
+        setTimeout(reloadComments, 1000);
+        clearInterval(interval);
+      }
+    }, 1000);
+  }
+
+  function addSocialAuthListeners(modal) {
+    var links = modal.querySelectorAll("a[data-link]");
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      a.addEventListener("click", onClickSocialAuth);
+    }
+  }
+
   XHR.onload = function() {
     if (XHR.status >= 200 && XHR.status < 400) {
       var data = JSON.parse(XHR.responseText),
@@ -598,15 +627,20 @@
       data.postCount = parseInt(data.postCount, 10);
       setTimeout(function() {
         var body = document.querySelector("body");
-        body.appendChild(
-          prepareModal(data.loginModalTemplate, data.token, onSubmitLogin)
+        var loginModal = prepareModal(
+          data.loginModalTemplate,
+          data.token,
+          onSubmitLogin
         );
+        addSocialAuthListeners(loginModal);
+        body.appendChild(loginModal);
         var registerModal = prepareModal(
           data.registerModalTemplate,
           data.token,
           onSubmitSignUp
         );
         addRegisterValidators(registerModal);
+        addSocialAuthListeners(registerModal);
         body.appendChild(registerModal);
       }, 0);
 
