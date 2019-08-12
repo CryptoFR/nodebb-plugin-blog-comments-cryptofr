@@ -596,7 +596,8 @@
       console.log("Checking social auth");
       if (w === null || w.closed === true) {
         console.log("Clearing modal");
-        setTimeout(reloadComments, 1000);
+        reloadComments();
+        setTimeout(closeModal, 1000);
         clearInterval(interval);
       }
     }, 1000);
