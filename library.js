@@ -66,10 +66,6 @@
       callback(err, tid);
     });
   };
-  Comments.test = async function(req, res) {
-    var tid = "19014";
-    return res.send(await getNestedPosts(tid));
-  };
   Comments.getCommentData = function(req, res) {
     var commentID = req.params.id,
       blogger = req.params.blogger || "default",
