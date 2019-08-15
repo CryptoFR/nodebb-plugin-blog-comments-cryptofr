@@ -80,7 +80,7 @@
             if (disabled) {
               throw err;
             } else {
-              return getNestedPosts(tid, uid);
+              return getNestedPosts(tid, uid, req.params.pagination || 0);
             }
           },
           postCount: function(next) {
@@ -476,7 +476,7 @@
     registerTemplate("registerModal", "registerModalTemplate");
     // TODO Apply CSRF to everything
     app.get(
-      "/comments/get/:blogger/:id/:pagination?",
+      "/comments/get/:blogger/:id/:pagination(\\d+)?",
       middleware.applyCSRF,
       Comments.getCommentData
     );
