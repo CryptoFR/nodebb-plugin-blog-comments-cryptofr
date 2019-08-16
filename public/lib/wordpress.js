@@ -230,11 +230,6 @@
   stylesheet.setAttribute("rel", "stylesheet");
   stylesheet.setAttribute("type", "text/css");
   stylesheet.setAttribute("href", pluginURL + "/css/comments.css");
-
-  document.querySelector(".entry-content p").addEventListener("click", () => {
-    var w = window.open("https://google.co.ve", "Nombre", "_target=blank");
-    w.addEventListener("close", () => console.log("Closed"));
-  });
   var stylesheetCryptoFR = document.createElement("link");
   stylesheetCryptoFR.setAttribute("rel", "stylesheet");
   stylesheetCryptoFR.setAttribute("type", "text/css");
@@ -822,18 +817,18 @@
       }
 
       if (data.tid) {
-        // var loadMore = document.getElementById('nodebb-load-more');
-        // loadMore.onclick = function() {
-        // 	pagination++;
-        // 	reloadComments();
-        // }
-        // if (data.posts.length) {
-        // 	loadMore.style.display = 'inline-block';
-        // }
+        var loadMore = document.getElementById("nodebb-load-more");
+        loadMore.addEventListener("click", function loadMoreClick() {
+          pagination++;
+          reloadComments();
+        });
+        if (data.posts.length) {
+          loadMore.style.display = "inline-block";
+        }
 
-        // if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
-        // 	loadMore.style.display = 'none';
-        // }
+        if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
+          loadMore.style.display = "none";
+        }
 
         if (typeof jQuery !== "undefined" && jQuery() && jQuery().fitVids) {
           jQuery(nodebbDiv).fitVids();
