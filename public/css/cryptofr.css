@@ -645,3 +645,18 @@ i.i-downvote.icon-thumbs-down-alt {
     opacity: 0;
   }
 }
+
+.load-more-div {
+    margin-bottom: 0px;
+    margin-top: 15px;
+    padding: 0px;
+    border-left: 2px solid #e8e8e8;
+    margin-left: 15px;
+    list-style-type: none;
+    max-width: 655px;
+    margin: calc(3 * 1rem) calc(10% + 60px);
+}
+
+.load-more-div button {
+    float: right;
+}

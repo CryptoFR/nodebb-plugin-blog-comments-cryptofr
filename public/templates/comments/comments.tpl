@@ -170,7 +170,7 @@
 	<!-- ENDIF atBottom -->
 
 	<small class="nodebb-copyright">Commentaires avec <a href="{relative_path}" target="_blank">{siteTitle}</a> &bull; <a href="{relative_path}/topic/{tid}">Topic originel</a></small>
-	<button class="btn btn-primary" <!-- IF !posts.length -->style="display: none"<!-- ENDIF !posts.length --> id="nodebb-load-more">Charger plus de commentaires...</button>
+	<button class="btn btn-primary" id="nodebb-load-more">Charger plus de commentaires...</button>
 <!-- ELSE -->
 	{siteTitle} Les commantaires sont désactivés.
 	<!-- IF isAdmin -->

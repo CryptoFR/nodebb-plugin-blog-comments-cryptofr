@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var postTemplate;
+  var postTemplate, wholeTemplate;
   function onBookmarked(topicItem, isBookmark) {
     var el = topicItem.querySelector(".i-bookmark");
     var link = topicItem.querySelector('[data-component="post/bookmark"]');
@@ -588,9 +588,7 @@
       "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes"
     );
     var interval = setInterval(function checkSocialAuth() {
-      console.log("Checking social auth");
       if (w === null || w.closed === true) {
-        console.log("Clearing modal");
         reloadComments();
         setTimeout(closeModal, 1000);
         clearInterval(interval);
@@ -606,6 +604,8 @@
     }
   }
 
+  var postData = [];
+
   XHR.onload = function() {
     if (XHR.status >= 200 && XHR.status < 400) {
       var data = JSON.parse(XHR.responseText),
@@ -616,6 +616,7 @@
       commentsAuthor = document.getElementById("nodebb-comments-author");
       commentsCategory = document.getElementById("nodebb-comments-category");
       postTemplate = data.singleCommentTpl;
+      wholeTemplate = data.template;
       data.relative_path = nodeBBURL;
       data.redirect_url = articlePath;
       data.article_id = articleID;
@@ -651,6 +652,8 @@
           }
         }
       }
+      data.posts = postData.concat(data.posts);
+      postData.push.apply(postData, data.posts);
 
       if (commentsCounter) {
         commentsCounter.innerHTML = data.postCount ? data.postCount - 1 : 0;
@@ -680,13 +683,8 @@
           "</a></span>";
       }
 
-      if (pagination) {
-        html = normalizePost(parse(data, templates.blocks["posts"]));
-        commentsDiv.innerHTML = commentsDiv.innerHTML + html;
-      } else {
-        html = parse(data, data.template);
-        nodebbDiv.innerHTML = normalizePost(html);
-      }
+      html = parse(data, data.template);
+      nodebbDiv.innerHTML = normalizePost(html);
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
       var selectors = [
         '[data-component="post/reply"]',
@@ -818,10 +816,6 @@
 
       if (data.tid) {
         var loadMore = document.getElementById("nodebb-load-more");
-        loadMore.addEventListener("click", function loadMoreClick() {
-          pagination++;
-          reloadComments();
-        });
         if (data.posts.length) {
           loadMore.style.display = "inline-block";
         }
@@ -1152,4 +1146,23 @@
       return template;
     })(data, "", template);
   }
+  function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+  function addButtons() {
+    var div = document.createElement("div");
+    div.classList.add("load-more-div");
+    var button = document.createElement("button");
+    button.id = "nodebb-load-more";
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+    button.innerText = "Charger plus de commentaires...";
+    button.addEventListener("click", function loadMoreClick() {
+      pagination++;
+      reloadComments();
+    });
+    div.appendChild(button);
+    insertAfter(div, document.querySelector("#nodebb"));
+  }
+  addButtons();
 })();
