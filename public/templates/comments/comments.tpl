@@ -66,7 +66,7 @@
 			<img src="https://i.gyazo.com/2880209dbbf7a5ebc1c1daadfa958f97.png" alt="{postCount} commentaires" class="icon"> 
 			<span class="posts-count">{postCount}</span> commentaires
     <ul class="sort-group">
-      <li>Sort by a:</li>
+      <li>Sort by:</li>
       <li><a data-component="sort/best">Best</a></li>
       <li><a data-component="sort/newest">Newest</a></li>
       <li><a data-component="sort/oldest">Oldest</a></li>
