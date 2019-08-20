@@ -1,3 +1,4 @@
+"use strict";
 const posts = require.main.require("./src/posts");
 const topics = require.main.require("./src/topics");
 const db = require.main.require("./src/database");
@@ -14,7 +15,6 @@ const getTopicPids = tid =>
     ) {
       if (err) {
         reject(err);
-        as;
       } else {
         resolve(res);
       }
@@ -94,7 +94,38 @@ const getPostsFromCache = tid =>
     });
   });
 
-const getNestedPosts = async (tid, uid, pagination = 0) => {
+const sortOldest = (a, b) => a.timestamp - b.timestamp;
+const sortNewest = (a, b) => -sortOldest(a, b);
+const sortBest = (a, b) => a.votes - b.votes;
+
+const getSortFn = sorting => {
+  switch (sorting) {
+    case "oldest":
+      return sortOldest;
+    case "newest":
+      return sortNewest;
+    case "best":
+      return sortBest;
+    default:
+      throw new Error("Undefined sorting function");
+  }
+};
+
+const sortRecursively = (array, sorting) => {
+  const sortingFn = getSortFn(sorting);
+  const sortRecursivelyInternal = myArray => {
+    if (!Array.isArray(myArray)) {
+      return;
+    }
+    myArray.sort(sortingFn);
+    for (const { children } of myArray) {
+      sortRecursivelyInternal(children);
+    }
+  };
+  sortRecursivelyInternal(array);
+};
+
+const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
   const posts = (await getPostDataWithoutCache(tid)).filter(p => !p.deleted);
   for (const p of posts) {
     p.isReply =
@@ -107,6 +138,7 @@ const getNestedPosts = async (tid, uid, pagination = 0) => {
   }
   const postData = await addPostData(posts, uid);
   const nestedPostsWithData = getNestedChildren(postData);
+  sortRecursively(nestedPostsWithData, sorting);
   const itemsPerPage = 10;
   const start = 0 + pagination * itemsPerPage;
   const end = itemsPerPage + pagination * (itemsPerPage - 1);
