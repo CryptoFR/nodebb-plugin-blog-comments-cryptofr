@@ -67,9 +67,9 @@
 			<span class="posts-count">{postCount}</span> commentaires
     <ul class="sort-group">
       <li>Sort by:</li>
-      <li><a data-component="sort/best">Best</a></li>
-      <li><a data-component="sort/newest">Newest</a></li>
-      <li><a data-component="sort/oldest">Oldest</a></li>
+      <li class="sort-group-link"><a data-component="sort/best">Best</a></li>
+      <li class="sort-group-link"><a data-component="sort/newest">Newest</a></li>
+      <li class="sort-group-link"><a data-component="sort/oldest">Oldest</a></li>
     </ul>
 		</div>
 	</div>

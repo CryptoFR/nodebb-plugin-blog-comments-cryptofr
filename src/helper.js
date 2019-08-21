@@ -96,7 +96,7 @@ const getPostsFromCache = tid =>
 
 const sortOldest = (a, b) => a.timestamp - b.timestamp;
 const sortNewest = (a, b) => -sortOldest(a, b);
-const sortBest = (a, b) => a.votes - b.votes;
+const sortBest = (a, b) => b.votes - a.votes;
 
 const getSortFn = sorting => {
   switch (sorting) {

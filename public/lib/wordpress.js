@@ -171,7 +171,9 @@
         clone.querySelector("span[data-parent-username]").innerText =
           "@" + comment.parent.username;
         // We update here because in another method timestamps are updated for parent comments
-        comment.timestamp = timeAgo(parseInt(comment.timestamp, 10));
+        if (typeof comment.timestamp === "number") {
+          comment.timestamp = timeAgo(parseInt(comment.timestamp, 10));
+        }
       } else {
         removeNodes(clone.querySelector("button.reply-label"));
       }
@@ -330,9 +332,29 @@
   }
   var XHR = newXHR(),
     pagination = 0;
+  var postData = [];
+  var sorting = "newest";
   var voteXHR = newXHR();
   var authXHR = newXHR();
   var bookmarkXHR = newXHR();
+  function setSorting(s) {
+    setActiveSortingLi(sorting, s);
+    pagination = 0;
+    sorting = s;
+    postData = [];
+    document.getElementById("nodebb-comments-list").innerHTML = "";
+    reloadComments();
+  }
+  function setActiveSortingLi(oldSorting, newSorting) {
+    var oldElement = nodebbDiv.querySelector(
+      "a[data-component='sort/" + oldSorting + "']"
+    );
+    var newElement = nodebbDiv.querySelector(
+      "a[data-component='sort/" + newSorting + "']"
+    );
+    oldElement.parentNode.classList.remove("active");
+    newElement.parentNode.classList.add("active");
+  }
   authXHR.onload = function() {
     if (authXHR.status === 200) {
       reloadComments();
@@ -426,6 +448,9 @@
   }
 
   function addLoader() {
+    if (document.querySelector("div.loading")) {
+      return;
+    }
     var div = document.createElement("div");
     div.classList.add("loading");
     document.querySelector("body").appendChild(div);
@@ -604,13 +629,20 @@
     }
   }
 
-  var postData = [];
-
   XHR.onload = function() {
+    removeLoader();
     if (XHR.status >= 200 && XHR.status < 400) {
       var data = JSON.parse(XHR.responseText),
         html;
-
+      const set = function(obj, prop, value) {
+        console.log(prop, value);
+        if (prop === "timestamp") {
+          console.trace("Changing data", obj, prop, value);
+        }
+        obj[prop] = value;
+        return true;
+      };
+      data = new Proxy(data, { set });
       commentsDiv = document.getElementById("nodebb-comments-list");
       commentsCounter = document.getElementById("nodebb-comments-count");
       commentsAuthor = document.getElementById("nodebb-comments-author");
@@ -643,15 +675,12 @@
 
       for (var post in data.posts) {
         if (data.posts.hasOwnProperty(post)) {
-          data.posts[post].timestamp = timeAgo(
-            parseInt(data.posts[post].timestamp),
-            10
-          );
           if (data.posts[post]["blog-comments:url"]) {
             delete data.posts[post];
           }
         }
       }
+      addTimeAgoRecursive(data.posts);
       data.posts = postData.concat(data.posts);
       postData.push.apply(postData, data.posts);
 
@@ -800,16 +829,16 @@
           }
         }
       });
+      nodebbDiv
+        .querySelector("a[data-component='sort/best']")
+        .addEventListener("click", () => setSorting("best"));
+      nodebbDiv
+        .querySelector("a[data-component='sort/newest']")
+        .addEventListener("click", () => setSorting("newest"));
+      nodebbDiv
+        .querySelector("a[data-component='sort/oldest']")
+        .addEventListener("click", () => setSorting("oldest"));
       contentDiv = document.getElementById("nodebb-content");
-      setTimeout(function() {
-        var lists = nodebbDiv.getElementsByTagName("li");
-        for (var list in lists) {
-          if (lists.hasOwnProperty(list)) {
-            lists[list].className = "";
-          }
-        }
-      }, 100);
-
       if (savedText) {
         contentDiv.value = savedText;
       }
@@ -909,15 +938,30 @@
         "/" +
         articleID +
         "/" +
-        pagination,
+        pagination +
+        "/" +
+        sorting,
       true
     );
     XHR.withCredentials = true;
     XHR.send();
+    addLoader();
   }
 
   reloadComments();
-
+  function addTimeAgoRecursive(posts) {
+    var len = posts.length;
+    for (var i = 0; i < len; i++) {
+      var post = posts[i];
+      post.timestamp = timeAgo(parseInt(post.timestamp, 10));
+      if (post.children && post.children.length) {
+        var childrenLen = post.children.length;
+        for (var j = 0; j < childrenLen; j++) {
+          addTimeAgoRecursive(post.children[j]);
+        }
+      }
+    }
+  }
   // DISPLAY TIME AGO
   function timeAgo(time) {
     var time_formats = [

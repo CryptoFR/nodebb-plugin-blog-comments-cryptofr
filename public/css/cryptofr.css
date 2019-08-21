@@ -670,7 +670,6 @@ ul.sort-group {
 ul.sort-group li {
     display: inline-block;
     height: 30px;
-    padding-right: 5px;
 }
 
 ul.sort-group a {
@@ -678,10 +677,14 @@ ul.sort-group a {
     padding-right: 5px;
 }
 
-ul.sort-group li:not(:last-child) {
-    margin-right: 10px;
+li.sort-group-link(:last-child) {
+    margin-right: 5px;
 }
 
-ul.sort-group a:hover {
+li.sort-group-link:hover {
     background-color: #eee;
+}
+
+li.sort-group-link.active {
+    color: blue;
 }
