@@ -137,7 +137,8 @@
             isValid: !!data.mainPost && !!tid,
             atBottom: bottom,
             atTop: top,
-            siteTitle: meta.config.title
+            siteTitle: meta.config.title,
+            sorting: req.params.sorting
           });
         }
       );

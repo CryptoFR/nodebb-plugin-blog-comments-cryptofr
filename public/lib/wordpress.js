@@ -315,7 +315,8 @@
         if (encodedString.length > 0) {
           encodedString += "&";
         }
-        encodedString += encodeURI(prop + "=" + data[prop]);
+        encodedString +=
+          encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
       }
     }
     xhr.open("POST", path, true);
@@ -338,22 +339,25 @@
   var authXHR = newXHR();
   var bookmarkXHR = newXHR();
   function setSorting(s) {
-    setActiveSortingLi(sorting, s);
     pagination = 0;
     sorting = s;
     postData = [];
     document.getElementById("nodebb-comments-list").innerHTML = "";
     reloadComments();
   }
-  function setActiveSortingLi(oldSorting, newSorting) {
-    var oldElement = nodebbDiv.querySelector(
-      "a[data-component='sort/" + oldSorting + "']"
+  function setActiveSortingLi(sorting) {
+    var sorted = nodebbDiv.querySelectorAll(
+      "a.active[data-component^='sort/']"
     );
-    var newElement = nodebbDiv.querySelector(
-      "a[data-component='sort/" + newSorting + "']"
+    for (var i = 0; i < sorted.length; i++) {
+      sorted[i].classList.remove("active");
+    }
+    var element = nodebbDiv.querySelector(
+      "a[data-component='sort/" + sorting + "']"
     );
-    oldElement.parentNode.classList.remove("active");
-    newElement.parentNode.classList.add("active");
+    if (element) {
+      element.parentNode.classList.add("active");
+    }
   }
   authXHR.onload = function() {
     if (authXHR.status === 200) {
@@ -634,15 +638,7 @@
     if (XHR.status >= 200 && XHR.status < 400) {
       var data = JSON.parse(XHR.responseText),
         html;
-      const set = function(obj, prop, value) {
-        console.log(prop, value);
-        if (prop === "timestamp") {
-          console.trace("Changing data", obj, prop, value);
-        }
-        obj[prop] = value;
-        return true;
-      };
-      data = new Proxy(data, { set });
+      setActiveSortingLi(sorting, data.sorting);
       commentsDiv = document.getElementById("nodebb-comments-list");
       commentsCounter = document.getElementById("nodebb-comments-count");
       commentsAuthor = document.getElementById("nodebb-comments-author");
@@ -714,6 +710,7 @@
 
       html = parse(data, data.template);
       nodebbDiv.innerHTML = normalizePost(html);
+      setActiveSortingLi(sorting);
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
       var selectors = [
         '[data-component="post/reply"]',
