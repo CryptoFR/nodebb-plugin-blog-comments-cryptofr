@@ -1,6 +1,19 @@
+/**
+ * @fileOverview Wordpress plugin file. Needs to be included in order to use the plugin
+ * This file uses the following global variables:
+ * - nodeBBURL: The URL of the NodeBB forum
+ * @name wordpress.js
+ */
 (function() {
   "use strict";
+
   var postTemplate, wholeTemplate;
+
+  /**
+   * Called whenever a comment is bookmarked
+   * @param {DOMElement} topicItem A DOM element with the comment data
+   * @param {Boolean} isBookmark whether the comment is going to be bookmarked or not
+   */
   function onBookmarked(topicItem, isBookmark) {
     var el = topicItem.querySelector(".i-bookmark");
     var link = topicItem.querySelector('[data-component="post/bookmark"]');
@@ -14,6 +27,13 @@
       link.setAttribute("data-bookmarked", false);
     }
   }
+
+  /**
+   * Function that changes a single attribute to a group of DOM Elements
+   * @param {Array<DOMElement> | DOMElement} elements the group of elements
+   * @param {String} attribute the attribute to change
+   * @param {String} value the value we are going to assign to these elements
+   */
   function changeAttribute(elements, attribute, value) {
     elements = elements.length !== undefined ? elements : [elements];
     for (var i = 0; i < elements.length; i++) {
@@ -23,6 +43,15 @@
       }
     }
   }
+
+  /**
+   * Toggle class helper. It tests "value" and if true, the helper adds the "classTrueValue" string to the element
+   * otherwise it adds the "classFalseValue"
+   * @param {DOMElement} element
+   * @param {any} value this value will be coerced to Boolean
+   * @param {String} classTrueValue
+   * @param {String} classFalseValue
+   */
   function addClassHelper(element, value, classTrueValue, classFalseValue) {
     var classToAdd = value ? classTrueValue : classFalseValue;
     var classToRemove = !value ? classTrueValue : classFalseValue;
@@ -34,6 +63,11 @@
     }
     element.classList.add(classToAdd);
   }
+
+  /**
+   * Helper function that removes an array of nodes or a single node from the DOM tree
+   * @param {DOMElement | Array<DOMElement>} nodes
+   */
   function removeNodes(nodes) {
     var nodeList = nodes.length !== undefined ? nodes : [nodes];
     var len = nodeList.length;
@@ -42,6 +76,13 @@
       node.parentNode.removeChild(node);
     }
   }
+  /**
+   * Function that draws nested comments
+   * @param {Array} comments comments data
+   * @param {DOMElement} template comment template
+   * @param {Object} otherData Data to be rendered within the comments that's not the comments themselves
+   * @returns {DOMElement} A node with the nested comments already drawn
+   */
   function createNestedComments(comments, template, otherData) {
     var tid = otherData.tid;
     var token = otherData.token;
@@ -75,6 +116,15 @@
         toPid
       );
     }
+
+    /**
+     * Function that actually creates the comment, we use this as helper
+     * in order to use recursion and take advantage of closures with the
+     * template variable
+     * @param {Object} comment the comment
+     * @param {Number} level nesting level of the comment, if it's first order it'll be 1 and so forth
+     * @returns {DOMElement} returns nested comments
+     */
     function createNestedCommentsInternal(comment, level) {
       var clone = template.cloneNode(true);
       // Here we should manipulate the node
@@ -208,6 +258,11 @@
     return retVal;
   }
 
+  /**
+   * Bind on Click event for nodeList
+   * @param {Array<DOMElement>} nodeList nodes for with the click event will be added
+   * @param {Function} handler a handler
+   */
   var bindOnClick = function(nodeList, handler) {
     for (var i = nodeList.length - 1; i >= 0; i--) {
       nodeList[i].onclick = handler;
@@ -245,7 +300,15 @@
       '<div class="comments-area" id="nodebb"></div>'
     );
   nodebbDiv = document.getElementById("nodebb");
+  /**
+   * This variable will grab a captcha that will then be rendered in the page
+   * @type {DOMElement}
+   */
   var renderedCaptcha;
+
+  /**
+   * Renders a captcha
+   */
   function grecaptchaGrab() {
     if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
       window.grecaptcha.ready(function() {
@@ -266,7 +329,13 @@
     }
   }
   setTimeout(grecaptchaGrab, 1000);
-  // TODO Remove XHR assignation
+
+  /**
+   * Creates an XHR request. This function due to the use of the
+   * global variable XHR can be a source of bugs
+   * @fixme
+   * @returns {XMLHttpRequest} xhr request
+   */
   function newXHR() {
     try {
       return (XHR = new XMLHttpRequest());
@@ -278,6 +347,11 @@
       }
     }
   }
+  /**
+   * Same function as before but without the use of a global variable
+   * @note this was only used for new requests
+   * @returns {XMLHttpRequest} request
+   */
   function newXHRFixed() {
     try {
       return new XMLHttpRequest();
@@ -289,25 +363,27 @@
       }
     }
   }
+
+  /**
+   * Function that creates a new GET request
+   * @param {XMLHttpRequest} xhr request object
+   * @param {string} path URL to be queried
+   * @returns {XMLHttpRequest} the request object
+   */
   function xget(xhr, path) {
     xhr.open("GET", path, true);
     xhr.withCredentials = true;
     xhr.send();
     return xhr;
   }
-  function encodeData(data) {
-    var encodedString = "";
-    for (var prop in data) {
-      if (data.hasOwnProperty(prop)) {
-        if (encodedString.length > 0) {
-          encodedString += "&";
-        }
-        encodedString += encodeURIComponent(prop + "=" + data[prop]);
-      }
-    }
-    return encodedString;
-  }
 
+  /**
+   * Function that creates and sends a new POST request
+   * @param {XMLHttpRequest} xhr request object
+   * @param {string} path URL to be queried
+   * @param {Object} data data that's going to be included in the post request
+   * @returns {XMLHttpRequest} the request object
+   */
   function xpost(xhr, path, data) {
     var encodedString = "";
     for (var prop in data) {
@@ -325,6 +401,12 @@
     xhr.send(encodedString);
     return xhr;
   }
+
+  /**
+   * Creates an auxiliary function that's used for some XHR request objects as onload callback
+   * @param {XMLHttpRequest} xhr request object
+   * @returns {Function} onload handler
+   */
   function onLoadFunction(xhr) {
     return function onLoadImpl() {
       xhr.isBusy = false;
@@ -338,6 +420,10 @@
   var voteXHR = newXHR();
   var authXHR = newXHR();
   var bookmarkXHR = newXHR();
+  /**
+   * Sets a global sorting criteria
+   * @param {("newest"|"oldest"|"best")} s the type of the sorting
+   */
   function setSorting(s) {
     pagination = 0;
     sorting = s;
@@ -345,6 +431,10 @@
     document.getElementById("nodebb-comments-list").innerHTML = "";
     reloadComments();
   }
+  /**
+   * Sets the current active sorting button in the comments plugin
+   * @param {("newest"|"oldest"|"best")} sorting the type of the sorting
+   */
   function setActiveSortingLi(sorting) {
     var sorted = nodebbDiv.querySelectorAll(
       "a.active[data-component^='sort/']"
@@ -359,6 +449,10 @@
       element.parentNode.classList.add("active");
     }
   }
+  /**
+   * onload handler for the authXHR variable. It creates a toast
+   * with a message of login success or failed within it
+   */
   authXHR.onload = function() {
     if (authXHR.status === 200) {
       reloadComments();
@@ -372,6 +466,9 @@
     }
   };
   var signUpXHR = newXHRFixed();
+  /**
+   * Callback that is fired when a signup is processed
+   */
   signUpXHR.onload = function signUpXHROnload() {
     function onRegisterFailed() {
       removeLoader();
@@ -401,6 +498,12 @@
   bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
   voteXHR.onload = onLoadFunction(voteXHR);
 
+  /**
+   * Upvotes a comment
+   * @param {DOMElement} topicItem DOMElement for the comment
+   * @param {Number} pid post (comment) ID
+   * @param {Boolean} upvoted Whether the comment has been already upvoted or not
+   */
   function upvotePost(topicItem, pid, upvoted) {
     var isUpvote = !upvoted;
     if (voteXHR.isBusy) return;
@@ -412,6 +515,12 @@
     });
   }
 
+  /**
+   * Creates a login request
+   * @param {string} username username or email for the request
+   * @param {string} password
+   * @param {string} token CSRF token for the request
+   */
   function login(username, password, token) {
     if (authXHR.isBusy) return;
     authXHR.isBusy = true;
@@ -424,7 +533,15 @@
     });
     addLoader();
   }
-
+  /**
+   * Creates a signup request
+   * @param {string} username username for the request
+   * @param {string} email email for the request
+   * @param {string} password password for the request
+   * @param {string} passwordConfirm username for the request
+   * @param {string} token CSRF token for the request
+   * @param {boolean} checkedTerms whether terms of use were checked or not
+   */
   function signUp(
     username,
     email,
@@ -451,6 +568,9 @@
     addLoader();
   }
 
+  /**
+   * Adds a loading div in the DOM
+   */
   function addLoader() {
     if (document.querySelector("div.loading")) {
       return;
@@ -460,11 +580,20 @@
     document.querySelector("body").appendChild(div);
   }
 
+  /**
+   * Removes the loading div from the DOM
+   */
   function removeLoader() {
     var div = document.querySelector("div.loading");
     removeNodes(div);
   }
 
+  /**
+   * Downvotes a comment
+   * @param {DOMElement} topicItem DOMElement for the comment
+   * @param {Number} pid post (comment) ID
+   * @param {Boolean} downvoted Whether the comment has been already downvoted or not
+   */
   function downvotePost(topicItem, pid, downvoted) {
     var isDownvote = !downvoted;
     if (voteXHR.isBusy) return;
@@ -475,6 +604,12 @@
       isDownvote: isDownvote
     });
   }
+  /**
+   * Bookmarks a comment
+   * @param {DOMElement} topicItem DOMElement for the comment
+   * @param {Number} pid post (comment) ID
+   * @param {Boolean} bookmarked Whether the comment has been already bookmarked or not
+   */
   function bookmarkPost(topicItem, pid, bookmarked) {
     if (voteXHR.isBusy) return;
     voteXHR.isBusy = true;
@@ -485,6 +620,11 @@
       isBookmark: !bookmarked
     });
   }
+  /**
+   * Creates a snackbar inside the dom
+   * @param {string} text text of the snackbar
+   * @param {boolean} success whether the snackbar will show a success or error message, this affects the class used by the object
+   */
   function createSnackbar(text, success) {
     var div = document.createElement("div");
     div.classList.add("snackbar");
