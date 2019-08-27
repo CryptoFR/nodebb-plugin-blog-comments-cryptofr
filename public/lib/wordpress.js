@@ -636,6 +636,11 @@
       removeNodes(div);
     }, 3000);
   }
+  /**
+   * Opens a modal within the plugin
+   * @param {("login"|"register")} type whether the modal is login or register
+   * @returns {DOMElement} The modal element
+   */
   function openModal(type) {
     var modalSelector = type === "login" ? "#login-modal" : "#register-modal";
     var modalElement = document.querySelector(modalSelector);
@@ -646,6 +651,10 @@
     modalElement.setAttribute("data-closed", "0");
     return modalElement;
   }
+
+  /**
+   * Closes whatever modal is opened within the plugin
+   */
   function closeModal() {
     var modalElement = document.querySelector("div.modal[data-closed='0']");
     if (modalElement) {
@@ -653,6 +662,14 @@
       modalElement.style.display = "none";
     }
   }
+  /**
+   * Function that starts the authentication process
+   * this process is finished whenever any of the two modals
+   * that can be opened with it (login or register) are closed
+   * either by a login completion or another action of the user
+   * when this happens, comments are reloaded
+   * @param {("login"|"register")} type the type of the authentication
+   */
   function authenticate(type) {
     savedText = contentDiv.value;
     var modal = openModal(type);
@@ -665,12 +682,24 @@
     }, 500);
   }
 
+  /**
+   * Adds the URL of the NodeBB forum to the post's html
+   * @param {string} post post html
+   * @returns {string} normalized post
+   */
   function normalizePost(post) {
     return post
       .replace(/href="\/(?=\w)/g, 'href="' + nodeBBURL + "/")
       .replace(/src="\/(?=\w)/g, 'src="' + nodeBBURL + "/");
   }
 
+  /**
+   * Function called to set up values on the modal
+   * @param {string} modalTemplate HTML code for the modal
+   * @param {string} token CSRF token
+   * @param {function} onSubmit function to be called when a submit event occurs
+   * @returns {DOMElement} Modal's div element
+   */
   function prepareModal(modalTemplate, token, onSubmit) {
     var div = document.createElement("div");
     div.innerHTML = modalTemplate;
@@ -682,6 +711,10 @@
     return div;
   }
 
+  /**
+   * Function called when the sign up form is submitted
+   * @param {HTMLInputElement} e event information
+   */
   function onSubmitSignUp(e) {
     e.preventDefault();
     var t = e.target;
@@ -696,6 +729,10 @@
     setTimeout(closeModal, 500);
   }
 
+  /**
+   * Function called when the login form is submitted
+   * @param {HTMLInputElement} e event information
+   */
   function onSubmitLogin(e) {
     e.preventDefault();
     var t = e.target;
@@ -707,6 +744,10 @@
     setTimeout(closeModal, 500);
   }
 
+  /**
+   * Add "blur" events that will validate the register form
+   * @param {DOMElement} modal modal element
+   */
   function addRegisterValidators(modal) {
     var email = modal.querySelector("input[name='email']");
     var emailErrors = modal.querySelector("div.email-errors");
@@ -749,6 +790,10 @@
     });
   }
 
+  /**
+   * Callback that's fired whenever a Facebook, Twitter or Github button is clicked for login
+   * @param {MouseEvent} event
+   */
   function onClickSocialAuth(event) {
     var t = event.target;
     var w = window.open(
@@ -765,6 +810,10 @@
     }, 1000);
   }
 
+  /**
+   * Function that adds social auth link listeners
+   * @param {DOMElement} modal modal element
+   */
   function addSocialAuthListeners(modal) {
     var links = modal.querySelectorAll("a[data-link]");
     for (var i = 0; i < links.length; i++) {
@@ -773,7 +822,10 @@
     }
   }
 
-  XHR.onload = function() {
+  /**
+   * Callback for global XHR variable, it draws all the data on the DOM
+   */
+  XHR.onload = function drawComments() {
     removeLoader();
     if (XHR.status >= 200 && XHR.status < 400) {
       var data = JSON.parse(XHR.responseText),
@@ -1066,6 +1118,9 @@
     }
   };
 
+  /**
+   * Function that reloads all comments within the DOM
+   */
   function reloadComments() {
     XHR.open(
       "GET",
@@ -1086,6 +1141,12 @@
   }
 
   reloadComments();
+
+  /**
+   * Utility function that recursively parses the timestamp of each of the posts
+   * in order to show a human representation of that timestamp
+   * @param {Array} posts
+   */
   function addTimeAgoRecursive(posts) {
     var len = posts.length;
     for (var i = 0; i < len; i++) {
@@ -1099,7 +1160,10 @@
       }
     }
   }
-  // DISPLAY TIME AGO
+  /**
+   * @param {Number} time time in seconds
+   * @returns {String} a human representation of the time spent in French
+   */
   function timeAgo(time) {
     var time_formats = [
       [60, "secondes", 1],
@@ -1138,6 +1202,13 @@
   }
 
   var templates = { blocks: {} };
+
+  /**
+   * Parses template
+   * @param {Object} data the data to be put on the template
+   * @param {String} template template to be parsed
+   * @returns {String} parsed template
+   */
   function parse(data, template) {
     function replace(key, value, template) {
       var searchRegex = new RegExp("{" + key + "}", "g");
