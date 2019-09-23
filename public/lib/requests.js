@@ -1,6 +1,10 @@
-import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "http://localhost/projects/nodebb-plugin/public/lib/util.js"; 
-import { setActiveSortingLi,setSorting,parse } from "http://localhost/projects/nodebb-plugin/public/lib/main.js"; 
-import { bindOnClick, prepareModal,onSubmitLogin,onSubmitSignUp } from "http://localhost/projects/nodebb-plugin/public/lib/behaviors.js"; 
+// import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "http://localhost/projects/nodebb-plugin/public/lib/util.js"; 
+// import { setActiveSortingLi,setSorting,parse } from "http://localhost/projects/nodebb-plugin/public/lib/main.js"; 
+// import { bindOnClick, prepareModal,onSubmitLogin,onSubmitSignUp } from "http://localhost/projects/nodebb-plugin/public/lib/behaviors.js"; 
+
+import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/util.js"; 
+import { setActiveSortingLi,setSorting,parse } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/main.js"; 
+import { bindOnClick, prepareModal,onSubmitLogin,onSubmitSignUp } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/behaviors.js"; 
 
 	
 

@@ -1,6 +1,8 @@
-import { XHRlisteners } from "http://localhost/projects/nodebb-plugin/public/lib/requests.js"; 
-import { removeLoader,removeNodes,timeAgo } from "http://localhost/projects/nodebb-plugin/public/lib/util.js"; 
+// import { XHRlisteners } from "http://localhost/projects/nodebb-plugin/public/lib/requests.js"; 
+// import { removeLoader,removeNodes,timeAgo } from "http://localhost/projects/nodebb-plugin/public/lib/util.js"; 
   
+import { XHRlisteners } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/requests.js"; 
+import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/util.js"; 
 
 
   function loadScript(url, callback){
@@ -322,8 +324,6 @@ import { removeLoader,removeNodes,timeAgo } from "http://localhost/projects/node
     }
     return retVal;
   }
-
-
 
 
   /**
