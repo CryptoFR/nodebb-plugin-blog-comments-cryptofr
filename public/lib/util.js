@@ -68,6 +68,23 @@ export function removeNodes(nodes) {
     }
   }
 
+
+  /**
+   * Adds a loading div in the DOM
+   */
+export function addLoader() {
+    if (document.querySelector("div.loading")) {
+      return;
+    }
+    var div = document.createElement("div");
+    div.classList.add("loading");
+    document.querySelector("body").appendChild(div);
+  }
+
+  
+  /**
+   * Removes the loading div from the DOM
+   */
 export function removeLoader() {
     var div = document.querySelector("div.loading");
     removeNodes(div);

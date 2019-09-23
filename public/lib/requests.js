@@ -1,11 +1,7 @@
-// import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "http://localhost/projects/nodebb-plugin/public/lib/util.js"; 
-// import { setActiveSortingLi,setSorting,parse } from "http://localhost/projects/nodebb-plugin/public/lib/main.js"; 
-// import { bindOnClick, prepareModal,onSubmitLogin,onSubmitSignUp } from "http://localhost/projects/nodebb-plugin/public/lib/behaviors.js"; 
-
-import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/util.js"; 
-import { setActiveSortingLi,setSorting,parse } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/main.js"; 
-import { bindOnClick, prepareModal,onSubmitLogin,onSubmitSignUp } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/behaviors.js"; 
-
+import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "./util.js"; 
+import { setActiveSortingLi,setSorting,parse } from "./main.js"; 
+import { bindOnClick, prepareModal,onSubmitLogin,onSubmitSignUp } from "./behaviors.js"; 
+import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates } from "./settings.js";
 	
 
 
@@ -65,12 +61,12 @@ export function XHRlisteners(){
       var data = JSON.parse(XHR.responseText),
         html;
       setActiveSortingLi(sorting, data.sorting);
-      commentsDiv = document.getElementById("nodebb-comments-list");
-      commentsCounter = document.getElementById("nodebb-comments-count");
-      commentsAuthor = document.getElementById("nodebb-comments-author");
-      commentsCategory = document.getElementById("nodebb-comments-category");
-      postTemplate = data.singleCommentTpl;
-      wholeTemplate = data.template;
+      set.commentsDiv(document.getElementById("nodebb-comments-list"));
+      set.commentsCounter(document.getElementById("nodebb-comments-count"));
+      set.commentsAuthor(document.getElementById("nodebb-comments-author"));
+      set.commentsCategory(document.getElementById("nodebb-comments-category"));
+      set.postTemplate(data.singleCommentTpl);
+      set.wholeTemplate(data.template);
       data.relative_path = nodeBBURL;
       data.redirect_url = articlePath;
       data.article_id = articleID;
@@ -261,7 +257,7 @@ export function XHRlisteners(){
       nodebbDiv
         .querySelector("a[data-component='sort/oldest']")
         .addEventListener("click", () => setSorting("oldest"));
-      contentDiv = document.getElementById("nodebb-content");
+      set.contentDiv(document.getElementById("nodebb-content"));
       if (savedText) {
         contentDiv.value = savedText;
       }

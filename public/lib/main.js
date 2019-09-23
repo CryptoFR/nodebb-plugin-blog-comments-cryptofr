@@ -1,32 +1,6 @@
-// import { XHRlisteners } from "http://localhost/projects/nodebb-plugin/public/lib/requests.js"; 
-// import { removeLoader,removeNodes,timeAgo } from "http://localhost/projects/nodebb-plugin/public/lib/util.js"; 
-  
-import { XHRlisteners } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/requests.js"; 
-import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/lib/util.js"; 
-
-
-  function loadScript(url, callback){
-    var script = document.createElement("script")
-    script.type = "text/javascript";
-
-    if (script.readyState && callback){  //IE
-        script.onreadystatechange = function(){
-            if (script.readyState == "loaded" ||
-                    script.readyState == "complete"){
-                script.onreadystatechange = null;
-                callback();
-            }
-        };
-    } else if (callback) {  //Others
-        script.onload = function(){
-            callback();
-        };
-    }
-
-    script.src = url;
-    // document.getElementsByTagName("body")[0].appendChild(script);
-    document.querySelector("#nodebb-comments").parentNode.insertBefore(script,document.querySelector("#nodebb-comments"));
-  }
+import { XHRlisteners } from "./requests.js"; 
+import { removeLoader,removeNodes,timeAgo,addLoader } from "./util.js"; 
+import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "./settings.js";
 
   function loadCSS(url) {
   	var stylesheet = document.createElement("link");
@@ -37,45 +11,56 @@ import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com
   }
 
 	function pluginInitialization(){
-		articlePath = window.location.protocol + "//" + window.location.host + window.location.pathname;
+		set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
-		// pluginURL = nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr";
-    pluginURL = "http://localhost/projects/nodebb-plugin/public";
+		// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+    set.pluginURL("http://localhost/projects/nodebb-plugin/public");
 
-		// commentsURL = nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting;
-		commentsURL = 'http://localhost/projects/test.json';
+		// set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
+		set.commentsURL('http://localhost/projects/test.json');
 
 		loadCSS(pluginURL + "/css/comments.css")
 		loadCSS(pluginURL + "/css/cryptofr.css")
 
 		document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
-		nodebbDiv = document.getElementById("nodebb");
+		set.nodebbDiv(document.getElementById("nodebb"));
 
-		setTimeout(grecaptchaGrab, 1000);
+		// setTimeout(grecaptchaGrab, 1000);
 
-		XHR = newXHR();
-		pagination = 0;
-		postData = [];
-		sorting = "newest";
-		voteXHR = newXHR();
-		authXHR = newXHR();
-		bookmarkXHR = newXHR();
-		signUpXHR = newXHRFixed();
+		set.pagination(0);
+		set.postData([]);
+		set.sorting("newest");
+		
+		var XHRaux = newXHR();
+		XHRaux.onload = onLoadFunction(XHRaux);
+		set.XHR(XHRaux);
+
+		var voteXHRaux=newXHR();
+		voteXHRaux.onload = onLoadFunction(voteXHRaux);
+		set.voteXHR(voteXHRaux);
+		
+		var authXHRaux=newXHR();
+		authXHRaux.onerror = removeLoader;
+		set.authXHR(authXHRaux);
+
+		var bookmarkXHRaux = newXHR();
+		bookmarkXHRaux.onload = onLoadFunction(bookmarkXHRaux);
+		set.bookmarkXHR(bookmarkXHRaux)
 
 
-		signUpXHR.onerror = removeLoader;
-		authXHR.onerror = removeLoader;
-		XHR.onload = onLoadFunction(XHR);
-		bookmarkXHR.onload = onLoadFunction(bookmarkXHR);
-		voteXHR.onload = onLoadFunction(voteXHR);
+		var signUpXHRaux = newXHRFixed();
+		signUpXHRaux.onerror = removeLoader;
+		set.signUpXHR(signUpXHRaux)
+
 
 		reloadComments();
 
-		templates = { blocks: {} };
+		set.templates({ blocks: {} });
 
 		addButtons();
 
 		XHRlisteners();
+
 
 	}
 
@@ -137,7 +122,7 @@ import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com
       element.classList.remove(classToRemove);
     }
     element.classList.add(classToAdd);
-  }
+ }
 
   /**
    * Helper function that removes an array of nodes or a single node from the DOM tree
@@ -357,12 +342,15 @@ import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com
    */
   function newXHR() {
     try {
-      return (XHR = new XMLHttpRequest());
+      set.XHR(new XMLHttpRequest());
+      return XHR;
     } catch (e) {
-      try {
-        return (XHR = new ActiveXObject("Microsoft.XMLHTTP"));
-      } catch (e) {
-        return (XHR = new ActiveXObject("Msxml2.XMLHTTP"));
+      try { 
+        	set.XHR(new ActiveXObject("Microsoft.XMLHTTP"))
+        	return XHR;
+      } catch (e) { 
+        	set.XHR(new ActiveXObject("Msxml2.XMLHTTP"));
+        	return XHR;
       }
     }
   }
@@ -426,11 +414,11 @@ import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com
    * @param {XMLHttpRequest} xhr request object
    * @returns {Function} onload handler
    */
-  function onLoadFunction(xhr) {
+ function onLoadFunction(xhr) {
     return function onLoadImpl() {
       xhr.isBusy = false;
       reloadComments();
-    };
+    }
   }
   /**
    * Sets a global sorting criteria
@@ -526,22 +514,7 @@ import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com
     addLoader();
   }
 
-  /**
-   * Adds a loading div in the DOM
-   */
-  function addLoader() {
-    if (document.querySelector("div.loading")) {
-      return;
-    }
-    var div = document.createElement("div");
-    div.classList.add("loading");
-    document.querySelector("body").appendChild(div);
-  }
 
-  /**
-   * Removes the loading div from the DOM
-   */
-  
 
   /**
    * Downvotes a comment
@@ -869,6 +842,6 @@ import { removeLoader,removeNodes,timeAgo } from "https://testforum.cryptofr.com
 
 
 
+
+
 	pluginInitialization();
-
-
