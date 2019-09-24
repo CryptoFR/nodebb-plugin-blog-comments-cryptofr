@@ -102,3 +102,69 @@ export function removeLoader() {
       .replace(/href="\/(?=\w)/g, 'href="' + nodeBBURL + "/")
       .replace(/src="\/(?=\w)/g, 'src="' + nodeBBURL + "/");
   }
+
+
+
+  export function loadCSS(url) {
+    var stylesheet = document.createElement("link");
+    stylesheet.setAttribute("rel", "stylesheet");
+    stylesheet.setAttribute("type", "text/css");
+    stylesheet.setAttribute("href", url);
+    document.getElementsByTagName("head")[0].appendChild(stylesheet);
+  }
+
+  
+  
+  /**
+   * Bind on Click event for nodeList
+   * @param {Array<DOMElement>} nodeList nodes for with the click event will be added
+   * @param {Function} handler a handler
+   */
+  export var bindOnClick = function(nodeList, handler) {
+    for (var i = nodeList.length - 1; i >= 0; i--) {
+      nodeList[i].onclick = handler;
+    }
+  };
+
+
+
+  export function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+  
+
+   /**
+    * Function that changes a single attribute to a group of DOM Elements
+    * @param {Array<DOMElement> | DOMElement} elements the group of elements
+    * @param {String} attribute the attribute to change
+    * @param {String} value the value we are going to assign to these elements
+    */
+   export function changeAttribute(elements, attribute, value) {
+     elements = elements.length !== undefined ? elements : [elements];
+     for (var i = 0; i < elements.length; i++) {
+       var el = elements[i];
+       if (el !== null) {
+         el.setAttribute(attribute, value);
+       }
+     }
+   }
+
+   /**
+    * Toggle class helper. It tests "value" and if true, the helper adds the "classTrueValue" string to the element
+    * otherwise it adds the "classFalseValue"
+    * @param {DOMElement} element
+    * @param {any} value this value will be coerced to Boolean
+    * @param {String} classTrueValue
+    * @param {String} classFalseValue
+    */
+   export function addClassHelper(element, value, classTrueValue, classFalseValue) {
+     var classToAdd = value ? classTrueValue : classFalseValue;
+     var classToRemove = !value ? classTrueValue : classFalseValue;
+     if (element === null) {
+       return;
+     }
+     if (element.classList.contains(classToRemove)) {
+       element.classList.remove(classToRemove);
+     }
+     element.classList.add(classToAdd);
+  }
