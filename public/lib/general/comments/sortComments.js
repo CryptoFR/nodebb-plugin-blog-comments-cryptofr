@@ -12,6 +12,7 @@ import { reloadComments } from "./loadComments.js";
     document.getElementById("nodebb-comments-list").innerHTML = "";
     reloadComments();
   }
+  
   /**
    * Sets the current active sorting button in the comments plugin
    * @param {("newest"|"oldest"|"best")} sorting the type of the sorting

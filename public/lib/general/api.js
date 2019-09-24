@@ -85,8 +85,10 @@ import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pa
    export function upvotePost(topicItem, pid, upvoted) {
     var isUpvote = !upvoted;
     if (voteXHR.isBusy) return;
-    voteXHR.isBusy = true;
-    voteXHR.topicItem = topicItem;
+    var voteXHRaux= voteXHR;
+    voteXHRaux.isBusy = true;
+    voteXHRaux.topicItem = topicItem;
+    set.voteXHR(voteXHRaux)
     xpost(voteXHR, nodeBBURL + "/comments/vote", {
       toPid: pid,
       isUpvote: isUpvote
@@ -101,7 +103,9 @@ import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pa
    */
    export function login(username, password, token) {
     if (authXHR.isBusy) return;
-    authXHR.isBusy = true;
+    var authXHRaux= authXHR;
+    authXHRaux.isBusy = true;
+    set.authXHR(authXHRaux);
     xpost(authXHR, nodeBBURL + "/login", {
       username: username,
       password: password,
@@ -111,6 +115,7 @@ import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pa
     });
     addLoader();
   }
+  
   /**
    * Creates a signup request
    * @param {string} username username for the request
@@ -122,7 +127,9 @@ import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pa
    */
    export function signUp(username,email,password,passwordConfirm,token,checkedTerms) {
     if (signUpXHR.isBusy) return;
-    signUpXHR.isBusy = true;
+    var signUpXHRaux= signUpXHR;
+    signUpXHRaux.isBusy = true;
+    set.signUpXHR(signUpXHRaux);
     xpost(signUpXHR, nodeBBURL + "/comments/plugin/register", {
       username: username,
       password: password,
@@ -150,8 +157,10 @@ import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pa
    export function downvotePost(topicItem, pid, downvoted) {
     var isDownvote = !downvoted;
     if (voteXHR.isBusy) return;
-    voteXHR.isBusy = true;
-    voteXHR.topicItem = topicItem;
+    var voteXHRaux= voteXHR;
+    voteXHRaux.isBusy = true;
+    voteXHRaux.topicItem = topicItem;
+    set.voteXHR(voteXHRaux)
     xpost(voteXHR, nodeBBURL + "/comments/downvote", {
       toPid: pid,
       isDownvote: isDownvote
@@ -166,9 +175,11 @@ import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pa
    */
    export function bookmarkPost(topicItem, pid, bookmarked) {
     if (voteXHR.isBusy) return;
-    voteXHR.isBusy = true;
-    voteXHR.topicItem = topicItem;
-    voteXHR.isBookmark = !bookmarked;
+    var voteXHRaux= voteXHR;
+    voteXHRaux.isBusy = true;
+    voteXHRaux.topicItem = topicItem;
+    voteXHRaux.isBookmark = !bookmarked;
+    set.voteXHR(voteXHRaux)
     xpost(voteXHR, nodeBBURL + "/comments/bookmark", {
       toPid: pid,
       isBookmark: !bookmarked

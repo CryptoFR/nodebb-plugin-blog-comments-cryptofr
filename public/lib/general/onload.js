@@ -5,6 +5,7 @@ import { addSocialAuthListeners } from "./login/social.js";
 import { addRegisterValidators } from "./login/form.js"; 
 import { reloadComments,parse } from "./comments/loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./comments/sortComments.js"; 
+import { upvotePost,downvotePost } from "./api.js";
 	
 	export function onloadXHR(){
 
