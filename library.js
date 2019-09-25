@@ -2,7 +2,7 @@
   "use strict";
 
   var Comments = {};
-  const { getNestedChildren, getNestedPosts } = require("./src/helper");
+  const { getNestedChildren, getNestedPosts } = require("./public/lib/src/helper");
   var db = require.main.require("./src/database"),
     meta = require.main.require("./src/meta"),
     posts = require.main.require("./src/posts"),
@@ -469,17 +469,17 @@
       middleware = params.middleware,
       controllers = params.controllers;
 
-    const registerTemplate = (fileName, key) =>
+    const registerTemplate = (fileName, folder, key) =>
       fs.readFile(
-        path.resolve(__dirname, `./public/templates/comments/${fileName}.tpl`),
+        path.resolve(__dirname, `./public/templates/${folder}/${fileName}.tpl`),
         function(err, data) {
           Comments[key] = data.toString();
         }
       );
-    registerTemplate("comments", "template");
-    registerTemplate("single", "singleCommentTpl");
-    registerTemplate("loginModal", "loginModalTemplate");
-    registerTemplate("registerModal", "registerModalTemplate");
+    registerTemplate("comments", "comments", "template");
+    registerTemplate("single", "comments","singleCommentTpl");
+    registerTemplate("loginModal","modal", "loginModalTemplate");
+    registerTemplate("registerModal","modal", "registerModalTemplate");
     // TODO Apply CSRF to everything
     app.get(
       "/comments/get/:blogger/:id/:pagination(\\d+)?/:sorting(oldest|newest|best)?",
