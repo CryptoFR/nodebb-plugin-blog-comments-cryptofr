@@ -3,9 +3,10 @@ import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } fr
 import { prepareModal,onSubmitLogin,onSubmitSignUp } from "./login/modal.js"; 
 import { addSocialAuthListeners } from "./login/social.js"; 
 import { addRegisterValidators } from "./login/form.js"; 
-import { reloadComments,parse } from "./comments/loadComments.js"; 
+import { reloadComments } from "./comments/loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./comments/sortComments.js"; 
 import { upvotePost,downvotePost } from "./api.js";
+import { parse } from "./comments/parseCommentTemplate.js";
 	
 	export function onloadXHR(){
 
