@@ -95,6 +95,7 @@ import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,remov
 	    );
 	  }
 
+
 	  /**
 	   * Function that actually creates the comment, we use this as helper
 	   * in order to use recursion and take advantage of closures with the

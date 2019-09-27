@@ -9,7 +9,6 @@ import { reloadComments } from "./loadComments.js";
     set.pagination(0);
     set.sorting(s);
     set.postData([]);
-    document.getElementById("nodebb-comments-list").innerHTML = "";
     reloadComments();
   }
   
