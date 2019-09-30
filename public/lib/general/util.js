@@ -168,3 +168,6 @@ export function removeLoader() {
      }
      element.classList.add(classToAdd);
   }
+
+
+  

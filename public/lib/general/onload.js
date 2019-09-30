@@ -1,11 +1,11 @@
 import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
 import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "./util.js"; 
-import { prepareModal,onSubmitLogin,onSubmitSignUp } from "./login/modal.js"; 
+import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "./login/modal.js"; 
 import { addSocialAuthListeners } from "./login/social.js"; 
 import { addRegisterValidators } from "./login/form.js"; 
 import { reloadComments } from "./comments/loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./comments/sortComments.js"; 
-import { upvotePost,downvotePost } from "./api.js";
+import { upvotePost,downvotePost,xpost } from "./api.js";
 import { parse } from "./comments/parseCommentTemplate.js";
 	
 	export function onloadXHR(){
@@ -375,6 +375,7 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	      }
 	    }
 	  }
+	  formSubmissionsHandler();
 	}
 
 
@@ -389,5 +390,28 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	     reloadComments();
 	   }
 	 }
+
+	export function formSubmissionsHandler(){
+	  for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
+	    form.addEventListener('submit', function(evt){
+	      evt.preventDefault();        
+	      
+	      let inputs={};
+	      for (let input of form.querySelectorAll("input")) {
+	        inputs[input.getAttribute("name")]=input.getAttribute("value");
+	      }
+	      for (let input of form.querySelectorAll("textarea")) {
+	        inputs.content=input.value;
+	      }
+
+	      xpost(XHR, form.getAttribute("action"), inputs);
+	      set.pagination(0);
+	      set.postData([]);
+	      reloadComments();
+	      console.log(inputs)
+
+	    });
+	  }
+	}
 
 
