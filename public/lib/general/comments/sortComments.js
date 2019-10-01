@@ -6,9 +6,7 @@ import { reloadComments } from "./loadComments.js";
    * @param {("newest"|"oldest"|"best")} s the type of the sorting
    */
   export function setSorting(s) {
-    set.pagination(0);
     set.sorting(s);
-    set.postData([]);
     reloadComments();
   }
   

@@ -9,10 +9,8 @@ import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,remov
     button.classList.add("btn");
     button.classList.add("btn-primary");
     button.innerText = "Charger plus de commentaires...";
-    set.pagination(pagination+1)
     button.addEventListener("click", function loadMoreClick() {
-      pagination;
-      reloadComments();
+      reloadComments(pagination+1);
     });
     div.appendChild(button);
     insertAfter(div, document.querySelector("#nodebb"));
@@ -40,7 +38,9 @@ import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,remov
 	/**
 	 * Function that reloads all comments within the DOM
 	 */
-	export function reloadComments() {
+	export function reloadComments(pagination=0) {
+      	set.pagination(pagination);
+      	set.postData([]);
 		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
 		XHR.open(
 		"GET",

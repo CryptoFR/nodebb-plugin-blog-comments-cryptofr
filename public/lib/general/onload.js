@@ -16,7 +16,7 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	   */
 	  authXHR.onload = function() {
 	    if (authXHR.status === 200) {
-	      reloadComments();
+	      reloadComments(pagination);
 	      setTimeout(function() {
 	        removeLoader();
 	        createSnackbar("Login success", true);
@@ -39,7 +39,7 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	    if (signUpXHR.status === 200) {
 	      var response = JSON.parse(signUpXHR.responseText);
 	      if (!response.error) {
-	        reloadComments();
+	        reloadComments(pagination);
 	        setTimeout(function() {
 	          removeLoader();
 	          createSnackbar(
@@ -65,7 +65,7 @@ import { parse } from "./comments/parseCommentTemplate.js";
 
 
 	function drawComments() {
-	  if (document.getElementById("nodebb-comments-list")) document.getElementById("nodebb-comments-list").innerHTML = "";
+	  if (document.getElementById("nodebb-comments-list") && pagination === "0") document.getElementById("nodebb-comments-list").innerHTML = "";
 
 	  removeLoader();
 	  if (XHR.status >= 200 && XHR.status < 400) {
@@ -227,22 +227,16 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	        } else if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
 	            upvotePost(topicItem, pid, upvoted);
-	            set.pagination(0);
-	            set.postData([]);
-	            reloadComments();
+	            reloadComments(pagination);
 	          }
 	        } else if (/\/downvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
 	            downvotePost(topicItem, pid, downvoted);
-	            set.pagination(0);
-	            set.postData([]);
-	            reloadComments();
+	            reloadComments(pagination);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(topicItem, pid, bookmarked);
-	          set.pagination(0);
-	          set.postData([]);
-	          reloadComments();
+	          reloadComments(pagination);
 	        }
 	      } else {
 	        if (/\/upvote$/.test(dataComponent)) {
@@ -252,9 +246,7 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	              mainPost.pid,
 	              upvoted
 	            );
-	            set.pagination(0);
-	            set.postData([]);
-	            reloadComments();
+	            reloadComments(pagination);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(
@@ -262,18 +254,14 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	            mainPost.pid,
 	            bookmarked
 	          );
-	          set.pagination(0);
-	          set.postData([]);
-	          reloadComments();
+	          reloadComments(pagination);
 	        } else if (/\/downvote$/.test(dataComponent)) {
 	          downvotePost(
 	            nodebbDiv.querySelector(".top-tool-box"),
 	            mainPost.pid,
 	            downvoted
 	          );
-	          set.pagination(0);
-	          set.postData([]);
-	          reloadComments();
+	          reloadComments(pagination);
 	        }
 	      }
 	    });
@@ -387,7 +375,7 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	export function onLoadFunction(xhr) {
 	   return function onLoadImpl() {
 	     xhr.isBusy = false;
-	     reloadComments();
+	     reloadComments(pagination);
 	   }
 	 }
 
@@ -396,19 +384,18 @@ import { parse } from "./comments/parseCommentTemplate.js";
 	    form.addEventListener('submit', function(evt){
 	      evt.preventDefault();        
 	      
+
 	      let inputs={};
 	      for (let input of form.querySelectorAll("input")) {
 	        inputs[input.getAttribute("name")]=input.getAttribute("value");
 	      }
 	      for (let input of form.querySelectorAll("textarea")) {
 	        inputs.content=input.value;
-	      }
+	      } 
 
-	      xpost(XHR, form.getAttribute("action"), inputs);
-	      set.pagination(0);
-	      set.postData([]);
-	      reloadComments();
-	      console.log(inputs)
+	      let res=xpost(XHR, form.getAttribute("action"), inputs);
+
+	      reloadComments(pagination);
 
 	    });
 	  }

@@ -81,7 +81,6 @@ import { reloadComments } from "../comments/loadComments.js";
 	  var timer = setInterval(function() {
 	    if (modal.getAttribute("data-closed") === "1") {
 	      clearInterval(timer);
-	      set.pagination(0);
 	      reloadComments();
 	    }
 	  }, 500);
