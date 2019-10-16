@@ -2,7 +2,7 @@ import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pa
 import { onloadXHR,onLoadFunction } from "./general/onload.js"; 
 import { newXHR,newXHRFixed } from "./general/api.js"; 
 import { loadCSS,removeLoader } from "./general/util.js"; 
-import { reloadComments,addButtons } from "./general/comments/loadComments.js"; 
+import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js"; 
 
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
@@ -54,3 +54,6 @@ import { reloadComments,addButtons } from "./general/comments/loadComments.js";
 	addButtons();
 
 	onloadXHR();
+
+	newCommentsCheck();
+

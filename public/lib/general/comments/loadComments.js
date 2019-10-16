@@ -1,4 +1,4 @@
-import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
+import { set,pluginURL,page,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
 import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,removeNodes,timeAgo } from "../util.js"; 
 
 	export function addButtons() {
@@ -38,19 +38,30 @@ import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,remov
 	/**
 	 * Function that reloads all comments within the DOM
 	 */
-	export function reloadComments(pagination=0) {
-      	set.pagination(pagination);
+	export function reloadComments(pag=0,currentPage=0) {
+      	if (currentPage>pagination) return null;
+      	console.log(currentPage)
+      	set.page(currentPage)
+      	set.pagination(pag);
       	set.postData([]);
-		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
-		XHR.open(
-		"GET",
-		commentsURL,
-		true
-		);
+		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  page + "/" + sorting);
+		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send();
 		addLoader();
 	}
+
+
+	export function newCommentsCheck(){
+
+		// setInterval(function() {
+		//     reloadComments(pagination);
+		// }, 60000);
+
+	}
+
+
+
 
 
 

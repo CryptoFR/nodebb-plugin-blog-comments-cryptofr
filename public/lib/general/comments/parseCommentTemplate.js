@@ -1,4 +1,4 @@
-import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
+import { set,pluginURL,page,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
 import { createNestedComments } from "./loadComments.js";
 
 /**
@@ -189,7 +189,17 @@ export function parse(data, template) {
         divPost.querySelector("li"),
         data
       );
-      div.querySelector("#nodebb-comments-list").innerHTML = nested.innerHTML;
+
+      if (page==0){
+        div.querySelector("#nodebb-comments-list").innerHTML = nested.innerHTML;
+      }
+      else {
+        div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
+        div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', nested.innerHTML );
+      }
+
+      
+
       template = div.innerHTML;
     }
     return template;
