@@ -1,5 +1,6 @@
 import { set,pluginURL,page,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
 import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,removeNodes,timeAgo } from "../util.js"; 
+import { upvotePost,downvotePost,xpost } from "../api.js";
 
 	export function addButtons() {
     var div = document.createElement("div");

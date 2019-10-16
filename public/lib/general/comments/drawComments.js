@@ -535,10 +535,11 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 
 		for (let comment of loadedComments.querySelectorAll("li")) {
 			let flag=false;
-			for (let oldcomment of loadedComments.querySelectorAll("li")) {
-				if (comment.getAttribute("id")==oldcomment.getAttribute("id")) flag=true;
+			for (let oldcomment of existingComments.querySelectorAll("li")) {
+				// console.log("comment-"+comment.getAttribute("data-pid")+" / oldcomment-"+oldcomment.getAttribute("data-pid"))
+				if (comment.getAttribute("data-pid")==oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')  ) flag=true;
 			}
-			if (!flag) comment.classList.add("new-comment");
+			if (!flag ) comment.classList.add("new-comment");
 		}
 
 		console.log("loadedComments")
