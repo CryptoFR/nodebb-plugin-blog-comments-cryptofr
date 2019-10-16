@@ -40,7 +40,6 @@ import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,remov
 	 */
 	export function reloadComments(pag=0,currentPage=0) {
       	if (currentPage>pagination) return null;
-      	console.log(currentPage)
       	set.page(currentPage)
       	set.pagination(pag);
       	set.postData([]);
@@ -54,9 +53,10 @@ import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,remov
 
 	export function newCommentsCheck(){
 
-		// setInterval(function() {
-		//     reloadComments(pagination);
-		// }, 60000);
+		setInterval(function() {
+			set.reloading(1);
+		    reloadComments(pagination);
+		}, 60000);
 
 	}
 
@@ -265,6 +265,31 @@ import { addLoader,removeLoader,insertAfter,changeAttribute,addClassHelper,remov
 	    el.classList.remove("icon-bookmark");
 	    el.classList.add("icon-bookmark-empty");
 	    link.setAttribute("data-bookmarked", false);
+	  }
+	}
+
+
+
+
+	export function commentSubmissionsHandler(){
+	  for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
+	    form.addEventListener('submit', function(evt){
+	      evt.preventDefault();        
+	      
+
+	      let inputs={};
+	      for (let input of form.querySelectorAll("input")) {
+	        inputs[input.getAttribute("name")]=input.getAttribute("value");
+	      }
+	      for (let input of form.querySelectorAll("textarea")) {
+	        inputs.content=input.value;
+	      } 
+
+	      let res=xpost(XHR, form.getAttribute("action"), inputs);
+	      console.log("pag/"+pagination)
+	      reloadComments(pagination);
+
+	    });
 	  }
 	}
 

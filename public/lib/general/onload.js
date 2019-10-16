@@ -6,7 +6,6 @@ import { addRegisterValidators } from "./login/form.js";
 import { reloadComments } from "./comments/loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./comments/sortComments.js"; 
 import { upvotePost,downvotePost,xpost } from "./api.js";
-import { parse } from "./comments/parseCommentTemplate.js";
 import { drawComments } from "./comments/drawComments.js";
 	
 	export function onloadXHR(){

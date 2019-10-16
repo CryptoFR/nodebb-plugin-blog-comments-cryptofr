@@ -1,12 +1,11 @@
-import { set,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
+import { set,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
 import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments } from "./loadComments.js"; 
+import { reloadComments,createNestedComments,commentSubmissionsHandler } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
-import { parse } from "./parseCommentTemplate.js";
 
 
 	export function drawComments() {
@@ -317,24 +316,234 @@ import { parse } from "./parseCommentTemplate.js";
 
 	}
 
-	function commentSubmissionsHandler(){
-	  for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
-	    form.addEventListener('submit', function(evt){
-	      evt.preventDefault();        
-	      
 
-	      let inputs={};
-	      for (let input of form.querySelectorAll("input")) {
-	        inputs[input.getAttribute("name")]=input.getAttribute("value");
-	      }
-	      for (let input of form.querySelectorAll("textarea")) {
-	        inputs.content=input.value;
-	      } 
 
-	      let res=xpost(XHR, form.getAttribute("action"), inputs);
-	      console.log("pag/"+pagination)
-	      reloadComments(pagination);
-
-	    });
+	/**
+	 * Parses template
+	 * @param {Object} data the data to be put on the template
+	 * @returns {String} parsed template
+	 */
+	function parse(data, template) {
+	  function replace(key, value, template) {
+	    var searchRegex = new RegExp("{" + key + "}", "g");
+	    return template.replace(searchRegex, value);
 	  }
+
+	  function makeRegex(block) {
+	    return new RegExp(
+	      "<!--[\\s]*BEGIN " +
+	        block +
+	        "[\\s]*-->[\\s\\S]*<!--[\\s]*END " +
+	        block +
+	        "[\\s]*-->",
+	      "g"
+	    );
+	  }
+
+	  function makeConditionalRegex(block) {
+	    return new RegExp(
+	      "<!--[\\s]*IF " +
+	        block +
+	        "[\\s]*-->([\\s\\S]*?)<!--[\\s]*ENDIF " +
+	        block +
+	        "[\\s]*-->",
+	      "g"
+	    );
+	  }
+
+	  function getBlock(regex, block, template) {
+	    data = template.match(regex);
+	    if (data == null) return;
+
+	    if (block !== undefined) templates.blocks[block] = data[0];
+
+	    var begin = new RegExp("(\r\n)*<!-- BEGIN " + block + " -->(\r\n)*", "g"),
+	      end = new RegExp("(\r\n)*<!-- END " + block + " -->(\r\n)*", "g"),
+	      data = data[0].replace(begin, "").replace(end, "");
+
+	    return data;
+	  }
+
+	  function setBlock(regex, block, template) {
+	    return template.replace(regex, block);
+	  }
+
+	  var regex, block;
+
+	  return (function parse(data, namespace, template, blockInfo) {
+	    if (!template) {
+	      return "";
+	    }
+	    if (!data || data.length == 0) {
+	      template = "";
+	    }
+	    function checkConditional(key, value) {
+	      var conditional = makeConditionalRegex(key),
+	        matches = template.match(conditional);
+
+	      if (matches !== null) {
+	        for (var i = 0, ii = matches.length; i < ii; i++) {
+	          var conditionalBlock = matches[i].split(/<!-- ELSE -->/);
+
+	          var statement = new RegExp(
+	            "(<!--[\\s]*IF " +
+	              key +
+	              "[\\s]*-->)|(<!--[\\s]*ENDIF " +
+	              key +
+	              "[\\s]*-->)",
+	            "gi"
+	          );
+
+	          if (conditionalBlock[1]) {
+	            // there is an else statement
+	            if (!value) {
+	              template = template.replace(
+	                matches[i],
+	                conditionalBlock[1].replace(statement, "")
+	              );
+	            } else {
+	              template = template.replace(
+	                matches[i],
+	                conditionalBlock[0].replace(statement, "")
+	              );
+	            }
+	          } else {
+	            // regular if statement
+	            if (!value) {
+	              template = template.replace(matches[i], "");
+	            } else {
+	              template = template.replace(
+	                matches[i],
+	                matches[i].replace(statement, "")
+	              );
+	            }
+	          }
+	        }
+	      }
+	    }
+
+	    for (var d in data) {
+	      if (data.hasOwnProperty(d)) {
+	        if (typeof data[d] === "undefined") {
+	          continue;
+	        } else if (data[d] === null) {
+	          template = replace(namespace + d, "", template);
+	        } else if (data[d].constructor == Array) {
+	          checkConditional(namespace + d + ".length", data[d].length);
+	          checkConditional("!" + namespace + d + ".length", !data[d].length);
+
+	          namespace += d + ".";
+
+	          var regex = makeRegex(d),
+	            block = getBlock(
+	              regex,
+	              namespace.substring(0, namespace.length - 1),
+	              template
+	            );
+
+	          if (block == null) {
+	            namespace = namespace.replace(d + ".", "");
+	            continue;
+	          }
+
+	          var numblocks = data[d].length - 1,
+	            i = 0,
+	            result = "";
+
+	          do {
+	            result += parse(data[d][i], namespace, block, {
+	              iterator: i,
+	              total: numblocks
+	            });
+	          } while (i++ < numblocks);
+
+	          namespace = namespace.replace(d + ".", "");
+	          template = setBlock(regex, result, template);
+	        } else if (data[d] instanceof Object) {
+	          template = parse(data[d], d + ".", template);
+	        } else {
+	          var key = namespace + d,
+	            value =
+	              typeof data[d] === "string"
+	                ? data[d].replace(/^\s+|\s+$/g, "")
+	                : data[d];
+
+	          checkConditional(key, value);
+	          checkConditional("!" + key, !value);
+
+	          if (blockInfo && blockInfo.iterator) {
+	            checkConditional("@first", blockInfo.iterator === 0);
+	            checkConditional("!@first", blockInfo.iterator !== 0);
+	            checkConditional("@last", blockInfo.iterator === blockInfo.total);
+	            checkConditional(
+	              "!@last",
+	              blockInfo.iterator !== blockInfo.total
+	            );
+	          }
+
+	          template = replace(key, value, template);
+	        }
+	      }
+	    }
+	    if (namespace) {
+	      var regex = new RegExp("{" + namespace + "[\\s\\S]*?}", "g");
+	      template = template.replace(regex, "");
+	      namespace = "";
+	    } else {
+	      // clean up all undefined conditionals
+	      template = template
+	        .replace(/<!-- ELSE -->/gi, "ENDIF -->")
+	        .replace(/<!-- IF([^@]*?)ENDIF([^@]*?)-->/gi, "");
+	    }
+	    var divPost = document.createElement("div");
+	    divPost.innerHTML = postTemplate;
+	    var div = document.createElement("div");
+	    div.innerHTML = template;
+	    if (data.hasOwnProperty("posts")) {
+	      // TODO try to use parse function again
+	      var nested = createNestedComments(
+	        data.posts,
+	        divPost.querySelector("li"),
+	        data
+	      );
+	      
+	      var loadedComments = document.createElement('div');
+	      loadedComments.innerHTML = nested.innerHTML;
+	      var existingComments = document.querySelector("#nodebb-comments-list");
+
+
+      	  if (reloading) loadedComments=checkNewComments(existingComments,loadedComments)
+
+	      if (page==0){
+	        div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
+	      }
+	      else {
+	        div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
+	        div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
+	      }
+
+
+	      template = div.innerHTML;
+	    }
+	    return template;
+	  })(data, "", template);
+	}
+
+
+	function checkNewComments(existingComments,loadedComments){
+
+
+		for (let comment of loadedComments.querySelectorAll("li")) {
+			let flag=false;
+			for (let oldcomment of loadedComments.querySelectorAll("li")) {
+				if (comment.getAttribute("id")==oldcomment.getAttribute("id")) flag=true;
+			}
+			if (!flag) comment.classList.add("new-comment");
+		}
+
+		console.log("loadedComments")
+		console.log(loadedComments)
+		return loadedComments;
+
+		set.reloading(0);
 	}

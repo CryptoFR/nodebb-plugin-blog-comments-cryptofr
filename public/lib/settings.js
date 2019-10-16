@@ -1,4 +1,4 @@
-export var dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates;
+export var dataRes,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates;
 
 export var set = {
 	pluginURL : pluginURLVal,
@@ -24,7 +24,8 @@ export var set = {
 	renderedCaptcha : renderedCaptchaVal,
 	templates : templatesVal,
 	dataRes : dataResVal,
-	page : pageVal
+	page : pageVal,
+	reloading : reloadingVal
 }
                                                          
 function pluginURLVal( value ) { pluginURL = value; }
@@ -51,3 +52,4 @@ function renderedCaptchaVal( value ) { renderedCaptcha = value; }
 function templatesVal( value ) { templates = value; }
 function dataResVal( value ) { dataRes = value; }
 function pageVal( value ) { page = value; }
+function reloadingVal( value ) { reloading = value; }

@@ -386,7 +386,7 @@
 }
 
 #nodebb .topic-text {
-    margin-left: 70px;
+    margin-left: 0px;
     width: auto;
     float: none;
 }
@@ -407,7 +407,7 @@
 }
 
 #nodebb > ul {
-    border: 1px solid #5d5d5d;
+    /*border: 1px solid #5d5d5d;*/
 }
 
 #nodebb > ul > li {
@@ -424,4 +424,32 @@
 
 #nodebb .topic-text {
     color: inherit;
+}
+
+
+
+
+/***********
+
+  NEW COMMENT
+
+************/
+#nodebb li.new-comment{
+    position: relative;
+}
+
+
+#nodebb li.new-comment:after{
+    content: '+1';
+    color: #a6a6a6;
+    width: 25px;
+    height: 25px;
+    background: #f2f2f2;
+    position: absolute;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 25px;
+    right: 25px;
+    top: 5px;
+    font-size: 15px;
 }

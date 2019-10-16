@@ -1,4 +1,4 @@
-import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "./settings.js";
+import { set,reloading,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "./settings.js";
 import { onloadXHR,onLoadFunction } from "./general/onload.js"; 
 import { newXHR,newXHRFixed } from "./general/api.js"; 
 import { loadCSS,removeLoader } from "./general/util.js"; 
@@ -7,11 +7,14 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
-	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
-	// set.pluginURL("http://localhost/projects/nodebb-plugin/public");
+	// Dev purposes only
+	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-comments-dev");
 
 	loadCSS(pluginURL + "/css/comments.css")
 	loadCSS(pluginURL + "/css/cryptofr.css")
+
+	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+	// set.pluginURL("http://localhost/projects/nodebb-plugin/public");
 
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
 	set.nodebbDiv(document.getElementById("nodebb"));
@@ -19,6 +22,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	// setTimeout(grecaptchaGrab, 1000);
 
 	set.pagination(0);
+	set.reloading(0);
 	set.postData([]);
 	set.sorting("newest");
 	
