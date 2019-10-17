@@ -542,9 +542,9 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 			if (!flag ) comment.classList.add("new-comment");
 		}
 
-		console.log("loadedComments")
-		console.log(loadedComments)
-		return loadedComments;
 
 		set.reloading(0);
+		
+		return loadedComments;
+
 	}
