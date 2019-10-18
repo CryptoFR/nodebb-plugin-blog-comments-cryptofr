@@ -6,6 +6,7 @@ import { addRegisterValidators } from "../login/form.js";
 import { reloadComments,createNestedComments,commentSubmissionsHandler } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
+import { checkExpandableComments } from "./expandComments.js";
 
 
 	export function drawComments() {
@@ -313,6 +314,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	  }
       reloadComments(pagination,page+1)
 	  commentSubmissionsHandler();
+	  checkExpandableComments();
 
 	}
 

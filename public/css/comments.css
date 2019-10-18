@@ -434,6 +434,7 @@
   NEW COMMENT
 
 ************/
+
 #nodebb li.new-comment{
     position: relative;
 }
@@ -452,4 +453,64 @@
     right: 25px;
     top: 5px;
     font-size: 15px;
+}
+
+
+
+/***********
+
+  EXPANDABLE COMMENT
+
+************/
+
+#nodebb li.expandable > .topic-item > .topic-body > .topic-text > .post-content > small{
+    position: relative;
+}
+
+#nodebb li.expandable.expanded .expandable-button.expanded:after{
+    content: '-';
+    color: #333;
+    line-height: 15px;
+    font-size: 20px;
+}
+
+#nodebb li.expandable.expanded .expandable-button.expanded{
+    text-align: center;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    border: 1px dotted #333; 
+    right: -25px;
+    top: 0px;
+    cursor: pointer;
+}
+
+
+#nodebb li.expandable.collapsed .expandable-button.collapsed:after{
+    content: '+';
+    color: #333;
+    line-height: 15px;
+    font-size: 20px;
+}
+
+#nodebb li.expandable.collapsed .expandable-button.collapsed{
+    text-align: center;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    border: 1px dotted #333; 
+    right: -25px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#nodebb li.expandable ul{
+    max-height: 2000px;
+    transition: 1s;
+}
+
+#nodebb li.expandable ul.collapsed-comments{
+    overflow-y: hidden;
+    max-height: 0px;
+    transition: 0.6s;
 }

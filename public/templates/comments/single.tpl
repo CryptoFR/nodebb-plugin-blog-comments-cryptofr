@@ -1,5 +1,4 @@
-
-		<li data-pid="{posts.pid}" attr-test="test">
+		<li data-pid="{posts.pid}">
 			<div class="topic-item" data-pid="{posts.pid}" data-userslug="{user.userslug}" data-uid="{posts.uid}">
 				<div class="topic-body">
 					<div class="topic-profile-pic">

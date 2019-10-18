@@ -8,14 +8,13 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
 	// Dev purposes only
-	// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-comments-dev");
+	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-comment-dev");
 	
-	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
-	// set.pluginURL("http://localhost/projects/nodebb-plugin/public");
 
 	loadCSS(pluginURL + "/css/comments.css")
 	loadCSS(pluginURL + "/css/cryptofr.css")
 
+	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
 	set.nodebbDiv(document.getElementById("nodebb"));
