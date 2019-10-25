@@ -76,7 +76,7 @@
 
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
 		<!-- BEGIN posts -->
-		<li <!-- IF pagination --> class="nodebb-post-fadein" <!-- ENDIF pagination --> <!-- IF !posts.index --> class="nodebb-post-fadein" <!-- ENDIF !posts.index --> data-pid="{posts.pid}">
+		<li class="nodebb-post-fadein" data-pid="{posts.pid}">
 			<div class="topic-item" data-pid="{posts.pid}" data-userslug="{user.userslug}" data-uid="{posts.uid}">
 				<div class="topic-body">
 					<div class="topic-profile-pic">

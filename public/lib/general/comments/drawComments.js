@@ -89,6 +89,7 @@ import { checkExpandableComments } from "./expandComments.js";
 	        "</a></span>";
 	    }
 
+
 	    html = parse(data, data.template);
 	    nodebbDiv.innerHTML = normalizePost(html);
 	    // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
@@ -482,8 +483,10 @@ import { checkExpandableComments } from "./expandComments.js";
 	              blockInfo.iterator !== blockInfo.total
 	            );
 	          }
-
+	          console.log(key)
+	          console.log(value)
 	          template = replace(key, value, template);
+	          
 	        }
 	      }
 	    }
@@ -500,6 +503,7 @@ import { checkExpandableComments } from "./expandComments.js";
 	    var divPost = document.createElement("div");
 	    divPost.innerHTML = postTemplate;
 	    var div = document.createElement("div");
+	    // console.log(template)
 	    div.innerHTML = template;
 	    if (data.hasOwnProperty("posts")) {
 	      // TODO try to use parse function again
@@ -516,6 +520,7 @@ import { checkExpandableComments } from "./expandComments.js";
 
       	  if (reloading) loadedComments=checkNewComments(existingComments,loadedComments)
 
+      	  // console.log(div)
 	      if (page==0){
 	        div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
 	      }
@@ -538,8 +543,8 @@ import { checkExpandableComments } from "./expandComments.js";
 		for (let comment of loadedComments.querySelectorAll("li")) {
 			let flag=false;
 			for (let oldcomment of existingComments.querySelectorAll("li")) {
-				// console.log("comment-"+comment.getAttribute("data-pid")+" / oldcomment-"+oldcomment.getAttribute("data-pid"))
-				if (comment.getAttribute("data-pid")==oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')  ) flag=true;
+				if (comment.getAttribute("data-pid")==oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')  ) 
+					flag=true;
 			}
 			if (!flag ) comment.classList.add("new-comment");
 		}
@@ -688,12 +693,11 @@ import { checkExpandableComments } from "./expandComments.js";
 	    } else {
 	      changeAttribute(divImgText, "title", comment.user.username);
 	      changeAttribute(divImgText, "alt", comment.user.username);
-	      if (divImgText) {
-	        divImgText.innerText = comment.user["icon:text"];
-	        divImgText.style.backgroundColor = comment.user["icon:bgColor"];
-	      }
+        divImgText.innerText = comment.user["icon:text"];
+        divImgText.style.backgroundColor = comment.user["icon:bgColor"];
 	      removeNodes(img);
 	    }
+
 	    clone.querySelector("a.username").setAttribute('href',relativePath+"/user/"+comment.user.userslug );
 	    clone.querySelector("strong[data-strong-username]").innerText =
 	      comment.user.username;
@@ -710,7 +714,7 @@ import { checkExpandableComments } from "./expandComments.js";
 	    if (comment.uid !== uid) {
 	      removeNodes(clone.querySelector("a.edit"));
 	    }
-	    clone.querySelector("span[data-timestamp]").setAttribute("title",comment.lastonlineISO.split("T")[0])
+	    clone.querySelector("span[data-timestamp]").setAttribute("title",comment.timestampISO.split("T")[0])
 	    clone.querySelector("span[data-timestamp]").innerText =
 	      "commented " + comment.timestamp;
 	    if (uid === comment.user.uid) {

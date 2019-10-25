@@ -7,16 +7,14 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
-	// Dev purposes only
-	// set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
+	/* Dev purposes only */ set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 	
-	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+	// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 	loadCSS(pluginURL + "/css/comments.css")
 	loadCSS(pluginURL + "/css/cryptofr.css")
 
-	// Dev purposes only
-	// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+	/* Dev purposes only */ set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
@@ -46,7 +44,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	var bookmarkXHRaux = newXHR();
 	bookmarkXHRaux.onload = onLoadFunction(bookmarkXHRaux);
-	set.bookmarkXHR(bookmarkXHRaux)6
+	set.bookmarkXHR(bookmarkXHRaux)
 
 
 	var signUpXHRaux = newXHRFixed();
@@ -62,5 +60,5 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	onloadXHR();
 
-	newCommentsCheck();
+	// newCommentsCheck();
 
