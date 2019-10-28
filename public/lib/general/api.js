@@ -69,6 +69,7 @@ import { addLoader } from "./util.js";
           encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
       }
     }
+    console.log(data)
     xhr.open("POST", path, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.withCredentials = true;

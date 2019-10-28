@@ -32,9 +32,18 @@
       </p>
       <div class="modal-col">
         <h3 class="modal-subtitle">Using social networks</h3>
-        <img class="modal-login" alt="Facebook" src="https://via.placeholder.com/240x50.png?text=Facebook%20Login"/>
-        <img class="modal-login" alt="Google" src="https://via.placeholder.com/240x50.png?text=Google%20Login"/>
-        <img class="modal-login" alt="Twitter" src="https://via.placeholder.com/240x50.png?text=Twitter%20Login"/>
+        <a data-link="https://testforum.cryptofr.com/auth/facebook" href="#" data-network="Facebook">
+          <img data-link="https://testforum.cryptofr.com/auth/facebook" href="#" data-network="Facebook" alt="Facebook" class="modal-login" src="https://via.placeholder.com/240x50.png?text=Facebook%20Login"/>
+        </a>
+        <a data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google">
+          <img  data-link="https://testforum.cryptofr.com/auth/google"class="modal-login" data-network="Google" alt="Google" src="https://via.placeholder.com/240x50.png?text=Google%20Login"/>
+        </a>
+        <a data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
+        <img class="modal-login" alt="Twitter" data-network="Twitter" data-link="https://testforum.cryptofr.com/auth/twitter" src="https://via.placeholder.com/240x50.png?text=Twitter%20Login"/>
+        </a>
+        <a data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github">
+        <img data-link="https://testforum.cryptofr.com/auth/github" data-network="Github"  class="modal-login" alt="Github" src="https://via.placeholder.com/240x50.png?text=Github%20Login"/>
+        </a>
       </div>
     </div>
   </div>

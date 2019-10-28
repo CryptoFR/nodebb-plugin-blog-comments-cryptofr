@@ -483,10 +483,8 @@ import { checkExpandableComments } from "./expandComments.js";
 	              blockInfo.iterator !== blockInfo.total
 	            );
 	          }
-	          console.log(key)
-	          console.log(value)
 	          template = replace(key, value, template);
-	          
+
 	        }
 	      }
 	    }
@@ -503,8 +501,9 @@ import { checkExpandableComments } from "./expandComments.js";
 	    var divPost = document.createElement("div");
 	    divPost.innerHTML = postTemplate;
 	    var div = document.createElement("div");
-	    // console.log(template)
+	    
 	    div.innerHTML = template;
+	    // console.log(div)
 	    if (data.hasOwnProperty("posts")) {
 	      // TODO try to use parse function again
 	      var nested = createNestedComments(

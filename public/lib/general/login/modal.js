@@ -1,6 +1,6 @@
 import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
 import { reloadComments } from "../comments/loadComments.js"; 
-import { login } from "../api.js"; 
+import { login,signUp } from "../api.js"; 
 
 	
 	/**
