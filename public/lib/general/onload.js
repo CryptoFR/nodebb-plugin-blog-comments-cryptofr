@@ -3,7 +3,7 @@ import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } fr
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "./login/modal.js"; 
 import { addSocialAuthListeners } from "./login/social.js"; 
 import { addRegisterValidators } from "./login/form.js"; 
-import { reloadComments } from "./comments/loadComments.js"; 
+import { reloadComments,createSnackbar } from "./comments/loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./comments/sortComments.js"; 
 import { upvotePost,downvotePost,xpost } from "./api.js";
 import { drawComments } from "./comments/drawComments.js";

@@ -52,7 +52,7 @@ import { login,signUp } from "../api.js";
 	    t.querySelector("input[name='password']").value,
 	    t.querySelector("input[name='_csrf']").value
 	  );
-	  setTimeout(closeModal, 500);
+	  setTimeout(closeModal, 100);
 	}
 
 
@@ -65,6 +65,7 @@ import { login,signUp } from "../api.js";
 	    modalElement.setAttribute("data-closed", "1");
 	    modalElement.style.display = "none";
 	  }
+	  reloadComments();
 	}
 
 
@@ -104,3 +105,24 @@ import { login,signUp } from "../api.js";
 	  modalElement.setAttribute("data-closed", "0");
 	  return modalElement;
 	}
+
+
+	export function grecaptchaGrab() {
+    if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
+      window.grecaptcha.ready(function() {
+        var interval = setInterval(renderCallback, 1000);
+        function renderCallback() {
+          var container = document.getElementById("google-callback");
+          if (container) {
+            set.renderedCaptcha(window.grecaptcha.render(container, {
+              sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
+            }));
+            clearInterval(interval);
+          }
+        }
+        renderCallback();
+      });
+    } else {
+      setTimeout(grecaptchaGrab, 1000);
+    }
+  }

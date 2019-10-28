@@ -60,9 +60,9 @@
 
 
 export function removeNodes(nodes) {
-    var nodeList = nodes.length !== undefined ? nodes : [nodes];
+    var nodeList = nodes && nodes.length !== undefined ? nodes : [nodes];
     var len = nodeList.length;
-    for (var i = 0; i < len; i++) {
+    if (nodes) for (var i = 0; i < len; i++) {
       var node = nodeList[i];
       node.parentNode.removeChild(node);
     }
@@ -111,6 +111,14 @@ export function removeLoader() {
     stylesheet.setAttribute("type", "text/css");
     stylesheet.setAttribute("href", url);
     document.getElementsByTagName("head")[0].appendChild(stylesheet);
+  } 
+
+  export function loadScript(url){
+    var script = document.createElement('script'); 
+    script.async = true;
+    script.defer = true;
+    script.src = url;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
   }
 
   
