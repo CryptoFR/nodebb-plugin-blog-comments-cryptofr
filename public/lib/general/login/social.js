@@ -1,4 +1,5 @@
 import { reloadComments } from "../comments/loadComments.js"; 	
+import { closeModal } from "./modal.js";   
 
 	/**
    * Callback that's fired whenever a Facebook, Twitter or Github button is clicked for login
