@@ -15,6 +15,10 @@
   margin-top: 36px;
 }
 
+#nodebb .topic-profile-pic.user.first-image i{
+  display: none;
+}
+
 #nodebb .topic-profile-pic.user.first-image .profile-image {
   width: 80px;
   height: 80px;
@@ -146,6 +150,7 @@ small.logged-as {
 
 .post-body {
   font-size: 16px;
+  font-weight: normal;
 }
 
 #nodebb .post-tools a {

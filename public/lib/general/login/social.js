@@ -6,7 +6,12 @@ import { closeModal } from "./modal.js";
    * @param {MouseEvent} event
    */
   export function onClickSocialAuth(event) {
+    event.preventDefault();
     var t = event.target;
+    console.log(event)
+    console.log(t)
+    console.log(t.getAttribute("data-link"))
+    console.log(t.getAttribute("data-network"))
     var w = window.open(
       t.getAttribute("data-link"),
       t.getAttribute("data-network"),
@@ -14,7 +19,6 @@ import { closeModal } from "./modal.js";
     );
     var interval = setInterval(function checkSocialAuth() {
       if (w === null || w.closed === true) {
-        reloadComments();
         setTimeout(closeModal, 1000);
         clearInterval(interval);
       }

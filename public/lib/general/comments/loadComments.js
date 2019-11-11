@@ -39,7 +39,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	/**
 	 * Function that reloads all comments within the DOM
 	 */
-	export function reloadComments(pag=0,currentPage=0) {
+	export function reloadComments(pag=0,currentPage=0,showLoader=true) {
       	if (currentPage>pagination) return null;
       	set.page(currentPage)
       	set.pagination(pag);
@@ -48,7 +48,8 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send();
-		addLoader();
+		console.log(showLoader)
+		if (showLoader) addLoader();
 	}
 
 

@@ -87,7 +87,7 @@ export function addLoader() {
    */
 export function removeLoader() {
     var div = document.querySelector("div.loading");
-    removeNodes(div);
+    if (div) removeNodes(div);
   }
 
 

@@ -59,7 +59,7 @@ import { login,signUp } from "../api.js";
 	/**
 	 * Closes whatever modal is opened within the plugin
 	 */
-	function closeModal() {
+	export function closeModal() {
 	  var modalElement = document.querySelector("div.modal[data-closed='0']");
 	  if (modalElement) {
 	    modalElement.setAttribute("data-closed", "1");

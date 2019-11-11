@@ -73,7 +73,7 @@ import { drawComments } from "./comments/drawComments.js";
 	export function onLoadFunction(xhr) {
 	   return function onLoadImpl() {
 	     xhr.isBusy = false;
-	     reloadComments(pagination);
+	     reloadComments(pagination,0,false);
 	   }
 	 }
 

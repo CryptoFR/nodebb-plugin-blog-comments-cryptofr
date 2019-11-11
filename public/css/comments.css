@@ -376,7 +376,7 @@
 }
 
 #nodebb .topic-profile-pic.first-image {
-    display: none;
+    /*display: none;*/
 }
 
 #nodebb .topic-profile-pic {

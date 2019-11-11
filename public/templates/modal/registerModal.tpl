@@ -35,13 +35,13 @@
       </div>
       <div class="modal-col">
         <a data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google"  class="google-auth social-auth-buttons">
-          <i class="fa fa-google"><span>Google Login</span>
+          <i class="fa fa-google"></i><span>Google Login</span>
         </a>
         <a data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter" class="twitter-auth social-auth-buttons">
-          <i class="fa fa-twitter"><span>Twitter Login</span>
+          <i class="fa fa-twitter"></i><span>Twitter Login</span>
         </a>
         <a data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github"  class="github-auth social-auth-buttons">
-          <i class="fa fa-github"><span>Github Login</span></button>
+          <i class="fa fa-github"></i><span>Github Login</span></button>
         </a>
       </div>
     </div>

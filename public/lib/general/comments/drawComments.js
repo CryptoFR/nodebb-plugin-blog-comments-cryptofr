@@ -177,16 +177,16 @@ import { checkExpandableComments } from "./expandComments.js";
 	        } else if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
 	            upvotePost(topicItem, pid, upvoted);
-	            reloadComments(pagination);
+	            reloadComments(pagination,0,false);
 	          }
 	        } else if (/\/downvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
 	            downvotePost(topicItem, pid, downvoted);
-	            reloadComments(pagination);
+	            reloadComments(pagination,0,false);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(topicItem, pid, bookmarked);
-	          reloadComments(pagination);
+	          reloadComments(pagination,0,false);
 	        }
 	      } else {
 	        if (/\/upvote$/.test(dataComponent)) {
@@ -196,7 +196,7 @@ import { checkExpandableComments } from "./expandComments.js";
 	              mainPost.pid,
 	              upvoted
 	            );
-	            reloadComments(pagination);
+	            reloadComments(pagination,0,false);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(
@@ -204,14 +204,14 @@ import { checkExpandableComments } from "./expandComments.js";
 	            mainPost.pid,
 	            bookmarked
 	          );
-	          reloadComments(pagination);
+	          reloadComments(pagination,0,false);
 	        } else if (/\/downvote$/.test(dataComponent)) {
 	          downvotePost(
 	            nodebbDiv.querySelector(".top-tool-box"),
 	            mainPost.pid,
 	            downvoted
 	          );
-	          reloadComments(pagination);
+	          reloadComments(pagination,0,false);
 	        }
 	      }
 	    });
