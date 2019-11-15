@@ -666,30 +666,49 @@ i.i-downvote.icon-thumbs-down-alt {
     float: right;
 }
 
-ul.sort-group {
+h4.alt-acc{
+  text-align: center;
+}
+
+ul.sort-group{
     float: right;
     height: 30px;
     margin: 0;
 }
-
-ul.sort-group li {
-    display: inline-block;
-    height: 30px;
+ul.alt-logins {
+  text-align: center;
 }
 
-ul.sort-group a {
+ul.sort-group li, 
+ul.alt-logins li {
+    display: inline-block;
+    height: 20px;
+}
+
+ul.sort-group a,
+ul.alt-logins a {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-li.sort-group-link(:last-child) {
+li.sort-group-link(:last-child),
+ul.alt-logins li:last-child {
     margin-right: 5px;
 }
 
-li.sort-group-link:hover {
+li.sort-group-link:hover{
     background-color: #eee;
 }
 
-li.sort-group-link.active {
-    color: blue;
+
+.fa-twitter-square{
+  color: #2fc2ef;
+}
+
+.fa-google-plus-square{
+  color: #df5138;
+}
+
+.fa-github{
+  color: #165199;
 }

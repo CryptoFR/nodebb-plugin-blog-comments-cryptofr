@@ -34,13 +34,14 @@
         </form>
       </div>
       <div class="modal-col">
+        <h4 class="alt-acc">Alternative Access</h4>
         <ul class="alt-logins">
                 
-          <li class="twitter"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter"><i class="fa fa-twitter-square fa-3x"></i></a></li>
+          <li class="twitter"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
           
-          <li class="google"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google"><i class="fa fa-google-plus-square fa-3x"></i></a></li>
+          <li class="google"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
           
-          <li class="github"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github"><i class="fa fa-github fa-3x"></i></a></li>
+          <li class="github"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github"><i class="fa fa-github fa-2x"></i></a></li>
                 
         </ul>
       </div>
