@@ -1,4 +1,4 @@
-import { set,pluginURL,page,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
+import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
 import { addLoader,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
 
@@ -23,6 +23,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	 * @param {string} text text of the snackbar
 	 * @param {boolean} success whether the snackbar will show a success or error message, this affects the class used by the object
 	 */
+
 	export function createSnackbar(text, success) {
 	  var div = document.createElement("div");
 	  div.classList.add("snackbar");
@@ -48,7 +49,6 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send();
-		console.log(showLoader)
 		if (showLoader) addLoader();
 	}
 
@@ -61,11 +61,6 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		}, 60000);
 
 	}
-
-
-
-
-
 
 	
 	
@@ -90,11 +85,10 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 
 
 
-
 	export function commentSubmissionsHandler(){
 	  for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
-	    form.addEventListener('submit', function(evt){
-	      evt.preventDefault();        
+	    form.addEventListener('submit', function(event){
+	      event.preventDefault();        
 	      
 
 	      let inputs={};
@@ -105,11 +99,11 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	        inputs.content=input.value;
 	      } 
 
-	      let res=xpost(XHR, form.getAttribute("action"), inputs);
-	      console.log("pag/"+pagination)
+	      xpost(XHR, form.getAttribute("action"), inputs);
 	      reloadComments(pagination);
 
+
+	      return false;
 	    });
 	  }
 	}
-

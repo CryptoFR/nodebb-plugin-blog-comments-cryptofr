@@ -1,4 +1,4 @@
-import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
+import { set,pluginURL,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
 import { addLoader } from "./util.js";
 import { grecaptchaGrab } from "./login/modal.js"; 
   /**
@@ -70,13 +70,15 @@ import { grecaptchaGrab } from "./login/modal.js";
           encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
       }
     }
-    // console.log(data)
     xhr.open("POST", path, true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.withCredentials = true;
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(encodedString);
+    console.log(xhr);
     return xhr;
   }
+
+
 
   /**
    * Upvotes a comment

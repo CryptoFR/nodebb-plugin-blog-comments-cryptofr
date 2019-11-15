@@ -8,7 +8,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
-	/* Dev purposes only */ set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
+	/* Dev purposes only for CSS */ set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 	
 	// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
@@ -42,6 +42,10 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	voteXHRaux.onload = onLoadFunction(voteXHRaux);
 	set.voteXHR(voteXHRaux);
 	
+	var commentXHRaux=newXHR();
+	commentXHRaux.onload = onLoadFunction(commentXHRaux);
+	set.commentXHR(commentXHRaux);
+	
 	var authXHRaux=newXHR();
 	authXHRaux.onerror = removeLoader;
 	set.authXHR(authXHRaux);
@@ -64,5 +68,5 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	onloadXHR();
 
-	// newCommentsCheck();
+	newCommentsCheck();
 

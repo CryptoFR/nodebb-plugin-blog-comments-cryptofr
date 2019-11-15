@@ -34,15 +34,15 @@
         </form>
       </div>
       <div class="modal-col">
-        <a data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google"  class="google-auth social-auth-buttons">
-          <i class="fa fa-google"></i><span>Google Login</span>
-        </a>
-        <a data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter" class="twitter-auth social-auth-buttons">
-          <i class="fa fa-twitter"></i><span>Twitter Login</span>
-        </a>
-        <a data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github"  class="github-auth social-auth-buttons">
-          <i class="fa fa-github"></i><span>Github Login</span></button>
-        </a>
+        <ul class="alt-logins">
+                
+          <li class="twitter"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter"><i class="fa fa-twitter-square fa-3x"></i></a></li>
+          
+          <li class="google"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google"><i class="fa fa-google-plus-square fa-3x"></i></a></li>
+          
+          <li class="github"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github"><i class="fa fa-github fa-3x"></i></a></li>
+                
+        </ul>
       </div>
     </div>
   </div>

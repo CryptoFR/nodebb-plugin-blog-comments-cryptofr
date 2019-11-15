@@ -1,9 +1,10 @@
-export var dataRes,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates;
+export var dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates;
 
 export var set = {
 	pluginURL : pluginURLVal,
 	voteXHR : voteXHRVal,
 	authXHR : authXHRVal,
+	commentXHR : commentXHRVal,
 	signUpXHR : signUpXHRVal,
 	bookmarkXHR : bookmarkXHRVal,
 	sorting : sortingVal,
@@ -31,6 +32,7 @@ export var set = {
 function pluginURLVal( value ) { pluginURL = value; }
 function voteXHRVal ( value ) { voteXHR = value; }
 function authXHRVal( value ) { authXHR = value; }
+function commentXHRVal( value ) { commentXHR = value; }
 function signUpXHRVal( value ) { signUpXHR = value; }
 function bookmarkXHRVal( value ) { bookmarkXHR = value; }
 function sortingVal( value ) { sorting = value; }
