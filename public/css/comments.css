@@ -517,14 +517,14 @@
 
 
 .modal-header{
- background: #1e1f33;
+ background: #1e1f33!important;
 }
 
 .modal-header-title{
-    color: white;
-    margin: 20px;
-    font-size: 13px;
-    font-weight: normal;
+    color: white!important;
+    margin: 10px!important;
+    font-size: 13px!important;
+    font-weight: normal!important;
 }
 
 .modal-input{

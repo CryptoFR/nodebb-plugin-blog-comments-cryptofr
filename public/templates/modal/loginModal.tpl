@@ -19,15 +19,7 @@
           <input name="_csrf" type="hidden" value=""/>
           <button class="modal-button" type="submit">Login</button>
         </form>
-        <p>¿Aún no tienes cuenta? <
-         Registrarse   ¿Olvidaste tu contraseña?
-        <a href="#" class="modal-forgot-password">Forgot your password</a>
-        <div class="modal-create-account-div">
-          <p>New to us</p>
-          <p>
-            <a href="#">Create new account</a>
-          </p>
-        </div>
+        <p class="caption-login-text">¿Aún no tienes cuenta? <a href="#" class="register-modal-open">Registrarse</a> <a href="#" class="modal-forgot-password"> ¿Olvidaste tu contraseña?</a></p>
       </div>
       <div class="modal-col">  
         <h4 class="alt-acc">Alternative Access</h4>

@@ -295,7 +295,7 @@ i.i-downvote.icon-thumbs-down-alt {
 .modal-header-icon {
   position: absolute;
   left: 50%;
-  top: -20px;
+  top: 0px;
   border-top-left-radius: 20%;
   border-top-right-radius: 20%;
   transform: translate(-50%);
