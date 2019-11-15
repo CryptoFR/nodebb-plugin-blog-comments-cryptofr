@@ -4,6 +4,7 @@
     <div class="modal-header">
       <div class="modal-header-first-row">
         <img class="modal-header-icon" alt="Icon" src="https://testforum.cryptofr.com/plugins/nodebb-comment-dev/icons/site-logo.png"/>
+        <span class="modal-close">&times;</span>
       </div>
       <div class="modal-header-title-wrapper">
         <h3 class="modal-header-title">You need to be a member to comment, just a few more seconds</h3>
