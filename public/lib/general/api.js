@@ -144,8 +144,8 @@ import { grecaptchaGrab } from "./login/modal.js";
       referrer: "",
       token: "",
       noscript: false,
-      terms: checkedTerms
-      // captcha: window.grecaptcha.getResponse(renderedCaptcha)
+      terms: checkedTerms,
+      captcha: window.grecaptcha.getResponse(renderedCaptcha)
     });
     addLoader();
   }

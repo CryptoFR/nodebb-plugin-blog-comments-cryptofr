@@ -22,9 +22,9 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
 	set.nodebbDiv(document.getElementById("nodebb"));
 
-	// loadScript("https://www.google.com/recaptcha/api.js");
+	loadScript("https://www.google.com/recaptcha/api.js");
 
-	// setTimeout(grecaptchaGrab, 1000);
+	setTimeout(grecaptchaGrab, 1000);
 
 	set.pagination(0);
 	set.reloading(0);

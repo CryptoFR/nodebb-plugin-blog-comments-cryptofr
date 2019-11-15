@@ -3,8 +3,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <div class="modal-header-first-row">
-        <img class="modal-header-icon" alt="Icon" src="https://via.placeholder.com/80x80.png?text=Icon"/>
-        <span class="modal-close">&times;</span>
+        <img class="modal-header-icon" alt="Icon" src="https://testforum.cryptofr.com/plugins/nodebb-comment-dev/icons/site-logo.png"/>
       </div>
       <div class="modal-header-title-wrapper">
         <h3 class="modal-header-title">You need to be a member to comment, just a few more seconds</h3>
@@ -12,13 +11,15 @@
     </div>
     <div class="modal-body clearfix">
       <div class="modal-col">
-        <h3 class="modal-subtitle">Login with email</h3>
+        <h4 class="modal-subtitle">Login with email</h4>
         <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="text" value="" placeholder="Email" />
           <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
           <input name="_csrf" type="hidden" value=""/>
           <button class="modal-button" type="submit">Login</button>
         </form>
+        <p>¿Aún no tienes cuenta? <
+         Registrarse   ¿Olvidaste tu contraseña?
         <a href="#" class="modal-forgot-password">Forgot your password</a>
         <div class="modal-create-account-div">
           <p>New to us</p>

@@ -3,8 +3,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <div class="modal-header-first-row">
-        <img class="modal-header-icon" alt="Icon" src="https://via.placeholder.com/80x80.png?text=Icon"/>
-        <span class="modal-close">&times;</span>
+        <img class="modal-header-icon" alt="Icon" src="https://testforum.cryptofr.com/plugins/nodebb-comment-dev/icons/site-logo.png"/>
       </div>
       <div class="modal-header-title-wrapper">
         <h3 class="modal-header-title">You need to be a member to comment, just a few more seconds</h3>
@@ -12,7 +11,7 @@
     </div>
     <div class="modal-body clearfix">
       <div class="modal-col">
-        <h3 class="modal-subtitle">Register</h3>
+        <h4 class="modal-subtitle">Register</h4>
         <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="email" value="" placeholder="Email" />
           <div class="email-errors">
