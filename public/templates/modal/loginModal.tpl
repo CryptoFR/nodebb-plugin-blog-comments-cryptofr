@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="modal-col">  
-        <h4>Alternative Access</h4>
+        <h4 class="alt-acc">Alternative Access</h4>
         <ul class="alt-logins">
                 
           <li class="twitter"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
