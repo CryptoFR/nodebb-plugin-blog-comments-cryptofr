@@ -341,15 +341,16 @@ i.i-downvote.icon-thumbs-down-alt {
 
 /* The Close Button */
 .modal-close {
-  color: black;
+  color: white;
   float: right;
   font-size: 28px;
   font-weight: bold;
+  display: block!important;
 }
 
 .modal-close:hover,
 .modal-close:focus {
-  color: #000;
+  color: #e4e4e4;
   text-decoration: none;
   cursor: pointer;
 }
@@ -361,7 +362,8 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 
 .modal-body {
-  padding: 5px 16px;
+  padding: 15px 16px;
+
   position: relative;
 }
 
@@ -429,10 +431,12 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 
 .modal-forgot-password {
-  display: block;
-  margin: 0 auto;
-  text-align: left;
-  width: 80%;
+}
+
+.caption-login-text{
+  font-size: 14px;
+    width: 80%;
+    margin: 0px auto;
 }
 
 .modal-create-account-div {
@@ -711,4 +715,10 @@ li.sort-group-link:hover{
 
 .fa-github{
   color: #165199;
+}
+
+
+
+div#google-callback{
+  padding-left: 10%;
 }

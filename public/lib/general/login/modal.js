@@ -68,6 +68,10 @@ import { login,signUp } from "../api.js";
 	  reloadComments();
 	}
 
+	export function tabIsActive(){
+		window.onfocus = closeModal; 
+	}
+
 
 	/**
 	 * Function that starts the authentication process

@@ -28,7 +28,7 @@
 				<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
 			<!-- ELSE -->
 				<!-- IF user.picture -->
-				<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne"></i>
+				<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne" ></i>
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ELSE -->
@@ -41,7 +41,7 @@
 		<!-- IF isLoggedIn -->
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
 			<small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
-			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoignez la discussion" rows="3"></textarea>
+			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<button class="btn btn-primary">Répondre</button>
 			</div>
@@ -132,7 +132,7 @@
 				</div>
 
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
- 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Répondre" rows="3"></textarea>
+ 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Répondre" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
 						<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
 					</div>
@@ -156,7 +156,7 @@
 			<!-- ENDIF isLoggedIn -->
 		</div>
 		<form action="{relative_path}/comments/reply" method="post">
-			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
+			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true"></textarea>
 		<!-- IF isLoggedIn -->
 			<small>Connecté comme <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
 			<button class="btn btn-primary">Répondre</button>

@@ -1,9 +1,9 @@
 import { set,reloading,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "./settings.js";
-import { onloadXHR,onLoadFunction } from "./general/onload.js"; 
-import { newXHR,newXHRFixed } from "./general/api.js"; 
-import { loadCSS,removeLoader,loadScript } from "./general/util.js"; 
-import { grecaptchaGrab } from "./general/login/modal.js"; 
-import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js"; 
+import { onloadXHR,onLoadFunction } from "./general/onload.js";
+import { newXHR,newXHRFixed } from "./general/api.js";
+import { loadCSS,removeLoader,loadScript } from "./general/util.js";
+import { grecaptchaGrab,tabIsActive } from "./general/login/modal.js";
+import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js";
 
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
@@ -14,7 +14,13 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	loadCSS(pluginURL + "/css/comments.css");
 	loadCSS(pluginURL + "/css/cryptofr.css");
+	loadCSS(pluginURL + "/css/emoji.css");
 	loadCSS("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+	loadScript(pluginURL + "/js/config.js");
+	loadScript(pluginURL + "/js/util.js");
+	loadScript(pluginURL + "/js/jquery.emojiarea.js");
+	loadScript(pluginURL + "/js/emoji-picker.js");
 
 	/* Dev purposes only */ set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
@@ -67,6 +73,8 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	addButtons();
 
 	onloadXHR();
+
+	tabIsActive();
 
 	newCommentsCheck();
 
