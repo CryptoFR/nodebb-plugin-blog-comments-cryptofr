@@ -1,7 +1,7 @@
 import { set,reloading,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "./settings.js";
 import { onloadXHR,onLoadFunction } from "./general/onload.js";
 import { newXHR,newXHRFixed } from "./general/api.js";
-import { loadCSS,removeLoader,loadScript } from "./general/util.js";
+import { loadCSS,removeLoader,loadScript,windowOnload } from "./general/util.js";
 import { grecaptchaGrab,tabIsActive } from "./general/login/modal.js";
 import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js";
 
@@ -17,12 +17,12 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	loadCSS(pluginURL + "/css/emoji.css");
 	loadCSS("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
-	loadScript(pluginURL + "/js/config.js");
-	loadScript(pluginURL + "/js/util.js");
-	loadScript(pluginURL + "/js/jquery.emojiarea.js");
-	loadScript(pluginURL + "/js/emoji-picker.js");
+	loadScript("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js");
 
-	/* Dev purposes only */ set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+
+
+
+	/* Dev purposes only / set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr"); */
 
 
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
@@ -58,13 +58,11 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	var bookmarkXHRaux = newXHR();
 	bookmarkXHRaux.onload = onLoadFunction(bookmarkXHRaux);
-	set.bookmarkXHR(bookmarkXHRaux)
-
+	set.bookmarkXHR(bookmarkXHRaux);
 
 	var signUpXHRaux = newXHRFixed();
 	signUpXHRaux.onerror = removeLoader;
 	set.signUpXHR(signUpXHRaux)
-
 
 	reloadComments();
 
@@ -76,5 +74,6 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	tabIsActive();
 
-	newCommentsCheck();
+	windowOnload();
 
+	newCommentsCheck();

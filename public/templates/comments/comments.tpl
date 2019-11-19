@@ -156,7 +156,7 @@
 			<!-- ENDIF isLoggedIn -->
 		</div>
 		<form action="{relative_path}/comments/reply" method="post">
-			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true"></textarea>
+			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true" data-emojiable="true"></textarea>
 		<!-- IF isLoggedIn -->
 			<small>Connecté comme <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
 			<button class="btn btn-primary">Répondre</button>

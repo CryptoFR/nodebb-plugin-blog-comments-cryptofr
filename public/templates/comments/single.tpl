@@ -57,7 +57,7 @@
 				</div>
 
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
- 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3"></textarea>
+ 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
 						<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
 					</div>
@@ -67,7 +67,7 @@
  					<input type="hidden" name="url" value="{redirect_url}" />
  				</form>
 				<form action="{relative_path}/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="{pid}">
- 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3"></textarea>
+ 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
 						<button data-reply-button="" class="btn btn-primary" type="submit">Éditer</button>
 					</div>

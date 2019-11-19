@@ -1,3 +1,5 @@
+import { pluginURL } from "../settings.js";
+
   /**
    * Utility function that recursively parses the timestamp of each of the posts
    * in order to show a human representation of that timestamp
@@ -115,8 +117,8 @@ export function removeLoader() {
 
   export function loadScript(url){
     var script = document.createElement('script'); 
-    script.async = true;
-    script.defer = true;
+    // script.async = true;
+    // script.defer = true;
     script.src = url;
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
   }
@@ -178,4 +180,9 @@ export function removeLoader() {
   }
 
 
-  
+  export function windowOnload(){
+    loadScript(pluginURL + "/js/config.js");
+    loadScript(pluginURL + "/js/util.js");
+    loadScript(pluginURL + "/js/jquery.emojiarea.js");
+    loadScript(pluginURL + "/js/emoji-picker.js");
+  }

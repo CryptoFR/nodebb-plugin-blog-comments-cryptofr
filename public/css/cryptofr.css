@@ -722,3 +722,11 @@ li.sort-group-link:hover{
 div#google-callback{
   padding-left: 10%;
 }
+
+form{
+  position: relative!important;
+}
+
+.emoji-picker-icon{
+  top: 45px!important;
+}

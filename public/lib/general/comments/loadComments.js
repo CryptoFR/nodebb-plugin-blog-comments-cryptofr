@@ -58,7 +58,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		setInterval(function() {
 			set.reloading(1);
 		    reloadComments(pagination);
-		}, 60000);
+		}, 120000);
 
 	}
 
