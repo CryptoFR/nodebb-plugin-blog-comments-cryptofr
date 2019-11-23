@@ -1,7 +1,7 @@
 import { set,reloading,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "./settings.js";
 import { onloadXHR,onLoadFunction } from "./general/onload.js";
 import { newXHR,newXHRFixed } from "./general/api.js";
-import { loadCSS,removeLoader,loadScript,windowOnload } from "./general/util.js";
+import { loadCSS,removeLoader,loadScript,windowOnload,loadScriptHead } from "./general/util.js";
 import { grecaptchaGrab,tabIsActive } from "./general/login/modal.js";
 import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js";
 
@@ -16,8 +16,9 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	loadCSS(pluginURL + "/css/cryptofr.css");
 	loadCSS(pluginURL + "/css/emoji.css");
 	loadCSS("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+	loadCSS("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
 
-	loadScript("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js");
+	// loadScriptHead("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js");
 
 
 

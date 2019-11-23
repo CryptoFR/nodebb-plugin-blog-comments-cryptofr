@@ -49,6 +49,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send();
+		console.log(XHR);
 		if (showLoader) addLoader();
 	}
 

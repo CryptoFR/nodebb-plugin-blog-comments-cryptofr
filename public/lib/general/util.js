@@ -120,7 +120,16 @@ export function removeLoader() {
     // script.async = true;
     // script.defer = true;
     script.src = url;
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+    (document.getElementsByTagName('body')[0]).appendChild(script);
+  }
+
+
+  export function loadScriptHead(url){
+    var script = document.createElement('script'); 
+    // script.async = true;
+    // script.defer = true;
+    script.src = url;
+    document.getElementsByTagName('head')[0].insertBefore(script, document.getElementsByTagName('head')[0].firstChild);
   }
 
   
@@ -185,4 +194,11 @@ export function removeLoader() {
     loadScript(pluginURL + "/js/util.js");
     loadScript(pluginURL + "/js/jquery.emojiarea.js");
     loadScript(pluginURL + "/js/emoji-picker.js");
+  }
+
+  export function dispatchEmojis(){
+    setTimeout(function() {
+      var evt = new CustomEvent('dispatchEmojis', {  });
+      window.dispatchEvent(evt);
+    }, 200);
   }

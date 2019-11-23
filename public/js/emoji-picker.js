@@ -155,20 +155,24 @@ function  initEMojis(){
 
 }
 
-$(window).on('focus', function () {
-  setTimeout(function() {
+window.addEventListener('dispatchEmojis', function (e) {
     initEMojis();
-  }, 1000);
 });
 
-// $(".loading").on("remove", function () {
-//     console.log("hola");
+// $(window).on('focus', function () {
+//   setTimeout(function() {
+//     initEMojis();
+//   }, 1000);
+// });
+
+
+// $("div.loading").on("remove", function () {
 //     initEMojis();
 // })
 
-$(window).on('load', function () {
-  setTimeout(function() {
-    initEMojis();
-  }, 1000);
- });
+// $(window).on('load', function () {
+//   setTimeout(function() {
+//     initEMojis();
+//   }, 1000);
+//  });
 

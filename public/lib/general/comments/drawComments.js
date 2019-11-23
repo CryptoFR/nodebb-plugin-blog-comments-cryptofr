@@ -1,5 +1,5 @@
 import { set,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
-import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes } from "./../util.js"; 
+import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
@@ -7,11 +7,12 @@ import { reloadComments,commentSubmissionsHandler } from "./loadComments.js";
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
+import { onLoadFunction } from "../onload.js";
 
 
 	export function drawComments() {
 
-		// console.log(XHR);
+		// console.log(XHR); 
 
 	  removeLoader();
 	  if (XHR.status >= 200 && XHR.status < 400) {
@@ -39,7 +40,8 @@ import { checkExpandableComments } from "./expandComments.js";
 	        onSubmitLogin
 	      );
 	      addSocialAuthListeners(loginModal);
-	      body.appendChild(loginModal);
+	      // body.appendChild(loginModal);
+	      document.querySelector("#nodebb").appendChild(loginModal);
 	      var registerModal = prepareModal(
 	        data.registerModalTemplate,
 	        data.token,
@@ -47,7 +49,8 @@ import { checkExpandableComments } from "./expandComments.js";
 	      );
 	      addRegisterValidators(registerModal);
 	      addSocialAuthListeners(registerModal);
-	      body.appendChild(registerModal);
+	      // body.appendChild(registerModal);
+	      document.querySelector("#nodebb").appendChild(registerModal);
 	    }, 0);
 
 	    for (var post in data.posts) {
@@ -313,9 +316,12 @@ import { checkExpandableComments } from "./expandComments.js";
 	      }
 	    }
 	  }
+
       reloadComments(pagination,page+1)
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
+	  dispatchEmojis();
+	  onLoadFunction();
 
 	}
 

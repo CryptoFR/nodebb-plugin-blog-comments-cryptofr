@@ -145,7 +145,7 @@ small.logged-as {
 #nodebb .username {
   font-size: 16px;
   color: #333;
-  font-weight:400;
+  font-weight:normal;
 }
 
 .post-body {
@@ -729,4 +729,9 @@ form{
 
 .emoji-picker-icon{
   top: 45px!important;
+}
+
+.sub-reply-input .emoji-picker-icon, .sub-edit-input .emoji-picker-icon{
+  top: 10px!important;
+  right: 25px!important;
 }
