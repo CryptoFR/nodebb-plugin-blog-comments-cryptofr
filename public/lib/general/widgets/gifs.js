@@ -1,3 +1,5 @@
+import { set, gifCommentBox } from "../../settings.js";
+
 // url Async requesting function
 function httpGetAsync(theUrl, callback){
     // create the request object
@@ -24,20 +26,24 @@ function httpGetAsync(theUrl, callback){
 // callback for the top 8 GIFs of search
 function tenorCallback_search(responsetext){
     // parse the json response
-    var response_objects = JSON.parse(responsetext);
-
-    top_10_gifs = response_objects["results"];
+    var response_objects = JSON.parse(responsetext); 
 
     // load the GIFs -- for our example we will load the first GIFs preview size (nanogif) and share size (tinygif)
 
+    for (let img of document.querySelectorAll("#gifs-list img")){
+     img.parentNode.removeChild(img);
+    }
+
     document.querySelector("#gifs-list").innerHtml="";
-    for (let img of top_10_gifs){
+    for (let img of response_objects["results"]){
         var element = document.createElement("img");
         element.src=img["media"][0]["nanogif"]["url"];
         element.classList.add("gifs-result");
+        element.addEventListener("click", function(event){
+            gifCommentBox.value= gifCommentBox.value + " ![]("+img["media"][0]["nanogif"]["url"]+")"; 
+        });
         document.querySelector("#gifs-list").appendChild(element)
     }
-
     return;
 
 }
@@ -48,10 +54,7 @@ function grab_data(search_term){
     // set the apikey and limit
     var apikey = "D68S16GQGKWB";
     var lmt = 8;
-
-    // test search term
-    // var search_term = "excited";
-
+ 
     // using default locale of en_US
     var search_url = "https://api.tenor.com/v1/search?tag=" + search_term + "&key=" +
             apikey + "&limit=" + lmt;
@@ -66,10 +69,11 @@ export function gifBoxInit(){
     for (let gifButton of document.querySelectorAll('.special-action.gif')) {
         gifButton.addEventListener('click', function(event){
             document.querySelector(".gifs-box").style.display="block";
+            set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.querySelector("textarea"))
         });
     }
 
-    document.querySelector(".gif-search").addEventListener("onkeypress", function(event){
-
+    document.querySelector(".gif-search").addEventListener("keyup", function(event){
+        grab_data(document.querySelector(".gif-search").value)
     });
 }

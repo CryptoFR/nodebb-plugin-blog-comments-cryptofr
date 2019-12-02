@@ -696,6 +696,7 @@ ul.alt-logins a {
 
 ul.sort-group .sort-group-link.active a{
     background-color: lightgray;
+    color: lightblue;
 }
 
 li.sort-group-link(:last-child),
