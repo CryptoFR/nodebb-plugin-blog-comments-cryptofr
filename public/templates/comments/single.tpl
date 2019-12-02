@@ -59,6 +59,10 @@
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
  					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
+ 						<div class="special-box">
+ 							<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
+	 						<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
+ 						</div>
 						<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
 					</div>
  					<input type="hidden" name="_csrf" value="{token}" />
@@ -69,6 +73,10 @@
 				<form action="{relative_path}/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="{pid}">
  					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
+ 						<div class="special-box">
+ 							<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
+	 						<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
+ 						</div>
 						<button data-reply-button="" class="btn btn-primary" type="submit">Éditer</button>
 					</div>
  					<input type="hidden" name="_csrf" value="{token}" />

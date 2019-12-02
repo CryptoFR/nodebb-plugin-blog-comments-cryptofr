@@ -1,4 +1,8 @@
 <!-- IF isValid -->
+	<div class="gifs-box">
+		<div id="gifs-list"></div>
+		<input class="gif-search">
+	</div>
 	<!-- <div class="top-tool-box">
 		<a href="" class='need-more-share2'
 		    data-shareUrl='{redirect_url}'
@@ -43,6 +47,10 @@
 			<small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
 			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
+				<div class="special-box">
+					<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
+					<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
+				</div>
 				<button class="btn btn-primary">Répondre</button>
 			</div>
 			<input type="hidden" name="_csrf" value="{token}" />
@@ -134,6 +142,10 @@
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
  					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Répondre" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
+ 						<div class="special-box">
+ 							<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
+	 						<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
+ 						</div>
 						<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
 					</div>
  					<input type="hidden" name="_csrf" value="{token}" />

@@ -71,10 +71,14 @@ import { drawComments } from "./comments/drawComments.js";
 	  * @returns {Function} onload handler
 	  */
 	export function onLoadFunction(xhr) {
-	   return function onLoadImpl() {
-	     xhr.isBusy = false;
-	     reloadComments(pagination,0,false);
-	   }
+		setTimeout(function() {
+		    return function onLoadImpl() {
+		     xhr.isBusy = false;
+
+		     reloadComments(pagination,0,false);
+		    }
+	    }, 100);
+
 	 }
 
 

@@ -317,7 +317,7 @@ import { onLoadFunction } from "../onload.js";
 	    }
 	  }
 
-      reloadComments(pagination,page+1)
+      reloadComments(pagination,page+1,false)
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
 	  dispatchEmojis();

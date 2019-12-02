@@ -49,7 +49,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send();
-		console.log(XHR);
+		// console.log(XHR);
 		if (showLoader) addLoader();
 	}
 
@@ -58,7 +58,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 
 		setInterval(function() {
 			set.reloading(1);
-		    reloadComments(pagination);
+		    reloadComments(pagination,0,false);
 		}, 120000);
 
 	}

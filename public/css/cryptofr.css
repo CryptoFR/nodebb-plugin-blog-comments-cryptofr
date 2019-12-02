@@ -686,13 +686,16 @@ ul.alt-logins {
 ul.sort-group li, 
 ul.alt-logins li {
     display: inline-block;
-    height: 20px;
+    cursor: pointer;
 }
 
 ul.sort-group a,
 ul.alt-logins a {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 5px;
+}
+
+ul.sort-group .sort-group-link.active a{
+    background-color: lightgray;
 }
 
 li.sort-group-link(:last-child),
@@ -734,4 +737,17 @@ form{
 .sub-reply-input .emoji-picker-icon, .sub-edit-input .emoji-picker-icon{
   top: 10px!important;
   right: 25px!important;
+}
+
+.emoji-menu-tabs td{
+  padding: 0px!important;
+  border: none!important;
+}
+
+.emoji-menu .emoji-items-wrap{
+  overflow: auto!important;
+}
+
+.sub-reply-input .emoji-wysiwyg-editor.form-control{
+  height: 70px!important;
 }

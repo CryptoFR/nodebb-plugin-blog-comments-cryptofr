@@ -56,6 +56,7 @@ import { login,signUp } from "../api.js";
 	}
 
 
+
 	/**
 	 * Closes whatever modal is opened within the plugin
 	 */
@@ -68,8 +69,23 @@ import { login,signUp } from "../api.js";
 	  reloadComments();
 	}
 
+
+
+	/**
+	 * Closes whatever modal is opened within the plugin
+	 */
+	export function closeModalActiveTab() {
+	  var modalElement = document.querySelector("div.modal[data-closed='0']");
+	  if (modalElement) {
+	    modalElement.setAttribute("data-closed", "1");
+	    modalElement.style.display = "none";
+	  }
+	  reloadComments(pagination,0,false);
+	}
+
+
 	export function tabIsActive(){
-		window.onfocus = closeModal; 
+		window.onfocus = closeModalActiveTab; 
 	}
 
 
