@@ -761,10 +761,13 @@ form{
   transform: translate(-50%,-50%);
   width: 80%;
   max-width: 600px;
-  height: 145px;
+  height: 195px;
   z-index: 1000px;
   background: white;
   border: 1px solid lightgray;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
 #gifs-list {
@@ -780,4 +783,14 @@ form{
   left: 50%;
   transform: translate(-50%);
   width: 150px;
+}
+
+.gif-header h4{
+    margin: 10px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.gif-header{
+  border-bottom: 1px solid;
 }

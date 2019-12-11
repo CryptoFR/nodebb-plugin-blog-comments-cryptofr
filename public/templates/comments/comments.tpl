@@ -2,6 +2,7 @@
 	<div class="gifs-box">
 		<div class="gif-header">
 			<h4>Insert GIF</h4>
+			<i class="fa fa-close close-gif"></i>
 		</div>
 		<div id="gifs-list"></div>
 		<input class="gif-search">
