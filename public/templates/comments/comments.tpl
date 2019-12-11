@@ -1,13 +1,15 @@
 <!-- IF isValid -->
 	<div class="gifs-box">
+		<div class="gif-header">
+			<h4>Insert GIF</h4>
+		</div>
 		<div id="gifs-list"></div>
 		<input class="gif-search">
 	</div>
 	<!-- <div class="top-tool-box">
 		<a href="" class='need-more-share2'
 		    data-shareUrl='{redirect_url}'
-		    title="Share"
-		>
+		    title="Share">
 			<i class="i-share icon-share" aria-hidden="true"></i>
 		</a>
 

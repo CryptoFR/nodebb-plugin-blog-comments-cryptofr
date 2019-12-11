@@ -1,0 +1,4 @@
+.tenor-gif-modal #gif-results{overflow-x:auto;white-space:nowrap}
+.tenor-gif-modal #gif-results img{display:inline-block;height:12rem;padding-top:1rem;cursor:pointer}
+.tenor-gif-modal #gif-results img:hover{opacity:.8}
+.fa-tenor-gif::before{content:'GIF';font-size:10px;font-family:sans;background:#333;color:#fff;padding:.25rem .5rem;border-radius:.5em;position:relative;top:-.2rem}

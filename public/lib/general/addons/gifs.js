@@ -34,13 +34,14 @@ function tenorCallback_search(responsetext){
      img.parentNode.removeChild(img);
     }
 
-    document.querySelector("#gifs-list").innerHtml="";
+    document.querySelector("#gifs-list").innerHTML="";
     for (let img of response_objects["results"]){
         var element = document.createElement("img");
         element.src=img["media"][0]["nanogif"]["url"];
         element.classList.add("gifs-result");
         element.addEventListener("click", function(event){
-            gifCommentBox.value= gifCommentBox.value + " ![]("+img["media"][0]["nanogif"]["url"]+")"; 
+            gifCommentBox.value= gifCommentBox.value + " ![]("+img["media"][0]["nanogif"]["url"]+")";
+            gifCommentBox.parentNode.querySelector(".emoji-wysiwyg-editor").innerText= gifCommentBox.value;
         });
         document.querySelector("#gifs-list").appendChild(element)
     }
@@ -66,14 +67,25 @@ function grab_data(search_term){
 }
 
 export function gifBoxInit(){
-    for (let gifButton of document.querySelectorAll('.special-action.gif')) {
+    for (let gifButton of document.querySelectorAll('.special-action.gif i')) {
         gifButton.addEventListener('click', function(event){
             document.querySelector(".gifs-box").style.display="block";
-            set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.querySelector("textarea"))
+            set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"))
         });
     }
 
     document.querySelector(".gif-search").addEventListener("keyup", function(event){
         grab_data(document.querySelector(".gif-search").value)
     });
+}
+
+export function gifContentCheck(){
+
+    for (let comment of document.querySelectorAll(".post-body")){
+        while (comment.innerText.indexOf("![")>=0){
+            let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,comment.innerHTML.indexOf(".gif)")+4)
+            let imgTag="<img class='gif-post' src='"+src+"'>";
+            comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)")+5,comment.innerHTML.length);
+        }
+    }
 }

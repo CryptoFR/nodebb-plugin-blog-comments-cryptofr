@@ -15,10 +15,10 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	loadCSS(pluginURL + "/css/comments.css");
 	loadCSS(pluginURL + "/css/cryptofr.css");
 	loadCSS(pluginURL + "/css/emoji.css");
+	loadCSS(pluginURL + "/css/icons.css");
 	loadCSS("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 	loadCSS("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
 
-	// loadScriptHead("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js");
 
 
 

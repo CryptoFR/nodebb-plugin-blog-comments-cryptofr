@@ -8,7 +8,7 @@ import { setActiveSortingLi,setSorting } from "./sortComments.js";
 import { upvotePost,downvotePost,xpost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { onLoadFunction } from "../onload.js";
-import { gifBoxInit } from "../widgets/gifs.js";
+import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 
 
 
@@ -326,6 +326,7 @@ import { gifBoxInit } from "../widgets/gifs.js";
 	  onLoadFunction();
 
 	  gifBoxInit();
+	  gifContentCheck();
 
 	}
 
