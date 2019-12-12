@@ -39,14 +39,11 @@
 			<!-- IF !isLoggedIn -->
 				<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
 			<!-- ELSE -->
-				<!-- IF user.picture -->
 				<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne" ></i>
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF user.picture -->
 			<!-- ENDIF !isLoggedIn -->
 		</div>
 

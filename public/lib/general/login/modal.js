@@ -85,7 +85,13 @@ import { login,signUp } from "../api.js";
 
 
 	export function tabIsActive(){
-		window.onfocus = closeModalActiveTab; 
+		// window.onfocus = closeModalActiveTab;
+
+
+		// console.log(document.querySelector('#formupload #file'))
+		if (!$('#formupload #file[focused=1]').length){
+			window.onfocus = closeModalActiveTab;
+		}else $('#formupload #file').attr('focused',"0");
 	}
 
 

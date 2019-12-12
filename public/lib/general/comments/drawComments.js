@@ -22,6 +22,8 @@ import { uploadInit } from "../addons/upload.js";
 
 	    var data = JSON.parse(XHR.responseText),
 	      html;
+	     console.log(data);
+
 	    set.dataRes(data);
 	    setActiveSortingLi(sorting, data.sorting);
 	    set.commentsDiv(document.getElementById("nodebb-comments-list"));
@@ -698,6 +700,7 @@ import { uploadInit } from "../addons/upload.js";
 	    clone.querySelector("div.post-body").innerHTML = comment.content;
 	    var img = clone.querySelector("img.profile-image");
 	    var divImgText = clone.querySelector("div.profile-image");
+
 	    if (comment.user.picture) {
 	      changeAttribute(img, "src", comment.user.picture);
 	      changeAttribute(img, "alt", comment.user.username);
