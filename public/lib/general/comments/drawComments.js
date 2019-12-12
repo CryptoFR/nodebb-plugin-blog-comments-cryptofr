@@ -9,6 +9,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
+import { uploadInit } from "../addons/upload.js";
 
 
 
@@ -327,6 +328,8 @@ import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 
 	  gifBoxInit();
 	  gifContentCheck();
+
+	  uploadInit()
 
 	}
 

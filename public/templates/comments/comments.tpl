@@ -7,6 +7,11 @@
 		<div id="gifs-list"></div>
 		<input class="gif-search">
 	</div>
+	<div class="upload-form">
+		<form enctype="multipart/form-data" id="formupload" method="post" action="/api/post/upload">
+	        <input  type="file" id="file" name="file"/>
+	    </form> 
+    </div>
 	<!-- <div class="top-tool-box">
 		<a href="" class='need-more-share2'
 		    data-shareUrl='{redirect_url}'

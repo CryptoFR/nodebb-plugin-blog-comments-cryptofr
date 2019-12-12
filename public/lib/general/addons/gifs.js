@@ -77,6 +77,20 @@ export function gifBoxInit(){
     document.querySelector(".gif-search").addEventListener("keyup", function(event){
         grab_data(document.querySelector(".gif-search").value)
     });
+
+    var closeGifBoxIcon = document.querySelector('.close-gif');
+
+    //I'm using "click" but it works with any event
+    document.addEventListener('click', function(event) {
+
+      var isClickInside = closeGifBoxIcon.contains(event.target);
+
+
+      if (isClickInside) {
+        closeGifBox();
+      }
+
+    });
 }
 
 export function gifContentCheck(){
@@ -88,4 +102,13 @@ export function gifContentCheck(){
             comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)")+5,comment.innerHTML.length);
         }
     }
+}
+
+
+export function closeGifBox(){
+    document.querySelector(".gifs-box").style.display="none";
+    document.querySelector(".gifs-box input").value="";
+    var event = document.createEvent('HTMLEvents');
+    event.initEvent('keyup', true, false);
+    document.querySelector(".gifs-box input").dispatchEvent(event);
 }

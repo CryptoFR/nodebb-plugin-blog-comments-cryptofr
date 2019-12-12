@@ -1,6 +1,7 @@
 import { set,pluginURL,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
 import { addLoader } from "./util.js";
 import { grecaptchaGrab } from "./login/modal.js"; 
+import { reloadComments } from "./comments/loadComments.js"; 
   /**
    * Creates an XHR request. This function due to the use of the
    * global variable XHR can be a source of bugs
@@ -74,7 +75,7 @@ import { grecaptchaGrab } from "./login/modal.js";
     xhr.withCredentials = true;
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(encodedString);
-    console.log(xhr);
+    reloadComments(pagination,0,false);
     return xhr;
   }
 

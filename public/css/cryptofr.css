@@ -737,7 +737,7 @@ form{
 
 .sub-reply-input .emoji-picker-icon, .sub-edit-input .emoji-picker-icon{
   top: 10px!important;
-  right: 25px!important;
+  right: 10px!important;
 }
 
 .emoji-menu-tabs td{
@@ -762,7 +762,7 @@ form{
   width: 80%;
   max-width: 600px;
   height: 195px;
-  z-index: 1000px;
+  z-index: 1000;
   background: white;
   border: 1px solid lightgray;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
@@ -775,6 +775,10 @@ form{
   overflow: auto;
   margin: 10px;
   display: flex;
+}
+
+#gifs-list img{
+  cursor: pointer;
 }
 
 .gif-search{
@@ -793,4 +797,36 @@ form{
 
 .gif-header{
   border-bottom: 1px solid;
+}
+
+.close-gif{
+  position: absolute;
+    top: 10px;
+    right: 10px;
+    color: gray;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.emoji-wysiwyg-editor {
+  padding-right: 30px!important;
+}
+
+#nodebb-comments-list .special-action.gif i:before{
+  font-size: 8px;
+  top: 0px;
+}
+
+#nodebb-comments-list .special-action.img i{
+  font-size: 18px;
+  position: relative;
+  top: 5px;
+}
+
+.special-box{
+  float: left;
+}
+
+.upload-form{
+  display: none;
 }

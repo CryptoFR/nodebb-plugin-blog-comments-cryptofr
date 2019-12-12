@@ -76,6 +76,7 @@
 
 #nodebb .topic-text img {
 	display: inline-block;
+    vertical-align: middle;
 }
 
 #nodebb .topic-text p {
