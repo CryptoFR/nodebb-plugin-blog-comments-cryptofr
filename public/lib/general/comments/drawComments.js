@@ -705,12 +705,17 @@ import { uploadInit } from "../addons/upload.js";
 	      changeAttribute(img, "src", comment.user.picture);
 	      changeAttribute(img, "alt", comment.user.username);
 	      changeAttribute(img, "title", comment.user.username);
+	      divImgText.style.display="none"
 	      removeNodes(divImgText);
+	      console.log("si")
 	    } else {
 	      changeAttribute(divImgText, "title", comment.user.username);
 	      changeAttribute(divImgText, "alt", comment.user.username);
         divImgText.innerText = comment.user["icon:text"];
         divImgText.style.backgroundColor = comment.user["icon:bgColor"];
+	      img.style.display="none"
+	      console.log("no")
+
 	      removeNodes(img);
 	    }
 
