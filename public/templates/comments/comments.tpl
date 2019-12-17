@@ -60,6 +60,10 @@
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
+			<div class="logout-box" title="signout">
+				<i class="fas fa-sign-out-alt"></i>
+				<span>Logout</span>
+			</div>
 		</form>
 		<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
@@ -69,10 +73,6 @@
 
 		<!-- This button is here just for making the css margin right -->
 		<button style="visibility: hidden; padding-top: 8px;"> </button>
-		<div class="logout-box" title="signout">
-			<i class="fas fa-sign-out-alt"></i>
-			<span>Logout</span>
-		</div>
 		<!-- ENDIF isLoggedIn -->
 	<!-- ENDIF atTop -->
 
