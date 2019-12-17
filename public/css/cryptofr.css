@@ -834,3 +834,15 @@ form{
 .upload-form{
   display: none;
 }
+
+.logout-box {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.logout-box i {
+  font-size: 14px;
+} 
+.logout-box span {
+  font-size: 10px;
+}

@@ -61,7 +61,7 @@
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
 			<div class="logout-box" title="signout">
-				<i class="fas fa-sign-out-alt"></i>
+				<i class="fa fa-sign-out"></i>
 				<span>Logout</span>
 			</div>
 		</form>
