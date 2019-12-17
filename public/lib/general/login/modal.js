@@ -10,6 +10,7 @@ import { login,signUp } from "../api.js";
 	 * @param {function} onSubmit function to be called when a submit event occurs
 	 * @returns {DOMElement} Modal's div element
 	 */
+	 
 	export function prepareModal(modalTemplate, token, onSubmit) {
 	  var div = document.createElement("div");
 	  div.innerHTML = modalTemplate;
@@ -85,10 +86,6 @@ import { login,signUp } from "../api.js";
 
 
 	export function tabIsActive(){
-		// window.onfocus = closeModalActiveTab;
-
-
-		// console.log(document.querySelector('#formupload #file'))
 		if (!$('#formupload #file[focused=1]').length){
 			window.onfocus = closeModalActiveTab;
 		}else $('#formupload #file').attr('focused',"0");

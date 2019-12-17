@@ -56,10 +56,12 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 
 	export function newCommentsCheck(){
 
-		setInterval(function() {
-			set.reloading(1);
-		    reloadComments(pagination,0,false);
-		}, 120000);
+		if (document.hasFocus()){
+			setInterval(function() {
+				set.reloading(1);
+			    reloadComments(pagination,0,false);
+			}, 120000);
+		}
 
 	}
 

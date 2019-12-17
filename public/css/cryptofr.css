@@ -23,6 +23,10 @@
   width: 80px;
   height: 80px;
   border-radius: 100%;
+  font-size: 50px;
+  line-height: 80px;
+  font-family: Roboto,Helvetica,Arial,sans-serif;
+
 }
 
 .top-post-form.logged-in {

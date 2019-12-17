@@ -5,7 +5,7 @@ import { addSocialAuthListeners } from "../login/social.js";
 import { addRegisterValidators } from "../login/form.js"; 
 import { reloadComments,commentSubmissionsHandler } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
-import { upvotePost,downvotePost,xpost } from "../api.js";
+import { upvotePost,downvotePost,xpost,logout } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
@@ -325,14 +325,36 @@ import { uploadInit } from "../addons/upload.js";
       reloadComments(pagination,page+1,false)
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
+	  checkImgProfile();
 	  dispatchEmojis();
 	  onLoadFunction();
 
 	  gifBoxInit();
 	  gifContentCheck();
 
-	  uploadInit()
+	  uploadInit();
 
+	  prepareSignout(data.token)
+
+
+	}
+
+
+
+	function prepareSignout(token){
+		$(".logout-box").click(function(){
+			logout(token)
+		});
+	}
+	
+
+	function checkImgProfile(){
+		if (document.querySelector(".first-image img")){
+			if (document.querySelector(".first-image img").getAttribute("src")=="")
+				$(".first-image img.profile-image").remove()
+			else 
+				$(".first-image div.profile-image").remove()
+		}
 	}
 
 
@@ -707,15 +729,12 @@ import { uploadInit } from "../addons/upload.js";
 	      changeAttribute(img, "title", comment.user.username);
 	      divImgText.style.display="none"
 	      removeNodes(divImgText);
-	      console.log("si")
 	    } else {
 	      changeAttribute(divImgText, "title", comment.user.username);
 	      changeAttribute(divImgText, "alt", comment.user.username);
         divImgText.innerText = comment.user["icon:text"];
         divImgText.style.backgroundColor = comment.user["icon:bgColor"];
 	      img.style.display="none"
-	      console.log("no")
-
 	      removeNodes(img);
 	    }
 

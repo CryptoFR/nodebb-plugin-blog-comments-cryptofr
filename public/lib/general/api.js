@@ -190,3 +190,17 @@ import { reloadComments } from "./comments/loadComments.js";
       isBookmark: !bookmarked
     });
   }
+
+
+
+   export function logout(token) {
+    if (authXHR.isBusy) return;
+    var authXHRaux= authXHR;
+    authXHRaux.isBusy = true;
+    set.authXHR(authXHRaux);
+    xpost(authXHR, nodeBBURL + "/logout", {
+      _csrf: token,
+      noscript: false
+    });
+    addLoader();
+  }
