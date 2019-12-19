@@ -22,7 +22,6 @@ import { uploadInit } from "../addons/upload.js";
 
 	    var data = JSON.parse(XHR.responseText),
 	      html;
-	     console.log(data);
 
 	    set.dataRes(data);
 	    setActiveSortingLi(sorting, data.sorting);
@@ -164,6 +163,7 @@ import { uploadInit } from "../addons/upload.js";
 	            quote +
 	            formInput.value;
 	          elementForm.classList.remove("hidden");
+	          elementForm.querySelector(".emoji-wysiwyg-editor").innerText=quote;
 	        } else if (/\/reply$/.test(dataComponent)) {
 	          if (level >= 2) {
 	            var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";

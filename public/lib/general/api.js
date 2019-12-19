@@ -75,7 +75,6 @@ import { reloadComments } from "./comments/loadComments.js";
     xhr.withCredentials = true;
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(encodedString);
-    reloadComments(pagination,0,false);
     return xhr;
   }
 
@@ -89,7 +88,7 @@ import { reloadComments } from "./comments/loadComments.js";
    */
    export function upvotePost(topicItem, pid, upvoted) {
     var isUpvote = !upvoted;
-    if (voteXHR.isBusy) return;
+    // if (voteXHR.isBusy) return;
     var voteXHRaux= voteXHR;
     voteXHRaux.isBusy = true;
     voteXHRaux.topicItem = topicItem;
@@ -161,7 +160,7 @@ import { reloadComments } from "./comments/loadComments.js";
    */
    export function downvotePost(topicItem, pid, downvoted) {
     var isDownvote = !downvoted;
-    if (voteXHR.isBusy) return;
+    // if (voteXHR.isBusy) return;
     var voteXHRaux= voteXHR;
     voteXHRaux.isBusy = true;
     voteXHRaux.topicItem = topicItem;

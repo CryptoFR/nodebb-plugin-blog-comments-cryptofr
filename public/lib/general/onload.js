@@ -16,7 +16,7 @@ import { drawComments } from "./comments/drawComments.js";
 	   */
 	  authXHR.onload = function() {
 	    if (authXHR.status === 200) {
-	      reloadComments(pagination);
+	      reloadComments(pagination,0,false);
 	      setTimeout(function() {
 	        removeLoader();
 	        createSnackbar("Login success", true);
@@ -39,7 +39,7 @@ import { drawComments } from "./comments/drawComments.js";
 	    if (signUpXHR.status === 200) {
 	      var response = JSON.parse(signUpXHR.responseText);
 	      if (!response.error) {
-	        reloadComments(pagination);
+	        reloadComments(pagination,0,false);
 	        setTimeout(function() {
 	          removeLoader();
 	          createSnackbar(
@@ -77,7 +77,7 @@ import { drawComments } from "./comments/drawComments.js";
 
 		     reloadComments(pagination,0,false);
 		    }
-	    }, 100);
+	    }, 500);
 
 	 }
 

@@ -83,6 +83,19 @@ export function addLoader() {
     document.querySelector("body").appendChild(div);
   }
 
+
+    /**
+     * Adds a loading div in the DOM
+     */
+  export function addLoaderInside() {
+      if (document.querySelector("div.loading")) {
+        return;
+      }
+      var div = document.createElement("div");
+      div.classList.add("loading-inside");
+      document.querySelector("#nodebb-comments-list").appendChild(div);
+    }
+
   
   /**
    * Removes the loading div from the DOM

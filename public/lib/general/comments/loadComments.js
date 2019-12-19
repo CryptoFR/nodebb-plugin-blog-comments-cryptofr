@@ -1,5 +1,5 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
-import { addLoader,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
+import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
 
 	export function addButtons() {
@@ -40,7 +40,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	/**
 	 * Function that reloads all comments within the DOM
 	 */
-	export function reloadComments(pag=0,currentPage=0,showLoader=true) {
+	export function reloadComments(pag=0,currentPage=0,showLoader=true,insideLoader=false) {
       	if (currentPage>pagination) return null;
       	set.page(currentPage)
       	set.pagination(pag);
@@ -51,6 +51,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		XHR.send();
 		// console.log(XHR);
 		if (showLoader) addLoader();
+		else if(insideLoader) addLoaderInside();
 	}
 
 
@@ -102,11 +103,23 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	        inputs.content=input.value;
 	      } 
 
-	      xpost(XHR, form.getAttribute("action"), inputs);
-	      reloadComments(pagination);
+	      if (inputs["content"].length<8)
+	      	formSubmitError("Message too short",form);
+	      else {
+	      	xpost(XHR, form.getAttribute("action"), inputs);	      
+			setTimeout(function() {
+				reloadComments(pagination,0,false);
+			},500);
+		  }
 
 
 	      return false;
 	    });
 	  }
+	}
+
+	export function formSubmitError(message,form){
+		// if (form.classList.contains("top-post-form")){
+			
+		// }
 	}
