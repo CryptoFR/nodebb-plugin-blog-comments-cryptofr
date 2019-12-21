@@ -48,7 +48,7 @@
 
 		<!-- IF isLoggedIn -->
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
-			<small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
+			<small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small>
 			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<div class="special-box">
@@ -177,7 +177,7 @@
 		<form action="{relative_path}/comments/reply" method="post">
 			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true" data-emojiable="true"></textarea>
 		<!-- IF isLoggedIn -->
-			<small>Connecté comme <strong>{user.username}</strong>. <strong id="nodebb-error"></strong></small>
+			<small>Connecté comme <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small>
 			<button class="btn btn-primary">Répondre</button>
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />

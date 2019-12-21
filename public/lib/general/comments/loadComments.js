@@ -119,7 +119,8 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	}
 
 	export function formSubmitError(message,form){
-		// if (form.classList.contains("top-post-form")){
-			
-		// }
+		form.querySelector(".nodebb-error").innerText=message;
+		setTimeout(function(){
+			form.querySelector(".nodebb-error").innerText="";
+		},5000)
 	}
