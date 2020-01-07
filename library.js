@@ -384,7 +384,7 @@
   };
 
   function renderAdmin(req, res, callback) {
-    res.render("comments/admin", {});
+    res.render("admin/admin", {});
   }
 
   function captchaMiddleware(req, res, next) {

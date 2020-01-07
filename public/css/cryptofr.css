@@ -920,3 +920,34 @@ form{
 .nodebb-error{
   color: #ac0202;
 }
+
+.menuButton-container{
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  text-align: right;
+}
+
+.options-container{
+  display: none;
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75); 
+}
+
+
+.options-container span{
+  display: block; 
+  text-align: left;
+  padding: 2px;
+}
+
+.menuButton-container .menuButton {
+  height: 30px;
+  width: 20px;
+  display: inline-block;
+  -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
+  text-align: center;
+}
