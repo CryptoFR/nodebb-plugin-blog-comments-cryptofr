@@ -56,14 +56,12 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 
 
 	export function newCommentsCheck(){
-
 		if (document.hasFocus()){
 			setInterval(function() {
 				set.reloading(1);
 			    reloadComments(pagination,0,false);
 			}, 120000);
 		}
-
 	}
 
 	
@@ -87,13 +85,10 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	  }
 	}
 
-
-
 	export function commentSubmissionsHandler(){
 	  for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
 	    form.addEventListener('submit', function(event){
 	      event.preventDefault();        
-	      
 
 	      let inputs={};
 	      for (let input of form.querySelectorAll("input")) {
@@ -101,7 +96,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	      }
 	      for (let input of form.querySelectorAll("textarea")) {
 	        inputs.content=input.value;
-	      } 
+	      }
 
 	      if (inputs["content"].length<8)
 	      	formSubmitError("Message too short",form);
@@ -111,8 +106,6 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 				reloadComments(pagination,0,false);
 			},500);
 		  }
-
-
 	      return false;
 	    });
 	  }
@@ -122,5 +115,5 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 		form.querySelector(".nodebb-error").innerText=message;
 		setTimeout(function(){
 			form.querySelector(".nodebb-error").innerText="";
-		},5000)
+		},3000)
 	}

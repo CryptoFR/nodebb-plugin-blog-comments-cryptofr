@@ -915,3 +915,8 @@ form{
 .logout-box span {
   font-size: 10px;
 }
+
+
+.nodebb-error{
+  color: #ac0202;
+}

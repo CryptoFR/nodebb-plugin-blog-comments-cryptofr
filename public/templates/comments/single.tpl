@@ -23,6 +23,13 @@
 									</button>
 								<!-- ENDIF !posts.deletedReply -->
 								<!-- ENDIF posts.isReply -->
+								<div class="menuButton-container">
+									<span class="menuButton">...</span>
+									<div class="options-container">
+										<span class="edit-option">Éditer</span>
+										<span class="delete-option">Supprimer</span>
+									</div>
+								</div>
 							</small>
 							<br />
 							<div class="post-body">{posts.content}</div>

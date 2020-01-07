@@ -1,3 +1,4 @@
+	
 	export function checkExpandableComments() {
 		for (let comment of document.querySelectorAll("#nodebb-comments-list li")) { 
 			if (comment.querySelector("ul")) {
@@ -17,6 +18,8 @@
 		}
 		collapseExpandCommentEvent();
 	}
+
+
 
 	function collapseExpandCommentEvent() {
 		for (let expandableButton of document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")) { 

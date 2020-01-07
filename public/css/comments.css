@@ -10,6 +10,7 @@
 #nodebb {
 	margin-top: 50px;
 	/*min-height: 300px;*/
+    font-family: Roboto,Helvetica,Arial,sans-serif;
 }
 
 #nodebb a {

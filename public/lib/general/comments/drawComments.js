@@ -15,7 +15,7 @@ import { uploadInit } from "../addons/upload.js";
 
 	export function drawComments() {
 
-		// console.log(XHR); 
+		console.log(XHR); 
 
 	  removeLoader();
 	  if (XHR.status >= 200 && XHR.status < 400) {
@@ -608,7 +608,6 @@ import { uploadInit } from "../addons/upload.js";
 	  var relativePath = otherData.relative_path;
 	  var uid = otherData.user.uid;
 
-
 	  function changeFormValue(comment, form, level, url) {
 	    if (form.classList.contains("sub-reply-input")) {
 	      form.setAttribute("action", relativePath + "/comments/reply");
@@ -751,9 +750,12 @@ import { uploadInit } from "../addons/upload.js";
 	    } else {
 	      removeNodes(clone.querySelector("button.reply-label"));
 	    }
+	    
 	    if (comment.uid !== uid) {
 	      removeNodes(clone.querySelector("a.edit"));
-	    }
+	      removeNodes(clone.querySelector(".menuButton-container"));
+	    } 
+
 	    clone.querySelector("span[data-timestamp]").setAttribute("title",comment.timestampISO.split("T")[0])
 	    clone.querySelector("span[data-timestamp]").innerText =
 	      "commented " + comment.timestamp;
@@ -783,3 +785,4 @@ import { uploadInit } from "../addons/upload.js";
 	  }
 	  return retVal;
 	}
+ 
