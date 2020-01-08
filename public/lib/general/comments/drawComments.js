@@ -197,8 +197,6 @@ import { uploadInit } from "../addons/upload.js";
 	          bookmarkPost(topicItem, pid, bookmarked);
 			  reloadComments(pagination,0,false);
 			} else if (/\/delete/.test(dataComponent)) {
-			  console.log('delete 1')
-			  console.log(deletePost);
 			  deletePost(topicItem, pid);
 			  reloadComments(pagination,0,false);
 			}
@@ -227,8 +225,8 @@ import { uploadInit } from "../addons/upload.js";
 	          );
 	          reloadComments(pagination,0,false);
 	        }else if (/\/delete/.test(dataComponent)) {
-				console.log('delete 2')
-			  }
+				deletePost(topicItem, pid);
+				reloadComments(pagination,0,false);			  }
 	      }
 	    });
 	    nodebbDiv
