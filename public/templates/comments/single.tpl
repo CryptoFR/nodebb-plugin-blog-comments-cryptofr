@@ -26,8 +26,8 @@
 								<div class="menuButton-container">
 									<span class="menuButton">...</span>
 									<div class="options-container">
-										<span class="edit-option">Éditer</span>
-										<span class="delete-option">Supprimer</span>
+										<span class="edit-option"><i class="fa fa-edit"></i>Éditer</span>
+										<span class="delete-option"><i class="fa fa-trash"></i>Supprimer</span>
 									</div>
 								</div>
 							</small>
