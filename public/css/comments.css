@@ -86,6 +86,7 @@
 
 #nodebb .topic-text small {
 	color: #888;
+    position: unset!important;
 }
 
 #nodebb .profile-image {
@@ -469,7 +470,7 @@
     display: none;
 }
 
-#nodebb li.expandable:hover .expandable-button{
+#nodebb li.expandable .topic-item:hover .expandable-button{
     display: block;
 }
 
@@ -483,19 +484,22 @@
     color: #333;
     line-height: 15px;
     font-size: 20px;
+    font-weight: bold;
 }
 
 
 
-#nodebb li.expandable.expanded .expandable-button.expanded{
+#nodebb li.expandable.expanded .expandable-button.expanded,
+#nodebb li.expandable.collapsed .expandable-button.collapsed{
     text-align: center;
     width: 15px;
-    height: 15px;
+    height: 20px;
+    line-height: 20px;
     position: absolute;
-    border: 1px dotted #333; 
-    right: -25px;
+    right: 19px;
     top: 0px;
     cursor: pointer;
+    border-right: 1px dotted rgba(0,0,0,0.5);
 }
 
 
@@ -504,19 +508,9 @@
     color: #333;
     line-height: 15px;
     font-size: 20px;
+    font-weight: bold;
 }
-
-#nodebb li.expandable.collapsed .expandable-button.collapsed{
-    text-align: center;
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    border: 1px dotted #333; 
-    right: -25px;
-    top: 0px;
-    cursor: pointer;
-}
-
+ 
 #nodebb li.expandable ul{
     max-height: 2000px;
     transition: 1s;

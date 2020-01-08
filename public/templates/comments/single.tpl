@@ -52,7 +52,7 @@
 								<a data-component="post/quote" class="quote" style="color: inherit; text-decoration: none;" title="Quote">
 									Citer
 								</a>
-								<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;" title="Edit">
+								<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;display: none;" title="Edit">
 								  Éditer
 								</a>
 								<!-- <a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">

@@ -180,7 +180,8 @@ import { uploadInit } from "../addons/upload.js";
 	          }
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/edit$/.test(dataComponent)) {
-	          formInput.value = postBody.textContent;
+	          formInput.value = postBody.textContent;  
+	          console.log(elementForm)
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
@@ -325,6 +326,7 @@ import { uploadInit } from "../addons/upload.js";
       reloadComments(pagination,page+1,false)
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
+	  checkCommentOptions();
 	  checkImgProfile();
 	  dispatchEmojis();
 	  onLoadFunction();
@@ -750,7 +752,7 @@ import { uploadInit } from "../addons/upload.js";
 	    } else {
 	      removeNodes(clone.querySelector("button.reply-label"));
 	    }
-	    
+
 	    if (comment.uid !== uid) {
 	      removeNodes(clone.querySelector("a.edit"));
 	      removeNodes(clone.querySelector(".menuButton-container"));
@@ -785,4 +787,49 @@ import { uploadInit } from "../addons/upload.js";
 	  }
 	  return retVal;
 	}
- 
+
+
+	function checkCommentOptions(){ 
+
+		$(document).click(function(e) 
+		{
+		    var container = $(".menuButton"); 
+		    if (!container.is(e.target) && container.has(e.target).length === 0) 
+		    {
+		        $(".options-container").hide();
+		    } 
+		});
+
+		$(document).mouseover(function(e) 
+		{
+		    var container = $("#nodebb-comments-list .topic-body"); 
+		    if (!container.is(e.target) && container.has(e.target).length === 0) 
+		    {
+		        $(".options-container").hide();
+		    } 
+		});
+
+		for (let comment of document.querySelectorAll("#nodebb-comments-list .topic-body")) {
+
+			if (comment.querySelector(".options-container .edit-option")){
+				
+				comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
+
+
+		          comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
+		          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").textContent;  
+		          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").textContent;
+				})
+
+			}
+
+			for (let button of 
+			comment.querySelectorAll(".menuButton")) {  
+				button.addEventListener("click",function(){ 
+					console.log("click");
+					comment.querySelector(".options-container").style.display="block";
+				})
+			}
+
+		}
+	}

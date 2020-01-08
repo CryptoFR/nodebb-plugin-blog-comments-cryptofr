@@ -930,6 +930,9 @@ form{
 
 .options-container{
   display: none;
+  position: absolute;
+  margin-top: 1px;
+  right: 0px;
   -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75); 
@@ -939,15 +942,22 @@ form{
 .options-container span{
   display: block; 
   text-align: left;
-  padding: 2px;
+  padding: 5px;
+  cursor: pointer;
 }
 
 .menuButton-container .menuButton {
-  height: 30px;
+  height: 20px;
   width: 20px;
+  line-height: 10px;
   display: inline-block;
-  -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
+  border-left: 1px dotted rgba(0,0,0,0.5);
   text-align: center;
+  cursor: pointer;
+  display: none;
+  font-weight: bold;
+}
+
+#nodebb .topic-item:hover .menuButton-container .menuButton{
+  display: block;
 }
