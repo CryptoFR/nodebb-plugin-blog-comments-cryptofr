@@ -52,6 +52,9 @@
 								<a data-component="post/quote" class="quote" style="color: inherit; text-decoration: none;" title="Quote">
 									Citer
 								</a>
+								<a data-component="post/delete" class="quote" style="color: inherit; text-decoration: none;" title="Quote">
+									Effacer
+								</a>
 								<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;display: none;" title="Edit">
 								  Éditer
 								</a>

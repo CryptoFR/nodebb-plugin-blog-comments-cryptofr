@@ -373,6 +373,12 @@
     });
   };
 
+  Comments.deletePost = function (req, res) {
+    const uid = req.user ? req.user.uid : 0;
+    const pid = req.body.toPid;
+    return res.json({uid, pid})
+  }
+
   Comments.addAdminLink = function(custom_header, callback) {
     custom_header.plugins.push({
       route: "/blog-comments",
@@ -498,6 +504,7 @@
 
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
+    app.post("/comments/delete/:pid", Comments.deletePost);
     callback();
   };
 })(module);
