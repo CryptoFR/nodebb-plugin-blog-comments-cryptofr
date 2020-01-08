@@ -8,9 +8,9 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
-	/* Dev purposes only for CSS */ set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
+	// /* Dev purposes only for CSS */ set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 	
-	// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 	loadCSS(pluginURL + "/css/comments.css");
 	loadCSS(pluginURL + "/css/cryptofr.css");
@@ -23,7 +23,6 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 
 
-	/* Dev purposes only / set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr"); */
 
 
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
