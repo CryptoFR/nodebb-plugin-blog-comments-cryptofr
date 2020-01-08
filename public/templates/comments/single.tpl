@@ -60,7 +60,7 @@
 								</a> -->
 							</div>
 						</div>
-					</div>
+					</div> 
 				</div>
 
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
