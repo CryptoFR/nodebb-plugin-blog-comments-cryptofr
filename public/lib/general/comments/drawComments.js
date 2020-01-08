@@ -5,7 +5,7 @@ import { addSocialAuthListeners } from "../login/social.js";
 import { addRegisterValidators } from "../login/form.js"; 
 import { reloadComments,commentSubmissionsHandler } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
-import { upvotePost,downvotePost,xpost,logout } from "../api.js";
+import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
@@ -101,15 +101,16 @@ import { uploadInit } from "../addons/upload.js";
 	    nodebbDiv.innerHTML = normalizePost(html);
 	    // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 	    setActiveSortingLi(sorting);
-	    var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
+		var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
 	    var selectors = [
 	      '[data-component="post/reply"]',
 	      '[data-component="post/quote"]',
 	      '[data-component="post/bookmark"]',
 	      '[data-component="post/upvote"]',
 	      '[data-component="post/downvote"]',
-	      '[data-component="post/edit"]'
-	    ].join(",");
+		  '[data-component="post/edit"]',
+		  '[data-component="post/delete"]'
+		].join(",");
 	    bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
 	      if (!data.user || !data.user.uid) {
 	        authenticate("login");
@@ -181,7 +182,6 @@ import { uploadInit } from "../addons/upload.js";
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/edit$/.test(dataComponent)) {
 	          formInput.value = postBody.textContent;  
-	          console.log(elementForm)
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
@@ -195,8 +195,13 @@ import { uploadInit } from "../addons/upload.js";
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(topicItem, pid, bookmarked);
-	          reloadComments(pagination,0,false);
-	        }
+			  reloadComments(pagination,0,false);
+			} else if (/\/delete/.test(dataComponent)) {
+			  console.log('delete 1')
+			  console.log(deletePost);
+			  deletePost(topicItem, pid);
+			  reloadComments(pagination,0,false);
+			}
 	      } else {
 	        if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != mainPost.uid) {
@@ -221,7 +226,9 @@ import { uploadInit } from "../addons/upload.js";
 	            downvoted
 	          );
 	          reloadComments(pagination,0,false);
-	        }
+	        }else if (/\/delete/.test(dataComponent)) {
+				console.log('delete 2')
+			  }
 	      }
 	    });
 	    nodebbDiv

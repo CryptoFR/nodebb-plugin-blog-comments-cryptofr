@@ -1,5 +1,4 @@
 import { pluginURL } from "../settings.js";
-
   /**
    * Utility function that recursively parses the timestamp of each of the posts
    * in order to show a human representation of that timestamp

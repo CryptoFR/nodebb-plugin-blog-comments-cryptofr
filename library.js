@@ -373,10 +373,11 @@
     });
   };
 
-  Comments.deletePost = function (req, res) {
+  Comments.deletePost = async function (req, res) {
     const uid = req.user ? req.user.uid : 0;
-    const pid = req.body.toPid;
-    return res.json({uid, pid})
+    const pid = req.params.pid;
+    await posts.delete(pid, uid)
+    return res.json({deleted: true, uid, pid})
   }
 
   Comments.addAdminLink = function(custom_header, callback) {

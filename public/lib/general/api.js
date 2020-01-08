@@ -191,6 +191,21 @@ import { reloadComments } from "./comments/loadComments.js";
   }
 
 
+  /**
+   * Deletes a comment
+   * @param {DOMElement} topicItem DOMElement for the comment
+   * @param {Number} pid post (comment) ID
+   * @param {Boolean} bookmarked Whether the comment has been already bookmarked or not
+   */
+  export function deletePost(topicItem, pid) {
+    var voteXHRaux= voteXHR;
+    voteXHRaux.isBusy = true;
+    voteXHRaux.topicItem = topicItem;
+    set.voteXHR(voteXHRaux)
+    xpost(voteXHR, nodeBBURL + "/comments/delete/" + pid);
+  }
+
+
 
    export function logout(token) {
     if (authXHR.isBusy) return;
