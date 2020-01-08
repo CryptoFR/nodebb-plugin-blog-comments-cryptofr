@@ -492,16 +492,22 @@
 #nodebb li.expandable.expanded .expandable-button.expanded,
 #nodebb li.expandable.collapsed .expandable-button.collapsed{
     text-align: center;
-    width: 15px;
+    width: 20px;
     height: 20px;
     line-height: 20px;
+    border-radius: 100%;
+
     position: absolute;
-    right: 19px;
+    right: 25px;
     top: 0px;
     cursor: pointer;
-    border-right: 1px dotted rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,0,0,0.2);
 }
+#nodebb li.expandable.expanded .expandable-button.expanded:hover,
+#nodebb li.expandable.collapsed .expandable-button.collapsed:hover{
+    border: 1px solid rgba(0,0,0,0.4);
 
+}
 
 #nodebb li.expandable.collapsed .expandable-button.collapsed:after{
     content: '+';

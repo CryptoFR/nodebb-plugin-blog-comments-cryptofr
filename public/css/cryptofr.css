@@ -933,9 +933,11 @@ form{
   position: absolute;
   margin-top: 1px;
   right: 0px;
-  -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.75); 
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+  background: white; 
+  z-index: 10000;
 }
 
 
@@ -951,11 +953,17 @@ form{
   width: 20px;
   line-height: 10px;
   display: inline-block;
-  border-left: 1px dotted rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 100%;
   text-align: center;
   cursor: pointer;
   display: none;
   font-weight: bold;
+  transform: rotate(90deg);
+}
+
+.menuButton-container .menuButton:hover{
+  border: 1px solid rgba(0,0,0,0.5);
 }
 
 #nodebb .topic-item:hover .menuButton-container .menuButton{
