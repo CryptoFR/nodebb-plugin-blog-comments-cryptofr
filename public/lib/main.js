@@ -19,12 +19,6 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	loadCSS("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 	loadCSS("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
 
-
-
-
-
-
-
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
 	set.nodebbDiv(document.getElementById("nodebb"));
 
@@ -38,7 +32,6 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	set.sorting("newest");
 	
 	set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
-	// set.commentsURL('http://localhost/projects/test.json');
 	
 	var XHRaux = newXHR();
 	XHRaux.onload = onLoadFunction(XHRaux);

@@ -331,7 +331,7 @@ import { uploadInit } from "../addons/upload.js";
       reloadComments(pagination,page+1,false)
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
-	  checkCommentOptions();
+	  commentOptions();
 	  checkImgProfile();
 	  dispatchEmojis();
 	  onLoadFunction();
@@ -795,7 +795,7 @@ import { uploadInit } from "../addons/upload.js";
 	}
 
 
-	function ownCommentOptions(){ 
+	function commentOptions (){ 
 
 		$(document).click(function(e) 
 		{
