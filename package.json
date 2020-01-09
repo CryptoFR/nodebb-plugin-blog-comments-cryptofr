@@ -4,7 +4,8 @@
   "description": "Plugin de commentaire sur la plateforme CryptoFR",
   "main": "library.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build public/lib/main.js -d public/lib --out-file main2.js --no-minify --no-source-maps"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,9 @@
   "dependencies": {
     "emojione": "^4.5.0",
     "rm-emoji-picker": "^0.4.0",
-   "simple-recaptcha-new": "^1.1.1"
+    "simple-recaptcha-new": "^1.1.1"
+  },
+  "devDependencies": {
+    "parcel": "^1.12.4"
   }
 }
