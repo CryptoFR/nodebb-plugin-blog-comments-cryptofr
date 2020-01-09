@@ -760,6 +760,7 @@ import { uploadInit } from "../addons/upload.js";
 
 	    if (comment.uid !== uid) {
 	      removeNodes(clone.querySelector("a.edit"));
+	      removeNodes(clone.querySelector("a.delete"));
 	      removeNodes(clone.querySelector(".menuButton-container"));
 	    } 
 
@@ -794,7 +795,7 @@ import { uploadInit } from "../addons/upload.js";
 	}
 
 
-	function checkCommentOptions(){ 
+	function ownCommentOptions(){ 
 
 		$(document).click(function(e) 
 		{
@@ -803,8 +804,7 @@ import { uploadInit } from "../addons/upload.js";
 		    {
 		        $(".options-container").hide();
 		    } 
-		});
-
+		}); 
 		$(document).mouseover(function(e) 
 		{
 		    var container = $("#nodebb-comments-list .topic-body"); 
@@ -813,6 +813,7 @@ import { uploadInit } from "../addons/upload.js";
 		        $(".options-container").hide();
 		    } 
 		});
+
 
 		for (let comment of document.querySelectorAll("#nodebb-comments-list .topic-body")) {
 
@@ -826,6 +827,11 @@ import { uploadInit } from "../addons/upload.js";
 		          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").textContent;
 				})
 
+				comment.querySelector(".options-container .delete-option").addEventListener("click",function(){
+		          deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid"));
+		          reloadComments(pagination,0,false);
+				})
+
 			}
 
 			for (let button of 
@@ -835,6 +841,5 @@ import { uploadInit } from "../addons/upload.js";
 					comment.querySelector(".options-container").style.display="block";
 				})
 			}
-
 		}
 	}

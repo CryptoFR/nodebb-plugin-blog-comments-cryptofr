@@ -969,3 +969,8 @@ form{
 #nodebb .topic-item:hover .menuButton-container .menuButton{
   display: block;
 }
+
+.options-container i{
+  display: inline;
+  margin-right: 3px;
+}
