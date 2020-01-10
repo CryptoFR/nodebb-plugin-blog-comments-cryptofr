@@ -200,8 +200,9 @@ import { uploadInit } from "../addons/upload.js";
 				reloadComments(pagination,0,false);
 			  }).catch(console.log);
 			} else if (/\/delete/.test(dataComponent)) {
-			  deletePost(topicItem, pid);
-			  reloadComments(pagination,0,false);
+			  deletePost(topicItem, pid).then(() => {
+				reloadComments(pagination,0,false);
+			  });
 			}
 	      } else {
 	        if (/\/upvote$/.test(dataComponent)) {
@@ -231,8 +232,10 @@ import { uploadInit } from "../addons/upload.js";
 				reloadComments(pagination,0,false);
 			  }).catch(console.log);
 	        }else if (/\/delete/.test(dataComponent)) {
-				deletePost(topicItem, pid);
-				reloadComments(pagination,0,false);			  }
+				deletePost(topicItem, pid).then(() => {
+					reloadComments(pagination,0,false);
+				})			
+			}
 	      }
 	    });
 	    nodebbDiv

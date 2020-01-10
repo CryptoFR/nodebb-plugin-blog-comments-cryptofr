@@ -223,7 +223,7 @@ import { reloadComments } from "./comments/loadComments.js";
     voteXHRaux.isBusy = true;
     voteXHRaux.topicItem = topicItem;
     set.voteXHR(voteXHRaux)
-    xpost(voteXHR, nodeBBURL + "/comments/delete/" + pid);
+    return newFetch(voteXHR, nodeBBURL + "/comments/delete/" + pid);
   }
 
 
