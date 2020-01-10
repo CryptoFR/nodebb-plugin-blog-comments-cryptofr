@@ -962,13 +962,16 @@ form{
   transform: rotate(90deg);
 }
 
+
 .menuButton-container .menuButton:hover{
   border: 1px solid rgba(0,0,0,0.5);
 }
 
+
 #nodebb .topic-item:hover .menuButton-container .menuButton{
   display: block;
 }
+
 
 .options-container i{
   display: inline;

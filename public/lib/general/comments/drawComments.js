@@ -15,7 +15,7 @@ import { uploadInit } from "../addons/upload.js";
 
 	export function drawComments() {
 
-		console.log(XHR); 
+		// console.log(XHR); 
 
 	  removeLoader();
 	  if (XHR.status >= 200 && XHR.status < 400) {

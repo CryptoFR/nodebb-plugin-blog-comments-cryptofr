@@ -20,20 +20,7 @@ export function uploadInit(){
 	            var formData = new FormData(document.getElementById("formupload"));
 	            // formData.append(f.attr("name"), $(this)[0].files[0]);
 	            
+	            console.log("before");
 	            console.log(formData)
-	            $.ajax({
-	                url: nodeBBURL + "/api/post/upload",
-	                type: "post",
-	                data: formData,
-	                cache: false,
-	                contentType: false,
-		     		processData: false,
-		     		resetForm: true,
-		     		clearForm: true,
-		     		formData: formData
-	            })
-	                .done(function(res){
-	                    console.log(res);
-	                });
-	        });
+	            
 }
