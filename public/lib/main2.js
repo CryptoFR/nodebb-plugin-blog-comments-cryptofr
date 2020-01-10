@@ -790,7 +790,7 @@ function deletePost(topicItem, pid) {
 
   _settings.set.voteXHR(voteXHRaux);
 
-  xpost(_settings.voteXHR, nodeBBURL + "/comments/delete/" + pid);
+  return newFetch(_settings.voteXHR, nodeBBURL + "/comments/delete/" + pid);
 }
 
 function logout(token) {
@@ -1814,8 +1814,9 @@ function drawComments() {
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
           }).catch(console.log);
         } else if (/\/delete/.test(dataComponent)) {
-          (0, _api.deletePost)(topicItem, pid);
-          (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          (0, _api.deletePost)(topicItem, pid).then(function () {
+            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          });
         }
       } else {
         if (/\/upvote$/.test(dataComponent)) {
@@ -1833,8 +1834,9 @@ function drawComments() {
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
           }).catch(console.log);
         } else if (/\/delete/.test(dataComponent)) {
-          (0, _api.deletePost)(topicItem, pid);
-          (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          (0, _api.deletePost)(topicItem, pid).then(function () {
+            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          });
         }
       }
     });
