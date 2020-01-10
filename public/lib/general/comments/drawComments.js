@@ -10,6 +10,7 @@ import { checkExpandableComments } from "./expandComments.js";
 import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
+import $ from 'jquery';
 
 
 
@@ -348,7 +349,7 @@ import { uploadInit } from "../addons/upload.js";
 	  gifBoxInit();
 	  gifContentCheck();
 
-	  uploadInit();
+	  // uploadInit();
 
 	  prepareSignout(data.token)
 
@@ -358,6 +359,7 @@ import { uploadInit } from "../addons/upload.js";
 
 
 	function prepareSignout(token){
+		console.log('calling prepare signout', $(".logout-box"))
 		$(".logout-box").click(function(){
 			logout(token)
 		});
