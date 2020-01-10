@@ -770,7 +770,7 @@ function bookmarkPost(topicItem, pid, bookmarked) {
 
   _settings.set.voteXHR(voteXHRaux);
 
-  xpost(_settings.voteXHR, nodeBBURL + "/comments/bookmark", {
+  return newFetch(nodeBBURL + "/comments/bookmark", {
     toPid: pid,
     isBookmark: !bookmarked
   });
@@ -1810,8 +1810,9 @@ function drawComments() {
             }).catch(console.log);
           }
         } else if (/\/bookmark$/.test(dataComponent)) {
-          bookmarkPost(topicItem, pid, bookmarked);
-          (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          bookmarkPost(topicItem, pid, bookmarked).then(function () {
+            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          }).catch(console.log);
         } else if (/\/delete/.test(dataComponent)) {
           (0, _api.deletePost)(topicItem, pid);
           (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
@@ -1824,8 +1825,9 @@ function drawComments() {
             }).catch(console.log);
           }
         } else if (/\/bookmark$/.test(dataComponent)) {
-          bookmarkPost(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, bookmarked);
-          (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          bookmarkPost(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, bookmarked).then(function () {
+            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          }).catch(console.log);
         } else if (/\/downvote$/.test(dataComponent)) {
           (0, _api.downvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, downvoted).then(function () {
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);

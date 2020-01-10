@@ -205,7 +205,7 @@ import { reloadComments } from "./comments/loadComments.js";
     voteXHRaux.topicItem = topicItem;
     voteXHRaux.isBookmark = !bookmarked;
     set.voteXHR(voteXHRaux)
-    xpost(voteXHR, nodeBBURL + "/comments/bookmark", {
+    return newFetch(nodeBBURL + "/comments/bookmark", {
       toPid: pid,
       isBookmark: !bookmarked
     });

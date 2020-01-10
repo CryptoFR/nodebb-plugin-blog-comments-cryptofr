@@ -196,8 +196,9 @@ import { uploadInit } from "../addons/upload.js";
 				}).catch(console.log);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
-	          bookmarkPost(topicItem, pid, bookmarked);
-			  reloadComments(pagination,0,false);
+	          bookmarkPost(topicItem, pid, bookmarked).then(() => {
+				reloadComments(pagination,0,false);
+			  }).catch(console.log);
 			} else if (/\/delete/.test(dataComponent)) {
 			  deletePost(topicItem, pid);
 			  reloadComments(pagination,0,false);
@@ -218,8 +219,9 @@ import { uploadInit } from "../addons/upload.js";
 	            nodebbDiv.querySelector(".top-tool-box"),
 	            mainPost.pid,
 	            bookmarked
-	          );
-	          reloadComments(pagination,0,false);
+	          ).then(() => {
+				reloadComments(pagination,0,false);
+			  }).catch(console.log);
 	        } else if (/\/downvote$/.test(dataComponent)) {
 	          downvotePost(
 	            nodebbDiv.querySelector(".top-tool-box"),
