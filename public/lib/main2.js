@@ -661,14 +661,7 @@ function newFetch(path, data) {
 
 
 function upvotePost(topicItem, pid, upvoted) {
-  var isUpvote = !upvoted; // if (voteXHR.isBusy) return;
-
-  var voteXHRaux = _settings.voteXHR;
-  voteXHRaux.isBusy = true;
-  voteXHRaux.topicItem = topicItem;
-
-  _settings.set.voteXHR(voteXHRaux);
-
+  var isUpvote = !upvoted;
   return newFetch(nodeBBURL + "/comments/vote", {
     toPid: pid,
     isUpvote: isUpvote
@@ -683,20 +676,24 @@ function upvotePost(topicItem, pid, upvoted) {
 
 
 function login(username, password, token) {
-  if (_settings.authXHR.isBusy) return;
-  var authXHRaux = _settings.authXHR;
-  authXHRaux.isBusy = true;
-
-  _settings.set.authXHR(authXHRaux);
-
-  xpost(_settings.authXHR, nodeBBURL + "/login", {
+  (0, _util.addLoader)();
+  return newFetch(nodeBBURL + "/login", {
     username: username,
     password: password,
     _csrf: token,
     remember: "on",
     noscript: false
+  }).then(function (res) {
+    var loginSuccess = res.status === 200;
+
+    if (loginSuccess) {
+      (0, _loadComments.createSnackbar)("Login success", true);
+    } else {
+      (0, _loadComments.createSnackbar)("Login failed", false);
+    }
+  }).then(_util.removeLoader).then(function () {
+    return (0, _loadComments.reloadComments)(0, 0, false);
   });
-  (0, _util.addLoader)();
 }
 /**
  * Creates a signup request
@@ -740,14 +737,7 @@ function signUp(username, email, password, passwordConfirm, token, checkedTerms)
 
 
 function downvotePost(topicItem, pid, downvoted) {
-  var isDownvote = !downvoted; // if (voteXHR.isBusy) return;
-
-  var voteXHRaux = _settings.voteXHR;
-  voteXHRaux.isBusy = true;
-  voteXHRaux.topicItem = topicItem;
-
-  _settings.set.voteXHR(voteXHRaux);
-
+  var isDownvote = !downvoted;
   return newFetch(nodeBBURL + "/comments/downvote", {
     toPid: pid,
     isDownvote: isDownvote
@@ -794,17 +784,13 @@ function deletePost(topicItem, pid) {
 }
 
 function logout(token) {
-  if (_settings.authXHR.isBusy) return;
-  var authXHRaux = _settings.authXHR;
-  authXHRaux.isBusy = true;
-
-  _settings.set.authXHR(authXHRaux);
-
-  xpost(_settings.authXHR, nodeBBURL + "/logout", {
+  (0, _util.addLoader)();
+  return newFetch(nodeBBURL + "/logout", {
     _csrf: token,
     noscript: false
+  }).then(_util.removeLoader).then(function () {
+    return (0, _loadComments.reloadComments)(0, 0, false);
   });
-  (0, _util.addLoader)();
 }
 },{"../settings.js":"LXja","./util.js":"VGLh","./login/modal.js":"kjEe","./comments/loadComments.js":"V8ra"}],"V8ra":[function(require,module,exports) {
 "use strict";
@@ -12760,6 +12746,9 @@ function prepareSignout(token) {
   console.log('calling prepare signout', (0, _jquery.default)(".logout-box"));
   (0, _jquery.default)(".logout-box").click(function () {
     (0, _api.logout)(token);
+    setTimeout(function () {
+      return (0, _loadComments.reloadComments)(0, 0, false);
+    }, 1000);
   });
 }
 

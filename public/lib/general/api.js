@@ -1,7 +1,7 @@
 import { set,pluginURL,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
-import { addLoader } from "./util.js";
+import { addLoader, removeLoader } from "./util.js";
 import { grecaptchaGrab } from "./login/modal.js"; 
-import { reloadComments } from "./comments/loadComments.js"; 
+import { reloadComments, createSnackbar } from "./comments/loadComments.js"; 
   /**
    * Creates an XHR request. This function due to the use of the
    * global variable XHR can be a source of bugs
@@ -109,11 +109,6 @@ import { reloadComments } from "./comments/loadComments.js";
    */
    export function upvotePost(topicItem, pid, upvoted) {
     var isUpvote = !upvoted;
-    // if (voteXHR.isBusy) return;
-    var voteXHRaux= voteXHR;
-    voteXHRaux.isBusy = true;
-    voteXHRaux.topicItem = topicItem;
-    set.voteXHR(voteXHRaux);
     return newFetch(nodeBBURL + "/comments/vote", {
       toPid: pid,
       isUpvote: isUpvote
@@ -127,18 +122,25 @@ import { reloadComments } from "./comments/loadComments.js";
    * @param {string} token CSRF token for the request
    */
    export function login(username, password, token) {
-    if (authXHR.isBusy) return;
-    var authXHRaux= authXHR;
-    authXHRaux.isBusy = true;
-    set.authXHR(authXHRaux);
-    xpost(authXHR, nodeBBURL + "/login", {
+    addLoader();
+    return newFetch(nodeBBURL + "/login", {
       username: username,
       password: password,
       _csrf: token,
       remember: "on",
       noscript: false
-    });
-    addLoader();
+    })
+      .then((res) => {
+        const loginSuccess = res.status === 200;
+        if (loginSuccess) {
+          createSnackbar("Login success", true);
+        } else {
+          createSnackbar("Login failed", false);
+        }
+      })
+      .then(removeLoader)
+      .then(() => reloadComments(0, 0, false));
+      
   }
   
   /**
@@ -181,11 +183,6 @@ import { reloadComments } from "./comments/loadComments.js";
    */
    export function downvotePost(topicItem, pid, downvoted) {
     var isDownvote = !downvoted;
-    // if (voteXHR.isBusy) return;
-    var voteXHRaux= voteXHR;
-    voteXHRaux.isBusy = true;
-    voteXHRaux.topicItem = topicItem;
-    set.voteXHR(voteXHRaux)
     return newFetch(nodeBBURL + "/comments/downvote", {
       toPid: pid,
       isDownvote: isDownvote
@@ -229,13 +226,9 @@ import { reloadComments } from "./comments/loadComments.js";
 
 
    export function logout(token) {
-    if (authXHR.isBusy) return;
-    var authXHRaux= authXHR;
-    authXHRaux.isBusy = true;
-    set.authXHR(authXHRaux);
-    xpost(authXHR, nodeBBURL + "/logout", {
+    addLoader();
+    return newFetch(nodeBBURL + "/logout", {
       _csrf: token,
       noscript: false
-    });
-    addLoader();
+    }).then(removeLoader).then(() => reloadComments(0, 0, false));
   }
