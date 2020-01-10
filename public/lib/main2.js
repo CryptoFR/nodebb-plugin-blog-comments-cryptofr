@@ -629,6 +629,29 @@ function xpost(xhr, path, data) {
   xhr.send(encodedString);
   return xhr;
 }
+
+function newFetch(path, data) {
+  var encodedString = "";
+
+  for (var prop in data) {
+    if (data.hasOwnProperty(prop)) {
+      if (encodedString.length > 0) {
+        encodedString += "&";
+      }
+
+      encodedString += encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
+    }
+  }
+
+  return fetch(path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    credentials: 'include',
+    body: encodedString
+  });
+}
 /**
  * Upvotes a comment
  * @param {DOMElement} topicItem DOMElement for the comment
@@ -646,7 +669,7 @@ function upvotePost(topicItem, pid, upvoted) {
 
   _settings.set.voteXHR(voteXHRaux);
 
-  xpost(_settings.voteXHR, nodeBBURL + "/comments/vote", {
+  return newFetch(nodeBBURL + "/comments/vote", {
     toPid: pid,
     isUpvote: isUpvote
   });
@@ -725,7 +748,7 @@ function downvotePost(topicItem, pid, downvoted) {
 
   _settings.set.voteXHR(voteXHRaux);
 
-  xpost(_settings.voteXHR, nodeBBURL + "/comments/downvote", {
+  return newFetch(nodeBBURL + "/comments/downvote", {
     toPid: pid,
     isDownvote: isDownvote
   });
@@ -1579,13 +1602,6 @@ function closeGifBox() {
   document.querySelector(".gifs-box input").dispatchEvent(event);
 }
 },{"../../settings.js":"LXja"}],"w7Fc":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.uploadInit = uploadInit;
-
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0;
@@ -1593,55 +1609,24 @@ function generateUUID() {
     return v.toString(16);
   });
 }
+/*export function uploadInit(){
+	for (let icon of document.querySelectorAll(".special-action.img")) {
+		icon.addEventListener('click', function(event){
+		    $("#formupload #file").attr("focused","1");
+		    $("#formupload #file").trigger("click");
+		});
+	}
 
-function uploadInit() {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = document.querySelectorAll(".special-action.img")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var icon = _step.value;
-      icon.addEventListener('click', function (event) {
-        $("#formupload #file").attr("focused", "1");
-        $("#formupload #file").trigger("click");
-      });
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  $("#formupload #file").on("change", function (e) {
-    e.preventDefault();
-    var formData = new FormData(document.getElementById("formupload")); // formData.append(f.attr("name"), $(this)[0].files[0]);
-
-    console.log(formData);
-    $.ajax({
-      url: nodeBBURL + "/api/post/upload",
-      type: "post",
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false,
-      resetForm: true,
-      clearForm: true,
-      formData: formData
-    }).done(function (res) {
-      console.log(res);
-    });
-  });
+	$("#formupload #file").on("change", function (e) {
+	            e.preventDefault();
+	            var formData = new FormData(document.getElementById("formupload"));
+	            // formData.append(f.attr("name"), $(this)[0].files[0]);
+	            
+	            console.log("before");
+	            console.log(formData)
+	            
 }
+*/
 },{}],"xsmJ":[function(require,module,exports) {
 "use strict";
 
@@ -1676,7 +1661,7 @@ var _gifs = require("../addons/gifs.js");
 var _upload = require("../addons/upload.js");
 
 function drawComments() {
-  console.log(_settings.XHR);
+  // console.log(XHR); 
   (0, _util.removeLoader)();
 
   if (_settings.XHR.status >= 200 && _settings.XHR.status < 400) {
@@ -1814,13 +1799,15 @@ function drawComments() {
           elementForm.classList.remove("hidden");
         } else if (/\/upvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
-            (0, _api.upvotePost)(topicItem, pid, upvoted);
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+            (0, _api.upvotePost)(topicItem, pid, upvoted).then(function () {
+              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+            }).catch(console.log);
           }
         } else if (/\/downvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
-            (0, _api.downvotePost)(topicItem, pid, downvoted);
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+            (0, _api.downvotePost)(topicItem, pid, downvoted).then(function () {
+              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+            }).catch(console.log);
           }
         } else if (/\/bookmark$/.test(dataComponent)) {
           bookmarkPost(topicItem, pid, bookmarked);
@@ -1832,15 +1819,17 @@ function drawComments() {
       } else {
         if (/\/upvote$/.test(dataComponent)) {
           if (data.user.uid != mainPost.uid) {
-            (0, _api.upvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, upvoted);
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+            (0, _api.upvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, upvoted).then(function () {
+              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+            }).catch(console.log);
           }
         } else if (/\/bookmark$/.test(dataComponent)) {
           bookmarkPost(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, bookmarked);
           (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
         } else if (/\/downvote$/.test(dataComponent)) {
-          (0, _api.downvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, downvoted);
-          (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          (0, _api.downvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, downvoted).then(function () {
+            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+          }).catch(console.log);
         } else if (/\/delete/.test(dataComponent)) {
           (0, _api.deletePost)(topicItem, pid);
           (0, _loadComments.reloadComments)(_settings.pagination, 0, false);

@@ -78,6 +78,27 @@ import { reloadComments } from "./comments/loadComments.js";
     return xhr;
   }
 
+  function newFetch(path, data) {
+    var encodedString = "";
+    for (var prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        if (encodedString.length > 0) {
+          encodedString += "&";
+        }
+        encodedString +=
+          encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
+      }
+    }
+    return fetch(path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      credentials: 'include',
+      body: encodedString
+    })
+  }
+
 
 
   /**
@@ -92,8 +113,8 @@ import { reloadComments } from "./comments/loadComments.js";
     var voteXHRaux= voteXHR;
     voteXHRaux.isBusy = true;
     voteXHRaux.topicItem = topicItem;
-    set.voteXHR(voteXHRaux)
-    xpost(voteXHR, nodeBBURL + "/comments/vote", {
+    set.voteXHR(voteXHRaux);
+    return newFetch(nodeBBURL + "/comments/vote", {
       toPid: pid,
       isUpvote: isUpvote
     });
@@ -165,7 +186,7 @@ import { reloadComments } from "./comments/loadComments.js";
     voteXHRaux.isBusy = true;
     voteXHRaux.topicItem = topicItem;
     set.voteXHR(voteXHRaux)
-    xpost(voteXHR, nodeBBURL + "/comments/downvote", {
+    return newFetch(nodeBBURL + "/comments/downvote", {
       toPid: pid,
       isDownvote: isDownvote
     });

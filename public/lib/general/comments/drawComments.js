@@ -185,13 +185,15 @@ import { uploadInit } from "../addons/upload.js";
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
-	            upvotePost(topicItem, pid, upvoted);
-	            reloadComments(pagination,0,false);
+	            upvotePost(topicItem, pid, upvoted).then(() => {
+					reloadComments(pagination,0,false);
+				}).catch(console.log);
 	          }
 	        } else if (/\/downvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
-	            downvotePost(topicItem, pid, downvoted);
-	            reloadComments(pagination,0,false);
+	            downvotePost(topicItem, pid, downvoted).then(() => {
+					reloadComments(pagination,0,false);
+				}).catch(console.log);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(topicItem, pid, bookmarked);
@@ -207,8 +209,9 @@ import { uploadInit } from "../addons/upload.js";
 	              nodebbDiv.querySelector(".top-tool-box"),
 	              mainPost.pid,
 	              upvoted
-	            );
-	            reloadComments(pagination,0,false);
+	            ).then(() => {
+					reloadComments(pagination,0,false);
+				}).catch(console.log);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(
@@ -222,8 +225,9 @@ import { uploadInit } from "../addons/upload.js";
 	            nodebbDiv.querySelector(".top-tool-box"),
 	            mainPost.pid,
 	            downvoted
-	          );
-	          reloadComments(pagination,0,false);
+	          ).then(() => {
+				reloadComments(pagination,0,false);
+			  }).catch(console.log);
 	        }else if (/\/delete/.test(dataComponent)) {
 				deletePost(topicItem, pid);
 				reloadComments(pagination,0,false);			  }
