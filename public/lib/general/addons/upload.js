@@ -22,5 +22,7 @@ export function uploadInit(){
 	            
 	            console.log("before");
 	            console.log(formData)
+	        });
+	
 	            
 }
