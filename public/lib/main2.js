@@ -1151,7 +1151,7 @@ function grecaptchaGrab() {
       function renderCallback() {
         var container = document.getElementById("google-callback");
 
-        if (container) {
+        if (container && !container.querySelector("iframe")) {
           _settings.set.renderedCaptcha(window.grecaptcha.render(container, {
             sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
           }));
@@ -1672,6 +1672,11 @@ var _gifs = require("../addons/gifs.js");
 
 var _upload = require("../addons/upload.js");
 
+<<<<<<< HEAD
+=======
+var _modal2 = require("../login/modal");
+
+>>>>>>> 238618290b7ac57bf88db0f211a8c224313c73ef
 // import $ from 'jquery';
 function drawComments() {
   // console.log(XHR); 
@@ -1703,6 +1708,7 @@ function drawComments() {
     data.pagination = _settings.pagination;
     data.postCount = parseInt(data.postCount, 10);
     setTimeout(function () {
+      (0, _modal2.grecaptchaGrab)();
       var body = document.querySelector("body");
       var loginModal = (0, _modal.prepareModal)(data.loginModalTemplate, data.token, _modal.onSubmitLogin);
       (0, _social.addSocialAuthListeners)(loginModal); // body.appendChild(loginModal);
@@ -2410,7 +2416,11 @@ function commentOptions() {
     }
   }
 }
+<<<<<<< HEAD
 },{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc"}],"sutU":[function(require,module,exports) {
+=======
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../login/modal":"kjEe"}],"sutU":[function(require,module,exports) {
+>>>>>>> 238618290b7ac57bf88db0f211a8c224313c73ef
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2518,8 +2528,11 @@ var _modal = require("./general/login/modal.js");
 
 var _loadComments = require("./general/comments/loadComments.js");
 
+<<<<<<< HEAD
 console.log("hola");
 
+=======
+>>>>>>> 238618290b7ac57bf88db0f211a8c224313c73ef
 _settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
 _settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
