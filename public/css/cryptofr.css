@@ -990,10 +990,15 @@ form{
   margin-right: 3px;
 }
 
-.special-action.icon{
-  vertical-align: middle;
+.special-action.icon{ 
   display: inline-block;
   height: 18px;
-  font-size: 18px;
+  font-size: 22px;
 }
+
+.sub-reply-input .special-action.icon, 
+.sub-edit-input .special-action.icon{ 
+  display: inline-block;
+  height: 18px;
+  font-size: 22px;
 }
