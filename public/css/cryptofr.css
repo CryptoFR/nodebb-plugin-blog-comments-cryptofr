@@ -813,11 +813,16 @@ form{
   left: 70px!important;
 }
 
-.sub-reply-input .emoji-picker-icon, .sub-edit-input .emoji-picker-icon{ 
+.sub-reply-input .emoji-picker-icon{ 
     bottom: 77px!important;
     left: 62px!important;     
     font-size: 18px;
-}
+} 
+
+.sub-edit-input .emoji-picker-icon{ 
+    bottom: 27px!important;
+    left: 62px!important;     
+    font-size: 18px;
 }
 
 .emoji-menu-tabs td{
