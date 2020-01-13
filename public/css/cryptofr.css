@@ -27,6 +27,14 @@
   line-height: 80px;
   font-family: Roboto,Helvetica,Arial,sans-serif;
 
+} 
+
+#nodebb textarea {
+      font-family: Roboto,Helvetica,Arial,sans-serif!important;
+}
+
+#nodebb textarea:placeholder {
+  color: #9aa2ab;
 }
 
 .top-post-form.logged-in {
@@ -800,12 +808,14 @@ form{
 }
 
 .emoji-picker-icon{
-  top: 45px!important;
+  top: unset!important;
+  bottom: 28px!important;
+  left: 70px!important;
 }
 
-.sub-reply-input .emoji-picker-icon, .sub-edit-input .emoji-picker-icon{
-  top: 10px!important;
-  right: 10px!important;
+.sub-reply-input .emoji-picker-icon, .sub-edit-input .emoji-picker-icon{ 
+    bottom: 77px!important;
+    left: 62px!important;
 }
 
 .emoji-menu-tabs td{

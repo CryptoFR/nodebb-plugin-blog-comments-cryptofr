@@ -54,6 +54,7 @@
 				<div class="special-box">
 					<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
 					<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
+					<span class="special-action icon"><i class="fa-smile-o"></i></span> 
 				</div>
 				<button class="btn btn-primary">Répondre</button>
 			</div>

@@ -7,8 +7,6 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
-
-	// /* Dev purposes only for CSS */ set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 	
 	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
