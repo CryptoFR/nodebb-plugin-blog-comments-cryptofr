@@ -1152,8 +1152,6 @@ function grecaptchaGrab() {
         var container = document.getElementById("google-callback");
 
         if (container && !container.querySelector("iframe")) {
-          console.log('rendering captcha');
-
           _settings.set.renderedCaptcha(window.grecaptcha.render(container, {
             sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
           }));
