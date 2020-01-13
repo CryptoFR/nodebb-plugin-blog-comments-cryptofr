@@ -72,8 +72,7 @@
  					<div class="comments-toolbar">
  						<div class="special-box">
  							<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
-	 						<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
-	 						<span class="special-action icon"><i class="fa fa-smile-o"></i></span>
+	 						<span class="special-action img"><i class="fa fa-file-image-o"></i></span> 
 
  						</div>
 						<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
