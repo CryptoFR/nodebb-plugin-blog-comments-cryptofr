@@ -58,11 +58,11 @@ img.emoji {
     right: 10px;
     top: 5px;
     font-size: 20px;
-    opacity: 0.85;
+    opacity: 1;
     width: auto;
     z-index: 100;
     transition: none;
-    color: black;
+    color:#2e2e2e;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;

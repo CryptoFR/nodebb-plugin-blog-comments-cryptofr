@@ -809,13 +809,15 @@ form{
 
 .emoji-picker-icon{
   top: unset!important;
-  bottom: 28px!important;
+  bottom: 27px!important;
   left: 70px!important;
 }
 
 .sub-reply-input .emoji-picker-icon, .sub-edit-input .emoji-picker-icon{ 
     bottom: 77px!important;
-    left: 62px!important;
+    left: 62px!important;     
+    font-size: 18px;
+}
 }
 
 .emoji-menu-tabs td{
@@ -986,4 +988,12 @@ form{
 .options-container i{
   display: inline;
   margin-right: 3px;
+}
+
+.special-action.icon{
+  vertical-align: middle;
+  display: inline-block;
+  height: 18px;
+  font-size: 18px;
+}
 }
