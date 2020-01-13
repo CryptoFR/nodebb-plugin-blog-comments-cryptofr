@@ -1151,7 +1151,9 @@ function grecaptchaGrab() {
       function renderCallback() {
         var container = document.getElementById("google-callback");
 
-        if (container) {
+        if (container && !container.querySelector("iframe")) {
+          console.log('rendering captcha');
+
           _settings.set.renderedCaptcha(window.grecaptcha.render(container, {
             sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
           }));
@@ -1588,6 +1590,13 @@ function closeGifBox() {
   document.querySelector(".gifs-box input").dispatchEvent(event);
 }
 },{"../../settings.js":"LXja"}],"w7Fc":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.uploadInit = uploadInit;
+
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0;
@@ -1595,24 +1604,43 @@ function generateUUID() {
     return v.toString(16);
   });
 }
-/*export function uploadInit(){
-	for (let icon of document.querySelectorAll(".special-action.img")) {
-		icon.addEventListener('click', function(event){
-		    $("#formupload #file").attr("focused","1");
-		    $("#formupload #file").trigger("click");
-		});
-	}
 
-	$("#formupload #file").on("change", function (e) {
-	            e.preventDefault();
-	            var formData = new FormData(document.getElementById("formupload"));
-	            // formData.append(f.attr("name"), $(this)[0].files[0]);
-	            
-	            console.log("before");
-	            console.log(formData)
-	            
+function uploadInit() {
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = document.querySelectorAll(".special-action.img")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var icon = _step.value;
+      icon.addEventListener('click', function (event) {
+        $("#formupload #file").attr("focused", "1");
+        $("#formupload #file").trigger("click");
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  $("#formupload #file").on("change", function (e) {
+    e.preventDefault();
+    var formData = new FormData(document.getElementById("formupload")); // formData.append(f.attr("name"), $(this)[0].files[0]);
+
+    console.log("before");
+    console.log(formData);
+  });
 }
-*/
 },{}],"rH1J":[function(require,module,exports) {
 
 // shim for using process in browser
@@ -12458,6 +12486,8 @@ var _gifs = require("../addons/gifs.js");
 
 var _upload = require("../addons/upload.js");
 
+var _modal2 = require("../login/modal");
+
 var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12492,6 +12522,7 @@ function drawComments() {
     data.pagination = _settings.pagination;
     data.postCount = parseInt(data.postCount, 10);
     setTimeout(function () {
+      (0, _modal2.grecaptchaGrab)();
       var body = document.querySelector("body");
       var loginModal = (0, _modal.prepareModal)(data.loginModalTemplate, data.token, _modal.onSubmitLogin);
       (0, _social.addSocialAuthListeners)(loginModal); // body.appendChild(loginModal);
@@ -13195,7 +13226,7 @@ function commentOptions() {
     }
   }
 }
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","jquery":"eeO1"}],"sutU":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../login/modal":"kjEe","jquery":"eeO1"}],"sutU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13303,8 +13334,7 @@ var _modal = require("./general/login/modal.js");
 
 var _loadComments = require("./general/comments/loadComments.js");
 
-_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname); // /* Dev purposes only for CSS */ set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
-
+_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
 _settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 

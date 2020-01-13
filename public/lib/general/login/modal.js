@@ -135,8 +135,8 @@ import { login,signUp } from "../api.js";
       window.grecaptcha.ready(function() {
         var interval = setInterval(renderCallback, 1000);
         function renderCallback() {
-          var container = document.getElementById("google-callback");
-          if (container) {
+		  var container = document.getElementById("google-callback");
+          if (container && !container.querySelector("iframe")) {
             set.renderedCaptcha(window.grecaptcha.render(container, {
               sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
             }));
