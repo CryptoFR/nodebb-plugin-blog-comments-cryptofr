@@ -10,6 +10,7 @@ import { checkExpandableComments } from "./expandComments.js";
 import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
+import { grecaptchaGrab } from '../login/modal';
 // import $ from 'jquery';
 
 
@@ -38,6 +39,7 @@ import { uploadInit } from "../addons/upload.js";
 	    data.pagination = pagination;
 	    data.postCount = parseInt(data.postCount, 10);
 	    setTimeout(function() {
+		  grecaptchaGrab();
 	      var body = document.querySelector("body");
 	      var loginModal = prepareModal(
 	        data.loginModalTemplate,
