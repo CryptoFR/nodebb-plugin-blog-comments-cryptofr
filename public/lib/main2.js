@@ -2416,12 +2416,8 @@ function commentOptions() {
     }
   }
 }
-<<<<<<< HEAD
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc"}],"sutU":[function(require,module,exports) {
-=======
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../login/modal":"kjEe"}],"sutU":[function(require,module,exports) {
->>>>>>> 238618290b7ac57bf88db0f211a8c224313c73ef
-"use strict";
+
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../login/modal":"kjEe"}],"sutU":[function(require,module,exports) {"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
