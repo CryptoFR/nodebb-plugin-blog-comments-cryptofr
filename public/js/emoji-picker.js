@@ -145,7 +145,7 @@ function  initEMojis(){
   // Initializes and creates emoji set from sprite sheet
   window.emojiPicker = new EmojiPicker({
     emojiable_selector: '[data-emojiable=true]',
-    assetsPath: 'https://testforum.cryptofr.com/plugins/nodebb-comment-dev/img/',
+    assetsPath: 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/',
     popupButtonClasses: 'fa fa-smile-o'
   });
   // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
