@@ -21,6 +21,9 @@
 	"staticDirs": {
 		"templates": "public/templates",
 		"css": "public/css",
+		"icons": "public/icons",
+		"js": "public/js",
+		"img": "public/img",
 		"lib": "public/lib"
 	},
 	"languages": "languages",
