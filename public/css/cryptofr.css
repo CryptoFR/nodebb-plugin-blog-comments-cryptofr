@@ -829,7 +829,8 @@ form{
   overflow: auto!important;
 }
 
-.sub-reply-input .emoji-wysiwyg-editor.form-control{
+.sub-reply-input .emoji-wysiwyg-editor.form-control,
+.sub-edit-input .emoji-wysiwyg-editor.form-control{
   height: 70px!important;
 }
 
