@@ -5,6 +5,8 @@ import { loadCSS,removeLoader,loadScript,windowOnload,loadScriptHead } from "./g
 import { grecaptchaGrab,tabIsActive } from "./general/login/modal.js";
 import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js";
 
+	console.log("hola")
+
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 	

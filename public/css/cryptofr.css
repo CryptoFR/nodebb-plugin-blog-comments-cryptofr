@@ -811,18 +811,21 @@ form{
   top: unset!important;
   bottom: 27px!important;
   left: 70px!important;
+  width: 22px;
 }
 
 .sub-reply-input .emoji-picker-icon{ 
     bottom: 77px!important;
     left: 62px!important;     
     font-size: 18px;
+    width: 18px;
 } 
 
 .sub-edit-input .emoji-picker-icon{ 
     bottom: 27px!important;
-    left: 62px!important;     
+    left: 62px!important;
     font-size: 18px;
+    width: 18px;
 }
 
 .emoji-menu-tabs td{

@@ -116,8 +116,8 @@ import { uploadInit } from "../addons/upload.js";
 	      if (!data.user || !data.user.uid) {
 	        authenticate("login");
 	        return;
-	      }
-
+	      } 
+	      
 	      var dataComponent = this.getAttribute("data-component");
 	      var topicItem = event.target;
 	      var bookmarked = JSON.parse(this.getAttribute("data-bookmarked"));
@@ -182,6 +182,7 @@ import { uploadInit } from "../addons/upload.js";
 	          }
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/edit$/.test(dataComponent)) {
+	        	console.log(postBody)
 	          formInput.value = postBody.textContent;  
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/upvote$/.test(dataComponent)) {
@@ -807,6 +808,10 @@ import { uploadInit } from "../addons/upload.js";
 	}
 
 
+
+
+
+
 	function commentOptions (){ 
 
 		$(document).click(function(e) 
@@ -831,14 +836,16 @@ import { uploadInit } from "../addons/upload.js";
 
 			if (comment.querySelector(".options-container .edit-option")){
 				
+				// EDIT BUTTON
 				comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
-
-
 		          comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
+		          console.log(comment.parentNode.querySelector(".sub-edit-input textarea").value)
 		          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").textContent;  
 		          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").textContent;
+		          console.log(comment.parentNode.querySelector(".post-body").textContent)
 				})
 
+				// DELETE BUTTON
 				comment.querySelector(".options-container .delete-option").addEventListener("click",function(){
 		          deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid"));
 		          reloadComments(pagination,0,false);
@@ -849,7 +856,6 @@ import { uploadInit } from "../addons/upload.js";
 			for (let button of 
 			comment.querySelectorAll(".menuButton")) {  
 				button.addEventListener("click",function(){ 
-					console.log("click");
 					comment.querySelector(".options-container").style.display="block";
 				})
 			}

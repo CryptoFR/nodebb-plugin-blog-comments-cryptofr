@@ -99,6 +99,7 @@ export function gifContentCheck(){
         while (comment.innerText.indexOf("![")>=0){
             let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,comment.innerHTML.indexOf(".gif)")+4)
             let imgTag="<img class='gif-post' src='"+src+"'>";
+            
             comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)")+5,comment.innerHTML.length);
         }
     }
