@@ -12491,9 +12491,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.drawComments = drawComments;
 
 function drawComments() {
-  console.log('draw comments'); // console.log(XHR); 
-
+  // console.log(XHR); 
   (0, _util.removeLoader)();
+
+  if (document.querySelector('iframe')) {
+    console.log('returning');
+    return;
+  }
 
   if (_settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = JSON.parse(_settings.XHR.responseText),

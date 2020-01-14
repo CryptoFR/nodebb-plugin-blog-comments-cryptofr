@@ -16,11 +16,14 @@ import $ from 'jquery';
 
 	window.drawComments = drawComments
 	export function drawComments() {
-		console.log('draw comments')
 
 		// console.log(XHR); 
 
 	  removeLoader();
+	  if (document.querySelector('iframe')) {
+		  console.log('returning')
+		  return;
+	  }
 	  if (XHR.status >= 200 && XHR.status < 400) {
 
 	    var data = JSON.parse(XHR.responseText),
