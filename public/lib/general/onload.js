@@ -64,6 +64,7 @@ import { drawComments } from "./comments/drawComments.js";
 		if (open === false) {
 			drawComments();
 		}
+		console.log('Setting open to true');
 		open = true;
 		
 	  }

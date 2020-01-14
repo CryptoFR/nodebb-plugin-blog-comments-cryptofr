@@ -13309,6 +13309,7 @@ function onloadXHR() {
       (0, _drawComments.drawComments)();
     }
 
+    console.log('Setting open to true');
     open = true;
   };
 }
