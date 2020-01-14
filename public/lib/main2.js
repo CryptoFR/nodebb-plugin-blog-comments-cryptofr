@@ -12489,7 +12489,8 @@ var _jquery = _interopRequireDefault(require("jquery"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function drawComments() {
-  // console.log(XHR); 
+  console.log('draw comments'); // console.log(XHR); 
+
   (0, _util.removeLoader)();
 
   if (_settings.XHR.status >= 200 && _settings.XHR.status < 400) {
@@ -13302,16 +13303,7 @@ function onloadXHR() {
    */
 
 
-  var open = false;
-
-  _settings.XHR.onload = function () {
-    if (open === false) {
-      (0, _drawComments.drawComments)();
-    }
-
-    console.log('Setting open to true');
-    open = true;
-  };
+  _settings.XHR.onload = _drawComments.drawComments;
 }
 /**
  * Creates an auxiliary function that's used for some XHR request objects as onload callback

@@ -16,6 +16,7 @@ import $ from 'jquery';
 
 
 	export function drawComments() {
+		console.log('draw comments')
 
 		// console.log(XHR); 
 

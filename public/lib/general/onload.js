@@ -59,16 +59,7 @@ import { drawComments } from "./comments/drawComments.js";
 	  /**
 	   * Callback for global XHR variable, it draws all the data on the DOM
 	   */
-	  var open = false;
-	  XHR.onload = function() {
-		if (open === false) {
-			drawComments();
-		}
-		console.log('Setting open to true');
-		open = true;
-		
-	  }
-
+	  XHR.onload = drawComments;
 	}
 
 
