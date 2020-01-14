@@ -13303,7 +13303,7 @@ function onloadXHR() {
 
 
   _settings.XHR.onload = function () {
-    if (document.querySelector('[data-closed="1"]')) {
+    if (document.querySelector('[data-closed="0"]')) {
       return;
     }
 
