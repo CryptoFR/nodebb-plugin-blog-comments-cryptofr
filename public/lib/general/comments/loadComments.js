@@ -1,6 +1,7 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
 import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
+import { drawComments } from "./drawComments.js";
 
 	export function addButtons() {
     var div = document.createElement("div");
@@ -46,9 +47,11 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
       	set.pagination(pag);
       	set.postData([]);
 		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  page + "/" + sorting);
-		XHR.open("GET",commentsURL,true);
-		XHR.withCredentials = true;
-		XHR.send();
+		// XHR.open("GET",commentsURL,true);
+		// XHR.withCredentials = true;
+		// XHR.send();
+		newFetch(commentsURL,"");
+		drawComments();
 		// console.log(XHR);
 		if (showLoader) addLoader();
 		else if(insideLoader) addLoaderInside();
@@ -84,6 +87,7 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 	    link.setAttribute("data-bookmarked", false);
 	  }
 	}
+
 
 	export function commentSubmissionsHandler(){
 	  for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
