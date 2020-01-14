@@ -11,7 +11,7 @@ import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
-// import $ from 'jquery';
+import $ from 'jquery';
 
 
 
