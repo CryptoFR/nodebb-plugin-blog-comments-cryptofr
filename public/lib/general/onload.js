@@ -59,7 +59,10 @@ import { drawComments } from "./comments/drawComments.js";
 	  /**
 	   * Callback for global XHR variable, it draws all the data on the DOM
 	   */
-	  XHR.onload = drawComments;
+	  XHR.onload = function() {
+		console.log('XHR')
+		drawComments();
+	  }
 
 	}
 

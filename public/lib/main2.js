@@ -13302,7 +13302,10 @@ function onloadXHR() {
    */
 
 
-  _settings.XHR.onload = _drawComments.drawComments;
+  _settings.XHR.onload = function () {
+    console.log('XHR');
+    (0, _drawComments.drawComments)();
+  };
 }
 /**
  * Creates an auxiliary function that's used for some XHR request objects as onload callback
