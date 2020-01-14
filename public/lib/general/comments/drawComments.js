@@ -14,7 +14,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 import $ from 'jquery';
 
 
-
+	window.drawComments = drawComments
 	export function drawComments() {
 		console.log('draw comments')
 
