@@ -13302,13 +13302,14 @@ function onloadXHR() {
    */
 
 
+  var open = false;
+
   _settings.XHR.onload = function () {
-    if (document.querySelector('[data-closed="0"]')) {
-      console.log('closed');
-      return;
+    if (open === false) {
+      (0, _drawComments.drawComments)();
     }
 
-    (0, _drawComments.drawComments)();
+    open = true;
   };
 }
 /**
