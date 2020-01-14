@@ -13303,7 +13303,10 @@ function onloadXHR() {
 
 
   _settings.XHR.onload = function () {
-    console.log('XHR');
+    if (document.querySelector('[data-closed="1"]')) {
+      return;
+    }
+
     (0, _drawComments.drawComments)();
   };
 }

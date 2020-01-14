@@ -60,7 +60,9 @@ import { drawComments } from "./comments/drawComments.js";
 	   * Callback for global XHR variable, it draws all the data on the DOM
 	   */
 	  XHR.onload = function() {
-		console.log('XHR')
+		if (document.querySelector('[data-closed="1"]')) {
+			return;
+		}
 		drawComments();
 	  }
 
