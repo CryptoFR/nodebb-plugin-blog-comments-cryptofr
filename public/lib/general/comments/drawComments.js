@@ -20,10 +20,10 @@ import { grecaptchaGrab } from '../login/modal.js';
 		// console.log(XHR); 
 
 	  removeLoader();
-	  if (document.querySelector('iframe')) {
-		  console.log('returning')
-		  return;
-	  }
+	  // if (document.querySelector('iframe')) {
+		 //  console.log('returning')
+		 //  return;
+	  // }
 	  if (XHR.status >= 200 && XHR.status < 400) {
 
 	    var data = JSON.parse(XHR.responseText),
