@@ -387,6 +387,7 @@ function addLoader() {
   var div = document.createElement("div");
   div.classList.add("loading");
   document.querySelector("body").appendChild(div);
+  document.querySelector("body").classList.add("hasLoader");
 }
 /**
  * Adds a loading div in the DOM
@@ -401,6 +402,7 @@ function addLoaderInside() {
   var div = document.createElement("div");
   div.classList.add("loading-inside");
   document.querySelector("#nodebb-comments-list").appendChild(div);
+  document.querySelector("body").classList.add("hasLoader");
 }
 /**
  * Removes the loading div from the DOM
@@ -410,6 +412,7 @@ function addLoaderInside() {
 function removeLoader() {
   var div = document.querySelector("div.loading");
   if (div) removeNodes(div);
+  document.querySelector("body").classList.remove("hasLoader");
 }
 /**
  * Adds the URL of the NodeBB forum to the post's html

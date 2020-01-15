@@ -80,6 +80,7 @@ export function addLoader() {
     var div = document.createElement("div");
     div.classList.add("loading");
     document.querySelector("body").appendChild(div);
+    document.querySelector("body").classList.add("hasLoader");
   }
 
 
@@ -93,6 +94,8 @@ export function addLoader() {
       var div = document.createElement("div");
       div.classList.add("loading-inside");
       document.querySelector("#nodebb-comments-list").appendChild(div);
+      document.querySelector("body").classList.add("hasLoader");
+
     }
 
   
@@ -102,6 +105,7 @@ export function addLoader() {
 export function removeLoader() {
     var div = document.querySelector("div.loading");
     if (div) removeNodes(div);
+    document.querySelector("body").classList.remove("hasLoader");
   }
 
 
