@@ -29,7 +29,7 @@
             <input name="terms" type="checkbox" value=""/>
             <span>I have read terms and conditions</span>
           </div>
-          <div id="google-callback"></div>
+          <a id="google-callback"></a>
           <button class="modal-button" type="submit">Register</button>
         </form>
       </div>
