@@ -768,9 +768,7 @@ li.sort-group-link:hover{
   color: #165199;
 }
 
-
-
-div#google-callback{
+div.g-recaptcha{
   padding-left: 10%;
 }
 
@@ -989,4 +987,9 @@ body.hasLoader ul#nodebb-comments-list li, body.hasLoader button#nodebb-load-mor
 
 body.hasLoader ul#nodebb-comments-list {
   height: 100px;
+}
+
+.error-message {
+  color: red;
+  margin-left: 10%;
 }

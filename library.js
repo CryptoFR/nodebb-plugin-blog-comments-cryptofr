@@ -57,6 +57,12 @@
     res.header("Access-Control-Allow-Credentials", "true");
     return res;
   }
+  
+  Comments.getToken = function (req, res) {
+    return res.json({
+      token: req.csrfToken()
+    })
+  }
 
   Comments.getTopicIDByCommentID = function(commentID, blogger, callback) {
     db.getObjectField("blog-comments:" + blogger, commentID, function(
@@ -506,6 +512,7 @@
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
     app.post("/comments/delete/:pid", Comments.deletePost);
+    app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     callback();
   };
 })(module);

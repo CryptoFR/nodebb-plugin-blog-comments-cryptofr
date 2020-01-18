@@ -2087,6 +2087,8 @@ function addButtons() {
  */
 
 
+window.createSnackbar = createSnackbar;
+
 function createSnackbar(text, success) {
   var div = document.createElement("div");
   div.classList.add("snackbar");

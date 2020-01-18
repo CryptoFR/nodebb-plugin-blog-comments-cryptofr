@@ -25,6 +25,7 @@ import { drawComments } from "./drawComments.js";
 	 * @param {boolean} success whether the snackbar will show a success or error message, this affects the class used by the object
 	 */
 
+	window.createSnackbar = createSnackbar;
 	export function createSnackbar(text, success) {
 	  var div = document.createElement("div");
 	  div.classList.add("snackbar");
