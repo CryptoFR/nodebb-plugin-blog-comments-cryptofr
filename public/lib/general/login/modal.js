@@ -136,6 +136,7 @@ import { login,signUp } from "../api.js";
         function renderCallback() {
 		  var container = document.getElementById("google-callback");
           if (container && !container.querySelector("iframe")) {
+			$("#google-callback").click(e => e.preventDefault());
             set.renderedCaptcha(window.grecaptcha.render(container, {
               sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
             }));
