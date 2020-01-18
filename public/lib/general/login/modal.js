@@ -61,7 +61,8 @@ import { login,signUp } from "../api.js";
 	/**
 	 * Closes whatever modal is opened within the plugin
 	 */
-	export function closeModal() {
+	export function closeModal() { 
+		console.log("closing modal")
 	  var modalElement = document.querySelector("div.modal[data-closed='0']");
 	  if (modalElement) {
 	    modalElement.setAttribute("data-closed", "1");
@@ -69,8 +70,6 @@ import { login,signUp } from "../api.js";
 	  }
 	  reloadComments();
 	}
-
-
 
 	/**
 	 * Closes whatever modal is opened within the plugin

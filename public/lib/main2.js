@@ -1340,14 +1340,17 @@ function drawComments() {
       (0, _modal.grecaptchaGrab)();
       var body = document.querySelector("body");
       var loginModal = (0, _modal.prepareModal)(data.loginModalTemplate, data.token, _modal.onSubmitLogin);
-      (0, _social.addSocialAuthListeners)(loginModal); // body.appendChild(loginModal);
-
-      document.querySelector("#nodebb").appendChild(loginModal);
+      (0, _social.addSocialAuthListeners)(loginModal);
       var registerModal = (0, _modal.prepareModal)(data.registerModalTemplate, data.token, _modal.onSubmitSignUp);
       (0, _form.addRegisterValidators)(registerModal);
-      (0, _social.addSocialAuthListeners)(registerModal); // body.appendChild(registerModal);
+      (0, _social.addSocialAuthListeners)(registerModal);
 
-      document.querySelector("#nodebb").appendChild(registerModal);
+      if (!document.querySelector("#register-modal")) {
+        body.appendChild(loginModal);
+        body.appendChild(registerModal);
+      } // document.querySelector("#nodebb").appendChild(loginModal);
+      // document.querySelector("#nodebb").appendChild(registerModal);
+
     }, 0);
 
     for (var post in data.posts) {
@@ -1590,7 +1593,7 @@ function drawComments() {
 }
 
 function prepareSignout(token) {
-  console.log('calling prepare signout', $(".logout-box"));
+  // console.log('calling prepare signout', $(".logout-box"))
   $(".logout-box").click(function () {
     (0, _api.logout)(token);
     setTimeout(function () {
@@ -2327,6 +2330,7 @@ function onSubmitLogin(e) {
 
 
 function closeModal() {
+  console.log("closing modal");
   var modalElement = document.querySelector("div.modal[data-closed='0']");
 
   if (modalElement) {

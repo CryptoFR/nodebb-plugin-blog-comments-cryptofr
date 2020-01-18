@@ -51,8 +51,6 @@ import { grecaptchaGrab } from '../login/modal.js';
 	        onSubmitLogin
 	      );
 	      addSocialAuthListeners(loginModal);
-	      // body.appendChild(loginModal);
-	      document.querySelector("#nodebb").appendChild(loginModal);
 	      var registerModal = prepareModal(
 	        data.registerModalTemplate,
 	        data.token,
@@ -60,7 +58,12 @@ import { grecaptchaGrab } from '../login/modal.js';
 	      );
 	      addRegisterValidators(registerModal);
 	      addSocialAuthListeners(registerModal);
-	      // body.appendChild(registerModal);
+	      
+	      // if (!document.querySelector("#register-modal")){
+	      // 	body.appendChild(loginModal);
+	      // 	body.appendChild(registerModal);
+	      // }
+	      document.querySelector("#nodebb").appendChild(loginModal);
 	      document.querySelector("#nodebb").appendChild(registerModal);
 	    }, 0);
 
@@ -161,7 +164,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 	          )
 	            .split("\n")
 	            .map(function(line) {
-	              return line ? "> " + line : line;
+	              return line ? "> " + line : line + "\n";
 	            })
 	            .join("\n");
 	          formInput.value =
@@ -366,7 +369,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 
 
 	function prepareSignout(token){
-		console.log('calling prepare signout', $(".logout-box"))
+		// console.log('calling prepare signout', $(".logout-box"))
 		$(".logout-box").click(function(){
 			logout(token)
 			setTimeout(() => reloadComments(0, 0, false), 1000)		
