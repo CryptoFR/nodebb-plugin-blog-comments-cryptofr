@@ -58,6 +58,7 @@ img.emoji {
     right: 10px;
     top: 5px;
     font-size: 20px;
+    width: 20px;
     opacity: 1;
     width: auto;
     z-index: 100;
