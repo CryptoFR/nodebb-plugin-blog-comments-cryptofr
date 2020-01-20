@@ -139,7 +139,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.handleOpenModal}>S'enregistrer</button>
+        <button className="btn btn-primary" onClick={this.handleOpenModal}>S'enregistrer</button>
         {this.state.showModal && <Modal 
           csrf={this.state._csrf}
           onVerified={this.onVerified}

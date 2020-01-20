@@ -69,7 +69,6 @@
 		<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
 		</form>
-		<button class="btn btn-primary" id="nodebb-register">S'enregister</button>
 		<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
 
 		<!-- This button is here just for making the css margin right -->
@@ -186,7 +185,6 @@
 		</form>
 		<!-- ELSE -->
 		</form>
-		<button class="btn btn-primary" id="nodebb-register">S'enregistrer</button>
 		<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
 
 		<!-- This button is here just for making the css margin right -->

@@ -73,7 +73,7 @@ small.logged-as {
   height: 45px;
 }
 
-#nodebb .btn.btn-primary {
+#nodebb .btn.btn-primary, #root .btn.btn-primary {
   background: none repeat scroll 0% 0% #337ab7;
   color: #fff;
   border-radius: 3px;
@@ -992,4 +992,32 @@ body.hasLoader ul#nodebb-comments-list {
 .error-message {
   color: red;
   margin-left: 10%;
+}
+
+#comments-root {
+  position: relative;
+}
+
+#nodebb-login {
+  margin-right: 100px;
+}
+
+#root {
+  top: 102px;
+  right: 45vw;
+  position: absolute;
+}
+
+@media only screen and (max-width: 768px) {
+  #root {
+    top: 80px;
+    right: 140px;
+  }
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+  #root {
+    top: 102px;
+    right: 60px;
+  }
 }

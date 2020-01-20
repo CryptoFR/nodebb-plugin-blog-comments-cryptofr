@@ -11,7 +11,7 @@ import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
-// import $ from 'jquery';
+import $ from 'jquery';
 
 
 	window.drawComments = drawComments
@@ -287,10 +287,6 @@ import { grecaptchaGrab } from '../login/modal.js';
 	          document.getElementById("nodebb-error").innerHTML = error;
 	        }
 	      } else {
-	        document.getElementById("nodebb-register").onclick = function() {
-	          authenticate("register");
-	        };
-
 	        document.getElementById("nodebb-login").onclick = function() {
 	          authenticate("login");
 	        };
