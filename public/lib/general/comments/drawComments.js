@@ -841,10 +841,8 @@ import { grecaptchaGrab } from '../login/modal.js';
 				// EDIT BUTTON
 				comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
 		          comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
-		          console.log(comment.parentNode.querySelector(".sub-edit-input textarea").value)
-		          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").textContent;  
-		          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").textContent;
-		          console.log(comment.parentNode.querySelector(".post-body").textContent)
+		          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");  
+		          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content");
 				})
 
 				// DELETE BUTTON
