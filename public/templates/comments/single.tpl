@@ -32,7 +32,7 @@
 								</div>
 							</small>
 							<br />
-							<div class="post-body">{posts.content}</div>
+							<div class="post-body" content="{posts.content}">{posts.content}</div>
 							<div class="nodebb-post-tools post-tools no-select">
 								<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
 									<i class="i-upvote icon-thumbs-up-alt icon-thumbs-up"></i>

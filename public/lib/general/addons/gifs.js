@@ -91,7 +91,7 @@ export function gifBoxInit(){
       }
 
     });
-}
+} 
 
 export function gifContentCheck(){
 

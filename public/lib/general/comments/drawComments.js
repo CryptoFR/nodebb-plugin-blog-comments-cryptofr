@@ -11,7 +11,7 @@ import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 
 	window.drawComments = drawComments
@@ -155,8 +155,8 @@ import $ from 'jquery';
 	        }
 
 	        if (/\/quote$/.test(dataComponent)) {
-	          var quote = (postBody.innerText
-	            ? postBody.innerText
+	          var quote = (postBody.getAttribute('content')
+	            ? postBody.getAttribute('content')
 	            : postBody.textContent
 	          )
 	            .split("\n")
@@ -171,7 +171,7 @@ import $ from 'jquery';
 	            quote +
 	            formInput.value;
 	          elementForm.classList.remove("hidden");
-	          elementForm.querySelector(".emoji-wysiwyg-editor").innerText=quote;
+	          elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML=quote;
 	        } else if (/\/reply$/.test(dataComponent)) {
 	          if (level >= 2) {
 	            var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
@@ -188,8 +188,7 @@ import $ from 'jquery';
 	          }
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/edit$/.test(dataComponent)) {
-	        	console.log(postBody)
-	          formInput.value = postBody.textContent;  
+	          formInput.value = postBody.getAttribute('content');  
 	          elementForm.classList.remove("hidden");
 	        } else if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
@@ -362,7 +361,7 @@ import $ from 'jquery';
 
 
 	function prepareSignout(token){
-		console.log('calling prepare signout', $(".logout-box"))
+		// console.log('calling prepare signout', $(".logout-box"))
 		$(".logout-box").click(function(){
 			logout(token)
 			setTimeout(() => reloadComments(0, 0, false), 1000)		
@@ -741,6 +740,7 @@ import $ from 'jquery';
 	      "icon-thumbs-down"
 	    );
 	    clone.querySelector("div.post-body").innerHTML = comment.content;
+	    clone.querySelector("div.post-body").setAttribute("content",comment.content)
 	    var img = clone.querySelector("img.profile-image");
 	    var divImgText = clone.querySelector("div.profile-image");
 
