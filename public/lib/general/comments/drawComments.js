@@ -105,7 +105,6 @@ import { grecaptchaGrab } from '../login/modal.js';
 
 
 	    html = parse(data, data.template);
-	    console.log("hola");
 	    nodebbDiv.innerHTML = normalizePost(html);
 	    // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 	    setActiveSortingLi(sorting);
@@ -340,6 +339,8 @@ import { grecaptchaGrab } from '../login/modal.js';
 	      }
 	    }
 	  }
+	  gifContentCheck();
+	  checkImgProfile();
 
 	  if (reload)
       	reloadComments(pagination,page+1,false)
@@ -347,12 +348,10 @@ import { grecaptchaGrab } from '../login/modal.js';
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
 	  commentOptions();
-	  checkImgProfile();
 	  dispatchEmojis();
 	  onLoadFunction();
 
 	  gifBoxInit();
-	  gifContentCheck();
 
 	  // uploadInit();
 

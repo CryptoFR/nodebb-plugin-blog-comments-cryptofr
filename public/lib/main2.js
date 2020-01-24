@@ -1382,7 +1382,6 @@ function drawComments() {
     }
 
     html = parse(data, data.template);
-    console.log("hola");
     _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html); // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting);
@@ -1578,15 +1577,15 @@ function drawComments() {
     }
   }
 
+  (0, _gifs.gifContentCheck)();
+  checkImgProfile();
   if (_settings.reload) (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   (0, _loadComments.commentSubmissionsHandler)();
   (0, _expandComments.checkExpandableComments)();
   commentOptions();
-  checkImgProfile();
   (0, _util.dispatchEmojis)();
   (0, _onload.onLoadFunction)();
-  (0, _gifs.gifBoxInit)();
-  (0, _gifs.gifContentCheck)(); // uploadInit();
+  (0, _gifs.gifBoxInit)(); // uploadInit();
 
   prepareSignout(data.token);
 }
@@ -2117,6 +2116,8 @@ function reloadComments() {
     return null;
   }
 
+  if (pag == 0) $("#nodebb-comments-list").css('min-height', 0);else $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
+
   _settings.set.page(currentPage);
 
   _settings.set.pagination(pag);
@@ -2139,7 +2140,7 @@ function reloadComments() {
 
   _settings.XHR.send();
 
-  if (showLoader) (0, _util.addLoader)();else if (insideLoader) (0, _util.addLoaderInside)();
+  if (showLoader) (0, _util.addLoader)(); // else if(insideLoader) addLoaderInside();
 }
 
 function newCommentsCheck() {

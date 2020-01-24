@@ -7,22 +7,22 @@
         <span class="modal-close">&times;</span>
       </div>
       <div class="modal-header-title-wrapper">
-        <h3 class="modal-header-title">You need to be a member to comment, just a few more seconds</h3>
+        <h3 class="modal-header-title">Vous devez être membre pour commenter, juste quelques secondes de plus</h3>
       </div>
     </div>
     <div class="modal-body clearfix">
       <div class="modal-col">
-        <h4 class="modal-subtitle">Login with email</h4>
+        <h4 class="modal-subtitle">Connectez-vous par e-mail</h4>
         <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="text" value="" placeholder="Email" />
           <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
           <input name="_csrf" type="hidden" value=""/>
           <button class="modal-button" type="submit">Login</button>
         </form>
-        <p class="caption-login-text">¿Aún no tienes cuenta? <a href="#" class="register-modal-open">Registrarse</a> <a href="#" class="modal-forgot-password"> ¿Olvidaste tu contraseña?</a></p>
+        <p class="caption-login-text">Vous n'avez pas encore de compte? <a href="#" class="register-modal-open">S'inscrire</a> <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a></p>
       </div>
       <div class="modal-col">  
-        <h4 class="alt-acc">Alternative Access</h4>
+        <h4 class="alt-acc">Accès alternatif</h4>
         <ul class="alt-logins">
                 
           <li class="twitter"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>

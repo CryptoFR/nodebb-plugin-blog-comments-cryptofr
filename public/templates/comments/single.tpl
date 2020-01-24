@@ -68,7 +68,7 @@
 
 				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
 					<strong class="nodebb-error"></strong>
- 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true"></textarea>
+ 					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoindre la conversation" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
  						<div class="special-box">
  							<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>

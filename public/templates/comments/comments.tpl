@@ -61,9 +61,9 @@
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
-			<div class="logout-box" title="signout">
+			<div class="logout-box">
 				<i class="fa fa-sign-out"></i>
-				<span>Logout</span>
+				<span>Déconnexion</span>
 			</div>
 		</form>
 		<!-- ELSE -->

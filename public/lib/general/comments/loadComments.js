@@ -12,6 +12,7 @@ import { drawComments } from "./drawComments.js";
     button.classList.add("btn-primary");
     button.innerText = "Charger plus de commentaires...";
     button.addEventListener("click", function loadMoreClick() {
+
       reloadComments(pagination+1);
     });
     div.appendChild(button);
@@ -47,6 +48,8 @@ import { drawComments } from "./drawComments.js";
       		set.reload(false)
       		return null;
       	}
+      	if (pag==0) $("#nodebb-comments-list").css('min-height',0);
+      	else $("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
       	set.page(currentPage);
       	set.pagination(pag);
       	set.postData([]);
@@ -61,7 +64,7 @@ import { drawComments } from "./drawComments.js";
 		XHR.withCredentials = true;
 		XHR.send(); 
 		if (showLoader) addLoader();
-		else if(insideLoader) addLoaderInside();
+		// else if(insideLoader) addLoaderInside();
 	}
 
 

@@ -7,12 +7,12 @@
         <span class="modal-close">&times;</span>
       </div>
       <div class="modal-header-title-wrapper">
-        <h3 class="modal-header-title">You need to be a member to comment, just a few more seconds</h3>
+        <h3 class="modal-header-title">Vous devez être membre pour commenter, juste quelques secondes de plus</h3>
       </div>
     </div>
     <div class="modal-body clearfix">
       <div class="modal-col">
-        <h4 class="modal-subtitle">Register</h4>
+        <h4 class="modal-subtitle">S'inscrire</h4>
         <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="email" value="" placeholder="Email" />
           <div class="email-errors">
@@ -27,14 +27,14 @@
           <input name="_csrf" type="hidden" value=""/>
           <div class="modal-input">
             <input name="terms" type="checkbox" value=""/>
-            <span>I have read terms and conditions</span>
+            <span>J'ai lu les termes et conditions</span>
           </div>
           <div id="google-callback"></div>
           <button class="modal-button" type="submit">Register</button>
         </form>
       </div>
       <div class="modal-col">
-        <h4 class="alt-acc">Alternative Access</h4>
+        <h4 class="alt-acc">Accès alternatif</h4>
         <ul class="alt-logins">
                 
           <li class="twitter"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
