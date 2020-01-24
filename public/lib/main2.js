@@ -1376,6 +1376,7 @@ function drawComments() {
     }
 
     html = parse(data, data.template);
+    console.log("hola");
     _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html); // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting);
@@ -1569,9 +1570,9 @@ function drawComments() {
         adminXHR.send();
       }
     }
-  }
+  } // reloadComments(pagination,page+1,false)
 
-  (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
+
   (0, _loadComments.commentSubmissionsHandler)();
   (0, _expandComments.checkExpandableComments)();
   commentOptions();
@@ -1745,7 +1746,7 @@ function parse(data, template) {
       var existingComments = document.querySelector("#nodebb-comments-list");
       if (_settings.reloading) loadedComments = checkNewComments(existingComments, loadedComments); // console.log(div)
 
-      if (_settings.page == 0) {
+      if (_settings.pagination == 0) {
         div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
       } else {
         div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
@@ -1984,10 +1985,8 @@ function commentOptions() {
         // EDIT BUTTON
         comment.querySelector(".options-container .edit-option").addEventListener("click", function () {
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
-          console.log(comment.parentNode.querySelector(".sub-edit-input textarea").value);
-          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").textContent;
-          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").textContent;
-          console.log(comment.parentNode.querySelector(".post-body").textContent);
+          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");
+          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").getAttribute("content");
         }); // DELETE BUTTON
 
         comment.querySelector(".options-container .delete-option").addEventListener("click", function () {
@@ -2106,22 +2105,21 @@ function reloadComments() {
   var currentPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var showLoader = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
   var insideLoader = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-  if (currentPage > _settings.pagination) return null;
 
+  // if (currentPage>pagination) return null;
   _settings.set.page(currentPage);
 
   _settings.set.pagination(pag);
 
   _settings.set.postData([]);
 
-  _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + _settings.page + "/" + _settings.sorting);
+  _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + _settings.pagination + "/" + _settings.sorting);
 
   _settings.XHR.open("GET", _settings.commentsURL, true);
 
   _settings.XHR.withCredentials = true;
 
-  _settings.XHR.send(); // console.log(XHR);
-
+  _settings.XHR.send();
 
   if (showLoader) (0, _util.addLoader)();else if (insideLoader) (0, _util.addLoaderInside)();
 }
