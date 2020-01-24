@@ -890,7 +890,7 @@ form{
 }
 
 .upload-form{
-  displyam:e none;
+  display: none;
 }
 
 .logout-box {
@@ -982,7 +982,7 @@ form{
 }
 
 body.hasLoader ul#nodebb-comments-list li, body.hasLoader button#nodebb-load-more {
-  /*display: none !important;*/
+  display: none !important;
 }
 
 body.hasLoader ul#nodebb-comments-list {

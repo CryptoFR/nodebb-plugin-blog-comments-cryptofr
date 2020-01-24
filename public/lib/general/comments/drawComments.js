@@ -1,4 +1,4 @@
-import { set,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
+import { set,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload } from "../../settings.js";
 import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
@@ -341,7 +341,9 @@ import { grecaptchaGrab } from '../login/modal.js';
 	    }
 	  }
 
-      // reloadComments(pagination,page+1,false)
+	  if (reload)
+      	reloadComments(pagination,page+1,false)
+
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
 	  commentOptions();
@@ -580,7 +582,7 @@ import { grecaptchaGrab } from '../login/modal.js';
       	  if (reloading) loadedComments=checkNewComments(existingComments,loadedComments)
 
       	  // console.log(div)
-	      if (pagination==0){
+	      if (pagination==0 || (page ==0 && reload) ){
 	        div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
 	      }
 	      else {

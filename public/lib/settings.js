@@ -1,4 +1,4 @@
-export var gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates;
+export var gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates,reload;
 
 export var set = {
 	pluginURL : pluginURLVal,
@@ -27,7 +27,8 @@ export var set = {
 	dataRes : dataResVal,
 	page : pageVal,
 	reloading : reloadingVal,
-	gifCommentBox : gifCommentBoxVal
+	gifCommentBox : gifCommentBoxVal,
+	reload : reloadVal
 }
                                                          
 function pluginURLVal( value ) { pluginURL = value; }
@@ -57,3 +58,4 @@ function dataResVal( value ) { dataRes = value; }
 function pageVal( value ) { page = value; }
 function reloadingVal( value ) { reloading = value; }
 function gifCommentBoxVal( value ) { gifCommentBox = value; }
+function reloadVal( value ) { reload = value; }

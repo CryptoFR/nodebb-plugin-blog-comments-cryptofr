@@ -123,8 +123,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.set = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = void 0;
-var gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates;
+exports.set = exports.reload = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = void 0;
+var gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates, reload;
+exports.reload = reload;
 exports.templates = templates;
 exports.renderedCaptcha = renderedCaptcha;
 exports.wholeTemplate = wholeTemplate;
@@ -179,7 +180,8 @@ var set = {
   dataRes: dataResVal,
   page: pageVal,
   reloading: reloadingVal,
-  gifCommentBox: gifCommentBoxVal
+  gifCommentBox: gifCommentBoxVal,
+  reload: reloadVal
 };
 exports.set = set;
 
@@ -289,6 +291,10 @@ function reloadingVal(value) {
 
 function gifCommentBoxVal(value) {
   exports.gifCommentBox = gifCommentBox = value;
+}
+
+function reloadVal(value) {
+  exports.reload = reload = value;
 }
 },{}],"VGLh":[function(require,module,exports) {
 "use strict";
@@ -1570,9 +1576,9 @@ function drawComments() {
         adminXHR.send();
       }
     }
-  } // reloadComments(pagination,page+1,false)
+  }
 
-
+  if (_settings.reload) (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   (0, _loadComments.commentSubmissionsHandler)();
   (0, _expandComments.checkExpandableComments)();
   commentOptions();
@@ -1746,7 +1752,7 @@ function parse(data, template) {
       var existingComments = document.querySelector("#nodebb-comments-list");
       if (_settings.reloading) loadedComments = checkNewComments(existingComments, loadedComments); // console.log(div)
 
-      if (_settings.pagination == 0) {
+      if (_settings.pagination == 0 || _settings.page == 0 && _settings.reload) {
         div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
       } else {
         div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
@@ -2104,16 +2110,28 @@ function reloadComments() {
   var pag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   var currentPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var showLoader = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-  var insideLoader = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-  // if (currentPage>pagination) return null;
+  if (currentPage > _settings.pagination) {
+    _settings.set.reload(false);
+
+    return null;
+  }
+
   _settings.set.page(currentPage);
 
   _settings.set.pagination(pag);
 
   _settings.set.postData([]);
 
-  _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + _settings.pagination + "/" + _settings.sorting);
+  var paging = _settings.pagination;
+
+  if (_settings.reload) {
+    paging = _settings.page;
+  }
+
+  ;
+
+  _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + paging + "/" + _settings.sorting);
 
   _settings.XHR.open("GET", _settings.commentsURL, true);
 
@@ -2345,6 +2363,8 @@ function closeModalActiveTab() {
     modalElement.style.display = "none";
   }
 
+  _settings.set.reload(true);
+
   (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
 }
 
@@ -2547,6 +2567,8 @@ _settings.set.nodebbDiv(document.getElementById("nodebb"));
 setTimeout(_modal.grecaptchaGrab, 1000);
 
 _settings.set.pagination(0);
+
+_settings.set.reload(false);
 
 _settings.set.reloading(0);
 

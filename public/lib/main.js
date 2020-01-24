@@ -25,6 +25,8 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	setTimeout(grecaptchaGrab, 1000);
 
 	set.pagination(0);
+	set.reload(false)
+
 	set.reloading(0);
 	set.postData([]);
 	set.sorting("newest");

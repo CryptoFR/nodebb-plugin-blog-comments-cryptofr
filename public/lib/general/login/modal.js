@@ -81,6 +81,7 @@ import { login,signUp } from "../api.js";
 	    modalElement.setAttribute("data-closed", "1");
 	    modalElement.style.display = "none";
 	  }
+	  set.reload(true)
 	  reloadComments(pagination,0,false);
 	}
 
