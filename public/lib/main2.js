@@ -1454,21 +1454,29 @@ function drawComments() {
         } else if (/\/upvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
             (0, _api.upvotePost)(topicItem, pid, upvoted).then(function () {
+              _settings.set.reload(true);
+
               (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
             }).catch(console.log);
           }
         } else if (/\/downvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
             (0, _api.downvotePost)(topicItem, pid, downvoted).then(function () {
+              _settings.set.reload(true);
+
               (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
             }).catch(console.log);
           }
         } else if (/\/bookmark$/.test(dataComponent)) {
           bookmarkPost(topicItem, pid, bookmarked).then(function () {
+            _settings.set.reload(true);
+
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
           }).catch(console.log);
         } else if (/\/delete/.test(dataComponent)) {
           (0, _api.deletePost)(topicItem, pid).then(function () {
+            _settings.set.reload(true);
+
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
           });
         }
@@ -1481,14 +1489,20 @@ function drawComments() {
           }
         } else if (/\/bookmark$/.test(dataComponent)) {
           bookmarkPost(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, bookmarked).then(function () {
+            _settings.set.reload(true);
+
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
           }).catch(console.log);
         } else if (/\/downvote$/.test(dataComponent)) {
           (0, _api.downvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, downvoted).then(function () {
+            _settings.set.reload(true);
+
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
           }).catch(console.log);
         } else if (/\/delete/.test(dataComponent)) {
           (0, _api.deletePost)(topicItem, pid).then(function () {
+            _settings.set.reload(true);
+
             (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
           });
         }
