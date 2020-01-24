@@ -43,15 +43,14 @@ import { drawComments } from "./drawComments.js";
 	 * Function that reloads all comments within the DOM
 	 */
 	export function reloadComments(pag=0,currentPage=0,showLoader=true,insideLoader=false) {
-      	if (currentPage>pagination) return null;
+      	// if (currentPage>pagination) return null;
       	set.page(currentPage)
       	set.pagination(pag);
-      	set.postData([]);
-		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  page + "/" + sorting);
+      	set.postData([])
+;		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
-		XHR.send();
-		// console.log(XHR);
+		XHR.send(); 
 		if (showLoader) addLoader();
 		else if(insideLoader) addLoaderInside();
 	}

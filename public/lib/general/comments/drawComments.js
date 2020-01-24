@@ -105,6 +105,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 
 
 	    html = parse(data, data.template);
+	    console.log("hola");
 	    nodebbDiv.innerHTML = normalizePost(html);
 	    // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 	    setActiveSortingLi(sorting);
@@ -267,8 +268,8 @@ import { grecaptchaGrab } from '../login/modal.js';
 
 	      if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
 	        loadMore.style.display = "none";
-	      }
-
+	      
+}
 	      if (typeof jQuery !== "undefined" && jQuery() && jQuery().fitVids) {
 	        jQuery(nodebbDiv).fitVids();
 	      }
@@ -340,7 +341,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 	    }
 	  }
 
-      reloadComments(pagination,page+1,false)
+      // reloadComments(pagination,page+1,false)
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
 	  commentOptions();
@@ -579,7 +580,7 @@ import { grecaptchaGrab } from '../login/modal.js';
       	  if (reloading) loadedComments=checkNewComments(existingComments,loadedComments)
 
       	  // console.log(div)
-	      if (page==0){
+	      if (pagination==0){
 	        div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
 	      }
 	      else {
