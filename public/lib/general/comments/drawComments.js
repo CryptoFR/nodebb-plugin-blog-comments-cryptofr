@@ -193,21 +193,26 @@ import { grecaptchaGrab } from '../login/modal.js';
 	        } else if (/\/upvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
 	            upvotePost(topicItem, pid, upvoted).then(() => {
+
+	  				set.reload(true)
 					reloadComments(pagination,0,false);
 				}).catch(console.log);
 	          }
 	        } else if (/\/downvote$/.test(dataComponent)) {
 	          if (data.user.uid != uid) {
 	            downvotePost(topicItem, pid, downvoted).then(() => {
+	  				set.reload(true)
 					reloadComments(pagination,0,false);
 				}).catch(console.log);
 	          }
 	        } else if (/\/bookmark$/.test(dataComponent)) {
 	          bookmarkPost(topicItem, pid, bookmarked).then(() => {
+	          	set.reload(true)
 				reloadComments(pagination,0,false);
 			  }).catch(console.log);
 			} else if (/\/delete/.test(dataComponent)) {
 			  deletePost(topicItem, pid).then(() => {
+			  	set.reload(true)
 				reloadComments(pagination,0,false);
 			  });
 			}
@@ -228,6 +233,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 	            mainPost.pid,
 	            bookmarked
 	          ).then(() => {
+	          	set.reload(true)
 				reloadComments(pagination,0,false);
 			  }).catch(console.log);
 	        } else if (/\/downvote$/.test(dataComponent)) {
@@ -236,10 +242,12 @@ import { grecaptchaGrab } from '../login/modal.js';
 	            mainPost.pid,
 	            downvoted
 	          ).then(() => {
+	          	set.reload(true)
 				reloadComments(pagination,0,false);
 			  }).catch(console.log);
 	        }else if (/\/delete/.test(dataComponent)) {
 				deletePost(topicItem, pid).then(() => {
+					set.reload(true)
 					reloadComments(pagination,0,false);
 				})			
 			}
