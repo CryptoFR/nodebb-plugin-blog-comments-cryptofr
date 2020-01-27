@@ -1040,7 +1040,7 @@ small.logged-as {
     left: 70px!important;
   }
 
-  .comments-toolbar button{
+  .sub-reply-input .comments-toolbar button{
     display: block!important;
     float: none!important;
   }
