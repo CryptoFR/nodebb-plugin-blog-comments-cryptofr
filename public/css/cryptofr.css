@@ -778,13 +778,13 @@ form{
 
 .emoji-picker-icon{
   top: unset!important;
-  bottom: 27px!important;
-  left: 70px!important;
+  bottom: 33px!important;
+  left: 80px!important;
   width: 22px;
 }
 
 .sub-reply-input .emoji-picker-icon{ 
-    bottom: 75px!important;
+    bottom: 80px!important;
     left: 62px!important;     
     font-size: 18px;
     width: 18px;
@@ -1036,9 +1036,20 @@ small.logged-as {
   }
 
   .sub-reply-input .emoji-picker-icon{
-    bottom: 100px!important;
+    bottom: 95px!important;
     left: 70px!important;
   }
+
+  .comments-toolbar button{
+    display: block!important;
+    float: none!important;
+  }
+  .comments-toolbar .special-box{
+    float: none!important;
+    display: block!important;
+  }
+
+
  
 }
 
