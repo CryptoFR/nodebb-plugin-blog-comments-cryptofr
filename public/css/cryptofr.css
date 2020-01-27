@@ -1008,11 +1008,34 @@ body.hasLoader ul#nodebb-comments-list {
   position: absolute;
 }
 
+small.logged-as {
+    max-width: calc(100% - 85px);
+    display: inline-block;
+}
+
+
+.comments-toolbar {
+    height: auto;
+    padding: 10px;
+}
+
+
 @media only screen and (max-width: 768px) {
-  #root {
+  
+  #root {    
     top: 80px;
     right: 140px;
   }
+
+  .sort-group{
+    margin-bottom: 20px;
+  }
+
+  .sub-reply-input .emoji-picker-icon{
+    bottom: 100px!important;
+    left: 70px!important;
+  }
+ 
 }
 
 @media only screen and (max-width: 1024px) and (min-width: 769px) {
