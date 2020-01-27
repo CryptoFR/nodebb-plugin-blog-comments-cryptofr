@@ -7,7 +7,7 @@ import { reloadComments } from "./loadComments.js";
    */
   export function setSorting(s) {
     set.sorting(s);
-    reloadComments(0,0,false,1);
+    reloadComments(0,0,true,1);
   }
   
   /**

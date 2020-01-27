@@ -40,7 +40,7 @@ function tenorCallback_search(responsetext){
         element.src=img["media"][0]["nanogif"]["url"];
         element.classList.add("gifs-result");
         element.addEventListener("click", function(event){
-            gifCommentBox.value= gifCommentBox.value + " ![]("+img["media"][0]["nanogif"]["url"]+")";
+            gifCommentBox.value= gifCommentBox.value + "\n ![]("+img["media"][0]["nanogif"]["url"]+")";
             gifCommentBox.parentNode.querySelector(".emoji-wysiwyg-editor").innerText= gifCommentBox.value;
         });
         document.querySelector("#gifs-list").appendChild(element)
