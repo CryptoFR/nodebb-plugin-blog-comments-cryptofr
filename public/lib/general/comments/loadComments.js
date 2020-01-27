@@ -120,6 +120,7 @@ import { drawComments } from "./drawComments.js";
 	      else {
 	      	xpost(XHR, form.getAttribute("action"), inputs);	      
 			setTimeout(function() {
+				set.reload(true)
 				reloadComments(pagination,0,false);
 			},500);
 		  }

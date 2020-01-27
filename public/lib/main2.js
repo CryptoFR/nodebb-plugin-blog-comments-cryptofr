@@ -2255,6 +2255,8 @@ function commentSubmissionsHandler() {
         if (inputs["content"].length < 8) formSubmitError("Message too short", form);else {
           (0, _api.xpost)(_settings.XHR, form.getAttribute("action"), inputs);
           setTimeout(function () {
+            _settings.set.reload(true);
+
             reloadComments(_settings.pagination, 0, false);
           }, 500);
         }
