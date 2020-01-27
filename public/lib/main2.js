@@ -1442,6 +1442,7 @@ function drawComments() {
               }
             } else {
               formInput.value = atStr + " " + formInput.value;
+              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " " + formInput.value;
             }
           } else {
             formInput.value = "";
