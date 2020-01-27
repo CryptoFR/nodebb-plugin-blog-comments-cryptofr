@@ -478,6 +478,10 @@
 #nodebb li.expandable > .topic-item > .topic-body > .topic-text > .post-content > small{
     position: relative;
 }
+#nodebb li .post-content > small{
+    padding-right: 80px;
+    display: inline-block;
+}
 
 #nodebb li.expandable.expanded .expandable-button.expanded:after{
     content: '-';

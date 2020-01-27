@@ -1035,6 +1035,10 @@ small.logged-as {
     margin-bottom: 20px;
   }
 
+  .emoji-picker-icon{
+    bottom: 59px!important;
+  }
+
   .sub-reply-input .emoji-picker-icon{
     bottom: 95px!important;
     left: 70px!important;
