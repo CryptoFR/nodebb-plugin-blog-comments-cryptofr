@@ -351,6 +351,8 @@ import { grecaptchaGrab } from '../login/modal.js';
 	  gifContentCheck();
 	  checkImgProfile();
 
+	  $("body").removeClass("loadmore")
+
 	  if (reload)
       	reloadComments(pagination,page+1,false)
 

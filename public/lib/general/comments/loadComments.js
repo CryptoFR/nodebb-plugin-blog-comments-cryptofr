@@ -49,7 +49,10 @@ import { drawComments } from "./drawComments.js";
       		return null;
       	}
       	if (pag==0) $("#nodebb-comments-list").css('min-height',0);
-      	else $("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
+      	else {
+      		$("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
+      		$("body").addClass("loadmore");
+      	}
       	set.page(currentPage);
       	set.pagination(pag);
       	set.postData([]);

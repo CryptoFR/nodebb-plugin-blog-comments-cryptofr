@@ -1594,6 +1594,7 @@ function drawComments() {
 
   (0, _gifs.gifContentCheck)();
   checkImgProfile();
+  $("body").removeClass("loadmore");
   if (_settings.reload) (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   (0, _loadComments.commentSubmissionsHandler)();
   (0, _expandComments.checkExpandableComments)();
@@ -2131,7 +2132,10 @@ function reloadComments() {
     return null;
   }
 
-  if (pag == 0) $("#nodebb-comments-list").css('min-height', 0);else $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
+  if (pag == 0) $("#nodebb-comments-list").css('min-height', 0);else {
+    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
+    $("body").addClass("loadmore");
+  }
 
   _settings.set.page(currentPage);
 

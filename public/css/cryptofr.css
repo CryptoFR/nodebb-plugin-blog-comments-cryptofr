@@ -985,6 +985,10 @@ body.hasLoader ul#nodebb-comments-list li, body.hasLoader button#nodebb-load-mor
   display: none !important;
 }
 
+body.loadmore.hasLoader ul#nodebb-comments-list li{
+  display: block!important;
+}
+
 body.hasLoader ul#nodebb-comments-list {
   height: 100px;
 }
@@ -1021,7 +1025,7 @@ small.logged-as {
 
 
 @media only screen and (max-width: 768px) {
-  
+
   #root {    
     top: 80px;
     right: 140px;
