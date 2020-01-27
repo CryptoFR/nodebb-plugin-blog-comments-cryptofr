@@ -12,8 +12,8 @@ import { drawComments } from "./drawComments.js";
     button.classList.add("btn-primary");
     button.innerText = "Charger plus de commentaires...";
     button.addEventListener("click", function loadMoreClick() {
-
-      reloadComments(pagination+1);
+    	if (!$("body").hasClass("hasLoader"))
+      		reloadComments(pagination+1);
     });
     div.appendChild(button);
     insertAfter(div, document.querySelector("#nodebb"));

@@ -65,7 +65,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	onloadXHR();
 
-	tabIsActive();
+	// tabIsActive();
 
 	windowOnload();
 

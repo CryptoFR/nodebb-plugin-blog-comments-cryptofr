@@ -981,7 +981,7 @@ form{
   font-size: 22px;
 }
 
-body.hasLoader ul#nodebb-comments-list li, body.hasLoader button#nodebb-load-more {
+body.hasLoader ul#nodebb-comments-list li {
   display: none !important;
 }
 
@@ -989,8 +989,12 @@ body.loadmore.hasLoader ul#nodebb-comments-list li{
   display: block!important;
 }
 
+body.hasLoader button#nodebb-load-more{
+  opacity: 0;
+}
+
 body.hasLoader ul#nodebb-comments-list {
-  height: 100px;
+  /*height: 100px;*/
 }
 
 .error-message {
