@@ -913,7 +913,7 @@ var _loadComments = require("./loadComments.js");
 function setSorting(s) {
   _settings.set.sorting(s);
 
-  (0, _loadComments.reloadComments)(0, 0, false, 1);
+  (0, _loadComments.reloadComments)(0, 0, true, 1);
 }
 /**
  * Sets the current active sorting button in the comments plugin
@@ -1096,7 +1096,7 @@ function tenorCallback_search(responsetext) {
       element.src = img["media"][0]["nanogif"]["url"];
       element.classList.add("gifs-result");
       element.addEventListener("click", function (event) {
-        _settings.gifCommentBox.value = _settings.gifCommentBox.value + " ![](" + img["media"][0]["nanogif"]["url"] + ")";
+        _settings.gifCommentBox.value = _settings.gifCommentBox.value + "\n ![](" + img["media"][0]["nanogif"]["url"] + ")";
         _settings.gifCommentBox.parentNode.querySelector(".emoji-wysiwyg-editor").innerText = _settings.gifCommentBox.value;
       });
       document.querySelector("#gifs-list").appendChild(element);
@@ -2091,7 +2091,7 @@ function addButtons() {
   button.classList.add("btn-primary");
   button.innerText = "Charger plus de commentaires...";
   button.addEventListener("click", function loadMoreClick() {
-    reloadComments(_settings.pagination + 1);
+    if (!$("body").hasClass("hasLoader")) reloadComments(_settings.pagination + 1);
   });
   div.appendChild(button);
   (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
@@ -2635,8 +2635,8 @@ _settings.set.templates({
 });
 
 (0, _loadComments.addButtons)();
-(0, _onload.onloadXHR)();
-(0, _modal.tabIsActive)();
+(0, _onload.onloadXHR)(); // tabIsActive();
+
 (0, _util.windowOnload)();
 (0, _loadComments.newCommentsCheck)();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["epB2"], null)
