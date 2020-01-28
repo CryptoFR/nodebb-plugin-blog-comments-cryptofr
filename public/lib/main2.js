@@ -2126,13 +2126,13 @@ function reloadComments() {
   var currentPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var showLoader = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-  if (currentPage > _settings.pagination) {
+  if (currentPage > pag) {
     _settings.set.reload(false);
 
     return null;
   }
 
-  if (pag == 0) $("#nodebb-comments-list").css('min-height', 0);else {
+  if (pag == 0 && !_settings.reload) $("#nodebb-comments-list").css('min-height', 0);else {
     $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
     $("body").addClass("loadmore");
   }

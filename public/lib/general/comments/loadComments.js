@@ -44,11 +44,11 @@ import { drawComments } from "./drawComments.js";
 	 * Function that reloads all comments within the DOM
 	 */
 	export function reloadComments(pag=0,currentPage=0,showLoader=true) {
-      	if (currentPage>pagination) {
+      	if (currentPage>pag) {
       		set.reload(false)
       		return null;
       	}
-      	if (pag==0) $("#nodebb-comments-list").css('min-height',0);
+      	if (pag==0 && !reload) $("#nodebb-comments-list").css('min-height',0);
       	else {
       		$("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
       		$("body").addClass("loadmore");

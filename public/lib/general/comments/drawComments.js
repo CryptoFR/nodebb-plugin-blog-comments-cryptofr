@@ -348,6 +348,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 	      }
 	    }
 	  }
+	  
 	  gifContentCheck();
 	  checkImgProfile();
 
@@ -399,6 +400,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 	 * @returns {String} parsed template
 	 */
 	function parse(data, template) {
+
 	  function replace(key, value, template) {
 	    var searchRegex = new RegExp("{" + key + "}", "g");
 	    return template.replace(searchRegex, value);
