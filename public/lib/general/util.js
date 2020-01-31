@@ -220,5 +220,10 @@ export function removeLoader() {
   }
 
 
+  export function reactElementRelocation(){
+    $("#buttons-container").prepend($("#root button"));
+  }
+
+
 
 

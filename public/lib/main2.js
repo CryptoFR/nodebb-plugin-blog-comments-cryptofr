@@ -317,6 +317,7 @@ exports.changeAttribute = changeAttribute;
 exports.addClassHelper = addClassHelper;
 exports.windowOnload = windowOnload;
 exports.dispatchEmojis = dispatchEmojis;
+exports.reactElementRelocation = reactElementRelocation;
 exports.bindOnClick = void 0;
 
 var _settings = require("../settings.js");
@@ -528,6 +529,10 @@ function dispatchEmojis() {
     var evt = new CustomEvent('dispatchEmojis', {});
     window.dispatchEvent(evt);
   }, 200);
+}
+
+function reactElementRelocation() {
+  $("#buttons-container").prepend($("#root button"));
 }
 },{"../settings.js":"LXja"}],"gYYA":[function(require,module,exports) {
 "use strict";
@@ -1596,11 +1601,9 @@ function drawComments() {
   checkImgProfile();
 
   if (_settings.pagination == 0 && !_settings.reload) {
-    $("#nodebb-comments-list").css('min-height', 0);
-    console.log($("#nodebb-comments-list").height());
+    $("#nodebb-comments-list").css('min-height', 0); // console.log($("#nodebb-comments-list").height());
   } else {
-    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
-    console.log($("#nodebb-comments-list").height());
+    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height()); // console.log($("#nodebb-comments-list").height())
   }
 
   $("body").removeClass("loadmore");
@@ -2653,4 +2656,5 @@ _settings.set.templates({
 (0, _modal.tabIsActive)();
 (0, _util.windowOnload)();
 (0, _loadComments.newCommentsCheck)();
+(0, _util.reactElementRelocation)();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["epB2"], null)
