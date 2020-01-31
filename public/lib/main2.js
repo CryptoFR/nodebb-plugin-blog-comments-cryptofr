@@ -1597,7 +1597,7 @@ function drawComments() {
     }
   }
 
-  reactElementRelocation();
+  (0, _util.reactElementRelocation)();
   (0, _gifs.gifContentCheck)();
   checkImgProfile();
 

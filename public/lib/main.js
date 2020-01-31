@@ -1,7 +1,7 @@
 import { set,reloading,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "./settings.js";
 import { onloadXHR,onLoadFunction } from "./general/onload.js";
 import { newXHR,newXHRFixed } from "./general/api.js";
-import { loadCSS,removeLoader,loadScript,windowOnload,loadScriptHead,reactElementRelocation } from "./general/util.js";
+import { loadCSS,removeLoader,loadScript,windowOnload,loadScriptHead } from "./general/util.js";
 import { grecaptchaGrab,tabIsActive } from "./general/login/modal.js";
 import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js";
 

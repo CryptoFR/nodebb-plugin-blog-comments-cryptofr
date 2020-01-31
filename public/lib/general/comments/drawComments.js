@@ -1,5 +1,5 @@
 import { set,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload } from "../../settings.js";
-import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis } from "./../util.js"; 
+import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis,reactElementRelocation } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
