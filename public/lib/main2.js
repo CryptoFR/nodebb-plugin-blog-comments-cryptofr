@@ -2583,19 +2583,17 @@ var _modal = require("./general/login/modal.js");
 
 var _loadComments = require("./general/comments/loadComments.js");
 
-_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
+_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr"); // set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 
-_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 
 (0, _util.loadCSS)(_settings.pluginURL + "/css/comments.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/cryptofr.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/emoji.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/icons.css");
 (0, _util.loadCSS)("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-(0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
-
-_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+(0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap"); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<div class="comments-area" id="nodebb"></div>');
 
