@@ -348,6 +348,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 	    }
 	  }
 
+	  reactElementRelocation();
 	  gifContentCheck();
 	  checkImgProfile();
 
@@ -377,6 +378,8 @@ import { grecaptchaGrab } from '../login/modal.js';
 	  // uploadInit();
 
 	  prepareSignout(data.token)
+
+
 
 
 	}

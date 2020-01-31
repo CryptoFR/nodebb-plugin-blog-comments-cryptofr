@@ -1597,6 +1597,7 @@ function drawComments() {
     }
   }
 
+  reactElementRelocation();
   (0, _gifs.gifContentCheck)();
   checkImgProfile();
 
@@ -2656,5 +2657,4 @@ _settings.set.templates({
 (0, _modal.tabIsActive)();
 (0, _util.windowOnload)();
 (0, _loadComments.newCommentsCheck)();
-(0, _util.reactElementRelocation)();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["epB2"], null)

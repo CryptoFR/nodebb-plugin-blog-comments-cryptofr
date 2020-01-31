@@ -1014,7 +1014,7 @@ body.hasLoader ul#nodebb-comments-list {
   top: 102px;
   right: 45vw;
   position: absolute;
-  display: none;
+  /*display: none;*/
 }
 
 small.logged-as {

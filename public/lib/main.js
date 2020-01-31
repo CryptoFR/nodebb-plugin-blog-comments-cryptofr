@@ -74,5 +74,3 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	windowOnload();
 
 	newCommentsCheck();
-
-	reactElementRelocation();
