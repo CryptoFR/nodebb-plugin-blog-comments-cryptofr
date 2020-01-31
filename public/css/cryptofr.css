@@ -1028,6 +1028,11 @@ small.logged-as {
     padding: 10px;
 }
 
+.buttons-container{
+  display: block;
+  width: 250px;
+  margin:0px auto;
+}
 
 @media only screen and (max-width: 768px) {
 
