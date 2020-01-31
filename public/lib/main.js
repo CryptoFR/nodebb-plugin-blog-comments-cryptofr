@@ -8,7 +8,9 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 	
-	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+	// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+	set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
+
 
 	loadCSS(pluginURL + "/css/comments.css");
 	loadCSS(pluginURL + "/css/cryptofr.css");
@@ -16,6 +18,8 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	loadCSS(pluginURL + "/css/icons.css");
 	loadCSS("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 	loadCSS("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
+	
+	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 	document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin",'<div class="comments-area" id="nodebb"></div>');
 	set.nodebbDiv(document.getElementById("nodebb"));
@@ -65,7 +69,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	onloadXHR();
 
-	// tabIsActive();
+	tabIsActive();
 
 	windowOnload();
 

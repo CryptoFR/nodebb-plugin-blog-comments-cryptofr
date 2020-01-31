@@ -48,11 +48,11 @@ import { drawComments } from "./drawComments.js";
       		set.reload(false)
       		return null;
       	}
-      	if (pag==0 && !reload) $("#nodebb-comments-list").css('min-height',0);
-      	else {
-      		$("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
+ 
+      	if (pag>0) {
       		$("body").addClass("loadmore");
       	}
+
       	set.page(currentPage);
       	set.pagination(pag);
       	set.postData([]);
@@ -75,6 +75,7 @@ import { drawComments } from "./drawComments.js";
 		if (document.hasFocus()){
 			setInterval(function() {
 				set.reloading(1);
+				set.reload(true);
 			    reloadComments(pagination,0,false);
 			}, 120000);
 		}
@@ -121,7 +122,7 @@ import { drawComments } from "./drawComments.js";
 	      	xpost(XHR, form.getAttribute("action"), inputs);	      
 			setTimeout(function() {
 				set.reload(true)
-				reloadComments(pagination,0,false);
+				reloadComments(pagination,0,true);
 			},500);
 		  }
 	      return false;

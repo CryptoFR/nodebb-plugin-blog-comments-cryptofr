@@ -69,7 +69,9 @@
 		<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
 		</form>
-		<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
+		<div class="buttons-container" id="buttons-container" >
+			<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
+		</div>
 
 		<!-- This button is here just for making the css margin right -->
 		<button style="visibility: hidden; padding-top: 8px;"> </button>

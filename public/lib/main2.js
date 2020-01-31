@@ -1594,6 +1594,15 @@ function drawComments() {
 
   (0, _gifs.gifContentCheck)();
   checkImgProfile();
+
+  if (_settings.pagination == 0 && !_settings.reload) {
+    $("#nodebb-comments-list").css('min-height', 0);
+    console.log($("#nodebb-comments-list").height());
+  } else {
+    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
+    console.log($("#nodebb-comments-list").height());
+  }
+
   $("body").removeClass("loadmore");
   if (_settings.reload) (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   (0, _loadComments.commentSubmissionsHandler)();
@@ -2132,8 +2141,7 @@ function reloadComments() {
     return null;
   }
 
-  if (pag == 0 && !_settings.reload) $("#nodebb-comments-list").css('min-height', 0);else {
-    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
+  if (pag > 0) {
     $("body").addClass("loadmore");
   }
 
@@ -2166,6 +2174,8 @@ function newCommentsCheck() {
   if (document.hasFocus()) {
     setInterval(function () {
       _settings.set.reloading(1);
+
+      _settings.set.reload(true);
 
       reloadComments(_settings.pagination, 0, false);
     }, 120000);
@@ -2257,7 +2267,7 @@ function commentSubmissionsHandler() {
           setTimeout(function () {
             _settings.set.reload(true);
 
-            reloadComments(_settings.pagination, 0, false);
+            reloadComments(_settings.pagination, 0, true);
           }, 500);
         }
         return false;
@@ -2383,17 +2393,15 @@ function closeModalActiveTab() {
   if (modalElement) {
     modalElement.setAttribute("data-closed", "1");
     modalElement.style.display = "none";
+
+    _settings.set.reload(true);
+
+    (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
   }
-
-  _settings.set.reload(true);
-
-  (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
 }
 
 function tabIsActive() {
-  if (!$('#formupload #file[focused=1]').length) {
-    window.onfocus = closeModalActiveTab;
-  } else $('#formupload #file').attr('focused', "0");
+  window.onfocus = closeModalActiveTab;
 }
 /**
  * Function that starts the authentication process
@@ -2571,9 +2579,10 @@ var _modal = require("./general/login/modal.js");
 
 var _loadComments = require("./general/comments/loadComments.js");
 
-_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
+_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
-_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+
+_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 
 (0, _util.loadCSS)(_settings.pluginURL + "/css/comments.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/cryptofr.css");
@@ -2581,6 +2590,9 @@ _settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-crypto
 (0, _util.loadCSS)(_settings.pluginURL + "/css/icons.css");
 (0, _util.loadCSS)("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 (0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
+
+_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+
 document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<div class="comments-area" id="nodebb"></div>');
 
 _settings.set.nodebbDiv(document.getElementById("nodebb"));
@@ -2637,8 +2649,8 @@ _settings.set.templates({
 });
 
 (0, _loadComments.addButtons)();
-(0, _onload.onloadXHR)(); // tabIsActive();
-
+(0, _onload.onloadXHR)();
+(0, _modal.tabIsActive)();
 (0, _util.windowOnload)();
 (0, _loadComments.newCommentsCheck)();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["epB2"], null)

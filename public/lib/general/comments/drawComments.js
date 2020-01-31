@@ -348,9 +348,19 @@ import { grecaptchaGrab } from '../login/modal.js';
 	      }
 	    }
 	  }
-	  
+
 	  gifContentCheck();
 	  checkImgProfile();
+
+
+	  if (pagination==0 && !reload) {
+	  	$("#nodebb-comments-list").css('min-height',0);
+	  	console.log($("#nodebb-comments-list").height());
+	  }
+	  else {
+	  	$("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
+	  	console.log($("#nodebb-comments-list").height())
+	  }
 
 	  $("body").removeClass("loadmore")
 

@@ -80,16 +80,14 @@ import { login,signUp } from "../api.js";
 	  if (modalElement) {
 	    modalElement.setAttribute("data-closed", "1");
 	    modalElement.style.display = "none";
+	  	set.reload(true)
+	  	reloadComments(pagination,0,false);
 	  }
-	  set.reload(true)
-	  reloadComments(pagination,0,false);
 	}
 
 
 	export function tabIsActive(){
-		if (!$('#formupload #file[focused=1]').length){
-			window.onfocus = closeModalActiveTab;
-		}else $('#formupload #file').attr('focused',"0");
+		window.onfocus = closeModalActiveTab;
 	}
 
 
@@ -113,7 +111,7 @@ import { login,signUp } from "../api.js";
 	}
 
 
-	
+
 	/**
 	 * Opens a modal within the plugin
 	 * @param {("login"|"register")} type whether the modal is login or register

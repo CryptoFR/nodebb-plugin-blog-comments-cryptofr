@@ -1043,12 +1043,14 @@ small.logged-as {
     bottom: 59px!important;
   }
 
-  .sub-reply-input .emoji-picker-icon{
+  .sub-reply-input .emoji-picker-icon,
+  .sub-edit-input .emoji-picker-icon{
     bottom: 95px!important;
     left: 70px!important;
   }
 
-  .sub-reply-input .comments-toolbar button{
+  .sub-reply-input .comments-toolbar button,
+  .sub-edit-input .comments-toolbar button{
     display: block!important;
     float: none!important;
   }
