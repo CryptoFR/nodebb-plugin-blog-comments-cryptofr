@@ -376,6 +376,7 @@
 #nodebb {
     /*margin-top: 0;*/
     margin-bottom: 30px;
+    position: relative;
 }
 
 #nodebb .topic-profile-pic.first-image {

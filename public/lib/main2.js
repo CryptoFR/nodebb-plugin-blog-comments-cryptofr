@@ -318,6 +318,9 @@ exports.addClassHelper = addClassHelper;
 exports.windowOnload = windowOnload;
 exports.dispatchEmojis = dispatchEmojis;
 exports.reactElementRelocation = reactElementRelocation;
+exports.getIndexesOf = getIndexesOf;
+exports.parseCommentQuotes = parseCommentQuotes;
+exports.getCoords = getCoords;
 exports.bindOnClick = void 0;
 
 var _settings = require("../settings.js");
@@ -393,8 +396,26 @@ function addLoader() {
 
   var div = document.createElement("div");
   div.classList.add("loading");
-  document.querySelector("body").appendChild(div);
+  document.querySelector("#nodebb").appendChild(div);
   document.querySelector("body").classList.add("hasLoader");
+
+  if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 >= getCoords(document.querySelector("#nodebb")).top + 350 && document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50) {
+    $(".loading").css("top", document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2) - getCoords(document.querySelector("#nodebb")).top;
+  } else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 < getCoords(document.querySelector("#nodebb")).top + 350) {
+    $(".loading").css("top", 350);
+  } else {
+    $(".loading").css("top", document.querySelector("#nodebb").offsetHeight + 50);
+  }
+
+  $(window).scroll(function () {
+    if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 >= getCoords(document.querySelector("#nodebb")).top + 350 && document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50) {
+      $(".loading").css("top", document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2) - getCoords(document.querySelector("#nodebb")).top;
+    } else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 < getCoords(document.querySelector("#nodebb")).top + 350) {
+      $(".loading").css("top", 350);
+    } else {
+      $(".loading").css("top", document.querySelector("#nodebb").offsetHeight + 50);
+    }
+  });
 }
 /**
  * Adds a loading div in the DOM
@@ -408,7 +429,7 @@ function addLoaderInside() {
 
   var div = document.createElement("div");
   div.classList.add("loading-inside");
-  document.querySelector("#nodebb-comments-list").appendChild(div);
+  document.querySelector("#nodebb").appendChild(div);
   document.querySelector("body").classList.add("hasLoader");
 }
 /**
@@ -417,7 +438,7 @@ function addLoaderInside() {
 
 
 function removeLoader() {
-  var div = document.querySelector("div.loading");
+  var div = document.querySelector("#nodebb-comments-list div.loading");
   if (div) removeNodes(div);
   document.querySelector("body").classList.remove("hasLoader");
 }
@@ -533,6 +554,58 @@ function dispatchEmojis() {
 
 function reactElementRelocation() {
   $("#buttons-container").prepend($("#root button"));
+}
+
+function getIndexesOf(searchStr, str, caseSensitive) {
+  var searchStrLen = searchStr.length;
+
+  if (searchStrLen == 0) {
+    return [];
+  }
+
+  var startIndex = 0,
+      index,
+      indices = [];
+
+  if (!caseSensitive) {
+    str = str.toLowerCase();
+    searchStr = searchStr.toLowerCase();
+  }
+
+  while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+    indices.push(index);
+    startIndex = index + searchStrLen;
+  }
+
+  return indices;
+}
+
+function parseCommentQuotes(comment) {
+  var quotesChar = getIndexesOf("&gt; ", comment);
+
+  for (var i = 1; i < quotesChar.length; i++) {
+    var index = getIndexesOf("&gt; ", comment)[i];
+    comment = comment.substring(0, index) + "</br>" + comment.substring(index, comment.length);
+  }
+
+  return comment;
+}
+
+function getCoords(elem) {
+  // crossbrowser version
+  var box = elem.getBoundingClientRect();
+  var body = document.body;
+  var docEl = document.documentElement;
+  var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+  var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+  var clientTop = docEl.clientTop || body.clientTop || 0;
+  var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+  var top = box.top + scrollTop - clientTop;
+  var left = box.left + scrollLeft - clientLeft;
+  return {
+    top: Math.round(top),
+    left: Math.round(left)
+  };
 }
 },{"../settings.js":"LXja"}],"gYYA":[function(require,module,exports) {
 "use strict";
@@ -1200,7 +1273,12 @@ function gifContentCheck() {
 
       while (comment.innerText.indexOf("![") >= 0) {
         var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, comment.innerHTML.indexOf(".gif)") + 4);
-        var imgTag = "<img class='gif-post' src='" + src + "'>";
+        var imgTag = "<img class='gif-post' src='" + src + "'></br>";
+
+        if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]") - 6, comment.innerHTML.indexOf("![]")) != "&gt;  " && comment.innerHTML.indexOf("![]") > 1) {
+          imgTag = "</br>" + imgTag;
+        }
+
         comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)") + 5, comment.innerHTML.length);
       }
     }
@@ -1311,6 +1389,8 @@ var _onload = require("../onload.js");
 var _gifs = require("../addons/gifs.js");
 
 var _upload = require("../addons/upload.js");
+
+var _util2 = require("../util.js");
 
 // import $ from 'jquery';
 window.drawComments = drawComments;
@@ -1918,8 +1998,9 @@ function createNestedComments(comments, template, otherData) {
     (0, _util.addClassHelper)(clone.querySelector("i.i-upvote"), comment.upvoted, "icon-thumbs-up-alt", "icon-thumbs-up");
     (0, _util.addClassHelper)(clone.querySelector("i.i-bookmark"), comment.bookmarked, "icon-bookmark", "icon-bookmark-empty");
     (0, _util.addClassHelper)(clone.querySelector("i.i-downvote"), comment.downvoted, "icon-thumbs-down-alt", "icon-thumbs-down");
-    clone.querySelector("div.post-body").innerHTML = comment.content;
     clone.querySelector("div.post-body").setAttribute("content", comment.content);
+    clone.querySelector("div.post-body").innerHTML = comment.content;
+    clone.querySelector("div.post-body").innerHTML = (0, _util2.parseCommentQuotes)(clone.querySelector("div.post-body").innerHTML);
     var img = clone.querySelector("img.profile-image");
     var divImgText = clone.querySelector("div.profile-image");
 
@@ -2074,7 +2155,7 @@ function commentOptions() {
     }
   }
 }
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc"}],"V8ra":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../util.js":"VGLh"}],"V8ra":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

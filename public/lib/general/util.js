@@ -1,4 +1,5 @@
 import { pluginURL } from "../settings.js";
+  
   /**
    * Utility function that recursively parses the timestamp of each of the posts
    * in order to show a human representation of that timestamp
@@ -79,8 +80,29 @@ export function addLoader() {
     }
     var div = document.createElement("div");
     div.classList.add("loading");
-    document.querySelector("body").appendChild(div);
+    document.querySelector("#nodebb").appendChild(div);
     document.querySelector("body").classList.add("hasLoader");
+
+
+    if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 >= getCoords(document.querySelector("#nodebb")).top + 350 && 
+      document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50){
+      $(".loading").css("top",document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2) - getCoords(document.querySelector("#nodebb")).top
+    }else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 < getCoords(document.querySelector("#nodebb")).top + 350){
+      $(".loading").css("top", 350)
+    }else {
+      $(".loading").css("top",document.querySelector("#nodebb").offsetHeight + 50 )
+    }
+
+    $(window) .scroll(function() { 
+     if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 >= getCoords(document.querySelector("#nodebb")).top + 350 && 
+       document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50){
+       $(".loading").css("top",document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2) - getCoords(document.querySelector("#nodebb")).top
+     }else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 < getCoords(document.querySelector("#nodebb")).top + 350){
+       $(".loading").css("top",350)
+     }else {
+       $(".loading").css("top",document.querySelector("#nodebb").offsetHeight + 50)
+     } 
+    });
   }
 
 
@@ -93,21 +115,19 @@ export function addLoader() {
       }
       var div = document.createElement("div");
       div.classList.add("loading-inside");
-      document.querySelector("#nodebb-comments-list").appendChild(div);
+      document.querySelector("#nodebb").appendChild(div);
       document.querySelector("body").classList.add("hasLoader");
-
     }
 
-  
+
   /**
    * Removes the loading div from the DOM
    */
 export function removeLoader() {
-    var div = document.querySelector("div.loading");
+    var div = document.querySelector("#nodebb-comments-list div.loading");
     if (div) removeNodes(div);
     document.querySelector("body").classList.remove("hasLoader");
   }
-
 
 
   /**
@@ -225,5 +245,54 @@ export function removeLoader() {
   }
 
 
+  export function getIndexesOf(searchStr, str, caseSensitive) {
+    var searchStrLen = searchStr.length;
+    if (searchStrLen == 0) {
+        return [];
+    }
+    var startIndex = 0, index, indices = [];
+    if (!caseSensitive) {
+        str = str.toLowerCase();
+        searchStr = searchStr.toLowerCase();
+    }
+    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+        indices.push(index);
+        startIndex = index + searchStrLen;
+    }
+    return indices;
+  }
 
+  export function parseCommentQuotes(comment){
+
+    var quotesChar= getIndexesOf("&gt; ",comment);
+
+    for (var i = 1; i < quotesChar.length; i++) {
+      let index=getIndexesOf("&gt; ",comment)[i]
+      comment=comment.substring(0,index)+"</br>"+comment.substring(index,comment.length);
+    }
+
+    return comment;
+  }
+
+
+  export function getCoords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+
+    var body = document.body;
+    var docEl = document.documentElement;
+
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+    var top  = box.top +  scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+
+    return { top: Math.round(top), left: Math.round(left) };
+
+  }
+
+   
 

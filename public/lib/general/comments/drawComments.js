@@ -11,6 +11,7 @@ import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
+import { parseCommentQuotes } from '../util.js';
 // import $ from 'jquery';
 
 
@@ -766,8 +767,12 @@ import { grecaptchaGrab } from '../login/modal.js';
 	      "icon-thumbs-down-alt",
 	      "icon-thumbs-down"
 	    );
-	    clone.querySelector("div.post-body").innerHTML = comment.content;
 	    clone.querySelector("div.post-body").setAttribute("content",comment.content)
+	    clone.querySelector("div.post-body").innerHTML = comment.content;
+
+	    clone.querySelector("div.post-body").innerHTML = parseCommentQuotes(clone.querySelector("div.post-body").innerHTML)
+
+
 	    var img = clone.querySelector("img.profile-image");
 	    var divImgText = clone.querySelector("div.profile-image");
 
