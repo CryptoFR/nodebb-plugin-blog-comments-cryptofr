@@ -122,7 +122,6 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
    * @param {string} token CSRF token for the request
    */
    export function login(username, password, token) {
-    addLoader();
     return newFetch(nodeBBURL + "/login", {
       username: username,
       password: password,
@@ -132,13 +131,10 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
     })
       .then((res) => {
         const loginSuccess = res.status === 200;
-        if (loginSuccess) {
-          createSnackbar("Login success", true);
-        } else {
+        if (!loginSuccess) {
           createSnackbar("Login failed", false);
         }
       })
-      .then(removeLoader)
       .then(() => reloadComments(0, 0, false));
       
   }

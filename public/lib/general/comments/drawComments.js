@@ -359,9 +359,7 @@ import { parseCommentQuotes } from '../util.js';
 
 	  $("body").removeClass("loadmore")
 
-	  console.log("again pre if")
 	  if (reload){
-	  	console.log("if inside again")
       	reloadComments(pagination,page+1,false)
 	  }
 

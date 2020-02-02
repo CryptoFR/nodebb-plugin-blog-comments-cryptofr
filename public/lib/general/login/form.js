@@ -21,7 +21,7 @@
 	          emailErrors.innerText = "The email is taken";
 	        } else {
 	          emailErrors.innerText = "";
-	        }
+	        } 
 	      });
 	  });
 

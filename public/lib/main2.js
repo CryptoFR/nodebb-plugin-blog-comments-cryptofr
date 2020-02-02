@@ -763,7 +763,6 @@ function upvotePost(topicItem, pid, upvoted) {
 
 
 function login(username, password, token) {
-  (0, _util.addLoader)();
   return newFetch(nodeBBURL + "/login", {
     username: username,
     password: password,
@@ -773,12 +772,10 @@ function login(username, password, token) {
   }).then(function (res) {
     var loginSuccess = res.status === 200;
 
-    if (loginSuccess) {
-      (0, _loadComments.createSnackbar)("Login success", true);
-    } else {
+    if (!loginSuccess) {
       (0, _loadComments.createSnackbar)("Login failed", false);
     }
-  }).then(_util.removeLoader).then(function () {
+  }).then(function () {
     return (0, _loadComments.reloadComments)(0, 0, false);
   });
 }
@@ -1683,10 +1680,8 @@ function drawComments() {
   }
 
   $("body").removeClass("loadmore");
-  console.log("again pre if");
 
   if (_settings.reload) {
-    console.log("if inside again");
     (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   }
 
@@ -2253,8 +2248,7 @@ function reloadComments() {
 
   _settings.XHR.send();
 
-  console.log(reloadComments.caller.name);
-  console.log(showLoader);
+  console.trace();
 }
 
 function newCommentsCheck() {
@@ -2450,8 +2444,7 @@ function onSubmitSignUp(e) {
 function onSubmitLogin(e) {
   e.preventDefault();
   var t = e.target;
-  (0, _api.login)(t.querySelector("input[name='email']").value, t.querySelector("input[name='password']").value, t.querySelector("input[name='_csrf']").value);
-  setTimeout(closeModal, 100);
+  (0, _api.login)(t.querySelector("input[name='email']").value, t.querySelector("input[name='password']").value, t.querySelector("input[name='_csrf']").value); // setTimeout(closeModal, 100);
 }
 /**
  * Closes whatever modal is opened within the plugin
@@ -2459,14 +2452,12 @@ function onSubmitLogin(e) {
 
 
 function closeModal() {
-  console.log("closemodal function");
   var modalElement = document.querySelector("div.modal[data-closed='0']");
 
   if (modalElement) {
     modalElement.setAttribute("data-closed", "1");
     modalElement.style.display = "none"; // set.reload(true) 
 
-    console.log("closemodal function inside without reload var");
     (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
   }
 }
@@ -2490,8 +2481,7 @@ function authenticate(type) {
   var modal = openModal(type);
   var timer = setInterval(function () {
     if (modal.getAttribute("data-closed") === "1") {
-      clearInterval(timer);
-      (0, _loadComments.reloadComments)();
+      clearInterval(timer); // reloadComments();
     }
   }, 500);
 }

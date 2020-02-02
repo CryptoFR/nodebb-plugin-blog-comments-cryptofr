@@ -45,6 +45,8 @@ import { login,signUp } from "../api.js";
 	 * Function called when the login form is submitted
 	 * @param {HTMLInputElement} e event information
 	 */
+
+	 
 	export function onSubmitLogin(e) {
 	  e.preventDefault();
 	  var t = e.target;
@@ -53,7 +55,7 @@ import { login,signUp } from "../api.js";
 	    t.querySelector("input[name='password']").value,
 	    t.querySelector("input[name='_csrf']").value
 	  );
-	  setTimeout(closeModal, 100);
+	  // setTimeout(closeModal, 100);
 	}
 
 
@@ -63,13 +65,11 @@ import { login,signUp } from "../api.js";
 	 */
 	export function closeModal() {
 
-      console.log("closemodal function")
 	  var modalElement = document.querySelector("div.modal[data-closed='0']");
 	  if (modalElement) {
 	    modalElement.setAttribute("data-closed", "1");
 	    modalElement.style.display = "none";
 	  	// set.reload(true) 
-      	console.log("closemodal function inside without reload var")
 
 	  	reloadComments(pagination,0,false);
 	  }
@@ -89,13 +89,14 @@ import { login,signUp } from "../api.js";
 	 * when this happens, comments are reloaded
 	 * @param {("login"|"register")} type the type of the authentication
 	 */
+
 	export function authenticate(type) {
 	  set.savedText(contentDiv.value);
 	  var modal = openModal(type);
 	  var timer = setInterval(function() {
 	    if (modal.getAttribute("data-closed") === "1") {
 	      clearInterval(timer);
-	      reloadComments();
+	      // reloadComments();
 	    }
 	  }, 500);
 	}

@@ -68,8 +68,7 @@ import { drawComments } from "./drawComments.js";
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send(); 
-		console.log(reloadComments.caller.name);
-		console.log(showLoader);
+		console.trace();
 	}
 
 
