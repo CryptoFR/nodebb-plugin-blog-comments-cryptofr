@@ -62,12 +62,14 @@ import { drawComments } from "./drawComments.js";
       		paging = page;
       	}
 
-;		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  paging + "/" + sorting);
+		if (showLoader) addLoader();
+
+		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  paging + "/" + sorting);
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send(); 
-		if (showLoader) addLoader();
-		// else if(insideLoader) addLoaderInside();
+		console.log(reloadComments.caller.name);
+		console.log(showLoader);
 	}
 
 

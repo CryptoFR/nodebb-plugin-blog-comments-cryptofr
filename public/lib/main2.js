@@ -1393,14 +1393,9 @@ var _upload = require("../addons/upload.js");
 var _util2 = require("../util.js");
 
 // import $ from 'jquery';
-window.drawComments = drawComments;
-
+// window.drawComments = drawComments
 function drawComments() {
-  // console.log(XHR); 
-  (0, _util.removeLoader)(); // if (document.querySelector('iframe')) {
-  //  console.log('returning')
-  //  return;
-  // }
+  (0, _util.removeLoader)();
 
   if (_settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = JSON.parse(_settings.XHR.responseText),
@@ -1682,18 +1677,24 @@ function drawComments() {
   checkImgProfile();
 
   if (_settings.pagination == 0 && !_settings.reload) {
-    $("#nodebb-comments-list").css('min-height', 0); // console.log($("#nodebb-comments-list").height());
+    $("#nodebb-comments-list").css('min-height', 0);
   } else {
-    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height()); // console.log($("#nodebb-comments-list").height())
+    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
   }
 
   $("body").removeClass("loadmore");
-  if (_settings.reload) (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
+  console.log("again pre if");
+
+  if (_settings.reload) {
+    console.log("if inside again");
+    (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
+  }
+
   (0, _loadComments.commentSubmissionsHandler)();
   (0, _expandComments.checkExpandableComments)();
   commentOptions();
-  (0, _util.dispatchEmojis)();
-  (0, _onload.onLoadFunction)();
+  (0, _util.dispatchEmojis)(); // onLoadFunction();
+
   (0, _gifs.gifBoxInit)(); // uploadInit();
 
   prepareSignout(data.token);
@@ -2242,7 +2243,7 @@ function reloadComments() {
     paging = _settings.page;
   }
 
-  ;
+  if (showLoader) (0, _util.addLoader)();
 
   _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + paging + "/" + _settings.sorting);
 
@@ -2252,7 +2253,8 @@ function reloadComments() {
 
   _settings.XHR.send();
 
-  if (showLoader) (0, _util.addLoader)(); // else if(insideLoader) addLoaderInside();
+  console.log(reloadComments.caller.name);
+  console.log(showLoader);
 }
 
 function newCommentsCheck() {
@@ -2394,7 +2396,6 @@ exports.prepareModal = prepareModal;
 exports.onSubmitSignUp = onSubmitSignUp;
 exports.onSubmitLogin = onSubmitLogin;
 exports.closeModal = closeModal;
-exports.closeModalActiveTab = closeModalActiveTab;
 exports.tabIsActive = tabIsActive;
 exports.authenticate = authenticate;
 exports.grecaptchaGrab = grecaptchaGrab;
@@ -2458,35 +2459,20 @@ function onSubmitLogin(e) {
 
 
 function closeModal() {
+  console.log("closemodal function");
   var modalElement = document.querySelector("div.modal[data-closed='0']");
 
   if (modalElement) {
     modalElement.setAttribute("data-closed", "1");
-    modalElement.style.display = "none";
-  }
+    modalElement.style.display = "none"; // set.reload(true) 
 
-  (0, _loadComments.reloadComments)();
-}
-/**
- * Closes whatever modal is opened within the plugin
- */
-
-
-function closeModalActiveTab() {
-  var modalElement = document.querySelector("div.modal[data-closed='0']");
-
-  if (modalElement) {
-    modalElement.setAttribute("data-closed", "1");
-    modalElement.style.display = "none";
-
-    _settings.set.reload(true);
-
+    console.log("closemodal function inside without reload var");
     (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
   }
 }
 
 function tabIsActive() {
-  window.onfocus = closeModalActiveTab;
+  window.onfocus = closeModal;
 }
 /**
  * Function that starts the authentication process
@@ -2645,6 +2631,7 @@ function onLoadFunction(xhr) {
   setTimeout(function () {
     return function onLoadImpl() {
       xhr.isBusy = false;
+      console.log("reloading because aja");
       (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
     };
   }, 500);

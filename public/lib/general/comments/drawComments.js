@@ -15,16 +15,12 @@ import { parseCommentQuotes } from '../util.js';
 // import $ from 'jquery';
 
 
-	window.drawComments = drawComments
+	// window.drawComments = drawComments
 	export function drawComments() {
-
-		// console.log(XHR); 
+ 
 
 	  removeLoader();
-	  // if (document.querySelector('iframe')) {
-		 //  console.log('returning')
-		 //  return;
-	  // }
+
 	  if (XHR.status >= 200 && XHR.status < 400) {
 
 	    var data = JSON.parse(XHR.responseText),
@@ -356,32 +352,30 @@ import { parseCommentQuotes } from '../util.js';
 
 	  if (pagination==0 && !reload) {
 	  	$("#nodebb-comments-list").css('min-height',0);
-	  	// console.log($("#nodebb-comments-list").height());
 	  }
 	  else {
 	  	$("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
-	  	// console.log($("#nodebb-comments-list").height())
 	  }
 
 	  $("body").removeClass("loadmore")
 
-	  if (reload)
+	  console.log("again pre if")
+	  if (reload){
+	  	console.log("if inside again")
       	reloadComments(pagination,page+1,false)
+	  }
 
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
 	  commentOptions();
 	  dispatchEmojis();
-	  onLoadFunction();
+	  // onLoadFunction();
 
 	  gifBoxInit();
 
 	  // uploadInit();
 
 	  prepareSignout(data.token)
-
-
-
 
 	}
 
@@ -393,6 +387,7 @@ import { parseCommentQuotes } from '../util.js';
 			logout(token)
 			setTimeout(() => reloadComments(0, 0, false), 1000)		
 		});
+
 	}
 	
 

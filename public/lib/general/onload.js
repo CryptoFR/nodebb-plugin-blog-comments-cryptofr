@@ -73,6 +73,7 @@ import { drawComments } from "./comments/drawComments.js";
 		setTimeout(function() {
 		    return function onLoadImpl() {
 		     xhr.isBusy = false;
+		     console.log("reloading because aja")
 
 		     reloadComments(pagination,0,false);
 		    }
