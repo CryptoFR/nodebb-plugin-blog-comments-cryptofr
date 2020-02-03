@@ -774,9 +774,7 @@ function login(username, password, token) {
 
     if (!loginSuccess) {
       (0, _modal.loginError)("Username and Password combination is incorrect");
-    }
-  }).then(function () {
-    return (0, _loadComments.reloadComments)(0, 0, false);
+    } else (0, _loadComments.reloadComments)(0, 0, false);
   });
 }
 /**
@@ -2538,7 +2536,7 @@ function loginError(message, form) {
   var modal = document.querySelector("#login-modal");
   modal.querySelector(".nodebb-error").innerText = message;
   setTimeout(function () {
-    form.querySelector(".nodebb-error").innerText = "";
+    modal.querySelector(".nodebb-error").innerText = "";
   }, 3000);
 }
 },{"../../settings.js":"LXja","../comments/loadComments.js":"V8ra","../api.js":"gYYA"}],"sutU":[function(require,module,exports) {
