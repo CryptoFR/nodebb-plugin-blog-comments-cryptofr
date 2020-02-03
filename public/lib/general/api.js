@@ -1,6 +1,6 @@
 import { set,pluginURL,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
 import { addLoader, removeLoader } from "./util.js";
-import { grecaptchaGrab } from "./login/modal.js"; 
+import { grecaptchaGrab,loginError } from "./login/modal.js"; 
 import { reloadComments, createSnackbar } from "./comments/loadComments.js"; 
   /**
    * Creates an XHR request. This function due to the use of the
@@ -132,7 +132,7 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
       .then((res) => {
         const loginSuccess = res.status === 200;
         if (!loginSuccess) {
-          createSnackbar("Login failed", false);
+          loginError("Username and Password combination is incorrect");
         }
       })
       .then(() => reloadComments(0, 0, false));

@@ -18,6 +18,7 @@
           <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
           <input name="_csrf" type="hidden" value=""/>
           <button class="modal-button" type="submit">Login</button>
+          <div class="nodebb-error"></div>
         </form>
         <p class="caption-login-text">Vous n'avez pas encore de compte? <a href="#" class="register-modal-open">S'inscrire</a> <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a></p>
       </div>

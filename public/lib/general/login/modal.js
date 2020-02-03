@@ -46,7 +46,7 @@ import { login,signUp } from "../api.js";
 	 * @param {HTMLInputElement} e event information
 	 */
 
-	 
+
 	export function onSubmitLogin(e) {
 	  e.preventDefault();
 	  var t = e.target;
@@ -139,4 +139,13 @@ import { login,signUp } from "../api.js";
     } else {
       setTimeout(grecaptchaGrab, 1000);
     }
+  }
+
+
+  export function loginError(message,form){
+	var modal = document.querySelector("#login-modal");
+  	modal.querySelector(".nodebb-error").innerText=message;
+  	setTimeout(function(){
+  		form.querySelector(".nodebb-error").innerText="";
+  	},3000)
   }
