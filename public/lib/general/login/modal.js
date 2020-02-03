@@ -146,6 +146,6 @@ import { login,signUp } from "../api.js";
 	var modal = document.querySelector("#login-modal");
   	modal.querySelector(".nodebb-error").innerText=message;
   	setTimeout(function(){
-  		form.querySelector(".nodebb-error").innerText="";
+  		modal.querySelector(".nodebb-error").innerText="";
   	},3000)
   }

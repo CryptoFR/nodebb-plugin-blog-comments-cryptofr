@@ -133,9 +133,8 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
         const loginSuccess = res.status === 200;
         if (!loginSuccess) {
           loginError("Username and Password combination is incorrect");
-        }
-      })
-      .then(() => reloadComments(0, 0, false));
+        }else reloadComments(0, 0, false)
+      }) 
       
   }
   
