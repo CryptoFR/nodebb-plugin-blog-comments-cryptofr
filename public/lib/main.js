@@ -34,7 +34,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 
 	set.postData([]);
 	set.sorting("newest");
-	
+
 	set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
 	
 	var XHRaux = newXHR();

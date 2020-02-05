@@ -45,6 +45,7 @@ import { drawComments } from "./drawComments.js";
 	 */
 	export function reloadComments(pag=0,currentPage=0,showLoader=true) {
       	if (currentPage>pag) {
+      		console.log("finish")
       		set.reload(false)
       		return null;
       	}
@@ -68,7 +69,6 @@ import { drawComments } from "./drawComments.js";
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send(); 
-		console.trace();
 	}
 
 

@@ -142,7 +142,7 @@ import { login,signUp } from "../api.js";
   }
 
 
-  export function loginError(message,form){
+  export function loginError(message){
 	var modal = document.querySelector("#login-modal");
   	modal.querySelector(".nodebb-error").innerText=message;
   	setTimeout(function(){
