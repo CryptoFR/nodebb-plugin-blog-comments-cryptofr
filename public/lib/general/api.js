@@ -208,7 +208,6 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
    * Deletes a comment
    * @param {DOMElement} topicItem DOMElement for the comment
    * @param {Number} pid post (comment) ID
-   * @param {Boolean} bookmarked Whether the comment has been already bookmarked or not
    */
   export function deletePost(topicItem, pid) {
     var voteXHRaux= voteXHR;

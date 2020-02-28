@@ -365,7 +365,7 @@ import { parseCommentQuotes } from '../util.js';
 	  if (!reload){
 	  	console.log("finishing2")
 	  }
-	  
+
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
 	  commentOptions();
@@ -619,8 +619,6 @@ import { parseCommentQuotes } from '../util.js';
 
 
 	function checkNewComments(existingComments,loadedComments){
-
-
 		for (let comment of loadedComments.querySelectorAll("li")) {
 			let flag=false;
 			for (let oldcomment of existingComments.querySelectorAll("li")) {
@@ -629,7 +627,6 @@ import { parseCommentQuotes } from '../util.js';
 			}
 			if (!flag ) comment.classList.add("new-comment");
 		}
-
 
 		set.reloading(0);
 		
@@ -689,6 +686,7 @@ import { parseCommentQuotes } from '../util.js';
 	   * @param {Number} level nesting level of the comment, if it's first order it'll be 1 and so forth
 	   * @returns {DOMElement} returns nested comments
 	   */
+	   
 	  function createNestedCommentsInternal(comment, level) {
 	    var clone = template.cloneNode(true);
 	    // Here we should manipulate the node
