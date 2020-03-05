@@ -25,6 +25,7 @@ import { parseCommentQuotes } from '../util.js';
 
 	    var data = JSON.parse(XHR.responseText),
 	      html;
+	    console.log(data);
 
 	    set.dataRes(data);
 	    setActiveSortingLi(sorting, data.sorting);
