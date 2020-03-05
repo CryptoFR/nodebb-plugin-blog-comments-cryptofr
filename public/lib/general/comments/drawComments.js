@@ -17,7 +17,7 @@ import { parseCommentQuotes } from '../util.js';
 
 	// window.drawComments = drawComments
 	export function drawComments() {
- 
+  
 
 	  removeLoader();
 
@@ -25,6 +25,7 @@ import { parseCommentQuotes } from '../util.js';
 
 	    var data = JSON.parse(XHR.responseText),
 	      html;
+	      
 	    console.log(data);
 
 	    set.dataRes(data);

@@ -10,7 +10,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	
 	// set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 	set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
-
+ 
 
 	loadCSS(pluginURL + "/css/comments.css");
 	loadCSS(pluginURL + "/css/cryptofr.css");
