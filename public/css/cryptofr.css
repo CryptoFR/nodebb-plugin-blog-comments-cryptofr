@@ -1053,6 +1053,19 @@ small.logged-as {
   display: none;
 }
 
+.no-topic a{
+  color: #0073aa;
+  font-size: 15px;
+}
+
+.no-topic a:hove{
+  color: #005177;
+}
+
+.no-topic p{
+  font-size: 13px;
+}
+
 @media only screen and (max-width: 768px) {
 
   #root {    
