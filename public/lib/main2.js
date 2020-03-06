@@ -1423,9 +1423,10 @@ function drawComments() {
     data.category_id = categoryID;
     data.postCount = parseInt(data.postCount, 10);
 
-    _settings.set.dataRes(data);
+    _settings.set.dataRes(data); // console.log(data)
 
-    if (_settings.firstTime) {
+
+    if (_settings.firstTime && data.isValid) {
       (0, _loadComments.addButtons)();
 
       _settings.set.firstTime(false);
@@ -1868,11 +1869,13 @@ function parse(data, template) {
       var existingComments = document.querySelector("#nodebb-comments-list");
       if (_settings.reloading) loadedComments = checkNewComments(existingComments, loadedComments); // console.log(div)
 
-      if (_settings.pagination == 0 || _settings.page == 0 && _settings.reload) {
-        div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
-      } else {
-        div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
-        div.querySelector("#nodebb-comments-list").insertAdjacentHTML('beforeend', loadedComments.innerHTML);
+      if (div.querySelector("#nodebb-comments-list")) {
+        if (_settings.pagination == 0 || _settings.page == 0 && _settings.reload) {
+          div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
+        } else {
+          div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
+          div.querySelector("#nodebb-comments-list").insertAdjacentHTML('beforeend', loadedComments.innerHTML);
+        }
       }
 
       template = div.innerHTML;

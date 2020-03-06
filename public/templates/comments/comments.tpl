@@ -201,5 +201,6 @@
 
 	
 <!-- ELSE -->
-	{siteTitle} Les commantaires sont désactivés.
+	<a href="{relative_path}" target="_blank">{siteTitle}</a>
+	<p>Les commantaires sont désactivés.</p>
 <!-- ENDIF isValid -->

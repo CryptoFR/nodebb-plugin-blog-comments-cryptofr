@@ -47,7 +47,9 @@ import { parseCommentQuotes } from '../util.js';
 
 	    set.dataRes(data);
 
-	    if (firstTime) {addButtons();set.firstTime(false);}
+	    // console.log(data)
+
+	    if (firstTime && data.isValid) {addButtons();set.firstTime(false);}
 
 	    setTimeout(function() {
 		  grecaptchaGrab();
@@ -609,13 +611,15 @@ import { parseCommentQuotes } from '../util.js';
       	  if (reloading) loadedComments=checkNewComments(existingComments,loadedComments)
 
       	  // console.log(div)
-	      if (pagination==0 || (page ==0 && reload) ){
-	        div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
-	      }
-	      else {
-	        div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
-	        div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
-	      }
+      	  if (div.querySelector("#nodebb-comments-list")){
+		      if (pagination==0 || (page ==0 && reload) ){
+		        div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
+		      }
+		      else {
+		        div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
+		        div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
+		      }
+      	  }
 
 
 	      template = div.innerHTML;
