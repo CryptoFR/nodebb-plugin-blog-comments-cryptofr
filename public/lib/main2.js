@@ -1683,10 +1683,6 @@ function drawComments() {
     (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   }
 
-  if (!_settings.reload) {
-    console.log("finishing2");
-  }
-
   (0, _loadComments.commentSubmissionsHandler)();
   (0, _expandComments.checkExpandableComments)();
   commentOptions();
