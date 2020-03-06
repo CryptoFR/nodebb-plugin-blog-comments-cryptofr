@@ -202,17 +202,4 @@
 	
 <!-- ELSE -->
 	{siteTitle} Les commantaires sont désactivés.
-	<!-- IF isAdmin -->
-	<form action="{relative_path}/comments/publish" method="post">
-		<button class="btn btn-primary">Publier cet article sur {siteTitle}</button>
-		<input type="hidden" name="markdown" id="nodebb-content-markdown" />
-		<input type="hidden" name="title" id="nodebb-content-title" />
-		<input type="hidden" name="cid" id="nodebb-content-cid" />
-		<input type="hidden" name="blogger" id="nodebb-content-blogger" />
-		<input type="hidden" name="tags" id="nodebb-content-tags" />
-		<input type="hidden" name="id" value="{article_id}" />
-		<input type="hidden" name="url" value="{redirect_url}" />
-		<input type="hidden" name="_csrf" value="{token}" />
-	</form>
-	<!-- ENDIF isAdmin -->
 <!-- ENDIF isValid -->

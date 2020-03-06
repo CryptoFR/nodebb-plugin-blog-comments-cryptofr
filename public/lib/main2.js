@@ -1400,8 +1400,6 @@ function drawComments() {
   if (_settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = JSON.parse(_settings.XHR.responseText),
         html;
-    if (_settings.firstTime) (0, _loadComments.addButtons)();else _settings.set.firstTime(false);
-    console.log(data);
     (0, _sortComments.setActiveSortingLi)(_settings.sorting, data.sorting);
 
     _settings.set.commentsDiv(document.getElementById("nodebb-comments-list"));
@@ -1419,10 +1417,19 @@ function drawComments() {
     data.relative_path = nodeBBURL;
     data.redirect_url = _settings.articlePath;
     data.article_id = articleID;
+    data.article_title = articleTitle;
     data.pagination = _settings.pagination;
+    data.blogger = blogger;
+    data.category_id = categoryID;
     data.postCount = parseInt(data.postCount, 10);
 
     _settings.set.dataRes(data);
+
+    if (_settings.firstTime) {
+      (0, _loadComments.addButtons)();
+
+      _settings.set.firstTime(false);
+    }
 
     setTimeout(function () {
       (0, _modal.grecaptchaGrab)();
@@ -1464,6 +1471,7 @@ function drawComments() {
     }
 
     html = parse(data, data.template);
+    console.log(data);
     _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html); // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting);
@@ -1663,7 +1671,7 @@ function drawComments() {
             document.getElementById("nodebb-content-title").value = articleData.title.rendered;
             document.getElementById("nodebb-content-cid").value = categoryID || -1;
             document.getElementById("nodebb-content-tags").value = JSON.stringify(tags);
-            document.getElementById("nodebb-content-blogger").value = window.blogger || "default";
+            document.getElementById("nodebb-content-blogger").value = data.blogger || "default";
           } else {
             console.warn("Unable to access API. Please install the JSON API plugin located at: http://wordpress.org/plugins/json-api");
           }
@@ -1852,7 +1860,7 @@ function parse(data, template) {
     var div = document.createElement("div");
     div.innerHTML = template; // console.log(div)
 
-    if (data.hasOwnProperty("posts")) {
+    if (data && data.hasOwnProperty("posts")) {
       // TODO try to use parse function again
       var nested = createNestedComments(data.posts, divPost.querySelector("li"), data);
       var loadedComments = document.createElement('div');
@@ -2187,10 +2195,16 @@ function addButtons() {
   button.addEventListener("click", function loadMoreClick() {
     if (!$("body").hasClass("hasLoader")) reloadComments(_settings.pagination + 1);
   });
+  var text = document.createElement("p");
+  text.classList.add("load-more-text");
+  text.innerHTML = '<small class="nodebb-copyright">Commentaires avec <a href="' + _settings.dataRes.relative_path + '" target="_blank">' + _settings.dataRes.siteTitle + '</a> &bull; <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '">Topic originel</a></small>';
+  div.appendChild(text);
   div.appendChild(button);
   (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
-  div.innerHTML = '<form id="publishTopic" action="' + _settings.dataRes.relative_path + '/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur ' + _settings.dataRes.siteTitle + '</button><input type="hidden" name="markdown" id="nodebb-content-markdown" /><input type="hidden" name="title" id="nodebb-content-title" value="' + articleTitle + '" /><input type="hidden" name="cid" id="nodebb-content-cid" /><input type="hidden" name="blogger" id="nodebb-content-blogger" /><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="' + _settings.dataRes.article_id + '" /><input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" /><input type="hidden" name="_csrf" value="' + _settings.dataRes.token + '" /></form>';
-  (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
+  var div2 = document.createElement("div");
+  div2.classList.add("publishForm");
+  div2.innerHTML = '<form id="publishTopic" action="' + _settings.dataRes.relative_path + '/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur ' + _settings.dataRes.siteTitle + '</button><input type="hidden" name="markdown" id="nodebb-content-markdown" value="' + _settings.dataRes.content + '"/><input type="hidden" name="title" id="nodebb-content-title" value="' + _settings.dataRes.article_title + '" /><input type="hidden" name="cid" id="nodebb-content-cid" value="' + _settings.dataRes.category_id + '" /><input type="hidden" name="blogger" id="nodebb-content-blogger" value="' + _settings.dataRes.blogger + '"/><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="' + _settings.dataRes.article_id + '" /><input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" /><input type="hidden" name="_csrf" value="' + _settings.dataRes.token + '" /><input type="hidden" name="timestamp" value="' + Date.now() + '" /><input type="hidden" name="uid" value="' + _settings.dataRes.user.uid + '" /></form>';
+  (0, _util.insertAfter)(div2, document.querySelector("#nodebb"));
 }
 /**
  * Creates a snackbar inside the dom
@@ -2249,6 +2263,8 @@ function reloadComments() {
   if (showLoader) (0, _util.addLoader)();
 
   _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + paging + "/" + _settings.sorting);
+
+  console.log(_settings.commentsURL);
 
   _settings.XHR.open("GET", _settings.commentsURL, true);
 

@@ -18,7 +18,7 @@ import { parseCommentQuotes } from '../util.js';
 	// window.drawComments = drawComments
 	export function drawComments() {
   
-
+ 
 	  removeLoader();
 
 	  if (XHR.status >= 200 && XHR.status < 400) {
@@ -27,9 +27,7 @@ import { parseCommentQuotes } from '../util.js';
 	      html;
 
 
-	    if (firstTime) addButtons(); else set.firstTime(false);
 	      
-	    console.log(data);
 
 	    setActiveSortingLi(sorting, data.sorting);
 	    set.commentsDiv(document.getElementById("nodebb-comments-list"));
@@ -41,9 +39,16 @@ import { parseCommentQuotes } from '../util.js';
 	    data.relative_path = nodeBBURL;
 	    data.redirect_url = articlePath;
 	    data.article_id = articleID;
+	    data.article_title = articleTitle;
 	    data.pagination = pagination;
+	    data.blogger = blogger;
+	    data.category_id = categoryID;
 	    data.postCount = parseInt(data.postCount, 10);
+
 	    set.dataRes(data);
+
+	    if (firstTime) {addButtons();set.firstTime(false);}
+
 	    setTimeout(function() {
 		  grecaptchaGrab();
 	      var body = document.querySelector("body");
@@ -107,6 +112,7 @@ import { parseCommentQuotes } from '../util.js';
 
 
 	    html = parse(data, data.template);
+	    console.log(data);
 	    nodebbDiv.innerHTML = normalizePost(html);
 	    // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 	    setActiveSortingLi(sorting);
@@ -292,8 +298,7 @@ import { parseCommentQuotes } from '../util.js';
 	            error = "Please wait before posting so soon.";
 	          } else if (error === "content-too-short") {
 	            error = "Please post a longer reply.";
-	          }
-
+	          } 
 	          document.getElementById("nodebb-error").innerHTML = error;
 	        }
 	      } else {
@@ -338,7 +343,7 @@ import { parseCommentQuotes } from '../util.js';
 	              "nodebb-content-tags"
 	            ).value = JSON.stringify(tags);
 	            document.getElementById("nodebb-content-blogger").value =
-	              window.blogger || "default";
+	              data.blogger || "default";
 	          } else {
 	            console.warn(
 	              "Unable to access API. Please install the JSON API plugin located at: http://wordpress.org/plugins/json-api"
@@ -588,7 +593,7 @@ import { parseCommentQuotes } from '../util.js';
 	    
 	    div.innerHTML = template;
 	    // console.log(div)
-	    if (data.hasOwnProperty("posts")) {
+	    if (data && data.hasOwnProperty("posts")) {
 	      // TODO try to use parse function again
 	      var nested = createNestedComments(
 	        data.posts,

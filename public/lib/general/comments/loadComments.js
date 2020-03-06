@@ -1,4 +1,4 @@
-import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes } from "../../settings.js";
+import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
 import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
 import { drawComments } from "./drawComments.js";
@@ -15,11 +15,18 @@ import { drawComments } from "./drawComments.js";
 	    	if (!$("body").hasClass("hasLoader"))
 	      		reloadComments(pagination+1);
 	    });
+	    var text = document.createElement("p");
+	    text.classList.add("load-more-text");
+	    text.innerHTML='<small class="nodebb-copyright">Commentaires avec <a href="'+dataRes.relative_path+'" target="_blank">'+dataRes.siteTitle+'</a> &bull; <a href="'+dataRes.relative_path+'/topic/'+dataRes.tid+'">Topic originel</a></small>';
+	    div.appendChild(text);
 	    div.appendChild(button);
 	    insertAfter(div, document.querySelector("#nodebb"));
 
-	    div.innerHTML='<form id="publishTopic" action="'+dataRes.relative_path+'/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur '+dataRes.siteTitle+'</button><input type="hidden" name="markdown" id="nodebb-content-markdown" /><input type="hidden" name="title" id="nodebb-content-title" value="'+articleTitle+'" /><input type="hidden" name="cid" id="nodebb-content-cid" /><input type="hidden" name="blogger" id="nodebb-content-blogger" /><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="'+dataRes.article_id+'" /><input type="hidden" name="url" value="'+dataRes.redirect_url+'" /><input type="hidden" name="_csrf" value="'+dataRes.token+'" /></form>';
-	    insertAfter(div, document.querySelector("#nodebb"));
+
+	    var div2 = document.createElement("div");
+	    div2.classList.add("publishForm");
+	    div2.innerHTML='<form id="publishTopic" action="'+dataRes.relative_path+'/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur '+dataRes.siteTitle+'</button><input type="hidden" name="markdown" id="nodebb-content-markdown" value="'+dataRes.content+'"/><input type="hidden" name="title" id="nodebb-content-title" value="'+dataRes.article_title+'" /><input type="hidden" name="cid" id="nodebb-content-cid" value="'+dataRes.category_id+'" /><input type="hidden" name="blogger" id="nodebb-content-blogger" value="'+dataRes.blogger+'"/><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="'+dataRes.article_id+'" /><input type="hidden" name="url" value="'+dataRes.redirect_url+'" /><input type="hidden" name="_csrf" value="'+dataRes.token+'" /><input type="hidden" name="timestamp" value="'+Date.now()+'" /><input type="hidden" name="uid" value="'+dataRes.user.uid+'" /></form>';
+	    insertAfter(div2, document.querySelector("#nodebb"));
 	}
 
 
@@ -69,6 +76,7 @@ import { drawComments } from "./drawComments.js";
 		if (showLoader) addLoader();
 
 		set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  paging + "/" + sorting);
+		console.log(commentsURL);
 		XHR.open("GET",commentsURL,true);
 		XHR.withCredentials = true;
 		XHR.send(); 
