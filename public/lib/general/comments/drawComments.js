@@ -1,9 +1,9 @@
-import { set,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload } from "../../settings.js";
+import { set,firstTime,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload } from "../../settings.js";
 import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis,reactElementRelocation } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments,commentSubmissionsHandler } from "./loadComments.js"; 
+import { reloadComments,commentSubmissionsHandler,addButtons } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
@@ -25,10 +25,12 @@ import { parseCommentQuotes } from '../util.js';
 
 	    var data = JSON.parse(XHR.responseText),
 	      html;
+
+
+	    if (firstTime) addButtons(); else set.firstTime(false);
 	      
 	    console.log(data);
 
-	    set.dataRes(data);
 	    setActiveSortingLi(sorting, data.sorting);
 	    set.commentsDiv(document.getElementById("nodebb-comments-list"));
 	    set.commentsCounter(document.getElementById("nodebb-comments-count"));
@@ -41,6 +43,7 @@ import { parseCommentQuotes } from '../util.js';
 	    data.article_id = articleID;
 	    data.pagination = pagination;
 	    data.postCount = parseInt(data.postCount, 10);
+	    set.dataRes(data);
 	    setTimeout(function() {
 		  grecaptchaGrab();
 	      var body = document.querySelector("body");

@@ -4,19 +4,22 @@ import { upvotePost,downvotePost,xpost } from "../api.js";
 import { drawComments } from "./drawComments.js";
 
 	export function addButtons() {
-    var div = document.createElement("div");
-    div.classList.add("load-more-div");
-    var button = document.createElement("button");
-    button.id = "nodebb-load-more";
-    button.classList.add("btn");
-    button.classList.add("btn-primary");
-    button.innerText = "Charger plus de commentaires...";
-    button.addEventListener("click", function loadMoreClick() {
-    	if (!$("body").hasClass("hasLoader"))
-      		reloadComments(pagination+1);
-    });
-    div.appendChild(button);
-    insertAfter(div, document.querySelector("#nodebb"));
+	    var div = document.createElement("div");
+	    div.classList.add("load-more-div");
+	    var button = document.createElement("button");
+	    button.id = "nodebb-load-more";
+	    button.classList.add("btn");
+	    button.classList.add("btn-primary");
+	    button.innerText = "Charger plus de commentaires...";
+	    button.addEventListener("click", function loadMoreClick() {
+	    	if (!$("body").hasClass("hasLoader"))
+	      		reloadComments(pagination+1);
+	    });
+	    div.appendChild(button);
+	    insertAfter(div, document.querySelector("#nodebb"));
+
+	    div.innerHTML='<form id="publishTopic" action="'+data.relative_path+'/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur '+data.siteTitle+'</button><input type="hidden" name="markdown" id="nodebb-content-markdown" /><input type="hidden" name="title" id="nodebb-content-title" value="'+articleTitle+'" /><input type="hidden" name="cid" id="nodebb-content-cid" /><input type="hidden" name="blogger" id="nodebb-content-blogger" /><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="'+data.article_id+'" /><input type="hidden" name="url" value="'+data.redirect_url+'" /><input type="hidden" name="_csrf" value="'+data.token+'" /></form>';
+	    insertAfter(div, document.querySelector("#nodebb"));
 	}
 
 

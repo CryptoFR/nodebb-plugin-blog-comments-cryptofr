@@ -3,7 +3,7 @@ import { onloadXHR,onLoadFunction } from "./general/onload.js";
 import { newXHR,newXHRFixed } from "./general/api.js";
 import { loadCSS,removeLoader,loadScript,windowOnload,loadScriptHead } from "./general/util.js";
 import { grecaptchaGrab,tabIsActive } from "./general/login/modal.js";
-import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/loadComments.js";
+import { reloadComments,newCommentsCheck } from "./general/comments/loadComments.js";
 
 
 	set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
@@ -64,8 +64,7 @@ import { reloadComments,addButtons,newCommentsCheck } from "./general/comments/l
 	reloadComments();
 
 	set.templates({ blocks: {} });
-
-	addButtons();
+ 
 
 	onloadXHR();
 

@@ -1394,10 +1394,8 @@ function drawComments() {
   if (_settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = JSON.parse(_settings.XHR.responseText),
         html;
+    if (_settings.firstTime) (0, _loadComments.addButtons)();else _settings.set.firstTime(false);
     console.log(data);
-
-    _settings.set.dataRes(data);
-
     (0, _sortComments.setActiveSortingLi)(_settings.sorting, data.sorting);
 
     _settings.set.commentsDiv(document.getElementById("nodebb-comments-list"));
@@ -1417,6 +1415,9 @@ function drawComments() {
     data.article_id = articleID;
     data.pagination = _settings.pagination;
     data.postCount = parseInt(data.postCount, 10);
+
+    _settings.set.dataRes(data);
+
     setTimeout(function () {
       (0, _modal.grecaptchaGrab)();
       var body = document.querySelector("body");
@@ -2182,6 +2183,8 @@ function addButtons() {
   });
   div.appendChild(button);
   (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
+  div.innerHTML = '<form id="publishTopic" action="' + data.relative_path + '/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur ' + data.siteTitle + '</button><input type="hidden" name="markdown" id="nodebb-content-markdown" /><input type="hidden" name="title" id="nodebb-content-title" value="' + articleTitle + '" /><input type="hidden" name="cid" id="nodebb-content-cid" /><input type="hidden" name="blogger" id="nodebb-content-blogger" /><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="' + data.article_id + '" /><input type="hidden" name="url" value="' + data.redirect_url + '" /><input type="hidden" name="_csrf" value="' + data.token + '" /></form>';
+  (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
 }
 /**
  * Creates a snackbar inside the dom
@@ -2714,7 +2717,6 @@ _settings.set.templates({
   blocks: {}
 });
 
-(0, _loadComments.addButtons)();
 (0, _onload.onloadXHR)();
 (0, _modal.tabIsActive)();
 (0, _util.windowOnload)();
