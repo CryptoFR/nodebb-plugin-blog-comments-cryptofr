@@ -1054,12 +1054,12 @@ small.logged-as {
 }
 
 .no-topic a{
-  color: #0073aa;
+  color: #0073aa!important;
   font-size: 15px;
 }
 
-.no-topic a:hove{
-  color: #005177;
+.no-topic a:hover{
+  color: #005177!important;
 }
 
 .no-topic p{
