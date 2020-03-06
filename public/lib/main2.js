@@ -2189,7 +2189,7 @@ function addButtons() {
   });
   div.appendChild(button);
   (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
-  div.innerHTML = '<form id="publishTopic" action="' + data.relative_path + '/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur ' + data.siteTitle + '</button><input type="hidden" name="markdown" id="nodebb-content-markdown" /><input type="hidden" name="title" id="nodebb-content-title" value="' + articleTitle + '" /><input type="hidden" name="cid" id="nodebb-content-cid" /><input type="hidden" name="blogger" id="nodebb-content-blogger" /><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="' + data.article_id + '" /><input type="hidden" name="url" value="' + data.redirect_url + '" /><input type="hidden" name="_csrf" value="' + data.token + '" /></form>';
+  div.innerHTML = '<form id="publishTopic" action="' + _settings.dataRes.relative_path + '/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur ' + _settings.dataRes.siteTitle + '</button><input type="hidden" name="markdown" id="nodebb-content-markdown" /><input type="hidden" name="title" id="nodebb-content-title" value="' + articleTitle + '" /><input type="hidden" name="cid" id="nodebb-content-cid" /><input type="hidden" name="blogger" id="nodebb-content-blogger" /><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="' + _settings.dataRes.article_id + '" /><input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" /><input type="hidden" name="_csrf" value="' + _settings.dataRes.token + '" /></form>';
   (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
 }
 /**
@@ -2680,6 +2680,8 @@ _settings.set.pagination(0);
 _settings.set.reload(false);
 
 _settings.set.reloading(0);
+
+_settings.set.firstTime(true);
 
 _settings.set.postData([]);
 
