@@ -1049,6 +1049,10 @@ small.logged-as {
     margin: 0px auto;
 }
 
+#publishTopic{
+  display: none;
+}
+
 @media only screen and (max-width: 768px) {
 
   #root {    

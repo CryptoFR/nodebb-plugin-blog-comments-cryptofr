@@ -851,7 +851,6 @@ function bookmarkPost(topicItem, pid, bookmarked) {
  * Deletes a comment
  * @param {DOMElement} topicItem DOMElement for the comment
  * @param {Number} pid post (comment) ID
- * @param {Boolean} bookmarked Whether the comment has been already bookmarked or not
  */
 
 
@@ -1395,6 +1394,7 @@ function drawComments() {
   if (_settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = JSON.parse(_settings.XHR.responseText),
         html;
+    console.log(data);
 
     _settings.set.dataRes(data);
 
@@ -1683,14 +1683,17 @@ function drawComments() {
     (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   }
 
+  if (!_settings.reload) {
+    console.log("finishing2");
+  }
+
   (0, _loadComments.commentSubmissionsHandler)();
   (0, _expandComments.checkExpandableComments)();
   commentOptions();
-  (0, _util.dispatchEmojis)(); // onLoadFunction();
-
-  (0, _gifs.gifBoxInit)(); // uploadInit();
-
-  prepareSignout(data.token);
+  (0, _util.dispatchEmojis)();
+  (0, _gifs.gifBoxInit)();
+  prepareSignout(data.token); // onLoadFunction();
+  // uploadInit();
 }
 
 function prepareSignout(token) {
@@ -2215,6 +2218,8 @@ function reloadComments() {
   var showLoader = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
   if (currentPage > pag) {
+    console.log("finish");
+
     _settings.set.reload(false);
 
     return null;
@@ -2245,8 +2250,6 @@ function reloadComments() {
   _settings.XHR.withCredentials = true;
 
   _settings.XHR.send();
-
-  console.trace();
 }
 
 function newCommentsCheck() {
@@ -2532,7 +2535,7 @@ function grecaptchaGrab() {
   }
 }
 
-function loginError(message, form) {
+function loginError(message) {
   var modal = document.querySelector("#login-modal");
   modal.querySelector(".nodebb-error").innerText = message;
   setTimeout(function () {
@@ -2648,19 +2651,17 @@ var _modal = require("./general/login/modal.js");
 
 var _loadComments = require("./general/comments/loadComments.js");
 
-_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname); // set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
 
 
-_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-comment-dev");
+_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 (0, _util.loadCSS)(_settings.pluginURL + "/css/comments.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/cryptofr.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/emoji.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/icons.css");
 (0, _util.loadCSS)("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-(0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
-
-_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+(0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap"); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<div class="comments-area" id="nodebb"></div>');
 
