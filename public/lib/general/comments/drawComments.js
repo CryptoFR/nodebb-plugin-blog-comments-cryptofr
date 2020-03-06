@@ -363,10 +363,7 @@ import { parseCommentQuotes } from '../util.js';
 
 	  if (reload){
       	reloadComments(pagination,page+1,false)
-	  }
-	  if (!reload){
-	  	console.log("finishing2")
-	  }
+	  } 
 
 	  commentSubmissionsHandler();
 	  checkExpandableComments();
