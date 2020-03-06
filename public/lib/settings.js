@@ -1,4 +1,4 @@
-export var gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates,reload;
+export var firstTime,gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates,reload;
 
 export var set = {
 	pluginURL : pluginURLVal,
@@ -28,7 +28,8 @@ export var set = {
 	page : pageVal,
 	reloading : reloadingVal,
 	gifCommentBox : gifCommentBoxVal,
-	reload : reloadVal
+	reload : reloadVal,
+	firstTime : firstTimeVal
 }
                                                          
 function pluginURLVal( value ) { pluginURL = value; }
@@ -59,3 +60,4 @@ function pageVal( value ) { page = value; }
 function reloadingVal( value ) { reloading = value; }
 function gifCommentBoxVal( value ) { gifCommentBox = value; }
 function reloadVal( value ) { reload = value; }
+function firstTimeVal( value ) { firstTime = value; }

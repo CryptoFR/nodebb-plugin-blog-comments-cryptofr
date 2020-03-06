@@ -123,8 +123,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.set = exports.reload = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = void 0;
-var gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates, reload;
+exports.set = exports.reload = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = exports.firstTime = void 0;
+var firstTime, gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates, reload;
 exports.reload = reload;
 exports.templates = templates;
 exports.renderedCaptcha = renderedCaptcha;
@@ -153,6 +153,7 @@ exports.reloading = reloading;
 exports.commentXHR = commentXHR;
 exports.dataRes = dataRes;
 exports.gifCommentBox = gifCommentBox;
+exports.firstTime = firstTime;
 var set = {
   pluginURL: pluginURLVal,
   voteXHR: voteXHRVal,
@@ -181,7 +182,8 @@ var set = {
   page: pageVal,
   reloading: reloadingVal,
   gifCommentBox: gifCommentBoxVal,
-  reload: reloadVal
+  reload: reloadVal,
+  firstTime: firstTimeVal
 };
 exports.set = set;
 
@@ -295,6 +297,10 @@ function gifCommentBoxVal(value) {
 
 function reloadVal(value) {
   exports.reload = reload = value;
+}
+
+function firstTimeVal(value) {
+  exports.firstTime = firstTime = value;
 }
 },{}],"VGLh":[function(require,module,exports) {
 "use strict";
