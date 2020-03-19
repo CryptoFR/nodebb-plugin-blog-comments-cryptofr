@@ -1,4 +1,9 @@
 /* CSS File for CryptoFR plugin */
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap');
+
+#nodebb {
+  font-family: 'Poppins', sans-serif;
+}
 
 /***********
 
@@ -96,6 +101,12 @@ small.logged-as {
   border-bottom: 2px solid #dedede;
   font-size: 16px;
   color: #797979;
+}
+
+.sortbar .postCounts {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 26px;
 }
 
 /***********
