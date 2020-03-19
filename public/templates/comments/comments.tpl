@@ -41,7 +41,7 @@
 			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon"> 
 			<span class="posts-count">{postCount}</span> commentaires
     <ul class="sort-group">
-      <li>Classer par:</li>
+      <li>Classer par</li>
       <li class="sort-group-link"><a data-component="sort/best">Meilleurs commentaires</a></li>
       <li class="sort-group-link"><a data-component="sort/newest">Plus nouveaux</a></li>
       <li class="sort-group-link"><a data-component="sort/oldest">Plus anciens</a></li>

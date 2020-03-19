@@ -103,10 +103,15 @@ small.logged-as {
   color: #797979;
 }
 
-.sortbar .postCounts {
+.sortbar .postCounts {
+  font-family: Poppins;
+  font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 26px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.045em;
 }
 
 /***********
