@@ -81,7 +81,7 @@
 
 	<div class="sortbar">
 		<div class="postCounts" data-postcount="{postCount}">
-			<img src="https://i.gyazo.com/2880209dbbf7a5ebc1c1daadfa958f97.png" alt="{postCount} commentaires" class="icon"> 
+			<img src="{relative_path}/icons/comments.svg" alt="{postCount} commentaires" class="icon"> 
 			<span class="posts-count">{postCount}</span> commentaires
     <ul class="sort-group">
       <li>Sort by:</li>
@@ -203,6 +203,6 @@
 <!-- ELSE -->
 	<div class="no-topic">
 		<a href="{relative_path}" target="_blank">{siteTitle}</a>
-		<p>Les commantaires sont désactivés.</p>
+		<p>Les commentaires sont désactivés.</p>
 	</div>
 <!-- ENDIF isValid -->
