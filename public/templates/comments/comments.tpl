@@ -34,20 +34,34 @@
 			</span>
 		</a>
 	</div> -->
-	<!-- IF atTop -->
-		<div class="topic-profile-pic user first-image">
 
-			<!-- IF !isLoggedIn -->
-				<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
-			<!-- ELSE -->
-				<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne" ></i>
-				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
-				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
-				<span class="user-status user-status-main {user.status}"></span>
-			<!-- ENDIF !isLoggedIn -->
+
+	<div class="sortbar">
+		<div class="postCounts" data-postcount="{postCount}">
+			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon"> 
+			<span class="posts-count">{postCount}</span> commentaires
+    <ul class="sort-group">
+      <li>Classer par:</li>
+      <li class="sort-group-link"><a data-component="sort/best">Meilleurs commentaires</a></li>
+      <li class="sort-group-link"><a data-component="sort/newest">Plus nouveaux</a></li>
+      <li class="sort-group-link"><a data-component="sort/oldest">Plus anciens</a></li>
+    </ul>
 		</div>
+	</div>
 
-		<!-- IF isLoggedIn -->
+	<!-- IF atTop -->
+	<div class="topic-profile-pic user first-image">
+		<!-- IF !isLoggedIn -->
+			<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
+		<!-- ELSE -->
+			<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne" ></i>
+			<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
+			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
+			<span class="user-status user-status-main {user.status}"></span>
+		<!-- ENDIF !isLoggedIn -->
+	</div>
+
+	<!-- IF isLoggedIn -->
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
 			<small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small>
 			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
@@ -78,19 +92,6 @@
 		<button style="visibility: hidden; padding-top: 8px;"> </button>
 		<!-- ENDIF isLoggedIn -->
 	<!-- ENDIF atTop -->
-
-	<div class="sortbar">
-		<div class="postCounts" data-postcount="{postCount}">
-			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon"> 
-			<span class="posts-count">{postCount}</span> commentaires
-    <ul class="sort-group">
-      <li>Sort by:</li>
-      <li class="sort-group-link"><a data-component="sort/best">Best</a></li>
-      <li class="sort-group-link"><a data-component="sort/newest">Newest</a></li>
-      <li class="sort-group-link"><a data-component="sort/oldest">Oldest</a></li>
-    </ul>
-		</div>
-	</div>
 
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
 		<!-- BEGIN posts -->
