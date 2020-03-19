@@ -81,7 +81,7 @@
 
 	<div class="sortbar">
 		<div class="postCounts" data-postcount="{postCount}">
-			<img src="{relative_path}/icons/comments.svg" alt="{postCount} commentaires" class="icon"> 
+			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon"> 
 			<span class="posts-count">{postCount}</span> commentaires
     <ul class="sort-group">
       <li>Sort by:</li>
