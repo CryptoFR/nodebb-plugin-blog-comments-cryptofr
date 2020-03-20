@@ -116,8 +116,37 @@ small.logged-as {
 }
 
 .sortbar .postCounts .posts-count {
-    margin-left: 15px;
-    margin-right: 5px;
+  margin-left: 15px;
+  margin-right: 5px;
+}
+
+.sortbar .postCounts .sort-wrapper {
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.045em;
+}
+
+.sortbar .postCounts .selected-sorting {
+  background: #F5F5F5;
+  border: 1px solid #DBDBDB;
+  box-sizing: border-box;
+  box-shadow: inset 0px 0px 10px rgba(131, 131, 131, 0.1);
+  border-radius: 10px;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.045em;
+  margin-left: 5px;
+}
+
+.sortbar .postCounts .selected-sorting img {
+    margin-left: 10px;
+    height: 22px;
+}
+
+.sortbar .postCounts .select-sorting {
+  position: absolute;
+  max-width: 250px;
 }
 
 /***********
