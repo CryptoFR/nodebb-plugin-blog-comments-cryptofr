@@ -87,7 +87,7 @@
 			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<div class="special-box actions">
-					<span class="special-action emoji icon">
+					<span class="special-action emojis icon">
 						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/emojis.svg" alt="add emojis" class="icon inactive">
 						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/emojis.svg" alt="add emojis" class="icon active">
 					</span> 

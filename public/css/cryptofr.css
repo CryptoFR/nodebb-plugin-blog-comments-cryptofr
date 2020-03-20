@@ -89,6 +89,7 @@ small.logged-as {
 
 .comments-toolbar .actions .special-action:hover .active {
   display: inline-block;
+  cursor: pointer;
 }
 .comments-toolbar .actions .special-action:hover .inactive {
   display: none;
