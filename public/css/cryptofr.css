@@ -144,7 +144,7 @@ small.logged-as {
   height: 22px;
 }
 
-.sortbar .postCounts .selected-sorting ul.select-sorting {
+#nodebb .sortbar .postCounts .selected-sorting ul.select-sorting {
   position: absolute;
   max-width: 250px;
   background: white;
@@ -155,7 +155,7 @@ small.logged-as {
   top: 30px;
 }
 
-.sortbar .postCounts .selected-sorting ul.select-sorting:before {
+#nodebb .sortbar .postCounts .selected-sorting ul.select-sorting::before {
   display: block;
   width: 20px;
   height: 20px;

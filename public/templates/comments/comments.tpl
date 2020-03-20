@@ -40,7 +40,7 @@
 		<div class="postCounts" data-postcount="{postCount}">
 			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon">
 			<span class="posts-count">{postCount}</span> commentaires
-    <ul class="sort-wrapper">
+    <ul class="sort-wrapper sort-group">
       <li class="sort-by">Classer par</li>
       <li class="selected-sorting">
       	Meilleurs commentaires
