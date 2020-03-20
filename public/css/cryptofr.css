@@ -147,33 +147,46 @@ small.logged-as {
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting {
   position: absolute;
   background: white;
-  border-radius: 5px;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
   padding: 10px !important;
   border: none !important;
   box-shadow: 0px 0px 44px rgba(0, 0, 0, 0.2);
   top: 30px;
+  margin: 0px;
+  margin-left: -6px;
+  margin-top: 5px;
 }
 
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting:before {
   display: block;
-  content: "test"
-  width: 20px;
-  height: 20px;
-  background: #FFFFFF;
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
   transform: rotate(135deg);
+  position: absolute;
+  margin-top: -17px;
+  right: 3px;
 }
 
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li {
   display: block !important;
+  margin-bottom: 5px;
+  border-radius: 7px;
 }
 
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li a {
   font-size: 15px;
-  line-height: 26px;
+  line-height: 35px;
   letter-spacing: -0.045em;
   color: #696969 !important;
-  border-radius: 5px;
-  padding: 5px 10px;
+  padding: 7px 10px;
+}
+
+#nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li.active a,
+#nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li:hover a {
+  background: #EDEDED;
 }
 
 /***********
