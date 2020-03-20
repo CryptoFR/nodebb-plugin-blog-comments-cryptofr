@@ -35,7 +35,7 @@
 		</a>
 	</div> -->
 
-
+	<!-- TOP BAR: sorting comments, login, menu -->
 	<div class="sortbar">
 		<div class="postCounts" data-postcount="{postCount}">
 			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon">
@@ -57,9 +57,7 @@
 			<!-- IF !isLoggedIn -->
 				<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
 				</form>
-				<div class="buttons-container" id="buttons-container" >
-					<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
-				</div>
+				<a id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>

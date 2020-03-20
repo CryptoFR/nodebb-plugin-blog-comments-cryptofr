@@ -127,7 +127,7 @@ small.logged-as {
 }
 
 .sortbar .postCounts .selected-sorting {
-  background: #F5F5F5;
+  background: #fdfdfd;
   border: 1px solid #DBDBDB;
   box-sizing: border-box;
   box-shadow: inset 0px 0px 10px rgba(131, 131, 131, 0.1);
@@ -137,6 +137,10 @@ small.logged-as {
   align-items: center;
   letter-spacing: -0.045em;
   margin-left: 5px;
+}
+
+.sortbar .postCounts .selected-sorting:hover {
+  background: #F5F5F5;
 }
 
 .sortbar .postCounts .selected-sorting img {
@@ -156,6 +160,11 @@ small.logged-as {
   margin: 0px;
   margin-left: -6px;
   margin-top: 5px;
+  display: none;
+}
+
+#nodebb .sortbar .postCounts .selected-sorting:hover ul.select-sorting {
+  display: block;
 }
 
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting:before {
@@ -182,6 +191,7 @@ small.logged-as {
   letter-spacing: -0.045em;
   color: #696969 !important;
   padding: 7px 10px;
+  border-radius: 5px;
 }
 
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li.active a,
