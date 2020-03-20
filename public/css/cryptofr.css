@@ -146,7 +146,6 @@ small.logged-as {
 
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting {
   position: absolute;
-  max-width: 250px;
   background: white;
   border-radius: 5px;
   padding: 10px !important;
@@ -157,11 +156,24 @@ small.logged-as {
 
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting:before {
   display: block;
-  content: ""
+  content: "test"
   width: 20px;
   height: 20px;
   background: #FFFFFF;
   transform: rotate(135deg);
+}
+
+#nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li {
+  display: block !important;
+}
+
+#nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li a {
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: -0.045em;
+  color: #696969 !important;
+  border-radius: 5px;
+  padding: 5px 10px;
 }
 
 /***********

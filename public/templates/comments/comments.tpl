@@ -47,7 +47,7 @@
       	<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/angle-down.svg" alt="Select sorting" class="icon">
       	<ul class="select-sorting">
 	      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
-	      	<li class="sort-group-link"><a data-component="sort/newest">mouveaux commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/newest">nouveaux commentaires</a></li>
 	      	<li class="sort-group-link"><a data-component="sort/oldest">anciens commentaires</a></li>
 	      </ul>
       </li>
