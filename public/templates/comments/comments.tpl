@@ -72,16 +72,19 @@
 			<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
 		<!-- ELSE -->
 			<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne" ></i>
+			<!-- IF user.picture.length -->
 			<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
+			<!-- ELSE -->
 			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
+			<!-- ENDIF user.picture -->
 			<span class="user-status user-status-main {user.status}"></span>
 		<!-- ENDIF !isLoggedIn -->
 	</div>
 
 	<!-- IF isLoggedIn -->
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
-			<small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small>
-			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
+			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
+			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<div class="special-box">
 					<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
@@ -93,10 +96,10 @@
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
-			<div class="logout-box">
+			<!-- <div class="logout-box">
 				<i class="fa fa-sign-out"></i>
 				<span>Déconnexion</span>
-			</div>
+			</div> -->
 		</form>
 		<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
