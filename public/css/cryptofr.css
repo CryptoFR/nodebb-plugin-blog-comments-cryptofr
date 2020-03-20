@@ -159,7 +159,7 @@ small.logged-as {
   top: 30px;
   margin: 0px;
   margin-left: -6px;
-  margin-top: 5px;
+  margin-top: 2px;
   display: none;
 }
 
@@ -197,6 +197,21 @@ small.logged-as {
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li.active a,
 #nodebb .sortbar .postCounts .selected-sorting ul.select-sorting li:hover a {
   background: #EDEDED;
+}
+
+
+#nodebb .sortbar .user-menu .login-link {
+  float: right;
+  margin-right: 0px;
+  margin-top: -30px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+}
+
+#nodebb .sortbar .user-menu .login-link:hover {
+  color: #434A81;
 }
 
 /***********

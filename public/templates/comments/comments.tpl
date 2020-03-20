@@ -57,7 +57,7 @@
 			<!-- IF !isLoggedIn -->
 				<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
 				</form>
-				<a id="nodebb-login">Se connecter</a>
+				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
