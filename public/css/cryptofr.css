@@ -15,9 +15,8 @@
   position: relative;
   float: left;
   left: auto;
-  width: 90px;
+  width: 80px;
   margin: 0;
-  margin-top: 36px;
 }
 
 #nodebb .topic-profile-pic.user.first-image i{
@@ -42,7 +41,7 @@
 }
 
 .top-post-form.logged-in {
-  margin-left: 90px;
+  margin-left: 80px;
   margin-top: 0px;
   margin-bottom: 40px;
 }
@@ -64,17 +63,35 @@ small.logged-as {
 }
 #nodebb .form-control:focus {
   background: white;
-  border: 2px solid #dedede;
   box-shadow: none;
+}
+#nodebb .form-control.comment-box {
+  background: #EDEDED;
+  border: 1px solid #DBDBDB;
+  border-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .comments-toolbar {
-  border: 2px solid #dedede;
-  border-top: none;
   display: inline-block;
   width: 100%;
-  background: #ebebeb;
-  height: 45px;
+  border: 1px solid #DBDBDB;
+  border-top: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: #e8e7e7;
+}
+
+.comments-toolbar .actions .special-action .active {
+  display: none;
+}
+
+.comments-toolbar .actions .special-action:hover .active {
+  display: inline-block;
+}
+.comments-toolbar .actions .special-action:hover .inactive {
+  display: none;
 }
 
 #nodebb .btn.btn-primary, #root .btn.btn-primary {

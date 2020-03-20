@@ -86,10 +86,19 @@
 			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
 			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
-				<div class="special-box">
-					<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
-					<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
-					<span class="special-action icon"><i class="fa fa-smile-o"></i></span> 
+				<div class="special-box actions">
+					<span class="special-action emoji icon">
+						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/emojis.svg" alt="add emojis" class="icon inactive">
+						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/emojis.svg" alt="add emojis" class="icon active">
+					</span> 
+					<span class="special-action gif">
+						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
+						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
+					</span>
+					<span class="special-action img">
+						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/image.svg" alt="upload image" class="icon inactive">
+						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/image-active.svg" alt="upload image" class="icon active">
+					</span>
 				</div>
 				<button class="btn btn-primary">Répondre</button>
 			</div>
