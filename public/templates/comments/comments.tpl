@@ -43,12 +43,12 @@
     <ul class="sort-wrapper sort-group">
       <li class="sort-by">Classer par</li>
       <li class="selected-sorting">
-      	Meilleurs commentaires
+      	meilleurs commentaires
       	<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/angle-down.svg" alt="Select sorting" class="icon">
       	<ul class="select-sorting">
-	      	<li class="sort-group-link"><a data-component="sort/best">Meilleurs commentaires</a></li>
-	      	<li class="sort-group-link"><a data-component="sort/newest">Nouveaux commentaires</a></li>
-	      	<li class="sort-group-link"><a data-component="sort/oldest">Anciens commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/newest">mouveaux commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/oldest">anciens commentaires</a></li>
 	      </ul>
       </li>
     </ul>
