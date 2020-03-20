@@ -38,13 +38,19 @@
 
 	<div class="sortbar">
 		<div class="postCounts" data-postcount="{postCount}">
-			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon"> 
+			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon">
 			<span class="posts-count">{postCount}</span> commentaires
     <ul class="sort-group">
-      <li>Classer par</li>
-      <li class="sort-group-link"><a data-component="sort/best">Meilleurs commentaires</a></li>
-      <li class="sort-group-link"><a data-component="sort/newest">Plus nouveaux</a></li>
-      <li class="sort-group-link"><a data-component="sort/oldest">Plus anciens</a></li>
+      <li class="sort-by">Classer par</li>
+      <li class="selected-sorting">
+      	Meilleurs commentaires
+      	<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/angle-down.svg" alt="Select sorting" class="icon">
+      	<ul class="select-sorting">
+	      	<li class="sort-group-link"><a data-component="sort/best">Meilleurs commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/newest">Nouveaux commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/oldest">Anciens commentaires</a></li>
+	      </ul>
+      </li>
     </ul>
 		</div>
 	</div>
