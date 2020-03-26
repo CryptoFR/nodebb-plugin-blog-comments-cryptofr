@@ -516,8 +516,7 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 
 .modal-body {
-  padding: 15px 16px;
-
+  padding: 15px 70px;
   position: relative;
 }
 
@@ -534,6 +533,25 @@ i.i-downvote.icon-thumbs-down-alt {
   content: "";
   clear: both;
   display: table;
+}
+
+.modal-separator {
+  margin-top: 20px;
+  border-top: 1px solid #F5F5F5;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.modal-separator span {
+  padding: 0px 15px;
+  background: white;
+  font-size: 11px;
+  line-height: 14px;
+  color: #838383;
+  margin-top: -8px;
+  margin-left: -15px;
+  display: inline-block;
+  position: absolute;
 }
 
 .modal-footer {
