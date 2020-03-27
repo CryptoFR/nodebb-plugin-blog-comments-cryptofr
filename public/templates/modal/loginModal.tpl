@@ -2,7 +2,7 @@
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-body clearfix">
-      <div class="modal-login-form">
+      <div class="modal-col modal-login-form">
         <h4 class="modal-subtitle">Connexion</h4>
         <form action="#" id="login-form" method="POST">
           <div class="email-input-wrapper">
@@ -32,7 +32,7 @@
         </ul>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-header">
       <div class="register-link">
         Vous n'avez pas encore de compte? <a href="#" class="register-modal-open">S'inscrire</a>
       </div>
