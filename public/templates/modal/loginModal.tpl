@@ -1,15 +1,6 @@
 <div id="login-modal" class="modal" data-closed="1">
   <!-- Modal content -->
   <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-header-first-row">
-        <img class="modal-header-icon" alt="Icon" src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/site-logo.png"/>
-        <span class="modal-close">&times;</span>
-      </div>
-      <div class="modal-header-title-wrapper">
-        <h3 class="modal-header-title">Vous devez être membre pour commenter, juste quelques secondes de plus</h3>
-      </div>
-    </div>
     <div class="modal-body clearfix">
       <div class="modal-login-form">
         <h4 class="modal-subtitle">Connectez-vous par e-mail</h4>
@@ -23,7 +14,9 @@
         <p class="caption-login-text">Vous n'avez pas encore de compte? <a href="#" class="register-modal-open">S'inscrire</a> <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a></p>
       </div>
       <div class="modal-separator">
-        <span>ou</span>
+        <span>
+          ou
+        </span>
       </div>
       <div class="modal-login-alternative">  
         <h4 class="alt-acc">Accès alternatif</h4>
@@ -55,6 +48,11 @@
           </li>
                 
         </ul>
+      </div>
+    </div>
+    <div class="modal-header">
+      <div class="modal-header-title-wrapper">
+        <h3 class="modal-header-title">Vous devez être membre pour commenter, juste quelques secondes de plus</h3>
       </div>
     </div>
   </div>
