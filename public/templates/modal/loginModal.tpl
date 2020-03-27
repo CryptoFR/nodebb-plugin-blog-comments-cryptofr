@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="modal-body clearfix">
-      <div class="modal-col">
+      <div class="modal-login-form">
         <h4 class="modal-subtitle">Connectez-vous par e-mail</h4>
         <form action="#" id="login-form" method="POST">
           <input class="modal-input" name="email" type="text" value="" placeholder="Email" />
