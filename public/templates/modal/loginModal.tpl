@@ -26,11 +26,30 @@
         <h4 class="alt-acc">Accès alternatif</h4>
         <ul class="alt-logins">
                 
-          <li class="twitter"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
-          
-          <li class="google"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
-          
-          <li class="github"><a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github"><i class="fa fa-github fa-2x"></i></a></li>
+          <li class="google">
+            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/google.svg" alt="google login" class="icon inactive">
+              <img src="https://testforum.cryptofr.com/nodebb-plugin-blog-comments-cryptofr/icons/google-active.svg" alt="google login" class="icon active">
+            </a>
+          </li>
+          <li class="facebook">
+            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/facebook.svg" alt="twitter login" class="icon inactive">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/facebook.svg" alt="twitter login" class="icon active">
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/twitter.svg" alt="twitter login" class="icon inactive">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/twitter.svg" alt="twitter login" class="icon active">
+            </a>
+          </li>
+          <li class="github">
+            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/github.svg" alt="github login" class="icon inactive">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/github.svg" alt="github login" class="icon active">
+            </a>
+          </li>
                 
         </ul>
       </div>
