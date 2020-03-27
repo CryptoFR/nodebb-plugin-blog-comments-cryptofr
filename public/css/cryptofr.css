@@ -554,6 +554,17 @@ i.i-downvote.icon-thumbs-down-alt {
   position: absolute;
 }
 
+.modal-login-alternative li img.active {
+  display: none;
+}
+
+.modal-login-alternative li:hover img.active {
+  display: inline-block;
+}
+.modal-login-alternative li:hover img.inactive {
+  display: none;
+}
+
 .modal-header {
   padding: 2px 16px;
   background-color: white;

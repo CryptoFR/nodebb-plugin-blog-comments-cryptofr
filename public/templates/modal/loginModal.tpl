@@ -22,14 +22,14 @@
         </form>
         <p class="caption-login-text">Vous n'avez pas encore de compte? <a href="#" class="register-modal-open">S'inscrire</a> <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a></p>
       </div>
-      <div class="modal-col">  
+      <div class="modal-login-alternative">  
         <h4 class="alt-acc">Accès alternatif</h4>
         <ul class="alt-logins">
                 
           <li class="google">
             <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google">
               <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/google.svg" alt="google login" class="icon inactive">
-              <img src="https://testforum.cryptofr.com/nodebb-plugin-blog-comments-cryptofr/icons/google-active.svg" alt="google login" class="icon active">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/google-active.svg" alt="google login" class="icon active">
             </a>
           </li>
           <li class="facebook">
