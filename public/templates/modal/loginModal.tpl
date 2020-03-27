@@ -22,6 +22,9 @@
         </form>
         <p class="caption-login-text">Vous n'avez pas encore de compte? <a href="#" class="register-modal-open">S'inscrire</a> <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a></p>
       </div>
+      <div class="modal-separator">
+        <span>ou</span>
+      </div>
       <div class="modal-login-alternative">  
         <h4 class="alt-acc">Accès alternatif</h4>
         <ul class="alt-logins">
