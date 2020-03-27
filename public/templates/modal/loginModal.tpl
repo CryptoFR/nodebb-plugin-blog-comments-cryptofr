@@ -2,8 +2,8 @@
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
-      <div class="modal-header-title-wrapper">
-        <h3 class="modal-header-title">Vous devez être membre pour commenter, juste quelques secondes de plus</h3>
+      <div class="modal-header-first-row">
+        <span class="modal-close">&times;</span>
       </div>
     </div>
     <div class="modal-body clearfix">
