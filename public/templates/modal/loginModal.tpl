@@ -2,9 +2,9 @@
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
-      <div class="modal-header-first-row">
-        <span class="modal-close">&times;</span>
-      </div>
+      <span class="modal-close">
+        <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/close.svg" alt="add emojis" class="icon">
+      </span>
     </div>
     <div class="modal-body clearfix">
       <div class="modal-login-form">
@@ -56,5 +56,12 @@
       </div>
     </div>
   </div>
-
+  <div class="modal-footer">
+    <div class="register-link">
+      Vous n'avez pas encore de compte? <a href="#" class="register-modal-open">S'inscrire</a>
+    </div>
+    <div class="logo">
+      <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon">
+    </div>
+  </div>
 </div>
