@@ -503,10 +503,12 @@ i.i-downvote.icon-thumbs-down-alt {
   font-weight: bold;
   display: block !important;
   position: absolute;
-  right: 10px;
+  right: 0px;
   z-index: 1000;
+  height: 30px;
+  width: 30px;
 }
-.modal-close .inactive {
+.modal-close .active {
   display: none;
 }
 .modal-close:hover,
