@@ -493,20 +493,33 @@ i.i-downvote.icon-thumbs-down-alt {
   }
 }
 
-/* The Close Button */
-.modal-close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  display: block!important;
+.modal-header {
+  background-color: white;
+  color: black;
 }
 
+/* Close Button */
+.modal-close {
+  font-weight: bold;
+  display: block !important;
+  position: absolute;
+  right: 10px;
+  z-index: 1000;
+}
+.modal-close .inactive {
+  display: none;
+}
 .modal-close:hover,
 .modal-close:focus {
-  color: #e4e4e4;
-  text-decoration: none;
   cursor: pointer;
+}
+.modal-close:hover .active,
+.modal-close:focus .active{
+  display: block;
+}
+.modal-close:hover .inactive,
+.modal-close:focus .inactive{
+  display: none;
 }
 
 .modal-footer {
@@ -565,11 +578,7 @@ i.i-downvote.icon-thumbs-down-alt {
   display: none;
 }
 
-.modal-header {
-  padding: 2px 16px;
-  background-color: white;
-  color: black;
-}
+
 
 .modal-col {
   float: left;
