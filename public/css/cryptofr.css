@@ -457,17 +457,17 @@ i.i-downvote.icon-thumbs-down-alt {
 /* Modal Content */
 .modal-content {
   position: relative;
-  background-color: #fefefe;
+  background-color: #fff;
   margin: auto;
   padding: 0;
-  border: 1px solid #888;
   width: 60%;
   min-width: 400px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
   animation-duration: 0.4s;
+  box-shadow: 0px 0px 44px rgba(0, 0, 0, 0.2);
+  border-radius: 10px !important;
 }
 
 /* Add Animation */
@@ -511,6 +511,11 @@ i.i-downvote.icon-thumbs-down-alt {
 .modal-close .active {
   display: none;
 }
+.modal-close img {
+  max-width: 14px;
+  position: absolute;
+  margin-top: 10px;
+}
 .modal-close:hover,
 .modal-close:focus {
   cursor: pointer;
@@ -525,9 +530,18 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 
 .modal-footer {
-  padding: 2px 16px;
-  background-color: white;
-  color: black;
+  padding: 14px 20px;
+  padding-top: 24px;
+  background: #F5F5F5;
+  border-radius: 0px 0px 10px 10px;
+  color: #838383;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.045em;
+  display: flex;
 }
 
 .modal-body {

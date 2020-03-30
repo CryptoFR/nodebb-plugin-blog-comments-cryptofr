@@ -25,9 +25,7 @@
         </span>
       </div>
       <div class="modal-login-alternative">  
-        <h4 class="alt-acc">Accès alternatif</h4>
         <ul class="alt-logins">
-                
           <li class="google">
             <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google">
               <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/google.svg" alt="google login" class="icon inactive">
