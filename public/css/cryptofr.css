@@ -508,37 +508,31 @@ i.i-downvote.icon-thumbs-down-alt {
 .modal-close .active {
   display: none;
 }
-.modal-close img {
+.modal-close svg {
   max-width: 14px;
   position: absolute;
   margin-top: 10px;
+  color: #838383;
 }
 .modal-close:hover,
 .modal-close:focus {
   cursor: pointer;
-}
-.modal-close:hover .active,
-.modal-close:focus .active{
-  display: block;
-}
-.modal-close:hover .inactive,
-.modal-close:focus .inactive{
-  display: none;
+  color: #434A81;
 }
 
 /* alternate logins */
 #nodebb ul.alt-logins {
-    border-left: none;
-    margin-top: 0px;
-    color: #838383;
+  border-left: none;
+  margin-top: 0px;
+  color: #838383;
 }
-#nodebb .alt-logins img {
-    height: 38px;
-    margin: 0px 10px;
-    color: #838383;
+#nodebb .alt-logins svg {
+  height: 38px;
+  margin: 0px 10px;
+  color: #838383;
 }
 #nodebb .alt-logins a:hover {
-    color: #434A81;
+  color: #434A81;
 }
 
 /* footer */
@@ -967,19 +961,6 @@ ul.alt-logins li:last-child {
 
 li.sort-group-link:hover{
     background-color: #eee;
-}
-
-
-.fa-twitter-square{
-  color: #2fc2ef;
-}
-
-.fa-google-plus-square{
-  color: #df5138;
-}
-
-.fa-github{
-  color: #165199;
 }
 
 div.g-recaptcha{

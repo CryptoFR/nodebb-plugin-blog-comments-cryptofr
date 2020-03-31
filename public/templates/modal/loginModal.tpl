@@ -3,8 +3,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <span class="modal-close">
-        <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/close.svg" alt="add emojis" class="icon inactive">
-        <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/close-active.svg" alt="add emojis" class="icon active">
+        <i class="fad fa-times"></i>
       </span>
     </div>
     <div class="modal-body clearfix">
@@ -33,7 +32,7 @@
           </li>
           <li class="facebook">
             <a rel="nofollow noopener noreferrer alt-login" target="_top" data-link="https://testforum.cryptofr.com/auth/facebook" href="#" data-network="Facebook">
-              <i class="fab fa-facebook"></i>
+              <i class="fab fa-facebook-f"></i>
             </a>
           </li>
           <li class="twitter">
