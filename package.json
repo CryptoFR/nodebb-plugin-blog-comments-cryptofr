@@ -34,7 +34,6 @@
   "readme": "",
   "readmeFilename": "README.md",
   "dependencies": {
-    "@fortawesome/fontawesome-pro": "^5.13.0",
     "emojione": "^4.5.0",
     "jquery": "^3.4.1",
     "rm-emoji-picker": "^0.4.0",
