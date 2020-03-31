@@ -2684,14 +2684,15 @@ _settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-crypto
 (0, _util.loadCSS)(_settings.pluginURL + "/css/cryptofr.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/emoji.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/icons.css");
-(0, _util.loadCSS)("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 (0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap"); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+(0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap"); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
 document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<div class="comments-area" id="nodebb"></div>');
 
 _settings.set.nodebbDiv(document.getElementById("nodebb"));
 
 (0, _util.loadScript)("https://www.google.com/recaptcha/api.js");
+(0, _util.loadScript)("https://kit.fontawesome.com/dced8205f4.js");
 setTimeout(_modal.grecaptchaGrab, 1000);
 
 _settings.set.pagination(0);
