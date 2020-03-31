@@ -459,6 +459,7 @@ i.i-downvote.icon-thumbs-down-alt {
   padding: 0;
   width: 60%;
   min-width: 400px;
+  max-width: 660px;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
@@ -549,6 +550,10 @@ i.i-downvote.icon-thumbs-down-alt {
   letter-spacing: -0.045em;
   display: flex;
 }
+.modal-footer .register-modal-open:hover {
+  color: #434A81;
+}
+
 .modal-footer .logo {
     margin-left: auto;
 }
@@ -644,7 +649,6 @@ i.i-downvote.icon-thumbs-down-alt {
   background: #E5E5E5;
   border: 1px solid #DBDBDB;
   box-sizing: border-box;
-  box-shadow: 0px 0px 10px rgba(67, 74, 129, 0.2), inset 0px 0px 10px rgba(131, 131, 131, 0.1);
   border-radius: 8px;
   padding-left: 40px;
   font-family: Poppins;
@@ -652,6 +656,15 @@ i.i-downvote.icon-thumbs-down-alt {
   font-weight: normal;
   font-size: 14px;
 }
+
+.email-input {
+    margin-bottom: 15px;
+}
+
+#nodebb .modal-input input:focus {
+  box-shadow: 0px 0px 10px rgba(67, 74, 129, 0.2), inset 0px 0px 10px rgba(131, 131, 131, 0.1);
+}
+
 
 .email-input svg, .password-input svg {
   position: absolute;
