@@ -27,26 +27,25 @@
       <div class="modal-login-alternative">  
         <ul class="alt-logins">
           <li class="google">
-            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google">
+            <a rel="nofollow noopener noreferrer alt-login" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google">
               <i class="fab fa-google"></i>
             </a>
           </li>
           <li class="facebook">
-            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
-              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/facebook.svg" alt="twitter login" class="icon">
+            <a rel="nofollow noopener noreferrer alt-login" target="_top" data-link="https://testforum.cryptofr.com/auth/facebook" href="#" data-network="Facebook">
+              <i class="fab fa-facebook"></i>
             </a>
           </li>
           <li class="twitter">
-            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
-              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/twitter.svg" alt="twitter login" class="icon">
+            <a rel="nofollow noopener noreferrer alt-login" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
+              <i class="fab fa-twitter"></i>
             </a>
           </li>
           <li class="github">
-            <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github">
-              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/github.svg" alt="github login" class="icon">
+            <a rel="nofollow noopener noreferrer alt-login" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github">
+              <i class="fab fa-github"></i>
             </a>
           </li>
-                
         </ul>
       </div>
     </div>

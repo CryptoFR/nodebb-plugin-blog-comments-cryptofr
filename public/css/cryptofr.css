@@ -530,17 +530,15 @@ i.i-downvote.icon-thumbs-down-alt {
 #nodebb ul.alt-logins {
     border-left: none;
     margin-top: 0px;
+    color: #838383;
 }
-.alt-logins img {
+#nodebb .alt-logins img {
     height: 38px;
     margin: 0px 10px;
     color: #838383;
 }
-.alt-logins a:hover img {
+#nodebb .alt-logins a:hover {
     color: #434A81;
-}
-.alt-logins .twitter img {
-    height: 34px;
 }
 
 /* footer */
