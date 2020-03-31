@@ -537,6 +537,10 @@ i.i-downvote.icon-thumbs-down-alt {
 .alt-logins img {
     height: 38px;
     margin: 0px 10px;
+    color: #838383;
+}
+.alt-logins a:hover img {
+    color: #434A81;
 }
 .alt-logins .twitter img {
     height: 34px;
