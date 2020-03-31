@@ -16,8 +16,8 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 	loadCSS(pluginURL + "/css/cryptofr.css");
 	loadCSS(pluginURL + "/css/emoji.css");
 	loadCSS(pluginURL + "/css/icons.css");
-	loadCSS("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 	loadCSS("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
+	loadCSS("https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap");
 	
 	// set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
@@ -25,6 +25,7 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 	set.nodebbDiv(document.getElementById("nodebb"));
 
 	loadScript("https://www.google.com/recaptcha/api.js");
+	loadScript("https://kit.fontawesome.com/dced8205f4.js");
 
 	setTimeout(grecaptchaGrab, 1000);
 
