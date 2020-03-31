@@ -28,7 +28,7 @@
         <ul class="alt-logins">
           <li class="google">
             <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/google" href="#" data-network="Google">
-              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/google.svg" alt="google login" class="icon">
+              <i class="fab fa-google"></i>
             </a>
           </li>
           <li class="facebook">
