@@ -552,6 +552,9 @@ i.i-downvote.icon-thumbs-down-alt {
 .modal-footer .logo {
     margin-left: auto;
 }
+.modal-footer .logo img {
+    height: 29px;
+}
 
 .modal-body {
   padding: 15px 70px;
