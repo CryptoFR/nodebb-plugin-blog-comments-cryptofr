@@ -637,17 +637,42 @@ i.i-downvote.icon-thumbs-down-alt {
   text-align: center;
 }
 
-.modal-input {
-  width: 80%;
-  margin: 0 auto;
-  margin-bottom: 5px;
-  display: block;
+
+/* inputs */
+#nodebb .modal-input {
+  width: 100%;
+  background: #E5E5E5;
+  border: 1px solid #DBDBDB;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px rgba(67, 74, 129, 0.2), inset 0px 0px 10px rgba(131, 131, 131, 0.1);
+  border-radius: 8px;
+  padding-left: 40px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.email-input svg, .password-input svg {
+  position: absolute;
+  margin-top: 11px;
+  margin-left: 12px;
+  font-size: 19px;
 }
 
 .modal-button {
-  width: 80%;
-  margin: 0 auto;
-  display: block;
+  background: #434A81;
+  border-radius: 5px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 26px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.045em;
+  float: right;
+  padding: 6px 18px;
 }
 
 .modal-forgot-password {
