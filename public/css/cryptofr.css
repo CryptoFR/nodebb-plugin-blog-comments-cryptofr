@@ -504,6 +504,7 @@ i.i-downvote.icon-thumbs-down-alt {
   z-index: 1000;
   height: 30px;
   width: 30px;
+  color: #838383;
 }
 .modal-close .active {
   display: none;
@@ -512,7 +513,6 @@ i.i-downvote.icon-thumbs-down-alt {
   max-width: 14px;
   position: absolute;
   margin-top: 10px;
-  color: #838383;
 }
 .modal-close:hover,
 .modal-close:focus {
@@ -525,11 +525,10 @@ i.i-downvote.icon-thumbs-down-alt {
   border-left: none;
   margin-top: 0px;
   color: #838383;
+  font-size: 30px;
 }
 #nodebb .alt-logins svg {
-  height: 38px;
   margin: 0px 10px;
-  color: #838383;
 }
 #nodebb .alt-logins a:hover {
   color: #434A81;
