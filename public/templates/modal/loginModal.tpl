@@ -35,19 +35,19 @@
           <li class="facebook">
             <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
               <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/facebook.svg" alt="twitter login" class="icon inactive">
-              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/facebook.svg" alt="twitter login" class="icon active">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/facebook-active.svg" alt="twitter login" class="icon active">
             </a>
           </li>
           <li class="twitter">
             <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/twitter" href="#" data-network="Twitter">
               <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/twitter.svg" alt="twitter login" class="icon inactive">
-              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/twitter.svg" alt="twitter login" class="icon active">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/twitter-active.svg" alt="twitter login" class="icon active">
             </a>
           </li>
           <li class="github">
             <a rel="nofollow noopener noreferrer" target="_top" data-link="https://testforum.cryptofr.com/auth/github" href="#" data-network="Github">
               <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/github.svg" alt="github login" class="icon inactive">
-              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/github.svg" alt="github login" class="icon active">
+              <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/github-active.svg" alt="github login" class="icon active">
             </a>
           </li>
                 

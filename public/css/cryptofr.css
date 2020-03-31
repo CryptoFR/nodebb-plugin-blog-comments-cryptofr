@@ -529,6 +529,20 @@ i.i-downvote.icon-thumbs-down-alt {
   display: none;
 }
 
+/* alternate logins */
+#nodebb ul.alt-logins {
+    border-left: none;
+    margin-top: 0px;
+}
+.alt-logins img {
+    height: 38px;
+    margin: 0px 10px;
+}
+.alt-logins .twitter img {
+    height: 34px;
+}
+
+/* footer */
 .modal-footer {
   padding: 14px 20px;
   padding-top: 24px;
@@ -542,6 +556,9 @@ i.i-downvote.icon-thumbs-down-alt {
   line-height: 24px;
   letter-spacing: -0.045em;
   display: flex;
+}
+.modal-footer .logo {
+    margin-left: auto;
 }
 
 .modal-body {
