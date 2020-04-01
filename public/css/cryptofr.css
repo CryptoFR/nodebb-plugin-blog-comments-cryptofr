@@ -116,6 +116,7 @@ small.logged-as {
   border-bottom: 1px solid #DBDBDB;
   font-size: 16px;
   color: #838383;
+  display: flex;
 }
 
 .sortbar .postCounts {
@@ -228,6 +229,10 @@ small.logged-as {
 #nodebb .sortbar .user-menu .login-link:hover {
   color: #434A81;
   cursor: pointer;
+}
+
+#nodebb .sortbar .user-menu {
+    margin-left: auto;
 }
 
 /***********

@@ -59,8 +59,11 @@
 				</form>
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
+				<!-- IF user.picture.length -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
+				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
+				<!-- ENDIF user.picture -->
 				<span class="user-status user-status-main {user.status}"></span>
 			<!-- ENDIF !isLoggedIn -->
 		</div>
