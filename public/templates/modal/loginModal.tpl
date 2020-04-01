@@ -16,13 +16,13 @@
           </div>
           <div class="password-input">
             <i class="fad fa-key"></i>
-            <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
+            <input class="modal-input" name="password" type="password" value="" placeholder="Mot de passe" />
           </div>
           <input name="_csrf" type="hidden" value=""/>
           <button class="modal-button" type="submit">Connexion</button>
           <div class="nodebb-error"></div>
         </form>
-        <p class="caption-login-text"><a href="#" class="modal-forgot-password"> Mot de passe oublié?</a></p>
+        <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a>
       </div>
       <div class="modal-separator">
         <span>

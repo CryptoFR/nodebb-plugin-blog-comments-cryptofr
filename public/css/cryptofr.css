@@ -526,7 +526,9 @@ i.i-downvote.icon-thumbs-down-alt {
   border-left: none;
   margin-top: 0px;
   color: #838383;
-  font-size: 30px;
+  font-size: 35px;
+  margin-bottom: 15px;
+  margin-left: 0px;
 }
 #nodebb .alt-logins svg {
   margin: 0px 10px;
@@ -582,10 +584,10 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 
 .modal-separator {
-  margin-top: 20px;
+  margin-top: 40px;
   border-top: 1px solid #F5F5F5;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .modal-separator span {
@@ -651,7 +653,7 @@ i.i-downvote.icon-thumbs-down-alt {
   box-shadow: inset 0px 0px 10px rgba(131, 131, 131, 0.1);
 }
 
-.email-input {
+.email-input, .password-input {
   margin-bottom: 15px;
 }
 
@@ -661,12 +663,15 @@ i.i-downvote.icon-thumbs-down-alt {
   border: none;
 }
 
-
 .email-input svg, .password-input svg {
   position: absolute;
   margin-top: 11px;
   margin-left: 12px;
   font-size: 19px;
+  color: #838383;
+}
+.email-input:hover svg, .password-input:hover svg {
+  color: #434A81;
 }
 
 .modal-button {
@@ -683,14 +688,16 @@ i.i-downvote.icon-thumbs-down-alt {
   float: right;
   padding: 6px 18px;
 }
-
-.modal-forgot-password {
+.modal-button:hover {
+  background: #6269a2;
 }
 
-.caption-login-text{
-  font-size: 14px;
-    width: 80%;
-    margin: 0px auto;
+.modal-forgot-password {
+  font-family: Poppins;
+  font-size: 13px;
+  line-height: 26px;
+  letter-spacing: -0.045em;
+  color: #5A5A5A !important;
 }
 
 .modal-create-account-div {
