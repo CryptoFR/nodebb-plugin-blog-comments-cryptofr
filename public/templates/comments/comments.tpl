@@ -61,10 +61,11 @@
 			<!-- ELSE -->
 				<!-- IF user.picture.length -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
+				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
-				<!-- ENDIF user.picture -->
 				<span class="user-status user-status-main {user.status}"></span>
+				<!-- ENDIF user.picture -->
 			<!-- ENDIF !isLoggedIn -->
 		</div>
 	</div>
