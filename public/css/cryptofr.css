@@ -233,7 +233,10 @@ small.logged-as {
   cursor: pointer;
 }
 
-
+#nodebb .sortbar .user-menu .user-status {
+    margin-left: -13px;
+    margin-top: -42px;
+}
 
 /***********
 

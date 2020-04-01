@@ -59,7 +59,7 @@
 				</form>
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
-				<!-- IF user.picture.length -->
+				<!-- IF user.picture -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ELSE -->
