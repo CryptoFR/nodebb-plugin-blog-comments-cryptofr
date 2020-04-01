@@ -662,6 +662,9 @@ i.i-downvote.icon-thumbs-down-alt {
   color: #434A81;
   border: none;
 }
+*:focus {
+  outline: none;
+}
 
 .email-input svg, .password-input svg {
   position: absolute;
@@ -703,6 +706,9 @@ i.i-downvote.icon-thumbs-down-alt {
   color: #5A5A5A !important;
   margin-top: -10px;
   float: left;
+}
+.modal-forgot-password:hover {
+  color: #434A81 !important;
 }
 
 .modal-create-account-div {
