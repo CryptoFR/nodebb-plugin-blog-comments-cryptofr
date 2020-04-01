@@ -625,23 +625,16 @@ i.i-downvote.icon-thumbs-down-alt {
   left: 49%;
 }
 
-.modal-header-title {
-  font-size: 18px;
-  color: black;
-  font-weight: 500;
-  text-align: center;
-}
-
-.modal-header-title-wrapper {
-  padding: 6px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid lightgray;
-}
-
 .modal-subtitle {
   text-align: center;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 29px;
+  letter-spacing: -0.045em;
+  color: #5A5A5A;
 }
-
 
 /* inputs */
 #nodebb .modal-input {
@@ -655,14 +648,17 @@ i.i-downvote.icon-thumbs-down-alt {
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
+  box-shadow: inset 0px 0px 10px rgba(131, 131, 131, 0.1);
 }
 
 .email-input {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 #nodebb .modal-input input:focus {
   box-shadow: 0px 0px 10px rgba(67, 74, 129, 0.2), inset 0px 0px 10px rgba(131, 131, 131, 0.1);
+  color: #434A81;
+  border: none;
 }
 
 

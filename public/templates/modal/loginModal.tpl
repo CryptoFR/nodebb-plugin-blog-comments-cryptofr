@@ -8,18 +8,18 @@
     </div>
     <div class="modal-body clearfix">
       <div class="modal-login-form">
-        <h4 class="modal-subtitle">Connectez-vous par e-mail</h4>
+        <h4 class="modal-subtitle">Se connecter à CryptoFR</h4>
         <form action="#" id="login-form" method="POST">
           <div class="email-input">
             <i class="fad fa-user"></i>
-            <input class="modal-input" name="email" type="text" value="" placeholder="Email" />
+            <input class="modal-input" name="email" type="text" value="" placeholder="Email ou Pseudonyme" />
           </div>
           <div class="password-input">
             <i class="fad fa-key"></i>
             <input class="modal-input" name="password" type="password" value="" placeholder="Password" />
           </div>
           <input name="_csrf" type="hidden" value=""/>
-          <button class="modal-button" type="submit">Login</button>
+          <button class="modal-button" type="submit">Connexion</button>
           <div class="nodebb-error"></div>
         </form>
         <p class="caption-login-text"><a href="#" class="modal-forgot-password"> Mot de passe oublié?</a></p>
