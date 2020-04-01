@@ -553,14 +553,14 @@ i.i-downvote.icon-thumbs-down-alt {
   display: flex;
 }
 .modal-footer .register-modal-open:hover {
-  color: #434A81;
+  color: #434A81 !important;
 }
 
 .modal-footer .logo {
-    margin-left: auto;
+  margin-left: auto;
 }
 .modal-footer .logo img {
-    height: 29px;
+  height: 29px;
 }
 
 .modal-body {
@@ -584,7 +584,7 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 
 .modal-separator {
-  margin-top: 40px;
+  margin-top: 80px;
   border-top: 1px solid #F5F5F5;
   text-align: center;
   margin-bottom: 30px;
@@ -657,7 +657,7 @@ i.i-downvote.icon-thumbs-down-alt {
   margin-bottom: 15px;
 }
 
-#nodebb .modal-input input:focus {
+#nodebb input:focus {
   box-shadow: 0px 0px 10px rgba(67, 74, 129, 0.2), inset 0px 0px 10px rgba(131, 131, 131, 0.1);
   color: #434A81;
   border: none;
@@ -672,6 +672,9 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 .email-input:hover svg, .password-input:hover svg {
   color: #434A81;
+}
+.email-input:hover input, .password-input:hover input {
+  box-shadow: 0px 0px 10px rgba(67, 74, 129, 0.2), inset 0px 0px 10px rgba(131, 131, 131, 0.1);
 }
 
 .modal-button {
@@ -698,6 +701,8 @@ i.i-downvote.icon-thumbs-down-alt {
   line-height: 26px;
   letter-spacing: -0.045em;
   color: #5A5A5A !important;
+  margin-top: -10px;
+  float: left;
 }
 
 .modal-create-account-div {
