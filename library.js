@@ -125,9 +125,10 @@
           }
 
           res.json({
+            atBottom: bottom,
+            atTop: top,
             posts: data.posts,
             postCount: data.postCount - 1,
-            user: data.user,
             template: Comments.template,
             singleCommentTpl: Comments.singleCommentTpl,
             loginModalTemplate: Comments.loginModalTemplate,
@@ -141,10 +142,10 @@
             category: data.category,
             mainPost: data.mainPost,
             isValid: !!data.mainPost && !!tid,
-            atBottom: bottom,
-            atTop: top,
             siteTitle: meta.config.title,
-            sorting: req.params.sorting
+            sorting: req.params.sorting,
+            hasPhoto: (data.user.picture.length > 1),
+            user: data.user
           });
         }
       );

@@ -59,13 +59,13 @@
 				</form>
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
-				<!-- IF user.picture.length -->
+				<!-- IF hasPhoto -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF user.picture.length -->
+				<!-- ENDIF hasPhoto -->
 				<!-- TEST -->
 				<ul class="select-sorting">
 	      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
