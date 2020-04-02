@@ -46,7 +46,9 @@
 	      	nouveaux commentaires
 	      	<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/angle-down.svg" alt="Select sorting" class="icon">
 	      	<ul class="select-sorting">
-		      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
+		      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
+		      	<li class="sort-group-link"><a data-component="sort/newest">nouveaux commentaires</a></li>
+		      	<li class="sort-group-link"><a data-component="sort/oldest">anciens commentaires</a></li>
 		      </ul>
 	      </li>
 	    </ul>
@@ -65,9 +67,7 @@
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ENDIF user.picture.length -->
 				<ul class="select-sorting">
-	      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
-	      	<li class="sort-group-link"><a data-component="sort/newest">nouveaux commentaires</a></li>
-	      	<li class="sort-group-link"><a data-component="sort/oldest">anciens commentaires</a></li>
+	      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
 	      </ul>
 			<!-- ENDIF !isLoggedIn -->
 		</div>
