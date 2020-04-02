@@ -66,6 +66,7 @@
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ENDIF user.picture.length -->
+				<!-- TEST -->
 				<ul class="select-sorting">
 	      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
 	      </ul>
