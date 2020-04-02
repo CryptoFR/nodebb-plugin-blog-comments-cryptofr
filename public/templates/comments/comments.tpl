@@ -43,12 +43,10 @@
 	    <ul class="sort-wrapper sort-group">
 	      <li class="sort-by">Classer par</li>
 	      <li class="selected-sorting">
-	      	meilleurs commentaires
+	      	nouveaux commentaires
 	      	<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/angle-down.svg" alt="Select sorting" class="icon">
 	      	<ul class="select-sorting">
-		      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
-		      	<li class="sort-group-link"><a data-component="sort/newest">nouveaux commentaires</a></li>
-		      	<li class="sort-group-link"><a data-component="sort/oldest">anciens commentaires</a></li>
+		      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
 		      </ul>
 	      </li>
 	    </ul>
@@ -59,13 +57,18 @@
 				</form>
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
-				<!-- IF user.picture -->
+				<!-- IF user.picture.length -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF user.picture -->
+				<!-- ENDIF user.picture.length -->
+				<ul class="select-sorting">
+	      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/newest">nouveaux commentaires</a></li>
+	      	<li class="sort-group-link"><a data-component="sort/oldest">anciens commentaires</a></li>
+	      </ul>
 			<!-- ENDIF !isLoggedIn -->
 		</div>
 	</div>
@@ -80,7 +83,7 @@
 			<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 			<!-- ELSE -->
 			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
-			<!-- ENDIF user.picture -->
+			<!-- ENDIF user.picture.length -->
 			<span class="user-status user-status-main {user.status}"></span>
 		<!-- ENDIF !isLoggedIn -->
 	</div>
