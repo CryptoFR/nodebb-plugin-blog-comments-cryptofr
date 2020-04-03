@@ -238,6 +238,41 @@ small.logged-as {
     margin-top: -42px;
 }
 
+#nodebb .sortbar .user-menu .user-options {
+  position: absolute;
+  background: white;
+  border-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px !important;
+  border: none !important;
+  box-shadow: 0px 0px 44px rgba(0, 0, 0, 0.2);
+  top: 30px;
+  margin: 0px;
+  width: fit-content;
+  right: 0px;
+}
+#nodebb .sortbar .user-menu .user-options:before {
+  display: block;
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  transform: rotate(135deg);
+  position: absolute;
+  margin-top: -17px;
+  right: 8px;
+}
+
+#nodebb .sortbar .user-menu .user-options .logout-box {
+  cursor: pointer;
+}
+#nodebb .sortbar .user-menu .user-options .logout-box i {
+  font-size: 14px;
+} 
+#nodebb .sortbar .user-menu .user-options .logout-box span {
+  font-size: 10px;
+}
+
 /***********
 
   POSTS CSS
@@ -619,14 +654,6 @@ i.i-downvote.icon-thumbs-down-alt {
 }
 .modal-login-alternative li:hover img.inactive {
   display: none;
-}
-
-
-
-.modal-col {
-  float: left;
-  width: 48%;
-  height: 100%;
 }
 
 .modal-or {
@@ -1149,20 +1176,6 @@ form{
 .upload-form{
   display: none;
 }
-
-.logout-box {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    cursor: pointer;
-}
-.logout-box i {
-  font-size: 14px;
-} 
-.logout-box span {
-  font-size: 10px;
-}
-
 
 .nodebb-error{
   color: #ac0202;
