@@ -44,7 +44,7 @@
 	      <li class="sort-by">Classer par</li>
 	      <li class="selected-sorting">
 	      	nouveaux commentaires
-	      	<i class="fab fa-angle-down"></i>
+	      	<i class="fad fa-chevron-down"></i>
 	      	<ul class="select-sorting">
 		      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
 		      	<li class="sort-group-link"><a data-component="sort/newest">nouveaux commentaires</a></li>

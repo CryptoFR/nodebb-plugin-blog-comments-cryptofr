@@ -130,6 +130,11 @@ small.logged-as {
   letter-spacing: -0.035em;
 }
 
+.sortbar .postCounts .fa-comments-alt {
+  color: #838383;
+  font-size: 28px;
+}
+
 .sortbar .postCounts .posts-count {
   margin-left: 15px;
   margin-right: 5px;
@@ -252,7 +257,7 @@ small.logged-as {
   right: 0px;
   display: none;
 }
-#nodebb .sortbar .user-menu .user-options:hover {
+#nodebb .sortbar .user-menu:hover .user-options {
   display: block;
 }
 #nodebb .sortbar .user-menu .user-options:before {
