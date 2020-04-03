@@ -60,21 +60,17 @@
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
 			 	TEST
-			 	<!-- Ok, try again -->
 
 				<!-- IF userTest -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF userTest -->
-
-				TEST2
-				<!-- IF !user.picture.length -->
+				<!-- ELSE -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF !user.picture -->
+				<!-- ENDIF !userTest -->
 				
 				<!-- TEST -->
-				<ul class="select-sorting">
+				<ul class="user-options">
 	      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
 	      </ul>
 			<!-- ENDIF !isLoggedIn -->
