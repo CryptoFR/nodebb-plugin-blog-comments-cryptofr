@@ -64,10 +64,13 @@
 				<!-- IF userTest -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ELSE -->
+				<!-- ENDIF userTest -->
+
+				TEST2
+				<!-- IF userNoPicture -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF !userTest -->
+				<!-- ENDIF userNoPicture -->
 				
 				<!-- TEST -->
 				<ul class="user-options">
