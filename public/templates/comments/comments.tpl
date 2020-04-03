@@ -35,7 +35,7 @@
 		</a>
 	</div> -->
 
-	<!-- TOP BAR: sorting comments, login, menu -->
+	<!-- TOP BAR: sorting comments, login, menu -- OK -->
 	<div class="sortbar">
 		<div class="postCounts" data-postcount="{postCount}">
 			<i class="fad fa-comments-alt"></i>
@@ -75,23 +75,21 @@
 			<!-- ENDIF !isLoggedIn -->
 		</div>
 	</div>
+	<!-- TOP BAR END -->
 
-	<!-- IF atTop -->
-	<div class="topic-profile-pic user first-image">
-		<!-- IF !isLoggedIn -->
-			<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
-		<!-- ELSE -->
-			<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne" ></i>
+	<!-- COMMENT BOX -- To FIX: image next to box, emojis, ... -->
+	<!-- IF isLoggedIn -->
+		<div class="topic-profile-pic user first-image">
 			<!-- IF userHasPicture -->
 			<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
-			<!-- ELSE -->
-			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 			<!-- ENDIF userHasPicture -->
-			<span class="user-status user-status-main {user.status}"></span>
-		<!-- ENDIF !isLoggedIn -->
-	</div>
 
-	<!-- IF isLoggedIn -->
+			<!-- IF !userHasPicture -->
+			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
+			<!-- ENDIF !userHasPicture -->
+
+			<span class="user-status user-status-main {user.status}"></span>
+		</div>
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
 			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
 			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
@@ -120,7 +118,7 @@
 				<span>Déconnexion</span>
 			</div> -->
 		</form>
-		<!-- ELSE -->
+	<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
 		</form>
 		<div class="buttons-container" id="buttons-container" >
@@ -129,8 +127,9 @@
 
 		<!-- This button is here just for making the css margin right -->
 		<button style="visibility: hidden; padding-top: 8px;"> </button>
-		<!-- ENDIF isLoggedIn -->
+	<!-- ENDIF isLoggedIn -->
 	<!-- ENDIF atTop -->
+	<!-- COMMENT BOX END -->
 
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
 		<!-- BEGIN posts -->
