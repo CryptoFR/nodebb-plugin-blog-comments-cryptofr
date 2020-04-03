@@ -41,9 +41,9 @@
 			<i class="fad fa-comments-alt"></i>
 			<span class="posts-count">{postCount}</span> commentaires
 	    <ul class="sort-wrapper sort-group">
-	      <li class="sort-by">Classer par</li>
+	      <!-- <li class="sort-by">Classer par</li> -->
 	      <li class="selected-sorting">
-	      	nouveaux commentaires
+	      	Classer par
 	      	<i class="fad fa-chevron-down"></i>
 	      	<ul class="select-sorting">
 		      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
@@ -70,7 +70,7 @@
 				<!-- ENDIF !userHasPicture -->
 				
 				<ul class="user-options">
-	      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
+	      	<li class="sort-group-link logout-box"><i class="fad fa-sign-out"></i> Déconnexion</li>
 	      </ul>
 			<!-- ENDIF !isLoggedIn -->
 		</div>
