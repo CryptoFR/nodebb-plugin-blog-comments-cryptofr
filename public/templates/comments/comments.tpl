@@ -38,13 +38,13 @@
 	<!-- TOP BAR: sorting comments, login, menu -->
 	<div class="sortbar">
 		<div class="postCounts" data-postcount="{postCount}">
-			<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/comments.svg" alt="{postCount} commentaires" class="icon">
+			<i class="fad fa-comments-alt"></i>
 			<span class="posts-count">{postCount}</span> commentaires
 	    <ul class="sort-wrapper sort-group">
 	      <li class="sort-by">Classer par</li>
 	      <li class="selected-sorting">
 	      	nouveaux commentaires
-	      	<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/angle-down.svg" alt="Select sorting" class="icon">
+	      	<i class="fab fa-angle-down"></i>
 	      	<ul class="select-sorting">
 		      	<li class="sort-group-link"><a data-component="sort/best">meilleurs commentaires</a></li>
 		      	<li class="sort-group-link"><a data-component="sort/newest">nouveaux commentaires</a></li>

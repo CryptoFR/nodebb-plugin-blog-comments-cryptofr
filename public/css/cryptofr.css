@@ -246,10 +246,14 @@ small.logged-as {
   padding: 10px !important;
   border: none !important;
   box-shadow: 0px 0px 44px rgba(0, 0, 0, 0.2);
-  top: 30px;
+  top: 52px;
   margin: 0px;
   width: fit-content;
   right: 0px;
+  display: none;
+}
+#nodebb .sortbar .user-menu .user-options:hover {
+  display: block;
 }
 #nodebb .sortbar .user-menu .user-options:before {
   display: block;
