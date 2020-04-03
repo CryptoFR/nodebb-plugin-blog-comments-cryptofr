@@ -60,18 +60,18 @@
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
 			 	TEST
-			 	<!-- This button is here just for making the css margin right -->
-			 	
-				<!-- IF user -->
+			 	<!-- Ok, try again -->
+
+				<!-- IF userTest -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF user -->
+				<!-- ENDIF userTest -->
 
 				TEST2
-				<!-- IF !userTest -->
+				<!-- IF !user.picture.length -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF !userTest -->
+				<!-- ENDIF !user.picture -->
 				
 				<!-- TEST -->
 				<ul class="select-sorting">
