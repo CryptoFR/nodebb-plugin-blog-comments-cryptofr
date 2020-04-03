@@ -144,7 +144,6 @@
             isValid: !!data.mainPost && !!tid,
             siteTitle: meta.config.title,
             sorting: req.params.sorting,
-            hasPhoto: (data.user.picture.length > 1),
             user: data.user
           });
         }
