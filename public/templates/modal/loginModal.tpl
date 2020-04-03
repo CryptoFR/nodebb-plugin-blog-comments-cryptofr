@@ -56,10 +56,10 @@
     </div>
     <div class="modal-footer">
       <div class="register-link">
-        Vous n'avez pas encore de compte? <a href="{rootUrl}/register" class="register-modal-open">S'inscrire</a>
+        {postCount} Vous n'avez pas encore de compte? {forumUrl} <a href="https://testforum.cryptofr.com/register" class="register-modal-open">S'inscrire</a>
       </div>
       <div class="logo">
-        <img src="{rootUrl}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon">
+        <img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon">
       </div>
     </div>
   </div>

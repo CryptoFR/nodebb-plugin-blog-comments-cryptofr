@@ -146,7 +146,7 @@
             siteTitle: meta.config.title,
             sorting: req.params.sorting,
             userHasPicture: !!data.user.picture,
-            rootUrl: "https://testforum.cryptofr.com",
+            forumUrl: "https://testforum.cryptofr.com",
           });
         }
       );
