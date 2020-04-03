@@ -59,20 +59,20 @@
 				</form>
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
-			 	TEST
+			 	//1
 
 				<!-- IF userTest -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ENDIF userTest -->
 
-				TEST2
-				<!-- IF userNoPicture -->
+				//2
+				<!-- IF !userNoPicture -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF userNoPicture -->
+				<!-- ENDIF !userNoPicture -->
 				
-				<!-- TEST -->
+				//3
 				<ul class="user-options">
 	      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
 	      </ul>
