@@ -59,20 +59,16 @@
 				</form>
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
-			 	//1
-
-				<!-- IF userTest -->
+				<!-- IF userHasPicture -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF userTest -->
+				<!-- ENDIF userHasPicture -->
 
-				//2
-				<!-- IF !userNoPicture -->
+				<!-- IF !userHasPicture -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ENDIF !userNoPicture -->
+				<!-- ENDIF !userHasPicture -->
 				
-				//3
 				<ul class="user-options">
 	      	<li class="sort-group-link logout-box"><i class="fa fa-sign-out"></i>Déconnexion</li>
 	      </ul>
@@ -86,11 +82,11 @@
 			<!-- <img src="https://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" /> -->
 		<!-- ELSE -->
 			<i component="user/status" class="fa fa-circle status online" title="En ligne" data-original-title="En ligne" ></i>
-			<!-- IF user.picture.length -->
+			<!-- IF userHasPicture -->
 			<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 			<!-- ELSE -->
 			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
-			<!-- ENDIF user.picture.length -->
+			<!-- ENDIF userHasPicture -->
 			<span class="user-status user-status-main {user.status}"></span>
 		<!-- ENDIF !isLoggedIn -->
 	</div>

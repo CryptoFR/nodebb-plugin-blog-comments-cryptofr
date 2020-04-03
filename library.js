@@ -145,8 +145,7 @@
             atTop: top,
             siteTitle: meta.config.title,
             sorting: req.params.sorting,
-            userTest: data.user.picture,
-            userNoPicture: !!data.user.picture
+            userHasPicture: !!data.user.picture,
           });
         }
       );
