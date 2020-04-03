@@ -59,19 +59,19 @@
 				</form>
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
-			 TEST
-			 <!-- This button is here just for making the css margin right -->
-				<!-- IF user.picture.length -->
+			 	TEST
+			 	<!-- This button is here just for making the css margin right -->
+			 	
+				<!-- IF user -->
 				<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ELSE -->
-				<!-- ENDIF user.picture.length -->
-				 TEDHBsjndk,
-				<!-- IF !user.picture.length -->
+				<!-- ENDIF user -->
+
+				TEST2
+				<!-- IF !userTest -->
 				<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
 				<span class="user-status user-status-main {user.status}"></span>
-				<!-- ELSE -->
-				<!-- ENDIF !user.picture.length -->
+				<!-- ENDIF !userTest -->
 				
 				<!-- TEST -->
 				<ul class="select-sorting">
