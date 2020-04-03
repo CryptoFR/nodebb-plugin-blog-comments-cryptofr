@@ -190,7 +190,8 @@
 					</div>
 				</div>
 
-				<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
+				<!-- Formulaires de Posts -->
+				<!-- <form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
  					<textarea id="nodebb-content" class="form-control" name="content" placeholder="Répondre" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
  						<div class="special-box">
@@ -203,7 +204,7 @@
  					<input type="hidden" name="tid" value="{tid}" />
  					<input type="hidden" name="toPid" value="{posts.pid}" />
  					<input type="hidden" name="url" value="{redirect_url}" />
- 				</form>
+ 				</form> -->
         <div data-recursive-replies=""></div>
       </div>
 		</li>
