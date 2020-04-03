@@ -468,6 +468,10 @@ i.i-downvote.icon-thumbs-down-alt {
   margin-left: 54px;
   margin-top: -81px;
 }
+.user-status-main.letter-avatar {
+  margin-left: 53px;
+  margin-top: -71px;
+}
 
 .modal {
   display: none; /* Hidden by default */

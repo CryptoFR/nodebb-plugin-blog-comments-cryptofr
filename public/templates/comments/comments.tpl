@@ -82,13 +82,14 @@
 		<div class="topic-profile-pic user first-image">
 			<!-- IF userHasPicture -->
 			<img data-uid="{user.uid}" src="{user.picture}" class="profile-image" title="{user.username}" />
+			<span class="user-status user-status-main {user.status}"></span>
 			<!-- ENDIF userHasPicture -->
 
 			<!-- IF !userHasPicture -->
-			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">{user.icon:text}</div>
-			<!-- ENDIF !userHasPicture -->
-
-			<span class="user-status user-status-main {user.status}"></span>
+			<div class="profile-image" style="background-color: {user.icon:bgColor};" title="{user.username}">
+			{user.icon:text}</div>
+			<span class="user-status user-status-main letter-avatar {user.status}"></span>
+			<!-- ENDIF !userHasPicture -->		
 		</div>
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
 			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
