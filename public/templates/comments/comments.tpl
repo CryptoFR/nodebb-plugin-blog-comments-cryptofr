@@ -96,17 +96,21 @@
 			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<div class="special-box actions">
+					<span class="special-action bold icon">
+						<i class="fad fa-bold"></i>
+					</span>
+					<span class="special-action italic icon">
+						<i class="fad fa-italic"></i>
+					</span>
 					<span class="special-action emojis icon">
-						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/emojis.svg" alt="add emojis" class="icon inactive">
-						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/emojis.svg" alt="add emojis" class="icon active">
+						<i class="fad fa-smile"></i>
 					</span> 
 					<span class="special-action gif">
 						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
 						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
 					</span>
 					<span class="special-action img">
-						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/image.svg" alt="upload image" class="icon inactive">
-						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/image-active.svg" alt="upload image" class="icon active">
+						<i class="fad fa-image"></i>
 					</span>
 				</div>
 				<button class="btn btn-primary">Répondre</button>
@@ -120,12 +124,9 @@
 			</div> -->
 		</form>
 	<!-- ELSE -->
-		<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
-		</form>
-		<div class="buttons-container" id="buttons-container" >
-			<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
-		</div>
-
+		<!-- <form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
+			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
+		</form> -->
 		<!-- This button is here just for making the css margin right -->
 		<button style="visibility: hidden; padding-top: 8px;"> </button>
 	<!-- ENDIF isLoggedIn -->
