@@ -169,11 +169,12 @@ small.logged-as {
   border-radius: 10px;
   border-top-right-radius: 10px;
   padding: 10px !important;
+  padding-top: 15px !important;
   border: none !important;
   box-shadow: 0px 0px 44px rgba(0, 0, 0, 0.2);
-  top: 30px;
+  top: 34px;
   margin: 0px;
-  margin-left: -13px;
+  margin-left: -108px;
   margin-top: 1px;
   display: none;
   z-index: 5000;
@@ -195,7 +196,7 @@ small.logged-as {
   background: #ffffff;
   transform: rotate(135deg);
   position: absolute;
-  margin-top: -17px;
+  margin-top: -21px;
   right: 8px;
 }
 
@@ -1044,11 +1045,6 @@ ul.alt-logins li {
 ul.sort-group a,
 ul.alt-logins a {
     padding: 5px;
-}
-
-ul.sort-group .sort-group-link.active a{
-    background-color: lightgray;
-    color: lightblue;
 }
 
 li.sort-group-link(:last-child),
