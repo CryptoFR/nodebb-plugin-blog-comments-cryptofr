@@ -411,9 +411,23 @@ small.logged-as {
 
 .reply,
 .quote,
+.award,
 .edit {
   font-size: 16px;
-  color: #5A5A5A;
+  color: #6b6b6b !important;
+}
+.reply .text,
+.quote .text,
+.award .text,
+.edit .text{
+  color: #404040 !important;
+}
+
+.reply:hover,
+.quote:hover,
+.award:hover,
+.edit:hover {
+  color: #434A81 !important;
 }
 
 i.i-upvote,
@@ -423,26 +437,6 @@ i.i-downvote {
   display: inline-block;
   float: left;
   margin-right: 2px;
-}
-
-i.i-upvote.icon-thumbs-up {
-  background: no-repeat center
-    url(https://i.gyazo.com/2283ea88abe193d981140ab99c35de05.png);
-}
-
-i.i-upvote.icon-thumbs-up-alt {
-  background: no-repeat center
-    url(https://i.gyazo.com/78f59e525a12241b2c1ef6fe9381bb1c.png);
-}
-
-i.i-downvote.icon-thumbs-down {
-  background: no-repeat center
-    url(https://i.gyazo.com/0abb2c530019a34f1ecc9edb309f5b3f.png);
-}
-
-i.i-downvote.icon-thumbs-down-alt {
-  background: no-repeat center
-    url(https://i.gyazo.com/866cd63d0b43600b538fdc75d7be3216.png);
 }
 
 #nodebb [class^="icon-thumbs"]:before,
