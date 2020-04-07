@@ -67,9 +67,10 @@ function grab_data(search_term){
 }
 
 export function gifBoxInit(){
-    for (let gifButton of document.querySelectorAll('.special-action.gif i')) {
+    for (let gifButton of document.querySelectorAll('.special-action.gif .icon')) {
         gifButton.addEventListener('click', function(event){
             document.querySelector(".gifs-box").style.display="block";
+            console.log(gifButton)
             set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"))
         });
     }
