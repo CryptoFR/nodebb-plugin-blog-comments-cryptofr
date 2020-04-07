@@ -796,7 +796,7 @@ import { parseCommentQuotes } from '../util.js';
 	    }
 
 	    clone.querySelector("a.username").setAttribute('href',relativePath+"/user/"+comment.user.userslug );
-	    clone.querySelector("strong[data-strong-username]").innerText =
+	    clone.querySelector("span[data-strong-username]").innerText =
 	      comment.user.username;
 	    if (comment.parent && comment.parent.username) {
 	      clone.querySelector("span[data-parent-username]").innerText =

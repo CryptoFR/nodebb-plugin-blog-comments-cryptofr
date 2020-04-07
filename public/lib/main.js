@@ -2031,7 +2031,7 @@ function createNestedComments(comments, template, otherData) {
     }
 
     clone.querySelector("a.username").setAttribute('href', relativePath + "/user/" + comment.user.userslug);
-    clone.querySelector("strong[data-strong-username]").innerText = comment.user.username;
+    clone.querySelector("span[data-strong-username]").innerText = comment.user.username;
 
     if (comment.parent && comment.parent.username) {
       clone.querySelector("span[data-parent-username]").innerText = "@" + comment.parent.username; // We update here because in another method timestamps are updated for parent comments
