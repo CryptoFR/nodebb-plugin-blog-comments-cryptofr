@@ -419,10 +419,10 @@ small.logged-as {
   margin-left: 7px;
   display: none;
 }
-#nodebb li.expandable .topic-item:hover .reply
-#nodebb li.expandable .topic-item:hover .quote
-#nodebb li.expandable .topic-item:hover .award {
-  display: inline-block;
+#nodebb li .topic-item:hover .reply
+#nodebb li .topic-item:hover .quote
+#nodebb li .topic-item:hover .award {
+  display: block;
 }
 .reply .text,
 .quote .text,
