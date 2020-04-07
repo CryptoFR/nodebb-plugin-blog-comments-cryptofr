@@ -367,18 +367,28 @@ small.logged-as {
   font-size: 15px;
   color: #717171;
   margin-right: 4px;
+  margin-left: 4px;
   display: inline-block;
 }
 #nodebb a.upvote,
 #nodebb a.downvote {
-    font-size: 27px;
-    color: #5A5A5A;
+  font-size: 27px;
+  color: #6b6b6b;
 }
 #nodebb a.upvote {
-    margin-right: 4px;
+  margin-right: 4px;
 }
 #nodebb a.downvote {
-    margin-left: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+#nodebb a.upvote[data-upvoted='true'],
+#nodebb a.upvote:hover {
+  color: #405bab;
+}
+#nodebb a.downvote[data-downvoted='true'],
+#nodebb a.downvote:hover {
+  color: #d23030;
 }
 
 .reply:before,
