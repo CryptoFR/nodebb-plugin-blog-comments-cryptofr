@@ -368,7 +368,7 @@ small.logged-as {
 
 .reply:before,
 .quote:before,
-.post-time:before,
+.award:before,
 .edit:before {
   content: ".";
   font-size: 50px;
@@ -379,6 +379,7 @@ small.logged-as {
 }
 
 .post-time:before {
+  content: "-";
   margin-right: 3px;
   display: inline-block;
 }

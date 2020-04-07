@@ -9,7 +9,7 @@
 					<div class="profile-image" style="background-color: {user.icon:bgColor}" title="{user.username}" alt="{user.username}">{user.icon:text}</div>
 					<!-- ENDIF user.picture -->
 				</a>
-    <span class="user-status user-status-comments"></span>
+    		<span class="user-status user-status-comments"></span>
 			</div>
 			<div class="topic-text">
 				<div class="post-content" itemprop="text">
@@ -35,22 +35,25 @@
 					<div class="post-body" content="{posts.content}">{posts.content}</div>
 					<div class="nodebb-post-tools post-tools no-select">
 						<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
-							<i class="i-upvote icon-thumbs-up-alt icon-thumbs-up"></i>
-							<span class="upvote-count" style="display: none;">
-								{posts.votes}
-							</span>
-						</a>
-						<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
-							<i class="i-downvote icon-thumbs-down-alt icon-thumbs-down"></i>
+							<i class="fad fa-angle-up"></i>
 						</a>
 						<div class="posts-vote">
-							<span class="post-value">{posts.votes}</span> points
+							<span class="post-value">{posts.votes}</span>
 						</div>
+						<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
+							<i class="fad fa-angle-down"></i>
+						</a>
 						<a data-component="post/reply" class="reply" style="color: inherit; text-decoration: none;" title="Reply">
-							Répondre
+							<i class="fad fa-angle-up"></i>
+							<span class="text">Répondre</span>
 						</a>
 						<a data-component="post/quote" class="quote" style="color: inherit; text-decoration: none;" title="Quote">
-							Citer
+							<i class="fad fa-angle-up"></i>
+							<span class="text">Citer</span>
+						</a>
+						<a class="award" style="color: inherit; text-decoration: none;" title="Award">
+							<i class="fad fa-angle-up"></i>
+							<span class="text">Tip</span>
 						</a>
 						<a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none;display: none;" title="Quote">
 							Effacer
