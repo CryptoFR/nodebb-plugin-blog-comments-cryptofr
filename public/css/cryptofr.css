@@ -380,7 +380,6 @@ small.logged-as {
 }
 #nodebb a.downvote {
   margin-left: 4px;
-  margin-right: 4px;
 }
 #nodebb a.upvote[data-upvoted='true'],
 #nodebb a.upvote:hover {
@@ -414,10 +413,16 @@ small.logged-as {
 
 .reply,
 .quote,
-.award,
-.edit {
+.award {
   font-size: 16px;
   color: #6b6b6b !important;
+  margin-left: 7px;
+  display: none;
+}
+#nodebb li.expandable .topic-item:hover .reply
+#nodebb li.expandable .topic-item:hover .quote
+#nodebb li.expandable .topic-item:hover .award {
+  display: inline-block;
 }
 .reply .text,
 .quote .text,
@@ -427,11 +432,15 @@ small.logged-as {
   margin-left: 3px;
   display: none;
 }
-
+.reply svg,
+.quote svg,
+.award svg,
+.edit svg{
+  margin-left: 7px;
+}
 .reply:hover, .reply:hover .text,
 .quote:hover, .quote:hover .text,
-.award:hover, .award:hover .text,
-.edit:hover {
+.award:hover, .award:hover .text {
   color: #434A81 !important;
 }
 
