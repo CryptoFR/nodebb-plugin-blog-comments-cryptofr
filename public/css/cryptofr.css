@@ -292,6 +292,8 @@ small.logged-as {
   float: left;
   text-transform: lowercase;
   margin-top: 4px;
+  display: flex;
+  align-items: center;
 }
 
 #nodebb ul:not(.sort-group) {
@@ -367,6 +369,17 @@ small.logged-as {
   margin-right: 4px;
   display: inline-block;
 }
+#nodebb a.upvote,
+#nodebb a.downvote {
+    font-size: 27px;
+    color: #5A5A5A;
+}
+#nodebb a.upvote {
+    margin-right: 4px;
+}
+#nodebb a.downvote {
+    margin-left: 4px;
+}
 
 .reply:before,
 .quote:before,
@@ -389,8 +402,8 @@ small.logged-as {
 .reply,
 .quote,
 .edit {
-  font-size: 15px;
-  color: #3d64bb !important;
+  font-size: 16px;
+  color: #5A5A5A;
 }
 
 i.i-upvote,

@@ -2050,7 +2050,7 @@ function createNestedComments(comments, template, otherData) {
     }
 
     clone.querySelector("span[data-timestamp]").setAttribute("title", comment.timestampISO.split("T")[0]);
-    clone.querySelector("span[data-timestamp]").innerText = "commented " + comment.timestamp;
+    clone.querySelector("span[data-timestamp]").innerText = comment.timestamp;
 
     if (uid === comment.user.uid) {
       var toRemoveAnchors = clone.querySelectorAll('a[data-component="post/upvote"], a[data-component="post/downvote"]');

@@ -817,7 +817,7 @@ import { parseCommentQuotes } from '../util.js';
 
 	    clone.querySelector("span[data-timestamp]").setAttribute("title",comment.timestampISO.split("T")[0])
 	    clone.querySelector("span[data-timestamp]").innerText =
-	      "commented " + comment.timestamp;
+	      comment.timestamp;
 	    if (uid === comment.user.uid) {
 	      var toRemoveAnchors = clone.querySelectorAll(
 	        'a[data-component="post/upvote"], a[data-component="post/downvote"]'
