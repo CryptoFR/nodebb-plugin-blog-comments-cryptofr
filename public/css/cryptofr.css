@@ -417,13 +417,13 @@ small.logged-as {
   font-size: 16px;
   color: #6b6b6b !important;
   margin-left: 7px;
-  display: none;
+  /*display: none;*/
 }
-#nodebb li .topic-item:hover .reply
+/*#nodebb li .topic-item:hover .reply
 #nodebb li .topic-item:hover .quote
 #nodebb li .topic-item:hover .award {
   display: block;
-}
+}*/
 .reply .text,
 .quote .text,
 .award .text,

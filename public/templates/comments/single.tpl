@@ -54,10 +54,10 @@
 							<i class="fad fa-quote-right"></i>
 							<span class="text">Citer</span>
 						</a>
-						<a class="award" title="Award">
+						<!-- <a class="award" title="Award">
 							<i class="fad fa-trophy"></i>
 							<span class="text">Tip</span>
-						</a>
+						</a> -->
 						<a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none;display: none;" title="Quote">
 							Effacer
 						</a>
