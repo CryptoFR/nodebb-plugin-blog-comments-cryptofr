@@ -36,6 +36,9 @@
 					<div class="nodebb-post-tools post-tools no-select">
 						<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
 							<i class="i-upvote fad fa-angle-up"></i>
+							<span class="upvote-count" style="display: none;">
+								{posts.votes}
+							</span>
 						</a>
 						<div class="posts-vote">
 							<span class="post-value">{posts.votes}</span>
