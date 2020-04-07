@@ -34,7 +34,7 @@
 					<br />
 					<div class="post-body" content="{posts.content}">{posts.content}</div>
 					<div class="nodebb-post-tools post-tools no-select">
-						<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
+						<a class="upvote" data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" title="Upvote">
 							<i class="i-upvote fad fa-angle-up"></i>
 							<span class="upvote-count" style="display: none;">
 								{posts.votes}
@@ -43,19 +43,19 @@
 						<div class="posts-vote">
 							<span class="post-value">{posts.votes}</span>
 						</div>
-						<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
+						<a class="downvote" data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" title="Downvote">
 							<i class="i-downvote fad fa-angle-down"></i>
 						</a>
-						<a data-component="post/reply" class="reply" style="color: inherit; text-decoration: none;" title="Reply">
-							<i class="fad fa-angle-up"></i>
+						<a class="reply" data-component="post/reply" class="reply" title="Reply">
+							<i class="fad fa-reply"></i>
 							<span class="text">Répondre</span>
 						</a>
-						<a data-component="post/quote" class="quote" style="color: inherit; text-decoration: none;" title="Quote">
-							<i class="fad fa-angle-up"></i>
+						<a class="quote" data-component="post/quote" class="quote" title="Quote">
+							<i class="fad fa-quote-right"></i>
 							<span class="text">Citer</span>
 						</a>
-						<a class="award" style="color: inherit; text-decoration: none;" title="Award">
-							<i class="fad fa-angle-up"></i>
+						<a class="award" title="Award">
+							<i class="fad fa-trophy"></i>
 							<span class="text">Tip</span>
 						</a>
 						<a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none;display: none;" title="Quote">
