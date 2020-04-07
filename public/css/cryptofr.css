@@ -401,6 +401,9 @@ small.logged-as {
   margin-right: 5px;
   display: contents;
   color: #5A5A5A;
+  width: 5px;
+  display: inline-block;
+  text-align: center;
 }
 
 .post-time:before {
@@ -421,11 +424,13 @@ small.logged-as {
 .award .text,
 .edit .text{
   color: #404040 !important;
+  margin-left: 3px;
+  display: none;
 }
 
-.reply:hover,
-.quote:hover,
-.award:hover,
+.reply:hover, .reply:hover .text,
+.quote:hover, .quote:hover .text,
+.award:hover, .award:hover .text,
 .edit:hover {
   color: #434A81 !important;
 }
