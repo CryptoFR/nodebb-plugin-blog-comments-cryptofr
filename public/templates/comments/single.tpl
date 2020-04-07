@@ -35,13 +35,13 @@
 					<div class="post-body" content="{posts.content}">{posts.content}</div>
 					<div class="nodebb-post-tools post-tools no-select">
 						<a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
-							<i class="fad fa-angle-up"></i>
+							<i class="i-upvote fad fa-angle-up"></i>
 						</a>
 						<div class="posts-vote">
 							<span class="post-value">{posts.votes}</span>
 						</div>
 						<a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
-							<i class="fad fa-angle-down"></i>
+							<i class="i-downvote fad fa-angle-down"></i>
 						</a>
 						<a data-component="post/reply" class="reply" style="color: inherit; text-decoration: none;" title="Reply">
 							<i class="fad fa-angle-up"></i>
