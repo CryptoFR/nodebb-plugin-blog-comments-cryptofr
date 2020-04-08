@@ -109,7 +109,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   // Override the current require with this new one
-  parcelRequire = newRequire;
+  //let parcelRequire = newRequire;
 
   if (error) {
     // throw error from earlier, _after updating parcelRequire_
