@@ -2692,7 +2692,7 @@ document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<d
 _settings.set.nodebbDiv(document.getElementById("nodebb"));
 
 (0, _util.loadScript)("https://www.google.com/recaptcha/api.js");
-(0, _util.loadScript)("https://kit.fontawesome.com/dced8205f4.js");
+(0, _util.loadScript)("/fontawesome/js/all.js");
 setTimeout(_modal.grecaptchaGrab, 1000);
 
 _settings.set.pagination(0);
