@@ -236,14 +236,16 @@
 
   EmojiArea.prototype.setupButton = function() {
     var self = this;
-    var $button = $('[data-id=' + this.id + '][data-type=picker]');
+    $('[data-id=' + this.id + '][data-type=picker]').parent().find('.special-box .emojis svg').attr('data-id',this.id);
+    var $button = $('[data-id=' + this.id + '][data-type=picker]').parent().find('.special-box .emojis svg')
+     
 
     $button.on('click', function(e) {
       self.emojiMenu.show(self);
     });
 
     this.$button = $button;
-    this.$dontHideOnClick = 'emoji-picker';
+    this.$dontHideOnClick = 'emojis';
   };
 
   /*
@@ -414,7 +416,7 @@
       editorDiv.scrollTop(editorDiv[0].scrollHeight);
     });
 
-    $textarea.after("<i class='emoji-picker-icon emoji-picker " + this.options.popupButtonClasses + "' data-id='" + id + "' data-type='picker'></i>");
+    $textarea.after("<i class='emoji-picker-icon emoji-picker " + this.options.popupButtonClasses + "' data-id='" + id + "' style='display:none' data-type='picker'></i>");
 
     $textarea.hide().after(this.$editor);
     this.setup();
