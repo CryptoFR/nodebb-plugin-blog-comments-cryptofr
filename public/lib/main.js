@@ -109,7 +109,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   // Override the current require with this new one
-  //let parcelRequire = newRequire;
+  parcelRequire = newRequire;
 
   if (error) {
     // throw error from earlier, _after updating parcelRequire_
@@ -2684,7 +2684,7 @@ _settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-crypto
 (0, _util.loadCSS)(_settings.pluginURL + "/css/cryptofr.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/emoji.css");
 (0, _util.loadCSS)(_settings.pluginURL + "/css/icons.css");
-(0, _util.loadCSS)(_settings.pluginURL + "/fontawesome/css/all.css");
+(0, _util.loadCSS)(_settings.pluginURL + "/css/fontawesome/css/all.css");
 
 (0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap"); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 (0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap"); // set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
