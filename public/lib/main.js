@@ -2053,10 +2053,10 @@ function createNestedComments(comments, template, otherData) {
     clone.querySelector("span[data-timestamp]").innerText = comment.timestamp;
 
     if (uid === comment.user.uid) {
-      var toRemoveAnchors = clone.querySelectorAll('a[data-component="post/upvote"], a[data-component="post/downvote"]');
+      var todisableAnchors = clone.querySelectorAll('a[data-component="post/upvote"], a[data-component="post/downvote"]');
 
-      for (var i = 0; i < toRemoveAnchors.length; i++) {
-        (0, _util.removeNodes)(toRemoveAnchors[i]);
+      for (var i = 0; i < todisableAnchors.length; i++) {
+        todisableAnchors[i].classList.add("disabled");
       }
     } // Finish manipulation
 
