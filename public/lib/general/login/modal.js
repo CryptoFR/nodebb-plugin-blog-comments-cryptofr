@@ -148,9 +148,9 @@ import { login,signUp } from "../api.js";
   export function loginError(message){
 	var modal = document.querySelector("#login-modal");
   	modal.querySelector(".nodebb-error").innerText=message;
-  	modal.querySelector(".nodebb-error").add("display");
+  	modal.querySelector(".nodebb-error").classList.add("display");
   	setTimeout(function(){
   		modal.querySelector(".nodebb-error").innerText="";
-  		modal.querySelector(".nodebb-error").remove("display");
+  		modal.querySelector(".nodebb-error").classList.remove("display");
   	},6000)
   }
