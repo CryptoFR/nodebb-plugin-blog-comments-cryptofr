@@ -51,7 +51,7 @@ import { login,signUp } from "../api.js";
 	  e.preventDefault();
 	  var t = e.target;
 	  var modalElement = document.querySelector("div.modal[data-closed='0']");
-	  var loginButton = clone.querySelectorAll('button.login-button');
+	  var loginButton = document.querySelectorAll('button.login-button')[0];
 		loginButton.classList.add("loading");
 	  login(
 	    t.querySelector("input[name='email']").value,

@@ -634,13 +634,13 @@ i.i-downvote {
   color: #434A81;
 }
 
-.login-button i {
+.login-button .fa-circle-notch {
   display: none;
 }
 .login-button.loading span {
   display: none;
 }
-.login-button.loading i {
+.login-button.loading .fa-circle-notch {
   display: block;
 }
 
