@@ -637,10 +637,10 @@ i.i-downvote {
 .login-button .fa-circle-notch {
   display: none;
 }
-.login-button.loading span {
+.login-button.loading-button span {
   display: none;
 }
-.login-button.loading .fa-circle-notch {
+.login-button.loading-button .fa-circle-notch {
   display: block;
 }
 
