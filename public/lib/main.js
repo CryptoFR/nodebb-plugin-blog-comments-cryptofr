@@ -3002,8 +3002,10 @@ parcelRequire = function (modules, cache, entry, globalName) {
             function loginError(message) {
               var modal = document.querySelector("#login-modal");
               modal.querySelector(".nodebb-error").innerText = message;
+              modal.querySelector(".nodebb-error")[0].add("display");
               setTimeout(function () {
                 modal.querySelector(".nodebb-error").innerText = "";
+                modal.querySelector(".nodebb-error")[0].remove("display");
               }, 6000);
             }
           }, {

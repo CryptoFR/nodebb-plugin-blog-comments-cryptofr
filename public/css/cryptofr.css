@@ -1382,6 +1382,10 @@ small.logged-as {
   padding: 1px 10px;
   width: fit-content;
   border-radius: 3px;
+  display: none;
+}
+.modal-content .nodebb-error.display {
+  display: block;
 }
 
 #publishTopic{
