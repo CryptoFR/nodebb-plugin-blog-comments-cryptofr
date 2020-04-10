@@ -2906,6 +2906,8 @@ parcelRequire = function (modules, cache, entry, globalName) {
             function onSubmitLogin(e) {
               e.preventDefault();
               var t = e.target;
+              var loginButton = clone.querySelectorAll('button.login-button');
+              loginButton.classList.add("loading");
               (0, _api.login)(t.querySelector("input[name='email']").value, t.querySelector("input[name='password']").value, t.querySelector("input[name='_csrf']").value); // setTimeout(closeModal, 100);
             }
             /**
