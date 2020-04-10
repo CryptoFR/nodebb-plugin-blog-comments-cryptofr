@@ -1373,11 +1373,15 @@ small.logged-as {
 }
 
 .modal-content .nodebb-error {
-    font-size: 14px;
-    font-weight: bold;
-    display: block;
-    width: 80%;
-    margin: 0px auto;
+  font-size: 13px;
+  display: inline-block;
+  color: #b14c4c;
+  font-weight: 500 !important;
+  margin-bottom: 20px;
+  background: #ffeed0;
+  padding: 1px 10px;
+  width: fit-content;
+  border-radius: 3px;
 }
 
 #publishTopic{

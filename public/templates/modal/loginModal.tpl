@@ -23,7 +23,7 @@
             <span>Connexion</span>
             <i class="fad fa-circle-notch fa-spin"></i>
           </button>
-          <div class="nodebb-error">L'identifiant et/ou le mot de passe sont erronés</div>
+          <div class="nodebb-error"></div>
         </form>
         <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a>
       </div>
