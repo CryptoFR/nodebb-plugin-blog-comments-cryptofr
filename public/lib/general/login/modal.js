@@ -52,7 +52,7 @@ import { login,signUp } from "../api.js";
 	  var t = e.target;
 	  var modalElement = document.querySelector("div.modal[data-closed='0']");
 	  var loginButton = document.querySelectorAll('button.login-button')[0];
-		loginButton.classList.add("loading");
+		loginButton.classList.add("loading-button");
 	  login(
 	    t.querySelector("input[name='email']").value,
 	    t.querySelector("input[name='password']").value,

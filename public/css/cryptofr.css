@@ -636,6 +636,8 @@ i.i-downvote {
 
 .login-button .fa-circle-notch {
   display: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 .login-button.loading-button span {
   display: none;
@@ -787,11 +789,13 @@ i.i-downvote {
   font-weight: 500;
   font-size: 16px;
   line-height: 26px;
-  display: flex;
   align-items: center;
   letter-spacing: -0.045em;
   float: right;
   padding: 6px 18px;
+  width: 120px;
+  text-align: center;
+  height: 38px;
 }
 .modal-button:hover {
   background: #6269a2;

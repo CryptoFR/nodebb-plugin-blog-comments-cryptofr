@@ -1171,7 +1171,9 @@ parcelRequire = function (modules, cache, entry, globalName) {
                 var loginSuccess = res.status === 200;
 
                 if (!loginSuccess) {
-                  (0, _modal.loginError)("Username and Password combination is incorrect");
+                  (0, _modal.loginError)("L'identifiant et/ou le mot de passe sont erronés");
+                  var loginButton = document.querySelectorAll('button.login-button')[0];
+                  loginButton.classList.remove("loading-button");
                 } else (0, _loadComments.reloadComments)(0, 0, false);
               });
             }
@@ -3002,7 +3004,7 @@ parcelRequire = function (modules, cache, entry, globalName) {
               modal.querySelector(".nodebb-error").innerText = message;
               setTimeout(function () {
                 modal.querySelector(".nodebb-error").innerText = "";
-              }, 3000);
+              }, 6000);
             }
           }, {
             "../../settings.js": "LXja",

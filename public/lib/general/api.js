@@ -132,7 +132,9 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
       .then((res) => {
         const loginSuccess = res.status === 200;
         if (!loginSuccess) {
-          loginError("Username and Password combination is incorrect");
+          loginError("L'identifiant et/ou le mot de passe sont erronés");
+          var loginButton = document.querySelectorAll('button.login-button')[0];
+          loginButton.classList.remove("loading-button");
         }else reloadComments(0, 0, false)
       }) 
       
