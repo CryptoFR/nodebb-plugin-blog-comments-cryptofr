@@ -389,6 +389,13 @@ small.logged-as {
 #nodebb a.downvote:hover {
   color: #d23030;
 }
+#nodebb a.upvote.disabled, #nodebb a.downvote.disabled {
+  color: #a9a9a9;
+  cursor: inherit;
+}
+#nodebb a.upvote.disabled:hover, #nodebb a.downvote.disabled:hover {
+  color: #a9a9a9;
+}
 
 .reply:before,
 .quote:before,
@@ -625,6 +632,16 @@ i.i-downvote {
 }
 #nodebb .alt-logins a:hover {
   color: #434A81;
+}
+
+.login-button i {
+  display: none;
+}
+.login-button.loading span {
+  display: none;
+}
+.login-button.loading i {
+  display: block;
 }
 
 /* footer */

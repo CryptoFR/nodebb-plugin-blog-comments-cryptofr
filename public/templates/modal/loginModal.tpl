@@ -19,7 +19,10 @@
             <input class="modal-input" name="password" type="password" value="" placeholder="Mot de passe" />
           </div>
           <input name="_csrf" type="hidden" value=""/>
-          <button class="modal-button" type="submit">Connexion</button>
+          <button class="login-button modal-button" type="submit">
+            <span>Connexion</span>
+            <i class="fad fa-circle-notch fa-spin"></i>
+          </button>
           <div class="nodebb-error"></div>
         </form>
         <a href="#" class="modal-forgot-password"> Mot de passe oublié?</a>

@@ -50,6 +50,9 @@ import { login,signUp } from "../api.js";
 	export function onSubmitLogin(e) {
 	  e.preventDefault();
 	  var t = e.target;
+	  var modalElement = document.querySelector("div.modal[data-closed='0']");
+	  var loginButton = clone.querySelectorAll('button.login-button');
+		loginButton.classList.add("loading");
 	  login(
 	    t.querySelector("input[name='email']").value,
 	    t.querySelector("input[name='password']").value,
