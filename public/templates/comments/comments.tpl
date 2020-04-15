@@ -120,12 +120,8 @@
 			<input type="hidden" name="url" value="{redirect_url}" />
 		</form>
 	<!-- ELSE -->
-		<!-- <form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
-			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
-		</form> -->
 		<form action="{relative_path}/comments/reply" class="logged-out logged-in top-post-form clearfix" method="post">
-			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
-			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true" contenteditable="false" disabled></textarea>
+			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Connectez vous pour rejoindre la discussion" rows="3" data-emojiable="false" contenteditable="false" disabled></textarea>
 			<div class="comments-toolbar">
 				<button class="btn btn-primary" disabled>Répondre</button>
 			</div>
