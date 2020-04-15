@@ -117,6 +117,7 @@ small.logged-as {
 }
 #nodebb .btn.btn-primary[disabled], #root .btn.btn-primary[disabled],
 #nodebb .btn.btn-primary[disabled]:hover, #root .btn.btn-primary[disabled]:hover {
+  background: #DBDBDB;
   color: #a0a0a0;
   cursor: default;
 }

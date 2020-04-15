@@ -125,7 +125,7 @@
 		</form> -->
 		<form action="{relative_path}/comments/reply" class="logged-out logged-in top-post-form clearfix" method="post">
 			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
-			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true" contenteditable="false" disabled>Connectez-vous pour participer :)</textarea>
+			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true" contenteditable="false" disabled></textarea>
 			<div class="comments-toolbar">
 				<button class="btn btn-primary" disabled>Répondre</button>
 			</div>
