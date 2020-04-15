@@ -123,9 +123,9 @@
 		<!-- <form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
 			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 		</form> -->
-		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
+		<form action="{relative_path}/comments/reply" class="logged-out logged-in top-post-form clearfix" method="post">
 			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
-			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true" disabled></textarea>
+			<textarea id="nodebb-content" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true" contenteditable="false" disabled>Connectez-vous pour participer :)</textarea>
 			<div class="comments-toolbar">
 				<button class="btn btn-primary" disabled>Répondre</button>
 			</div>
@@ -133,8 +133,6 @@
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />
 		</form>
-		<!-- This button is here just for making the css margin right -->
-		<button style="visibility: hidden; padding-top: 8px;"> </button>
 	<!-- ENDIF isLoggedIn -->
 	<!-- ENDIF atTop -->
 	<!-- COMMENT BOX END -->

@@ -42,6 +42,11 @@
   margin-top: 0px;
   margin-bottom: 40px;
 }
+.top-post-form.logged-in.logged-out {
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+}
 
 small.logged-as {
   font-size: 14px;
@@ -93,14 +98,27 @@ small.logged-as {
 }
 
 #nodebb .btn.btn-primary, #root .btn.btn-primary {
-  background: none repeat scroll 0% 0% #337ab7;
-  color: #fff;
-  border-radius: 3px;
-  border: 1px solid #337ab7;
   float: right;
-  margin-right: 5px;
-  margin-top: 5px;
-  padding: 6px 10px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding: 12px 20px;
+  background: #DBDBDB;
+  border-radius: 8px;
+  border: none;
+  color: #5A5A5A;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+}
+#nodebb .btn.btn-primary:hover, #root .btn.btn-primary:hover {
+  background: #434A81;
+  color: white;
+}
+#nodebb .btn.btn-primary[disabled], #root .btn.btn-primary[disabled],
+#nodebb .btn.btn-primary[disabled]:hover, #root .btn.btn-primary[disabled]:hover {
+  color: #a0a0a0;
+  cursor: default;
 }
 
 /***********
