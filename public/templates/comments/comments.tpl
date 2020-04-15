@@ -134,7 +134,6 @@
 			<input type="hidden" name="url" value="{redirect_url}" />
 		</form>
 	<!-- ENDIF isLoggedIn -->
-	<!-- ENDIF atTop -->
 	<!-- COMMENT BOX END -->
 
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
@@ -215,40 +214,15 @@
 		<!-- END posts -->
 	</ul>
 
-	<!-- IF atBottom -->
-		<div class="topic-profile-pic user">
-			<!-- IF isLoggedIn -->
-			<img src="{user.picture}" class="profile-image" />
-			<!-- ELSE -->
-			<img src="http://1.gravatar.com/avatar/177d180983be7a2c95a4dbe7451abeba?s=95&d=&r=PG" class="profile-image" />
-			<!-- ENDIF isLoggedIn -->
-		</div>
-		<form action="{relative_path}/comments/reply" method="post">
-			<textarea id="nodebb-content" class="form-control" name="content" placeholder="Join the conversation" rows="3" data-emojiable="true" data-emojiable="true"></textarea>
-		<!-- IF isLoggedIn -->
-			<small>Connecté comme <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small>
-			<button class="btn btn-primary">Répondre</button>
-			<input type="hidden" name="_csrf" value="{token}" />
-			<input type="hidden" name="tid" value="{tid}" />
-			<input type="hidden" name="url" value="{redirect_url}" />
-		</form>
-		<!-- ELSE -->
-		</form>
-		<button class="btn btn-primary" id="nodebb-login">Se connecter</button>
-
-		<!-- This button is here just for making the css margin right -->
-		<button style="visibility: hidden; padding-top: 8px;"> </button>
-
-		<!-- ENDIF isLoggedIn -->
-	<!-- ENDIF atBottom -->
-
-	<small class="nodebb-copyright">Commentaires avec <a href="{relative_path}" target="_blank">{siteTitle}</a> &bull; <a href="{relative_path}/topic/{tid}">Topic originel</a></small>
 	<button class="btn btn-primary" id="nodebb-load-more">Charger plus de commentaires...</button>
 
-	
+	<div class="nodebb-copyright">
+		Propulsé par <a href="{relative_path}" class="comment-logo" target="_blank"><img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> &bull; <a href="{relative_path}/topic/{tid}" class="see-topic">Voir le sujet sur le forum</a>
+	</div>
+
 <!-- ELSE -->
 	<div class="no-topic">
 		<a href="{relative_path}" target="_blank">{siteTitle}</a>
-		<p>Les commentaires sont désactivés.</p>
+		<p>Commentaires non actifs sur cet sujet.</p>
 	</div>
 <!-- ENDIF isValid -->
