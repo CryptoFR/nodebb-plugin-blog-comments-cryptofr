@@ -210,11 +210,11 @@
 		<!-- END posts -->
 	</ul>
 
-	<button class="btn btn-primary" id="nodebb-load-more">Charger plus de commentaires...</button>
+	<button class="btn btn-primary" id="nodebb-load-more">Charger plus de commentaires...!!!</button>
 
-	<div class="nodebb-copyright">
+	<!-- <div class="nodebb-copyright">
 		Propulsé par <a href="{relative_path}" class="comment-logo" target="_blank"><img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> &bull; <a href="{relative_path}/topic/{tid}" class="see-topic">Voir le sujet sur le forum</a>
-	</div>
+	</div> -->
 
 <!-- ELSE -->
 	<div class="no-topic">

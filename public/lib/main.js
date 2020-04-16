@@ -2631,7 +2631,7 @@ parcelRequire = function (modules, cache, entry, globalName) {
               });
               var text = document.createElement("p");
               text.classList.add("load-more-text");
-              text.innerHTML = '<small class="nodebb-copyright">Commentaires avec <a href="' + _settings.dataRes.relative_path + '" target="_blank">' + _settings.dataRes.siteTitle + '</a> &bull; <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '">Topic originel</a></small>';
+              text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> &bull; <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic">Voir le sujet sur le forum</a></div>';
               div.appendChild(text);
               div.appendChild(button);
               (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
