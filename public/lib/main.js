@@ -792,26 +792,6 @@ parcelRequire = function (modules, cache, entry, globalName) {
               div.classList.add("loading");
               document.querySelector("#nodebb").appendChild(div);
               document.querySelector("body").classList.add("hasLoader");
-
-              // if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 >= getCoords(document.querySelector("#nodebb")).top + 350 && document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50) {
-              //   $(".loading").css("top", document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2) - getCoords(document.querySelector("#nodebb")).top;
-              // } else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 < getCoords(document.querySelector("#nodebb")).top + 350) {
-              //   $(".loading").css("top", 350);
-              // } else {
-              //   $(".loading").css("top", document.querySelector("#nodebb").offsetHeight + 50);
-              // }
-
-              // $(window).scroll(function () {
-              //   if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 >= getCoords(document.querySelector("#nodebb")).top + 350 && document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50) {
-              //     $(".loading").css("top", document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2) - getCoords(document.querySelector("#nodebb")).top;
-              //   } else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight / 2 < getCoords(document.querySelector("#nodebb")).top + 350) {
-              //     $(".loading").css("top", 350);
-              //   } else {
-              //     $(".loading").css("top", document.querySelector("#nodebb").offsetHeight + 50);
-              //   }
-              // });
-
-              console.log("let this be a test");
             }
             /**
              * Adds a loading div in the DOM

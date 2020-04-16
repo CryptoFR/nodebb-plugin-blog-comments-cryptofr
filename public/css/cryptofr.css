@@ -122,6 +122,32 @@ small.logged-as {
   cursor: default;
 }
 
+.comments-toolbar .special-box.actions {
+  display: flex;
+  align-items: center;
+  line-height: 44px;
+}
+.comments-toolbar .special-action {
+  display: inline-block;
+  height: 18px;
+  font-size: 37px;
+  color: #5a5a5a;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.comments-toolbar .special-action.emojis.icon {
+  font-size: 29px;
+  margin-right: 13px;
+  margin-left: 5px;
+}
+.comments-toolbar .special-action.gif img {
+  height: 27px;
+}
+.comments-toolbar .special-action:hover,
+.comments-toolbar .special-action.emojis.icon:hover {
+  color: #434A81;
+}
+
 /***********
 
   SORT BAR
@@ -1202,6 +1228,10 @@ form{
   position: relative!important;
 }
 
+
+
+
+
 .emoji-picker-icon{
   top: unset!important;
   bottom: 33px!important;
@@ -1380,10 +1410,11 @@ form{
   margin-right: 3px;
 }
 
-.special-action.icon{ 
+.special-action {
   display: inline-block;
   height: 18px;
-  font-size: 22px;
+  font-size: 32px;
+  color: #5a5a5a;
 }
 
 .sub-reply-input .special-action.icon, 
