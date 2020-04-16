@@ -109,9 +109,9 @@
 						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
 						<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
 					</span>
-					<span class="special-action img">
+					<!-- <span class="special-action img">
 						<i class="fad fa-image"></i>
-					</span>
+					</span> -->
 				</div>
 				<button class="btn btn-primary">Répondre</button>
 			</div>

@@ -74,12 +74,16 @@
 
 		<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
 			<strong class="nodebb-error"></strong>
-				<textarea id="nodebb-content" class="form-control" name="content" placeholder="Rejoindre la conversation" rows="3" data-emojiable="true"></textarea>
+				<textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse à {user.username}" rows="5" data-emojiable="true"></textarea>
 				<div class="comments-toolbar">
 					<div class="special-box">
-						<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
-						<span class="special-action img"><i class="fa fa-file-image-o"></i></span> 
-
+						<span class="special-action emojis">
+							<i class="fad fa-smile"></i>
+						</span>
+						<span class="special-action gif">
+							<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
+							<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
+						</span>
 					</div>
 				<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
 			</div>
