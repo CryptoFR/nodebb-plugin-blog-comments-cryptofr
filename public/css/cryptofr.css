@@ -144,7 +144,7 @@ small.logged-as {
   height: 27px;
 }
 .comments-toolbar .special-action:hover,
-.comments-toolbar .special-action.emojis.icon:hover {
+.comments-toolbar .special-action.emojis:hover {
   color: #434A81;
 }
 
