@@ -90,6 +90,7 @@ import { drawComments } from "./drawComments.js";
 				set.reload(true);
 			    reloadComments(pagination,0,false);
 			}, 120000);
+			// CHECK IF THERE IS NEW COMMENTS AND RELOAD DOM
 		}
 	}
 

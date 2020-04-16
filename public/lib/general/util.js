@@ -60,8 +60,7 @@ import { pluginURL } from "../settings.js";
     return time;
   }
 
-
-export function removeNodes(nodes) {
+  export function removeNodes(nodes) {
     var nodeList = nodes && nodes.length !== undefined ? nodes : [nodes];
     var len = nodeList.length;
     if (nodes) for (var i = 0; i < len; i++) {
@@ -70,11 +69,10 @@ export function removeNodes(nodes) {
     }
   }
 
-
   /**
-   * Adds a loading div in the DOM
+   * Adds a loading div for the plugin loading
    */
-export function addLoader() {
+  export function addLoader() {
     if (document.querySelector("div.loading")) {
       return;
     }
@@ -84,31 +82,33 @@ export function addLoader() {
     document.querySelector("body").classList.add("hasLoader");
 
 
-    if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 >= getCoords(document.querySelector("#nodebb")).top + 350 && 
-      document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50){
-      $(".loading").css("top",document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2) - getCoords(document.querySelector("#nodebb")).top
-    }else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 < getCoords(document.querySelector("#nodebb")).top + 350){
-      $(".loading").css("top", 350)
-    }else {
-      $(".loading").css("top",document.querySelector("#nodebb").offsetHeight + 50 )
-    }
+    // if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 >= getCoords(document.querySelector("#nodebb")).top + 350 && 
+    //   document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50){
+    //   $(".loading").css("top",document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2) - getCoords(document.querySelector("#nodebb")).top
+    // }else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 < getCoords(document.querySelector("#nodebb")).top + 350){
+    //   $(".loading").css("top", 350)
+    // }else {
+    //   $(".loading").css("top",document.querySelector("#nodebb").offsetHeight + 50 )
+    // }
 
-    $(window) .scroll(function() { 
-     if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 >= getCoords(document.querySelector("#nodebb")).top + 350 && 
-       document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50){
-       $(".loading").css("top",document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2) - getCoords(document.querySelector("#nodebb")).top
-     }else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 < getCoords(document.querySelector("#nodebb")).top + 350){
-       $(".loading").css("top",350)
-     }else {
-       $(".loading").css("top",document.querySelector("#nodebb").offsetHeight + 50)
-     } 
-    });
+    // $(window) .scroll(function() { 
+    //  if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 >= getCoords(document.querySelector("#nodebb")).top + 350 && 
+    //    document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 <= getCoords(document.querySelector("#nodebb")).top + document.querySelector("#nodebb").offsetHeight - 50){
+    //    $(".loading").css("top",document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2) - getCoords(document.querySelector("#nodebb")).top
+    //  }else if (document.querySelector("html").scrollTop + document.querySelector("html").clientHeight/2 < getCoords(document.querySelector("#nodebb")).top + 350){
+    //    $(".loading").css("top",350)
+    //  }else {
+    //    $(".loading").css("top",document.querySelector("#nodebb").offsetHeight + 50)
+    //  } 
+    // });
+
+    console.log("let this be a test");
   }
 
 
-    /**
-     * Adds a loading div in the DOM
-     */
+  /**
+   * Adds a loading div in the DOM
+   */
   export function addLoaderInside() {
       if (document.querySelector("div.loading")) {
         return;
@@ -123,7 +123,7 @@ export function addLoader() {
   /**
    * Removes the loading div from the DOM
    */
-export function removeLoader() {
+  export function removeLoader() {
     var div = document.querySelector("#nodebb-comments-list div.loading");
     if (div) removeNodes(div);
     document.querySelector("body").classList.remove("hasLoader");

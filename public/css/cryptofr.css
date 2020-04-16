@@ -844,19 +844,24 @@ i.i-downvote {
   margin-top: 0;
 }
 
+
+/***************************************
+
+           LOADING SPINNERS
+          
+****************************************/
+
 /* Absolute Center Spinner */
 .loading {
   display: block;
   font-size: 10px;
-  width: 7em;
-  height: 2em;
+  width: fit-content;
   margin-top: 0px;
   background-image: url(../img/loader.gif);
   background-repeat: no-repeat;
-  position: absolute;
-  left: 50%;
   transform: translateX(-50%);
-
+  margin: 0 auto;
+  position: relative;
 }
 
 /* Transparent Overlay */
