@@ -28,4 +28,3 @@ import { reloadComments } from "./loadComments.js";
       element.parentNode.classList.add("active");
     }
   }
-  
