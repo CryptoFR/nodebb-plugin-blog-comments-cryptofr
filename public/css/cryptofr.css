@@ -128,15 +128,15 @@ small.logged-as {
   color: #a0a0a0;
   cursor: default;
 }
-#nodebb .btn.btn-primary .fa-circle-notch {
+#nodebb .submit-comment .fa-circle-notch {
   display: none;
   margin-left: auto;
   margin-right: auto;
 }
-#nodebb form.loading-button .btn.btn-primary span {
+#nodebb .submit-comment.loading-button span {
   display: none;
 }
-#nodebb form.loading-button .btn.btn-primary .fa-circle-notch {
+#nodebb .submit-comment.loading-button .fa-circle-notch {
   display: block;
 }
 
