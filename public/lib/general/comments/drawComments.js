@@ -12,6 +12,7 @@ import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
 import { parseCommentQuotes } from '../util.js';
+import { checkIfWpAdmin } from '../../integration/wordpress.js';
 // import $ from 'jquery';
 
   // window.drawComments = drawComments
@@ -613,7 +614,16 @@ import { parseCommentQuotes } from '../util.js';
               div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
               div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
             }
+          } 
+
+          if (checkIfWpAdmin()){
+              console.log(document.querySelectorAll("#nodebb-comments-list"))
+              for (let commentUL of document.querySelectorAll("#nodebb-comments-list")){
+                if (commentUL.getAttribute('data-mainpid')!=data.mainPost.pid)
+                  parentNodebbComments.appendChild(commentUL);
+              } 
           }
+
         template = div.innerHTML;
       }
       return template;

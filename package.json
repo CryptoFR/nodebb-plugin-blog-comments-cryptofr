@@ -5,7 +5,7 @@
   "main": "library.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build public/lib/main.js -d public/lib --out-file main.js --no-minify --no-source-maps"
+    "build": "parcel build public/lib/start.js -d public/lib --out-file main.js --no-minify --no-source-maps"
   },
   "repository": {
     "type": "git",
