@@ -1,7 +1,6 @@
 import { reloadComments } from "../comments/loadComments.js"; 	
 import { closeModal } from "./modal.js";   
 
-
   /**
    * Function that adds social auth link listeners
    * @param {DOMElement} modal modal element
