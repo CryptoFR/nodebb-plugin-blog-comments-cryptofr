@@ -118,7 +118,7 @@ import { drawComments } from "./drawComments.js";
   export function commentSubmissionsHandler(){
     for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
       form.addEventListener('submit', function(event){
-        form.classList.add("loading-button");
+        form.querySelector(".submit-comment").classList.add("loading-button");
         
         event.preventDefault();        
 
@@ -132,13 +132,13 @@ import { drawComments } from "./drawComments.js";
 
         if (inputs["content"].length<8){
         	formSubmitError("Message too short",form);
-          form.classList.remove("loading-button");
+          form.querySelector(".submit-comment").classList.remove("loading-button");
         }
         else {
         	xpost(XHR, form.getAttribute("action"), inputs);	      
           setTimeout(function() {
             set.reload(true)
-            form.classList.remove("loading-button");
+            form.querySelector(".submit-comment").classList.remove("loading-button");
             reloadComments(pagination,0,true);
           },500);
         }

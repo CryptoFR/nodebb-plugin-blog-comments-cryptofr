@@ -113,7 +113,7 @@
 						<i class="fad fa-image"></i>
 					</span> -->
 				</div>
-				<button class="btn btn-primary">Répondre</button>
+				<button class="submit-comment btn btn-primary">Répondre</button>
 			</div>
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />

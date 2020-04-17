@@ -133,10 +133,10 @@ small.logged-as {
   margin-left: auto;
   margin-right: auto;
 }
-#nodebb .btn.btn-primary.loading-button span {
+#nodebb form.loading-button .btn.btn-primary span {
   display: none;
 }
-#nodebb .btn.btn-primary.loading-button .fa-circle-notch {
+#nodebb form.loading-button .btn.btn-primary .fa-circle-notch {
   display: block;
 }
 

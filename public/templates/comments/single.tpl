@@ -85,7 +85,7 @@
 							<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
 						</span>
 					</div>
-				<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à XXX</button>
+				<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à XXX</button>
 			</div>
 				<input type="hidden" name="_csrf" value="{token}" />
 				<input type="hidden" name="tid" value="{tid}" />
@@ -100,7 +100,7 @@
 						<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>
 						<span class="special-action img"><i class="fa fa-file-image-o"></i></span>
 					</div>
-				<button data-reply-button="" class="btn btn-primary" type="submit">Éditer</button>
+				<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Éditer</button>
 			</div>
 				<input type="hidden" name="_csrf" value="{token}" />
 				<input type="hidden" name="tid" value="{tid}" />
