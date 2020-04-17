@@ -165,42 +165,41 @@ import { pluginURL } from "../settings.js";
   }
   
 
-   /**
-    * Function that changes a single attribute to a group of DOM Elements
-    * @param {Array<DOMElement> | DOMElement} elements the group of elements
-    * @param {String} attribute the attribute to change
-    * @param {String} value the value we are going to assign to these elements
-    */
-   export function changeAttribute(elements, attribute, value) {
-     elements = elements.length !== undefined ? elements : [elements];
-     for (var i = 0; i < elements.length; i++) {
-       var el = elements[i];
-       if (el !== null) {
-         el.setAttribute(attribute, value);
-       }
-     }
-   }
-
-   /**
-    * Toggle class helper. It tests "value" and if true, the helper adds the "classTrueValue" string to the element
-    * otherwise it adds the "classFalseValue"
-    * @param {DOMElement} element
-    * @param {any} value this value will be coerced to Boolean
-    * @param {String} classTrueValue
-    * @param {String} classFalseValue
-    */
-   export function addClassHelper(element, value, classTrueValue, classFalseValue) {
-     var classToAdd = value ? classTrueValue : classFalseValue;
-     var classToRemove = !value ? classTrueValue : classFalseValue;
-     if (element === null) {
-       return;
-     }
-     if (element.classList.contains(classToRemove)) {
-       element.classList.remove(classToRemove);
-     }
-     element.classList.add(classToAdd);
+  /**
+  * Function that changes a single attribute to a group of DOM Elements
+  * @param {Array<DOMElement> | DOMElement} elements the group of elements
+  * @param {String} attribute the attribute to change
+  * @param {String} value the value we are going to assign to these elements
+  */
+  export function changeAttribute(elements, attribute, value) {
+    elements = elements.length !== undefined ? elements : [elements];
+    for (var i = 0; i < elements.length; i++) {
+      var el = elements[i];
+      if (el !== null) {
+        el.setAttribute(attribute, value);
+      }
+    }
   }
 
+  /**
+  * Toggle class helper. It tests "value" and if true, the helper adds the "classTrueValue" string to the element
+  * otherwise it adds the "classFalseValue"
+  * @param {DOMElement} element
+  * @param {any} value this value will be coerced to Boolean
+  * @param {String} classTrueValue
+  * @param {String} classFalseValue
+  */
+  export function addClassHelper(element, value, classTrueValue, classFalseValue) {
+    var classToAdd = value ? classTrueValue : classFalseValue;
+    var classToRemove = !value ? classTrueValue : classFalseValue;
+    if (element === null) {
+      return;
+    }
+    if (element.classList.contains(classToRemove)) {
+      element.classList.remove(classToRemove);
+    }
+    element.classList.add(classToAdd);
+  }
 
   export function windowOnload(){
     loadScript(pluginURL + "/js/config.js");
@@ -216,11 +215,9 @@ import { pluginURL } from "../settings.js";
     }, 200);
   }
 
-
   export function reactElementRelocation(){
     $("#buttons-container").prepend($("#root button"));
   }
-
 
   export function getIndexesOf(searchStr, str, caseSensitive) {
     var searchStrLen = searchStr.length;
@@ -239,18 +236,16 @@ import { pluginURL } from "../settings.js";
     return indices;
   }
 
+  // PARSE QUOTES (FAIL)
   export function parseCommentQuotes(comment){
-
     var quotesChar= getIndexesOf("&gt; ",comment);
 
     for (var i = 1; i < quotesChar.length; i++) {
       let index=getIndexesOf("&gt; ",comment)[i]
       comment=comment.substring(0,index)+"</br>"+comment.substring(index,comment.length);
     }
-
     return comment;
   }
-
 
   export function getCoords(elem) { // crossbrowser version
     var box = elem.getBoundingClientRect();
@@ -268,8 +263,4 @@ import { pluginURL } from "../settings.js";
     var left = box.left + scrollLeft - clientLeft;
 
     return { top: Math.round(top), left: Math.round(left) };
-
   }
-
-   
-
