@@ -1337,17 +1337,6 @@ form{
   position: relative;
 }
 
-#nodebb-comments-list .special-action.gif i:before{
-  font-size: 8px;
-  top: 0px;
-}
-
-#nodebb-comments-list .special-action.img i{
-  font-size: 18px;
-  position: relative;
-  top: 5px;
-}
-
 .special-box{
   float: left;
 }

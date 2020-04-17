@@ -74,18 +74,18 @@
 
 		<form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
 			<strong class="nodebb-error"></strong>
-				<textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse à {user.username}" rows="5" data-emojiable="true"></textarea>
+				<textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>
 				<div class="comments-toolbar">
 					<div class="special-box">
 						<span class="special-action emojis">
 							<i class="fad fa-smile"></i>
 						</span>
 						<span class="special-action gif">
-							<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
-							<img src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
+							<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
+							<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
 						</span>
 					</div>
-				<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à {user.username}</button>
+				<button data-reply-button="" class="btn btn-primary" type="submit">Répondre à XXX</button>
 			</div>
 				<input type="hidden" name="_csrf" value="{token}" />
 				<input type="hidden" name="tid" value="{tid}" />
