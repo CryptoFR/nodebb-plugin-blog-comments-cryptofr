@@ -128,6 +128,17 @@ small.logged-as {
   color: #a0a0a0;
   cursor: default;
 }
+#nodebb .btn.btn-primary .fa-circle-notch {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+#nodebb .btn.btn-primary.loading-button span {
+  display: none;
+}
+#nodebb .btn.btn-primary.loading-button .fa-circle-notch {
+  display: block;
+}
 
 .comments-toolbar .special-box.actions {
   display: flex;

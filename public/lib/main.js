@@ -2058,7 +2058,7 @@ function createNestedComments(comments, template, otherData) {
     }
 
     clone.querySelector("span.post-value").innerText = "" + comment.votes;
-    clone.querySelector("button[data-reply-button]").innerText = "Répondre à " + comment.user.username;
+    clone.querySelector("button[data-reply-button]").innerHTML = "<span>Répondre à " + comment.user.username + '</span><i class="fad fa-circle-notch fa-spin"></i>';
     (0, _util.addClassHelper)(clone.querySelector("i.i-upvote"), comment.upvoted, "icon-thumbs-up-alt", "icon-thumbs-up");
     (0, _util.addClassHelper)(clone.querySelector("i.i-bookmark"), comment.bookmarked, "icon-bookmark", "icon-bookmark-empty");
     (0, _util.addClassHelper)(clone.querySelector("i.i-downvote"), comment.downvoted, "icon-thumbs-down-alt", "icon-thumbs-down");
@@ -2381,6 +2381,7 @@ function commentSubmissionsHandler() {
     var _loop = function _loop() {
       var form = _step.value;
       form.addEventListener('submit', function (event) {
+        form.classList.add("loading-button");
         event.preventDefault();
         var inputs = {};
         var _iteratorNormalCompletion2 = true;
@@ -2431,14 +2432,19 @@ function commentSubmissionsHandler() {
           }
         }
 
-        if (inputs["content"].length < 8) formSubmitError("Message too short", form);else {
+        if (inputs["content"].length < 8) {
+          formSubmitError("Message too short", form);
+          form.classList.remove("loading-button");
+        } else {
           (0, _api.xpost)(_settings.XHR, form.getAttribute("action"), inputs);
           setTimeout(function () {
             _settings.set.reload(true);
 
+            form.classList.remove("loading-button");
             reloadComments(_settings.pagination, 0, true);
           }, 500);
         }
+
         return false;
       });
     };

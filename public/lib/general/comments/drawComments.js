@@ -756,8 +756,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 	      upvoteCountEl.classList.add("hidden");
 	    }
 	    clone.querySelector("span.post-value").innerText = "" + comment.votes;
-	    clone.querySelector("button[data-reply-button]").innerText =
-	      "Répondre à " + comment.user.username;
+	    clone.querySelector("button[data-reply-button]").innerHTML =
+	      "<span>Répondre à " + comment.user.username +'</span><i class="fad fa-circle-notch fa-spin"></i>';
 	    addClassHelper(
 	      clone.querySelector("i.i-upvote"),
 	      comment.upvoted,

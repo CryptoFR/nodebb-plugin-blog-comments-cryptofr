@@ -221,7 +221,7 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
 
 
 
-   export function logout(token) {
+  export function logout(token) {
     addLoader();
     return newFetch(nodeBBURL + "/logout", {
       _csrf: token,
