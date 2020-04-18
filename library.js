@@ -159,8 +159,9 @@
       blogger = req.params.blogger || "default",
       uid = req.user ? req.user.uid : 0;
 
+    let responses=[]
+    
     for (let commentID of commentIDs){
-
       Comments.getTopicIDByCommentID(commentID, blogger, function(err, tid) {
         var disabled = false;
 
@@ -208,7 +209,7 @@
               top = false;
             }
 
-            res.json({
+            responses.push({
               posts: data.posts,
               postCount: data.postCount - 1,
               user: data.user,
@@ -231,11 +232,13 @@
               sorting: req.params.sorting,
               userHasPicture: !!data.user.picture,
               forumUrl: "https://testforum.cryptofr.com",
-            });
+            })
+
           }
         );
       });
     }
+    res.json(responses);
   };
 
   function get_redirect_url(url, err) {
