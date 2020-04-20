@@ -577,17 +577,20 @@ function parseLineBreaks(comment) {
 
 
 function parseCommentQuotes(comment) {
-  var quotesChar = comment.split("&gt;");
+  var quotesChar = comment.split(">");
   var quoting = false;
-  var newcomment = "";
 
   if (quotesChar.length > 1) {
+    var newcomment = "";
+
     for (var i = 0; i < quotesChar.length; i++) {
       if (quotesChar[i].length > 1) {
         if (quoting == false) {
           quoting = true;
-          quotesChar[i] = "<span class='quote'>" + quotesChar[i];
+          quotesChar[i] = "<span class='quote-marks'>" + quotesChar[i];
         }
+
+        console.log('test');
 
         if (quotesChar[i].split("\n").length > 1) {
           var quotesParsed = quotesChar[i].split("\n");
@@ -598,15 +601,17 @@ function parseCommentQuotes(comment) {
           }
 
           quoting = false;
-          quotesChar[i] = quotesParsed;
+          quotesChar[i] = newQuote;
         }
 
-        newcomment = newcomment + comment.quotesChar[i];
+        newcomment = newcomment + quotesChar[i];
       }
     }
+
+    comment = newcomment;
   }
 
-  return newcomment;
+  return comment;
 }
 
 function getCoords(elem) {
