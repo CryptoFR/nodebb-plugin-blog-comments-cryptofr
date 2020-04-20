@@ -351,6 +351,9 @@ small.logged-as {
 
 ************/
 
+li > ul, li > ol {
+  padding: 0px;
+}
 #nodebb-comments-list {
   margin-left: 25px;
 }
@@ -371,12 +374,11 @@ small.logged-as {
   position: absolute;
   border-bottom: 2px solid #e8e8e8;
   border-left: 2px solid #e8e8e8;
-  margin-left: -50px;
-  border-bottom-left-radius: 17px;
-  height: 32px;
+  margin-left: -52px;
+  border-bottom-left-radius: 18px;
+  height: 46px;
   margin-top: -21px;
 }
-
 #nodebb .post-tools {
   float: left;
   text-transform: lowercase;
