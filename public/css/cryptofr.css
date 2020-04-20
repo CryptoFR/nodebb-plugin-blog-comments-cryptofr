@@ -379,10 +379,13 @@ li > ul, li > ol {
   height: 46px;
   margin-top: -21px;
 }
+#nodebb li.expandable ul.collapsed-comments li:before {
+  display: none;
+}
 #nodebb .post-tools {
   float: left;
   text-transform: lowercase;
-  margin-top: 4px;
+  margin-top: -2px;
   display: flex;
   align-items: center;
 }
@@ -418,7 +421,7 @@ li > ul, li > ol {
 }
 
 #nodebb .username {
-  font-size: 15px;
+  font-size: 14px;
   font-family: Poppins;
   font-style: normal;
   font-weight: 500;
@@ -429,7 +432,7 @@ li > ul, li > ol {
 }
 
 .post-body {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: normal;
 }
 
@@ -442,7 +445,7 @@ li > ul, li > ol {
 }
 
 .posts-vote {
-  font-size: 15px;
+  font-size: 14px;
   color: #717171;
   margin-right: 4px;
   margin-left: 4px;
@@ -450,7 +453,7 @@ li > ul, li > ol {
 }
 #nodebb a.upvote,
 #nodebb a.downvote {
-  font-size: 27px;
+  font-size: 24px;
   color: #6b6b6b;
 }
 #nodebb a.upvote {
@@ -499,7 +502,7 @@ li > ul, li > ol {
 .reply,
 .quote,
 .award {
-  font-size: 16px;
+  font-size: 14px;
   color: #6b6b6b !important;
   margin-left: 7px;
   /*display: none;*/
@@ -1160,6 +1163,7 @@ i.i-downvote {
   list-style-type: none;
   max-width: 655px;
   margin: calc(3 * 1rem) calc(10% + 60px);
+  padding-left: 25px;
 }
 
 .load-more-div button {
