@@ -412,6 +412,11 @@ li > ul, li > ol {
   margin-left: -24px;
   margin-right: 72px;
 }
+#nodebb li.expanded .topic-item.replying:last-child .topic-body, #nodebb li.expanded .topic-item.quoting:last-child .topic-body {
+  margin-left: -27px;
+  padding-left: 35px;
+  border-left: 2px solid #e8e8e8;
+}
 #nodebb li.expanded .topic-item.replying:last-child,
 #nodebb li.expanded .topic-item.quoting:last-child {
   border: none;

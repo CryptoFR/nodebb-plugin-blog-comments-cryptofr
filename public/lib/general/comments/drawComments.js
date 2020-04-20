@@ -165,7 +165,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           var elementForm = topicItem.querySelector("form" + formClass);
           var formInput = elementForm.querySelector("textarea");
           var visibleForm = nodebbCommentsList.querySelector(
-            "li .topic-item form:not(.hidden)" + ":not(" + formClass + ")"
+            "li .topic-item form:not(.hidden)"
           );
           if (visibleForm && visibleForm !== elementForm) {
             visibleForm.classList.add("hidden");
@@ -176,43 +176,45 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           }
 
           if (/\/quote$/.test(dataComponent)) {
-            topicItem.classList.add("quoting");
-            topicItem.classList.remove("replying");
-            var quote = (postBody.getAttribute('content')
-              ? postBody.getAttribute('content')
-              : postBody.textContent
-            )
-              .split("\n")
-              .map(function(line) {
-                return line ? "> " + line : line;
-              })
-              .join("\n");
-            formInput.value =
-              "@" +
-              topicItem.getAttribute("data-userslug") +
-              " said:\n" +
-              quote +
-              formInput.value;
-            elementForm.classList.remove("hidden");
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML=quote;
-          } else if (/\/reply$/.test(dataComponent)) {
-            topicItem.classList.add("replying");
-            topicItem.classList.remove("quoting");
-            if (level >= 2) {
-              var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
-              var regex = new RegExp("^" + atStr, "i");
-              if (regex.test(formInput.value)) {
-                if (formInput.value.trim() !== atStr) {
-                  formInput.value = formInput.value.replace(regex, "").trim();
-                }
-              } else {
-                formInput.value = atStr + " " + formInput.value;
-                elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML=atStr + " " + formInput.value;
-              }
+            if (topicItem.classList.contains("quoting")){
+              topicItem.classList.remove("quoting");
+              elementForm.classList.add("hidden");
             } else {
-              formInput.value = "";
+              topicItem.classList.add("quoting");
+              topicItem.classList.remove("replying");
+              var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
+                return line ? "> " + line : line;
+              }).join("\n");
+              formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
+              elementForm.classList.remove("hidden");
+              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
             }
-            elementForm.classList.remove("hidden");
+          } else if (/\/reply$/.test(dataComponent)) {
+            if (topicItem.classList.contains("replying")){
+              topicItem.classList.remove("replying");
+              elementForm.classList.add("hidden");
+            } else {
+              topicItem.classList.add("replying");
+              topicItem.classList.remove("quoting");
+              // /!\ LEVEL >2 not functional /!\
+              // if (level >= 2) {
+              //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
+              //   var regex = new RegExp("^" + atStr, "i");
+
+              //   if (regex.test(formInput.value)) {
+              //     if (formInput.value.trim() !== atStr) {
+              //       formInput.value = formInput.value.replace(regex, "").trim();
+              //     }
+              //   } else {
+              //     formInput.value = atStr + " " + formInput.value;
+              //     elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " " + formInput.value;
+              //   }
+              // } else {
+              //   formInput.value = "";
+              // }
+              formInput.value = "";
+              elementForm.classList.remove("hidden");
+            }
           } else if (/\/edit$/.test(dataComponent)) {
             formInput.value = postBody.getAttribute('content');  
             elementForm.classList.remove("hidden");
