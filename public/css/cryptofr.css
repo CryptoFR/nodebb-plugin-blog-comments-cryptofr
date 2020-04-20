@@ -433,6 +433,17 @@ li > ul, li > ol {
   margin-top: -42px;
 }
 
+#nodebb .quote-marks {
+  font-style: italic;
+  font-size: 14px;
+  padding-bottom: 2px;
+  border-left: 5px solid #eee;
+  padding: 5px 12px;
+}
+#nodebb .topic-text p {
+  margin: 0px;
+}
+
 #nodebb .post-tools {
   float: left;
   text-transform: lowercase;

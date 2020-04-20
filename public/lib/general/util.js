@@ -244,31 +244,39 @@ import { pluginURL } from "../settings.js";
 
   // PARSE QUOTES (FAIL)
   export function parseCommentQuotes(comment) {
-    var quotesChar = comment.split("&gt;");
-
+    var quotesChar = comment.split(">");
     var quoting = false;
-    var newcomment = "";
-    if(quotesChar.length > 1) {
+
+    if (quotesChar.length > 1) {
+      var newcomment = "";
       for (var i = 0; i < quotesChar.length; i++) {
-        if(quotesChar[i].length > 1) {
-          if (quoting==false){
-             quoting = true;
-             quotesChar[i] = "<span class='quote'>"+quotesChar[i];
+        if (quotesChar[i].length > 1) {
+          if (quoting == false) {
+            quoting = true;
+            quotesChar[i] = "<span class='quote-marks'>" + quotesChar[i];
           }
-          if (quotesChar[i].split("\n").length>1){
-              var quotesParsed = quotesChar[i].split("\n");
-              var newQuote = quotesParsed[0]+"</span>";
-              for (var j = 1; j < quotesParsed.length; j++) {
-                  newQuote=newQuote+"<br>"+quotesParsed[j];
-              }
-              quoting = false;
-              quotesChar[i] = quotesParsed;
+
+          console.log('test');
+
+          if (quotesChar[i].split("\n").length > 1) {
+            var quotesParsed = quotesChar[i].split("\n");
+            var newQuote = quotesParsed[0] + "</span>";
+
+            for (var j = 1; j < quotesParsed.length; j++) {
+              newQuote = newQuote + "<br>" + quotesParsed[j];
+            }
+
+            quoting = false;
+            quotesChar[i] = newQuote;
           }
-          newcomment = newcomment+comment.quotesChar[i];
+
+          newcomment = newcomment + quotesChar[i];
         }
       }
+      comment = newcomment;
     }
-    return newcomment;
+
+    return comment;
   }
 
   export function getCoords(elem) { // crossbrowser version
