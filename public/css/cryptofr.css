@@ -92,15 +92,15 @@ small.logged-as {
   background: #ededed;
 }
 
-.comments-toolbar .actions .special-action .active {
+.comments-toolbar .special-action .active {
   display: none;
 }
 
-.comments-toolbar .actions .special-action:hover .active {
+.comments-toolbar .special-action:hover .active {
   display: inline-block;
   cursor: pointer;
 }
-.comments-toolbar .actions .special-action:hover .inactive {
+.comments-toolbar .special-action:hover .inactive {
   display: none;
 }
 
@@ -382,6 +382,29 @@ li > ul, li > ol {
 #nodebb li.expandable ul.collapsed-comments li:before {
   display: none;
 }
+
+#nodebb .sub-reply-input {
+  margin-left: -50px;
+  margin-right: 50px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+#nodebb li >.topic-item.replying {
+  border-left: 2px solid #e8e8e8;
+}
+#nodebb .sub-reply-input:before {
+  content: "";
+  width: 28px;
+  position: absolute;
+  border-bottom: 2px solid #e8e8e8;
+  border-left: 2px solid #e8e8e8;
+  margin-left: -28px;
+  border-bottom-left-radius: 18px;
+  height: 70px;
+  margin-top: -42px;
+}
+
 #nodebb .post-tools {
   float: left;
   text-transform: lowercase;

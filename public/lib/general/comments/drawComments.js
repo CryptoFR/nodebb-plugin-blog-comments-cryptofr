@@ -194,6 +194,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             elementForm.classList.remove("hidden");
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML=quote;
           } else if (/\/reply$/.test(dataComponent)) {
+            topicItem.classList.add("replying");
             if (level >= 2) {
               var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
               var regex = new RegExp("^" + atStr, "i");
