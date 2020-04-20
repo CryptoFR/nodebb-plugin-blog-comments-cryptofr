@@ -155,7 +155,7 @@
 
 
   Comments.getAllCommentsData = function(req, res) {
-    var commentIDs = req.params.ids,
+    var commentIDs = req.params.ids.split("-"),
       blogger = req.params.blogger || "default",
       uid = req.user ? req.user.uid : 0;
 
