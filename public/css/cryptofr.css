@@ -384,14 +384,26 @@ li > ul, li > ol {
 }
 
 #nodebb .sub-reply-input {
-  margin-left: -50px;
+  margin-left: 1px;
   margin-right: 50px;
   margin-bottom: 10px;
   margin-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
+  position: absolute !important;
+  right: 0px;
+  left: 25px;
 }
 #nodebb li >.topic-item.replying {
   border-left: 2px solid #e8e8e8;
+  margin-bottom: 200px;
+}
+#nodebb li.expanded >.topic-item.replying {
+  margin-bottom: 0px;
+}
+#nodebb li.expanded >.topic-item.replying .sub-reply-input {
+  position: relative !important;
+  margin-left: -24px;
+  margin-right: 72px;
 }
 #nodebb .sub-reply-input:before {
   content: "";
