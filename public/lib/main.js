@@ -1494,6 +1494,7 @@ function drawComments() {
         }
 
         if (/\/quote$/.test(dataComponent)) {
+          topicItem.classList.add("quoting");
           var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
             return line ? "> " + line : line;
           }).join("\n");

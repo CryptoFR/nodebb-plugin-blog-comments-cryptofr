@@ -176,6 +176,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           }
 
           if (/\/quote$/.test(dataComponent)) {
+            topicItem.classList.add("quoting");
             var quote = (postBody.getAttribute('content')
               ? postBody.getAttribute('content')
               : postBody.textContent

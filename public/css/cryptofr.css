@@ -393,14 +393,21 @@ li > ul, li > ol {
   right: 0px;
   left: 25px;
 }
-#nodebb li >.topic-item.replying {
+#nodebb li >.topic-item.replying,
+#nodebb li >.topic-item.quoting {
   border-left: 2px solid #e8e8e8;
   margin-bottom: 200px;
 }
-#nodebb li.expanded >.topic-item.replying {
+#nodebb li >.topic-item.replying .post-tools a.reply svg,
+#nodebb li >.topic-item.quoting .post-tools a.quote svg{
+  color: #1782e0;
+}
+#nodebb li.expanded .topic-item.replying,
+#nodebb li.expanded .topic-item.quoting {
   margin-bottom: 0px;
 }
-#nodebb li.expanded >.topic-item.replying .sub-reply-input {
+#nodebb li.expanded .topic-item.replying .sub-reply-input,
+#nodebb li.expanded .topic-item.quoting .sub-reply-input {
   position: relative !important;
   margin-left: -24px;
   margin-right: 72px;
