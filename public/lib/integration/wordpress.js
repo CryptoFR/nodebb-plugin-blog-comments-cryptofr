@@ -5,4 +5,3 @@ export function checkIfWpAdmin(){
 	}
 	return false;
 }
-

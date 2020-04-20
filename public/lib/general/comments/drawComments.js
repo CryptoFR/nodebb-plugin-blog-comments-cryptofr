@@ -16,14 +16,25 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 // import $ from 'jquery';
 
   // window.drawComments = drawComments
-  export function drawComments() {
+  export function drawComments(res=null,i=0) {
 
     // <<REMARK>> might be better to draw and remove after
     removeLoader();
 
-    if (XHR.status >= 200 && XHR.status < 400) {
+    if (checkIfWpAdmin() || XHR.status >= 200 && XHR.status < 400) {
 
-      var data = JSON.parse(XHR.responseText), html;
+      var data = {}, html;
+
+      if (!checkIfWpAdmin()){
+        data = JSON.parse(XHR.responseText)
+      }else{
+        if (!res) res =JSON.parse(XHR.responseText)
+        console.log(res)
+        data=res[i]
+        i++;
+      }
+
+
 
       setActiveSortingLi(sorting, data.sorting);
       set.commentsDiv(document.getElementById("nodebb-comments-list"));
@@ -385,6 +396,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     dispatchEmojis();
     gifBoxInit();
     prepareSignout(data.token)
+    if (checkIfWpAdmin()){
+      if (res.length<i) drawComments(res,i)
+    }
     // onLoadFunction();
     // uploadInit();
   }

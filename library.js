@@ -153,6 +153,94 @@
     });
   };
 
+
+  Comments.getAllCommentsData = function(req, res) {
+    var commentIDs = req.params.ids,
+      blogger = req.params.blogger || "default",
+      uid = req.user ? req.user.uid : 0;
+
+    let responses=[]
+    
+    for (let commentID of commentIDs){
+      Comments.getTopicIDByCommentID(commentID, blogger, function(err, tid) {
+        var disabled = false;
+
+        async.parallel(
+          {
+            posts: async function getPosts() {
+              if (disabled) {
+                throw err;
+              } else {
+                return getNestedPosts(
+                  tid,
+                  uid,
+                  req.params.pagination || 0,
+                  req.params.sorting
+                );
+              }
+            },
+            postCount: function(next) {
+              topics.getTopicField(tid, "postcount", next);
+            },
+            user: function(next) {
+              user.getUserData(uid, next);
+            },
+            isAdministrator: function(next) {
+              user.isAdministrator(uid, next);
+            },
+            isPublisher: function(next) {
+              groups.isMember(uid, "publishers", next);
+            },
+            category: function(next) {
+              topics.getCategoryData(tid, next);
+            },
+            mainPost: function(next) {
+              topics.getMainPost(tid, uid, next);
+            }
+          },
+          function(err, data) {
+            CORSFilter(req, res);
+
+            var top = true;
+            var bottom = false;
+            var compose_location = meta.config["blog-comments:compose-location"];
+            if (compose_location == "bottom") {
+              bottom = true;
+              top = false;
+            }
+
+            responses.push({
+              posts: data.posts,
+              postCount: data.postCount - 1,
+              user: data.user,
+              template: Comments.template,
+              singleCommentTpl: Comments.singleCommentTpl,
+              loginModalTemplate: Comments.loginModalTemplate,
+              registerModalTemplate: Comments.registerModalTemplate,
+              token: req.csrfToken(),
+              isAdmin: !data.isAdministrator
+                ? data.isPublisher
+                : data.isAdministrator,
+              isLoggedIn: !!uid,
+              tid: tid,
+              category: data.category,
+              mainPost: data.mainPost,
+              isValid: !!data.mainPost && !!tid,
+              atBottom: bottom,
+              atTop: top,
+              siteTitle: meta.config.title,
+              sorting: req.params.sorting,
+              userHasPicture: !!data.user.picture,
+              forumUrl: "https://testforum.cryptofr.com",
+            })
+
+          }
+        );
+      });
+    }
+    res.json(responses);
+  };
+
   function get_redirect_url(url, err) {
     var rurl = url + "#nodebb-comments";
     if (url.indexOf("#") !== -1) {
@@ -501,6 +589,7 @@
       middleware.applyCSRF,
       Comments.getCommentData
     );
+    app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
     app.post("/comments/reply", Comments.replyToComment);
     app.post("/comments/publish", Comments.publishArticle);
