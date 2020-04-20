@@ -177,6 +177,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
           if (/\/quote$/.test(dataComponent)) {
             topicItem.classList.add("quoting");
+            topicItem.classList.remove("replying");
             var quote = (postBody.getAttribute('content')
               ? postBody.getAttribute('content')
               : postBody.textContent
@@ -196,6 +197,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML=quote;
           } else if (/\/reply$/.test(dataComponent)) {
             topicItem.classList.add("replying");
+            topicItem.classList.remove("quoting");
             if (level >= 2) {
               var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
               var regex = new RegExp("^" + atStr, "i");
