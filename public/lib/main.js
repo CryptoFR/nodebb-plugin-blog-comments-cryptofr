@@ -1495,6 +1495,7 @@ function drawComments() {
 
         if (/\/quote$/.test(dataComponent)) {
           topicItem.classList.add("quoting");
+          topicItem.classList.remove("replying");
           var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
             return line ? "> " + line : line;
           }).join("\n");
@@ -1503,6 +1504,7 @@ function drawComments() {
           elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
         } else if (/\/reply$/.test(dataComponent)) {
           topicItem.classList.add("replying");
+          topicItem.classList.remove("quoting");
 
           if (level >= 2) {
             var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";

@@ -402,15 +402,19 @@ li > ul, li > ol {
 #nodebb li >.topic-item.quoting .post-tools a.quote svg{
   color: #0a28bf;;
 }
-#nodebb li.expanded >.topic-item.replying,
-#nodebb li.expanded >.topic-item.quoting {
+#nodebb li.expanded .topic-item.replying,
+#nodebb li.expanded .topic-item.quoting {
   margin-bottom: 0px;
 }
-#nodebb li.expanded >.topic-item.replying .sub-reply-input,
-#nodebb li.expanded >.topic-item.quoting .sub-reply-input {
+#nodebb li.expanded .topic-item.replying .sub-reply-input,
+#nodebb li.expanded .topic-item.quoting .sub-reply-input {
   position: relative !important;
   margin-left: -24px;
   margin-right: 72px;
+}
+#nodebb li.expanded .topic-item.replying:last-child,
+#nodebb li.expanded .topic-item.quoting:last-child {
+  border: none;
 }
 #nodebb .sub-reply-input:before {
   content: "";
