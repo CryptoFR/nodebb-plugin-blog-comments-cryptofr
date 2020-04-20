@@ -325,6 +325,7 @@ exports.windowOnload = windowOnload;
 exports.dispatchEmojis = dispatchEmojis;
 exports.reactElementRelocation = reactElementRelocation;
 exports.getIndexesOf = getIndexesOf;
+exports.parseLineBreaks = parseLineBreaks;
 exports.parseCommentQuotes = parseCommentQuotes;
 exports.getCoords = getCoords;
 exports.bindOnClick = void 0;
@@ -566,18 +567,46 @@ function getIndexesOf(searchStr, str, caseSensitive) {
   }
 
   return indices;
+} // PARSE Line breaks
+
+
+function parseLineBreaks(comment) {
+  var comment = comment.split("\n").join("<br>");
+  return comment;
 } // PARSE QUOTES (FAIL)
 
 
 function parseCommentQuotes(comment) {
-  var quotesChar = getIndexesOf("&gt; ", comment);
+  var quotesChar = comment.split("&gt;");
+  var quoting = false;
+  var newcomment = "";
 
-  for (var i = 1; i < quotesChar.length; i++) {
-    var index = getIndexesOf("&gt; ", comment)[i];
-    comment = comment.substring(0, index) + "</br>" + comment.substring(index, comment.length);
+  if (quotesChar.length > 1) {
+    for (var i = 0; i < quotesChar.length; i++) {
+      if (quotesChar[i].length > 1) {
+        if (quoting == false) {
+          quoting = true;
+          quotesChar[i] = "<span class='quote'>" + quotesChar[i];
+        }
+
+        if (quotesChar[i].split("\n").length > 1) {
+          var quotesParsed = quotesChar[i].split("\n");
+          var newQuote = quotesParsed[0] + "</span>";
+
+          for (var j = 1; j < quotesParsed.length; j++) {
+            newQuote = newQuote + "<br>" + quotesParsed[j];
+          }
+
+          quoting = false;
+          quotesChar[i] = quotesParsed;
+        }
+
+        newcomment = newcomment + comment.quotesChar[i];
+      }
+    }
   }
 
-  return comment;
+  return newcomment;
 }
 
 function getCoords(elem) {
@@ -1484,6 +1513,8 @@ function drawComments() {
         var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)");
 
         if (visibleForm && visibleForm !== elementForm) {
+          topicItem.classList.remove("replying");
+          topicItem.classList.remove("quoting");
           visibleForm.classList.add("hidden");
         }
 
@@ -1502,7 +1533,7 @@ function drawComments() {
             topicItem.classList.remove("replying");
             var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
               return line ? "> " + line : line;
-            }).join("\n");
+            }).join(" \n ");
             formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
             elementForm.classList.remove("hidden");
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
@@ -2017,8 +2048,8 @@ function createNestedComments(comments, template, otherData) {
     (0, _util.addClassHelper)(clone.querySelector("i.i-bookmark"), comment.bookmarked, "icon-bookmark", "icon-bookmark-empty");
     (0, _util.addClassHelper)(clone.querySelector("i.i-downvote"), comment.downvoted, "icon-thumbs-down-alt", "icon-thumbs-down");
     clone.querySelector("div.post-body").setAttribute("content", comment.content);
-    clone.querySelector("div.post-body").innerHTML = comment.content;
-    clone.querySelector("div.post-body").innerHTML = (0, _util2.parseCommentQuotes)(clone.querySelector("div.post-body").innerHTML);
+    clone.querySelector("div.post-body").innerHTML = (0, _util2.parseCommentQuotes)(comment.content);
+    clone.querySelector("div.post-body").innerHTML = (0, _util2.parseLineBreaks)(clone.querySelector("div.post-body").innerHTML);
     var img = clone.querySelector("img.profile-image");
     var divImgText = clone.querySelector("div.profile-image");
 

@@ -11,6 +11,7 @@ import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
+import { parseLineBreaks } from '../util.js';
 import { parseCommentQuotes } from '../util.js';
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 // import $ from 'jquery';
@@ -168,6 +169,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             "li .topic-item form:not(.hidden)"
           );
           if (visibleForm && visibleForm !== elementForm) {
+            topicItem.classList.remove("replying");
+            topicItem.classList.remove("quoting");
             visibleForm.classList.add("hidden");
           }
           var postBody;
@@ -184,7 +187,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               topicItem.classList.remove("replying");
               var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
                 return line ? "> " + line : line;
-              }).join("\n");
+              }).join(" \n ");
               formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
               elementForm.classList.remove("hidden");
               elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
@@ -797,9 +800,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 	      "icon-thumbs-down"
 	    );
 	    clone.querySelector("div.post-body").setAttribute("content",comment.content)
-	    clone.querySelector("div.post-body").innerHTML = comment.content;
-
-	    clone.querySelector("div.post-body").innerHTML = parseCommentQuotes(clone.querySelector("div.post-body").innerHTML)
+	    clone.querySelector("div.post-body").innerHTML = parseCommentQuotes(comment.content)
+      clone.querySelector("div.post-body").innerHTML = parseLineBreaks(clone.querySelector("div.post-body").innerHTML);
 
 
 	    var img = clone.querySelector("img.profile-image");
