@@ -1058,6 +1058,7 @@ function checkExpandableComments() {
         var expandableButton = document.createElement("span");
         expandableButton.classList.add("expandable-button");
         expandableButton.classList.add("expanded");
+        expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
         comment.classList.add("expandable");
         comment.classList.add("expanded");
         comment.querySelector(".topic-item > .topic-body > .topic-text > .post-content >small ").appendChild(expandableButton);
@@ -1088,6 +1089,7 @@ function collapseExpandCommentEvent() {
           expandedComment.classList.remove("expanded");
           expandedComment.classList.add("collapsed");
           expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
+          expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
         } else {
           var collapsedButton = expandableButton;
           collapsedButton.classList.remove("collapsed");
@@ -1096,6 +1098,7 @@ function collapseExpandCommentEvent() {
           collapsedComment.classList.remove("collapsed");
           collapsedComment.classList.add("expanded");
           collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
+          expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
         }
       });
     };
