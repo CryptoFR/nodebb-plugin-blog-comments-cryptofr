@@ -898,7 +898,419 @@ function logout(token) {
     return (0, _loadComments.reloadComments)(0, 0, false);
   });
 }
-},{"../settings.js":"LXja","./util.js":"VGLh","./login/modal.js":"kjEe","./comments/loadComments.js":"V8ra"}],"Ca7Q":[function(require,module,exports) {
+},{"../settings.js":"LXja","./util.js":"VGLh","./login/modal.js":"kjEe","./comments/loadComments.js":"V8ra"}],"poQx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.checkIfWpAdmin = checkIfWpAdmin;
+
+function checkIfWpAdmin() {
+  if (window.location.href.indexOf("cryptofr_comments_plugin") > -1) {
+    return true;
+  }
+
+  return false;
+}
+},{}],"V8ra":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addButtons = addButtons;
+exports.createSnackbar = createSnackbar;
+exports.reloadComments = reloadComments;
+exports.newCommentsCheck = newCommentsCheck;
+exports.commentSubmissionsHandler = commentSubmissionsHandler;
+exports.formSubmitError = formSubmitError;
+
+var _settings = require("../../settings.js");
+
+var _util = require("../util.js");
+
+var _api = require("../api.js");
+
+var _wordpress = require("../../integration/wordpress.js");
+
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function addButtons() {
+  var div = document.createElement("div");
+  div.classList.add("load-more-div");
+  var button = document.createElement("button");
+  button.id = "nodebb-load-more";
+  button.classList.add("btn");
+  button.classList.add("btn-primary");
+  button.innerText = "Charger plus de commentaires...";
+  button.addEventListener("click", function loadMoreClick() {
+    if (!$("body").hasClass("hasLoader")) reloadComments(_settings.pagination + 1);
+  });
+  var text = document.createElement("p");
+  text.classList.add("load-more-text");
+  text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> &bull; <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+  div.appendChild(button);
+  div.appendChild(text);
+  (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
+  var div2 = document.createElement("div");
+  div2.classList.add("publishForm");
+  div2.innerHTML = '<form id="publishTopic" action="' + _settings.dataRes.relative_path + '/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur ' + _settings.dataRes.siteTitle + '</button><input type="hidden" name="markdown" id="nodebb-content-markdown" value="' + _settings.dataRes.content + '"/><input type="hidden" name="title" id="nodebb-content-title" value="' + _settings.dataRes.article_title + '" /><input type="hidden" name="cid" id="nodebb-content-cid" value="' + _settings.dataRes.category_id + '" /><input type="hidden" name="blogger" id="nodebb-content-blogger" value="' + _settings.dataRes.blogger + '"/><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="' + _settings.dataRes.article_id + '" /><input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" /><input type="hidden" name="_csrf" value="' + _settings.dataRes.token + '" /><input type="hidden" name="timestamp" value="' + Date.now() + '" /><input type="hidden" name="uid" value="' + _settings.dataRes.user.uid + '" /></form>';
+  (0, _util.insertAfter)(div2, document.querySelector("#nodebb"));
+}
+/**
+ * Creates a snackbar inside the dom
+ * @param {string} text text of the snackbar
+ * @param {boolean} success whether the snackbar will show a success or error message, this affects the class used by the object
+ */
+
+
+window.createSnackbar = createSnackbar;
+
+function createSnackbar(text, success) {
+  var div = document.createElement("div");
+  div.classList.add("snackbar");
+  div.classList.add("show-snackbar");
+  div.classList.add(success ? "success" : "error");
+  div.innerText = text;
+  document.querySelector("body").appendChild(div);
+  setTimeout(function removeSnackbar() {
+    (0, _util.removeNodes)(div);
+  }, 3000);
+}
+/**
+ * Function that reloads all comments within the DOM
+ *
+ * CHECK TO NOT RELOAD ALWAYS
+ */
+
+
+function reloadComments() {
+  var pag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var currentPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var showLoader = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+  if (currentPage > pag) {
+    // console.log("finish")
+    _settings.set.reload(false);
+
+    return null;
+  }
+
+  if (pag > 0) {
+    $("body").addClass("loadmore");
+  }
+
+  _settings.set.page(currentPage);
+
+  _settings.set.pagination(pag);
+
+  _settings.set.postData([]);
+
+  var paging = _settings.pagination;
+
+  if (_settings.reload) {
+    paging = _settings.page;
+  }
+
+  if (showLoader) (0, _util.addLoader)();
+
+  if (!(0, _wordpress.checkIfWpAdmin)()) {
+    _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + paging + "/" + _settings.sorting);
+  } else _settings.set.commentsURL(nodeBBURL + "/comments/getAll/" + (window.blogger || "default") + "/" + articleID);
+
+  console.log(_settings.commentsURL);
+
+  _settings.XHR.open("GET", _settings.commentsURL, true);
+
+  _settings.XHR.withCredentials = true;
+
+  _settings.XHR.send();
+} // CHECK IF THERE IS NEW COMMENTS AND RELOAD DOM
+// /!\ DON'T DO THAT /!\ >> DON'T RELOAD THE DOM EVERYTIME
+
+
+function newCommentsCheck() {
+  if (document.hasFocus()) {
+    setInterval(function () {
+      _settings.set.reloading(1);
+
+      _settings.set.reload(true);
+
+      reloadComments(_settings.pagination, 0, false);
+    }, 120000);
+  }
+}
+/**
+ * Called whenever a comment is bookmarked
+ * @param {DOMElement} topicItem A DOM element with the comment data
+ * @param {Boolean} isBookmark whether the comment is going to be bookmarked or not
+ */
+
+
+function onBookmarked(topicItem, isBookmark) {
+  var el = topicItem.querySelector(".i-bookmark");
+  var link = topicItem.querySelector('[data-component="post/bookmark"]');
+
+  if (isBookmark) {
+    el.classList.add("icon-bookmark");
+    el.classList.remove("icon-bookmark-empty");
+    link.setAttribute("data-bookmarked", true);
+  } else {
+    el.classList.remove("icon-bookmark");
+    el.classList.add("icon-bookmark-empty");
+    link.setAttribute("data-bookmarked", false);
+  }
+} // FUNCTION FOR COMMENT SUBMISSION
+
+
+function commentSubmissionsHandler() {
+  var _iterator = _createForOfIteratorHelper(document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')),
+      _step;
+
+  try {
+    var _loop = function _loop() {
+      var form = _step.value;
+      form.addEventListener('submit', function (event) {
+        form.querySelector(".submit-comment").classList.add("loading-button");
+        event.preventDefault();
+        var inputs = {};
+
+        var _iterator2 = _createForOfIteratorHelper(form.querySelectorAll("input")),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var input = _step2.value;
+            inputs[input.getAttribute("name")] = input.getAttribute("value");
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+
+        var _iterator3 = _createForOfIteratorHelper(form.querySelectorAll("textarea")),
+            _step3;
+
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var _input = _step3.value;
+            inputs.content = _input.value;
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+
+        if (inputs["content"].length < 8) {
+          formSubmitError("Message too short", form);
+          form.querySelector(".submit-comment").classList.remove("loading-button");
+        } else {
+          (0, _api.xpost)(_settings.XHR, form.getAttribute("action"), inputs);
+          setTimeout(function () {
+            _settings.set.reload(true);
+
+            form.querySelector(".submit-comment").classList.remove("loading-button");
+            reloadComments(_settings.pagination, 0, true);
+          }, 500);
+        }
+
+        return false;
+      });
+    };
+
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      _loop();
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+}
+
+function formSubmitError(message, form) {
+  form.querySelector(".nodebb-error").innerText = message;
+  setTimeout(function () {
+    form.querySelector(".nodebb-error").innerText = "";
+  }, 3000);
+}
+},{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","../../integration/wordpress.js":"poQx"}],"kjEe":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.prepareModal = prepareModal;
+exports.onSubmitSignUp = onSubmitSignUp;
+exports.onSubmitLogin = onSubmitLogin;
+exports.closeModal = closeModal;
+exports.tabIsActive = tabIsActive;
+exports.authenticate = authenticate;
+exports.grecaptchaGrab = grecaptchaGrab;
+exports.loginError = loginError;
+
+var _settings = require("../../settings.js");
+
+var _loadComments = require("../comments/loadComments.js");
+
+var _api = require("../api.js");
+
+/**
+ * Function called to set up values on the modal
+ * @param {string} modalTemplate HTML code for the modal
+ * @param {string} token CSRF token
+ * @param {function} onSubmit function to be called when a submit event occurs
+ * @returns {DOMElement} Modal's div element
+ */
+function prepareModal(modalTemplate, token, onSubmit) {
+  var div = document.createElement("div");
+  div.innerHTML = modalTemplate;
+  div.querySelector("span.modal-close").onclick = closeModal;
+  var form = div.querySelector("form");
+  form.onsubmit = onSubmit;
+  form.setAttribute("action", nodeBBURL + "/login");
+  form.querySelector("input[name='_csrf']").setAttribute("value", token);
+  return div;
+}
+/**
+ * Function called when the sign up form is submitted
+ * @param {HTMLInputElement} e event information
+ */
+
+
+function onSubmitSignUp(e) {
+  e.preventDefault();
+  var t = e.target;
+  var username = t.querySelector("input[name='username']").value;
+  var email = t.querySelector("input[name='email']").value;
+  var password = t.querySelector("input[name='password']").value;
+  var passwordConfirm = t.querySelector("input[name='password-confirm']").value;
+  var checkedTerms = t.querySelector("input[name='terms']").checked;
+  var token = t.querySelector("input[name='_csrf']").value;
+  (0, _api.signUp)(username, email, password, passwordConfirm, token, checkedTerms);
+  setTimeout(closeModal, 500);
+}
+/**
+ * Function called when the login form is submitted
+ * @param {HTMLInputElement} e event information
+ */
+
+
+function onSubmitLogin(e) {
+  e.preventDefault();
+  var t = e.target;
+  var modalElement = document.querySelector("div.modal[data-closed='0']");
+  var loginButton = document.querySelectorAll('button.login-button')[0];
+  loginButton.classList.add("loading-button");
+  (0, _api.login)(t.querySelector("input[name='email']").value, t.querySelector("input[name='password']").value, t.querySelector("input[name='_csrf']").value); // setTimeout(closeModal, 100);
+}
+/**
+ * Closes whatever modal is opened within the plugin
+ */
+// /!\ MOdals closing weirdly /!\
+
+
+function closeModal() {
+  var modalElement = document.querySelector("div.modal[data-closed='0']");
+
+  if (modalElement) {
+    modalElement.setAttribute("data-closed", "1");
+    modalElement.style.display = "none"; // set.reload(true) 
+
+    (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+  }
+}
+
+function tabIsActive() {
+  window.onfocus = closeModal;
+}
+/**
+ * Function that starts the authentication process
+ * this process is finished whenever any of the two modals
+ * that can be opened with it (login or register) are closed
+ * either by a login completion or another action of the user
+ * when this happens, comments are reloaded
+ * @param {("login"|"register")} type the type of the authentication
+ */
+
+
+function authenticate(type) {
+  _settings.set.savedText(_settings.contentDiv.value);
+
+  var modal = openModal(type);
+  var timer = setInterval(function () {
+    if (modal.getAttribute("data-closed") === "1") {
+      clearInterval(timer); // reloadComments();
+    }
+  }, 500);
+}
+/**
+ * Opens a modal within the plugin
+ * @param {("login"|"register")} type whether the modal is login or register
+ * @returns {DOMElement} The modal element
+ */
+
+
+function openModal(type) {
+  var modalSelector = type === "login" ? "#login-modal" : "#register-modal";
+  var modalElement = document.querySelector(modalSelector);
+
+  if (modalElement.getAttribute("data-closed") === "0") {
+    return modalElement;
+  }
+
+  modalElement.style.display = "block";
+  modalElement.setAttribute("data-closed", "0");
+  return modalElement;
+} // Google Captcha
+
+
+function grecaptchaGrab() {
+  if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
+    window.grecaptcha.ready(function () {
+      var interval = setInterval(renderCallback, 1000);
+
+      function renderCallback() {
+        var container = document.getElementById("google-callback");
+
+        if (container && !container.querySelector("iframe")) {
+          $("#google-callback").click(function (e) {
+            return e.preventDefault();
+          });
+
+          _settings.set.renderedCaptcha(window.grecaptcha.render(container, {
+            sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
+          }));
+
+          clearInterval(interval);
+        }
+      }
+
+      renderCallback();
+    });
+  } else {
+    setTimeout(grecaptchaGrab, 1000);
+  }
+} // Login error handle
+
+
+function loginError(message) {
+  var modal = document.querySelector("#login-modal");
+  modal.querySelector(".nodebb-error").innerText = message;
+  modal.querySelector(".nodebb-error").classList.add("display");
+  setTimeout(function () {
+    modal.querySelector(".nodebb-error").innerText = "";
+    modal.querySelector(".nodebb-error").classList.remove("display");
+  }, 6000);
+}
+},{"../../settings.js":"LXja","../comments/loadComments.js":"V8ra","../api.js":"gYYA"}],"Ca7Q":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1334,21 +1746,6 @@ function uploadInit() {
     console.log(formData);
   });
 }
-},{}],"poQx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.checkIfWpAdmin = checkIfWpAdmin;
-
-function checkIfWpAdmin() {
-  if (window.location.href.indexOf("cryptofr_comments_plugin") > -1) {
-    return true;
-  }
-
-  return false;
-}
 },{}],"xsmJ":[function(require,module,exports) {
 "use strict";
 
@@ -1731,7 +2128,7 @@ function drawComments() {
 
   $("body").removeClass("loadmore");
 
-  if (_settings.reload) {
+  if (_settings.reload && !(0, _wordpress.checkIfWpAdmin)()) {
     (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
   }
 
@@ -2198,403 +2595,7 @@ function commentOptions() {
     _iterator4.f();
   }
 }
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../util.js":"VGLh","../../integration/wordpress.js":"poQx"}],"V8ra":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.addButtons = addButtons;
-exports.createSnackbar = createSnackbar;
-exports.reloadComments = reloadComments;
-exports.newCommentsCheck = newCommentsCheck;
-exports.commentSubmissionsHandler = commentSubmissionsHandler;
-exports.formSubmitError = formSubmitError;
-
-var _settings = require("../../settings.js");
-
-var _util = require("../util.js");
-
-var _api = require("../api.js");
-
-var _drawComments = require("./drawComments.js");
-
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function addButtons() {
-  var div = document.createElement("div");
-  div.classList.add("load-more-div");
-  var button = document.createElement("button");
-  button.id = "nodebb-load-more";
-  button.classList.add("btn");
-  button.classList.add("btn-primary");
-  button.innerText = "Charger plus de commentaires...";
-  button.addEventListener("click", function loadMoreClick() {
-    if (!$("body").hasClass("hasLoader")) reloadComments(_settings.pagination + 1);
-  });
-  var text = document.createElement("p");
-  text.classList.add("load-more-text");
-  text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> &bull; <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
-  div.appendChild(button);
-  div.appendChild(text);
-  (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
-  var div2 = document.createElement("div");
-  div2.classList.add("publishForm");
-  div2.innerHTML = '<form id="publishTopic" action="' + _settings.dataRes.relative_path + '/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur ' + _settings.dataRes.siteTitle + '</button><input type="hidden" name="markdown" id="nodebb-content-markdown" value="' + _settings.dataRes.content + '"/><input type="hidden" name="title" id="nodebb-content-title" value="' + _settings.dataRes.article_title + '" /><input type="hidden" name="cid" id="nodebb-content-cid" value="' + _settings.dataRes.category_id + '" /><input type="hidden" name="blogger" id="nodebb-content-blogger" value="' + _settings.dataRes.blogger + '"/><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="' + _settings.dataRes.article_id + '" /><input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" /><input type="hidden" name="_csrf" value="' + _settings.dataRes.token + '" /><input type="hidden" name="timestamp" value="' + Date.now() + '" /><input type="hidden" name="uid" value="' + _settings.dataRes.user.uid + '" /></form>';
-  (0, _util.insertAfter)(div2, document.querySelector("#nodebb"));
-}
-/**
- * Creates a snackbar inside the dom
- * @param {string} text text of the snackbar
- * @param {boolean} success whether the snackbar will show a success or error message, this affects the class used by the object
- */
-
-
-window.createSnackbar = createSnackbar;
-
-function createSnackbar(text, success) {
-  var div = document.createElement("div");
-  div.classList.add("snackbar");
-  div.classList.add("show-snackbar");
-  div.classList.add(success ? "success" : "error");
-  div.innerText = text;
-  document.querySelector("body").appendChild(div);
-  setTimeout(function removeSnackbar() {
-    (0, _util.removeNodes)(div);
-  }, 3000);
-}
-/**
- * Function that reloads all comments within the DOM
- *
- * CHECK TO NOT RELOAD ALWAYS
- */
-
-
-function reloadComments() {
-  var pag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  var currentPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  var showLoader = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-  if (currentPage > pag) {
-    console.log("finish");
-
-    _settings.set.reload(false);
-
-    return null;
-  }
-
-  if (pag > 0) {
-    $("body").addClass("loadmore");
-  }
-
-  _settings.set.page(currentPage);
-
-  _settings.set.pagination(pag);
-
-  _settings.set.postData([]);
-
-  var paging = _settings.pagination;
-
-  if (_settings.reload) {
-    paging = _settings.page;
-  }
-
-  if (showLoader) (0, _util.addLoader)();
-
-  _settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + paging + "/" + _settings.sorting);
-
-  console.log(_settings.commentsURL);
-
-  _settings.XHR.open("GET", _settings.commentsURL, true);
-
-  _settings.XHR.withCredentials = true;
-
-  _settings.XHR.send();
-} // CHECK IF THERE IS NEW COMMENTS AND RELOAD DOM
-// /!\ DON'T DO THAT /!\ >> DON'T RELOAD THE DOM EVERYTIME
-
-
-function newCommentsCheck() {
-  if (document.hasFocus()) {
-    setInterval(function () {
-      _settings.set.reloading(1);
-
-      _settings.set.reload(true);
-
-      reloadComments(_settings.pagination, 0, false);
-    }, 120000);
-  }
-}
-/**
- * Called whenever a comment is bookmarked
- * @param {DOMElement} topicItem A DOM element with the comment data
- * @param {Boolean} isBookmark whether the comment is going to be bookmarked or not
- */
-
-
-function onBookmarked(topicItem, isBookmark) {
-  var el = topicItem.querySelector(".i-bookmark");
-  var link = topicItem.querySelector('[data-component="post/bookmark"]');
-
-  if (isBookmark) {
-    el.classList.add("icon-bookmark");
-    el.classList.remove("icon-bookmark-empty");
-    link.setAttribute("data-bookmarked", true);
-  } else {
-    el.classList.remove("icon-bookmark");
-    el.classList.add("icon-bookmark-empty");
-    link.setAttribute("data-bookmarked", false);
-  }
-} // FUNCTION FOR COMMENT SUBMISSION
-
-
-function commentSubmissionsHandler() {
-  var _iterator = _createForOfIteratorHelper(document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')),
-      _step;
-
-  try {
-    var _loop = function _loop() {
-      var form = _step.value;
-      form.addEventListener('submit', function (event) {
-        form.querySelector(".submit-comment").classList.add("loading-button");
-        event.preventDefault();
-        var inputs = {};
-
-        var _iterator2 = _createForOfIteratorHelper(form.querySelectorAll("input")),
-            _step2;
-
-        try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var input = _step2.value;
-            inputs[input.getAttribute("name")] = input.getAttribute("value");
-          }
-        } catch (err) {
-          _iterator2.e(err);
-        } finally {
-          _iterator2.f();
-        }
-
-        var _iterator3 = _createForOfIteratorHelper(form.querySelectorAll("textarea")),
-            _step3;
-
-        try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var _input = _step3.value;
-            inputs.content = _input.value;
-          }
-        } catch (err) {
-          _iterator3.e(err);
-        } finally {
-          _iterator3.f();
-        }
-
-        if (inputs["content"].length < 8) {
-          formSubmitError("Message too short", form);
-          form.querySelector(".submit-comment").classList.remove("loading-button");
-        } else {
-          (0, _api.xpost)(_settings.XHR, form.getAttribute("action"), inputs);
-          setTimeout(function () {
-            _settings.set.reload(true);
-
-            form.querySelector(".submit-comment").classList.remove("loading-button");
-            reloadComments(_settings.pagination, 0, true);
-          }, 500);
-        }
-
-        return false;
-      });
-    };
-
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      _loop();
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
-}
-
-function formSubmitError(message, form) {
-  form.querySelector(".nodebb-error").innerText = message;
-  setTimeout(function () {
-    form.querySelector(".nodebb-error").innerText = "";
-  }, 3000);
-}
-},{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","./drawComments.js":"xsmJ"}],"kjEe":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.prepareModal = prepareModal;
-exports.onSubmitSignUp = onSubmitSignUp;
-exports.onSubmitLogin = onSubmitLogin;
-exports.closeModal = closeModal;
-exports.tabIsActive = tabIsActive;
-exports.authenticate = authenticate;
-exports.grecaptchaGrab = grecaptchaGrab;
-exports.loginError = loginError;
-
-var _settings = require("../../settings.js");
-
-var _loadComments = require("../comments/loadComments.js");
-
-var _api = require("../api.js");
-
-/**
- * Function called to set up values on the modal
- * @param {string} modalTemplate HTML code for the modal
- * @param {string} token CSRF token
- * @param {function} onSubmit function to be called when a submit event occurs
- * @returns {DOMElement} Modal's div element
- */
-function prepareModal(modalTemplate, token, onSubmit) {
-  var div = document.createElement("div");
-  div.innerHTML = modalTemplate;
-  div.querySelector("span.modal-close").onclick = closeModal;
-  var form = div.querySelector("form");
-  form.onsubmit = onSubmit;
-  form.setAttribute("action", nodeBBURL + "/login");
-  form.querySelector("input[name='_csrf']").setAttribute("value", token);
-  return div;
-}
-/**
- * Function called when the sign up form is submitted
- * @param {HTMLInputElement} e event information
- */
-
-
-function onSubmitSignUp(e) {
-  e.preventDefault();
-  var t = e.target;
-  var username = t.querySelector("input[name='username']").value;
-  var email = t.querySelector("input[name='email']").value;
-  var password = t.querySelector("input[name='password']").value;
-  var passwordConfirm = t.querySelector("input[name='password-confirm']").value;
-  var checkedTerms = t.querySelector("input[name='terms']").checked;
-  var token = t.querySelector("input[name='_csrf']").value;
-  (0, _api.signUp)(username, email, password, passwordConfirm, token, checkedTerms);
-  setTimeout(closeModal, 500);
-}
-/**
- * Function called when the login form is submitted
- * @param {HTMLInputElement} e event information
- */
-
-
-function onSubmitLogin(e) {
-  e.preventDefault();
-  var t = e.target;
-  var modalElement = document.querySelector("div.modal[data-closed='0']");
-  var loginButton = document.querySelectorAll('button.login-button')[0];
-  loginButton.classList.add("loading-button");
-  (0, _api.login)(t.querySelector("input[name='email']").value, t.querySelector("input[name='password']").value, t.querySelector("input[name='_csrf']").value); // setTimeout(closeModal, 100);
-}
-/**
- * Closes whatever modal is opened within the plugin
- */
-// /!\ MOdals closing weirdly /!\
-
-
-function closeModal() {
-  var modalElement = document.querySelector("div.modal[data-closed='0']");
-
-  if (modalElement) {
-    modalElement.setAttribute("data-closed", "1");
-    modalElement.style.display = "none"; // set.reload(true) 
-
-    (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-  }
-}
-
-function tabIsActive() {
-  window.onfocus = closeModal;
-}
-/**
- * Function that starts the authentication process
- * this process is finished whenever any of the two modals
- * that can be opened with it (login or register) are closed
- * either by a login completion or another action of the user
- * when this happens, comments are reloaded
- * @param {("login"|"register")} type the type of the authentication
- */
-
-
-function authenticate(type) {
-  _settings.set.savedText(_settings.contentDiv.value);
-
-  var modal = openModal(type);
-  var timer = setInterval(function () {
-    if (modal.getAttribute("data-closed") === "1") {
-      clearInterval(timer); // reloadComments();
-    }
-  }, 500);
-}
-/**
- * Opens a modal within the plugin
- * @param {("login"|"register")} type whether the modal is login or register
- * @returns {DOMElement} The modal element
- */
-
-
-function openModal(type) {
-  var modalSelector = type === "login" ? "#login-modal" : "#register-modal";
-  var modalElement = document.querySelector(modalSelector);
-
-  if (modalElement.getAttribute("data-closed") === "0") {
-    return modalElement;
-  }
-
-  modalElement.style.display = "block";
-  modalElement.setAttribute("data-closed", "0");
-  return modalElement;
-} // Google Captcha
-
-
-function grecaptchaGrab() {
-  if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
-    window.grecaptcha.ready(function () {
-      var interval = setInterval(renderCallback, 1000);
-
-      function renderCallback() {
-        var container = document.getElementById("google-callback");
-
-        if (container && !container.querySelector("iframe")) {
-          $("#google-callback").click(function (e) {
-            return e.preventDefault();
-          });
-
-          _settings.set.renderedCaptcha(window.grecaptcha.render(container, {
-            sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
-          }));
-
-          clearInterval(interval);
-        }
-      }
-
-      renderCallback();
-    });
-  } else {
-    setTimeout(grecaptchaGrab, 1000);
-  }
-} // Login error handle
-
-
-function loginError(message) {
-  var modal = document.querySelector("#login-modal");
-  modal.querySelector(".nodebb-error").innerText = message;
-  modal.querySelector(".nodebb-error").classList.add("display");
-  setTimeout(function () {
-    modal.querySelector(".nodebb-error").innerText = "";
-    modal.querySelector(".nodebb-error").classList.remove("display");
-  }, 6000);
-}
-},{"../../settings.js":"LXja","../comments/loadComments.js":"V8ra","../api.js":"gYYA"}],"sutU":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../util.js":"VGLh","../../integration/wordpress.js":"poQx"}],"sutU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
