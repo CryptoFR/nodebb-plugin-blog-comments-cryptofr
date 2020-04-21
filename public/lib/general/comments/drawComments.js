@@ -395,10 +395,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     $("body").removeClass("loadmore")
 
-    if (reload){
+    
+    if (reload && !checkIfWpAdmin()){
       reloadComments(pagination,page+1,false)
     } 
 
+    
     commentSubmissionsHandler();
     checkExpandableComments();
     commentOptions();

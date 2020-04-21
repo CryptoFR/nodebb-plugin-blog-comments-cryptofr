@@ -1,7 +1,8 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
 import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
-import { drawComments } from "./drawComments.js";
+import { checkIfWpAdmin } from '../../integration/wordpress.js';
+
 
   export function addButtons() {
     var div = document.createElement("div");
@@ -55,7 +56,7 @@ import { drawComments } from "./drawComments.js";
    */
   export function reloadComments(pag=0,currentPage=0,showLoader=true) {
     if (currentPage>pag) {
-      console.log("finish")
+      // console.log("finish")
       set.reload(false)
       return null;
     }
@@ -75,7 +76,10 @@ import { drawComments } from "./drawComments.js";
 
     if (showLoader) addLoader();
 
-    set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  paging + "/" + sorting);
+    if (!checkIfWpAdmin()){
+      set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  paging + "/" + sorting);
+    }
+    else set.commentsURL(nodeBBURL + "/comments/getAll/" +(window.blogger || "default") + "/" + articleID );
     console.log(commentsURL);
     XHR.open("GET",commentsURL,true);
     XHR.withCredentials = true;
