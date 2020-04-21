@@ -18,9 +18,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     });
     var text = document.createElement("p");
     text.classList.add("load-more-text");
-      text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> &bull; <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+    text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> &bull; <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+
     div.appendChild(button);
+
     div.appendChild(text);
+    
     insertAfter(div, document.querySelector("#nodebb"));
 
     var div2 = document.createElement("div");
@@ -80,6 +83,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  paging + "/" + sorting);
     }
     else set.commentsURL(nodeBBURL + "/comments/getAll/" +(window.blogger || "default") + "/" + articleID );
+    
     console.log(commentsURL);
     XHR.open("GET",commentsURL,true);
     XHR.withCredentials = true;

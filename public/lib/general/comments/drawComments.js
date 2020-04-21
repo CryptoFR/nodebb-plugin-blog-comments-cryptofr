@@ -30,6 +30,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         data = JSON.parse(XHR.responseText)
       }else{
         if (!res) res =JSON.parse(XHR.responseText)
+        console.log("WpAdmin")
         console.log(res)
         data=res[i]
         i++;
@@ -60,6 +61,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       if (firstTime && data.isValid) {
         addButtons();set.firstTime(false);
       }
+
+      console.log("dataRes.posts")
+      console.log(data.posts)
+
 
       setTimeout(function() {
         grecaptchaGrab();
@@ -304,12 +309,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       // <<FIX>> ===> Load more button still display when all post have been shown
       if (data.tid) {
         var loadMore = document.getElementById("nodebb-load-more");
-        if (data.posts.length) {
-          loadMore.style.display = "inline-block";
-        }
-        if (pagination * 10 + data.posts.length + 1 >= data.postCount) {
+        if (data.posts.length==10) {
+          loadMore.style.display = "block";
+        }else {
           loadMore.style.display = "none";
-        }
+        } 
         if (typeof jQuery !== "undefined" && jQuery() && jQuery().fitVids) {
           jQuery(nodebbDiv).fitVids();
         }

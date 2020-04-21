@@ -1257,7 +1257,7 @@ i.i-downvote {
   color: #5A5A5A;
   padding: 10px 30px;
   margin: 0 auto;
-  display: block !important;
+  display: block ;
   margin-top: -50px;
 }
 .load-more-div button:hover {
