@@ -59,7 +59,7 @@
     </div>
     <div class="modal-footer">
       <div class="register-link">
-        Vous n'avez pas encore de compte? {nodeBBURL} <a href="{forumUrl}/register" class="register-modal-open">S'inscrire</a>
+        Vous n'avez pas encore de compte? <a href="{forumUrl}/register" class="register-modal-open">S'inscrire</a>
       </div>
       <div class="logo">
         <img src="{nodeBBURL}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon">
