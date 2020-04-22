@@ -59,7 +59,7 @@ small.logged-as {
 ********************/
 
 #nodebb .form-control {
-  font-size: 15px;
+  font-size: 14px;
   background: #EDEDED;
   border: 1px solid #DBDBDB;
   border-radius: 10px;
@@ -1454,7 +1454,6 @@ form{
   position: absolute;
   z-index: 10000;
   right: -6px;
-  display: block !important;
   background: white;
   border-radius: 10px;
   border-top-right-radius: 10px;
@@ -1502,7 +1501,6 @@ form{
   font-size: 20px;
   text-align: center;
   cursor: pointer;
-  display: none;
   display: block;
   line-height: 20px;
   color: #9a9a9a;
@@ -1533,6 +1531,10 @@ form{
   display: inline-block;
   height: 18px;
   font-size: 22px;
+}
+
+form.sub-edit-input {
+  margin-left: 10px;
 }
 
 body.hasLoader ul#nodebb-comments-list li {
