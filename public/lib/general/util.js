@@ -1,5 +1,5 @@
 import { pluginURL } from "../settings.js";
-  
+
   /**
    * Utility function that recursively parses the timestamp of each of the posts
    * in order to show a human representation of that timestamp
@@ -78,10 +78,10 @@ import { pluginURL } from "../settings.js";
     }
     var div = document.createElement("div");
     div.classList.add("loading");
+    div.innerHTML = "<img src='"+nodeBBURL+"/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg'>";
     document.querySelector("#nodebb").appendChild(div);
     document.querySelector("body").classList.add("hasLoader");
   }
-
 
   /**
    * Adds a loading div in the DOM
@@ -92,6 +92,7 @@ import { pluginURL } from "../settings.js";
       }
       var div = document.createElement("div");
       div.classList.add("loading-inside");
+      div.innerHTML = "<img src='"+nodeBBURL+"/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg'>";
       document.querySelector("#nodebb").appendChild(div);
       document.querySelector("body").classList.add("hasLoader");
     }

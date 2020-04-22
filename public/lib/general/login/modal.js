@@ -18,6 +18,12 @@ import { login,signUp } from "../api.js";
     form.onsubmit = onSubmit;
     form.setAttribute("action", nodeBBURL + "/login");
     form.querySelector("input[name='_csrf']").setAttribute("value", token);
+    div.querySelector(".register-modal-open").setAttribute("href", nodeBBURL + "/register");
+    div.querySelector("img.icon").setAttribute("href", nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg");
+    div.querySelector(".google a").setAttribute("data-link", nodeBBURL + "/auth/google");
+    div.querySelector(".facebook a").setAttribute("data-link", nodeBBURL + "/auth/facebook");
+    div.querySelector(".twitter a").setAttribute("data-link", nodeBBURL + "/auth/twitter");
+    div.querySelector(".github a").setAttribute("data-link", nodeBBURL + "/auth/github");
     return div;
   }
 

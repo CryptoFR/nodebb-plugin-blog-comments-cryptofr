@@ -28,7 +28,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       if (!checkIfWpAdmin()){
         data = JSON.parse(XHR.responseText)
-      }else{
+      } else{
         if (!res) res =JSON.parse(XHR.responseText)
         console.log("WpAdmin")
         console.log(res)
@@ -36,13 +36,15 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         i++;
       }
 
-
-
+      // /!\ DEV /!\ CHECK SORTING (Compare with LOCALSTORAGE)
       setActiveSortingLi(sorting, data.sorting);
+
+
       set.commentsDiv(document.getElementById("nodebb-comments-list"));
       set.commentsCounter(document.getElementById("nodebb-comments-count"));
       set.commentsAuthor(document.getElementById("nodebb-comments-author"));
       set.commentsCategory(document.getElementById("nodebb-comments-category"));
+      
       set.postTemplate(data.singleCommentTpl);
       set.wholeTemplate(data.template);
       data.relative_path = nodeBBURL;
