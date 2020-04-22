@@ -25,10 +25,10 @@
             <!-- ENDIF posts.isReply -->
             <!-- <<<TO FIX>>> CLEAN MENU BUTTONS -->
             <div class="menuButton-container">
-              <span class="menuButton">...</span>
+              <span class="menuButton"><i class="fad fa-caret-down"></i></span>
               <div class="options-container">
-                <span class="edit-option"><i class="fa fa-edit"></i>Éditer</span>
-                <span class="delete-option"><i class="fa fa-trash"></i>Supprimer</span>
+                <span class="edit-option"><i class="fad fa-edit"></i> Éditer</span>
+                <span class="delete-option"><i class="fad fa-trash"></i> Supprimer</span>
               </div>
             </div>
           </small>

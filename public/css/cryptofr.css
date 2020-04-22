@@ -1450,50 +1450,71 @@ form{
   text-align: right;
 }
 
-.options-container{
-  display: none;
+.options-container {
   position: absolute;
-  margin-top: 1px;
-  right: 0px;
-  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
-  background: white; 
   z-index: 10000;
+  right: -6px;
+  display: block !important;
+  background: white;
+  border-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px !important;
+  padding-top: 15px !important;
+  border: none !important;
+  box-shadow: 0px 0px 44px rgba(0, 0, 0, 0.2);
+  top: 34px;
+  margin: 0px;
+  margin-left: -108px;
+  margin-top: -2px;
 }
 
+.options-container:before {
+  display: block;
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  transform: rotate(135deg);
+  position: absolute;
+  margin-top: -20px;
+  right: 8px;
+}
 
-.options-container span{
-  display: block; 
+.options-container span {
+  display: block;
   text-align: left;
-  padding: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.045em;
+  color: #696969 !important;
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+.options-container span:hover {
+  background: #EDEDED;
   cursor: pointer;
 }
 
 .menuButton-container .menuButton {
   height: 20px;
   width: 20px;
-  line-height: 10px;
-  display: inline-block;
-  border: 1px solid rgba(0,0,0,0.3);
-  border-radius: 100%;
+  font-size: 20px;
   text-align: center;
   cursor: pointer;
   display: none;
-  font-weight: bold;
-  transform: rotate(90deg);
+  display: block;
+  line-height: 20px;
+  color: #9a9a9a;
 }
 
-
-.menuButton-container .menuButton:hover{
-  border: 1px solid rgba(0,0,0,0.5);
+.menuButton-container:hover .menuButton{
+  color: #314d9e;
 }
-
 
 #nodebb .topic-item:hover .menuButton-container .menuButton{
   display: block;
 }
-
 
 .options-container i{
   display: inline;
