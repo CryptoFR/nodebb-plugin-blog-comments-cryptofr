@@ -39,7 +39,7 @@
 	<div class="sortbar">
 		<div class="postCounts" data-postcount="{postCount}">
 			<i class="fad fa-comments-alt"></i>
-			<span class="posts-count">{postCount}</span> commentaires
+			<span class="posts-count">{postCount}</span> <span class="hide-mobile">commentaires</span>
 	    <ul class="sort-wrapper sort-group">
 	      <!-- <li class="sort-by">Classer par</li> -->
 	      <li class="selected-sorting">
