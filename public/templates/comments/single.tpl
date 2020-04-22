@@ -18,9 +18,9 @@
             <span class="post-time" data-timestamp="" title="{posts.timestampISO}">{posts.timestamp}</span>
             <!-- IF posts.isReply -->
             <!-- IF !posts.deletedReply -->
-            <!-- <button data-component="post/parent" class="reply-label no-select" data-topid="{posts.toPid}">
+            <button data-component="post/parent" class="reply-label no-select" data-topid="{posts.toPid}">
               <i class="icon-reply"></i> <span data-parent-username="">@{posts.parentUsername}</span>
-            </button> -->
+            </button>
             <!-- ENDIF !posts.deletedReply -->
             <!-- ENDIF posts.isReply -->
             <div class="menuButton-container">
