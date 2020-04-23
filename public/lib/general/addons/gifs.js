@@ -52,7 +52,7 @@ function tenorCallback_search(responsetext){
 function grab_data(search_term){
   // set the apikey and limit
   var apikey = "D68S16GQGKWB";
-  var lmt = 20;
+  var lmt = 30;
 
   // using default locale of en_US
   var search_url = "https://api.tenor.com/v1/search?tag=" + search_term + "&key=" + apikey + "&limit=" + lmt;

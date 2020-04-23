@@ -1905,11 +1905,15 @@ small.logged-as {
     width: 18px;
   }
   #nodebb li.expanded .topic-item.replying .sub-reply-input, #nodebb li.expanded .topic-item.quoting .sub-reply-input {
-    margin-right: 27px;
+    margin-right: 17px;
+    margin-left: -14px;
   }
   #nodebb li.expanded .topic-item.replying:last-child .topic-body, #nodebb li.expanded .topic-item.quoting:last-child .topic-body {
     margin-left: -17px;
     padding-left: 28px;
+  }
+  #nodebb .sub-reply-input {
+    left: 15px;
   }
 
 }

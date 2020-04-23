@@ -1,11 +1,17 @@
 <!-- IF isValid -->
-	<div class="gifs-box">
-		<div class="gif-header">
-			<h4>Insert GIF</h4>
-			<i class="fa fa-close close-gif"></i>
+	<div class="gifs-box comments-enhancement-box">
+		<div class="header-box">
+			<span>Emojis</span>
+			<span class="selected">Gif</span>
+			<i class="close-box far fa-times"></i>
 		</div>
-		<div id="gifs-list"></div>
-		<input class="gif-search">
+		<div class="emoji-selection">
+			Emojis here
+		</div>
+		<div class="gif-selection">
+			<input class="gif-search">
+			<div id="gifs-list"></div>
+		</div>
 	</div>
 	<div class="upload-form">
 		<form enctype="multipart/form-data" id="formupload" method="post" action="/api/post/upload">
