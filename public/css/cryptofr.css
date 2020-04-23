@@ -1743,6 +1743,7 @@ small.logged-as {
   .hide-mobile {
     display: none !important;
   }
+  /* Comments */
   .comments-area {
     margin: calc(2 * 1rem) 0.5rem;
   }
@@ -1815,4 +1816,82 @@ small.logged-as {
     font-size: 13px;
     color: #a7a7a7;
   }
+  #nodebb li.expandable.collapsed >.topic-item:after {
+    content: "";
+    position: absolute;
+    margin-left: -17px;
+    margin-top: -5px;
+  }
+  /* Login */
+  .modal {
+    padding-top: 0px;
+  }
+  .modal-content {
+    border-radius: 0px !important;
+    min-width: 100%;
+    height: 100%;
+  }
+  .modal-body {
+    padding: 15px 25px;
+  }
+  .modal-footer {
+    position: absolute;
+    bottom: 0px;
+    border-radius: 0px;
+    border-radius: 0px;
+    width: 100%;
+    padding: 0px;
+    padding-top: 15px;
+    text-align: center;
+    padding-bottom: 5px;
+  }
+  .modal-footer .logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .register-link {
+    position: absolute;
+    bottom: 110px;
+    width: 100%;
+  }
+  .modal-separator {
+    margin-top: 120px;
+  }
+  .modal-subtitle {
+    margin-top: 50px;
+  }
+  /* Comments boxes */
+  #nodebb .topic-profile-pic.user.first-image .profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    font-size: 38px;
+    line-height: 60px;
+  }
+  .user-status-main {
+    width: 12px;
+    height: 12px;
+    border: 3px solid white;
+    margin-left: 45px;
+    margin-top: -72px;
+  }
+  #nodebb .topic-profile-pic.user.first-image {
+    width: 60px;
+  }
+  .top-post-form.logged-in {
+    margin-left: 65px;
+  }
+  #nodebb .btn.btn-primary, #root .btn.btn-primary {
+    width: 100%;
+  }
+  .comments-toolbar .special-box.actions {
+    text-align: center;
+    margin-top: -5px;
+    padding-right: 27px;
+  }
+  .comments-toolbar .special-action.gif img {
+    margin-top: -6px;
+    position: absolute;
+  }
+
 }
