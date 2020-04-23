@@ -1,9 +1,9 @@
 <!-- IF isValid -->
 	<div class="gifs-box comments-enhancement-box">
 		<div class="header-box">
-			<span>Emojis</span>
-			<span class="selected">Gif</span>
-			<i class="close-box far fa-times"></i>
+			<span class="tab">Emojis</span>
+			<span class="tab selected">Gif</span>
+			<i class="close-box close-gif far fa-times"></i>
 		</div>
 		<div class="emoji-selection">
 			Emojis here
