@@ -1743,4 +1743,76 @@ small.logged-as {
   .hide-mobile {
     display: none !important;
   }
+  .comments-area {
+    margin: calc(2 * 1rem) 0.5rem;
+  }
+  #nodebb-comments-list {
+    margin-left: 20px;
+  }
+  .sortbar {
+    padding-bottom: 15px;
+  }
+  .sortbar .postCounts .fa-comments-alt {
+    color: #838383;
+    font-size: 26px;
+  }
+  .sortbar .postCounts .posts-count {
+    margin-left: 10px;
+    margin-right: 0px;
+  }
+  .sortbar .postCounts .sort-wrapper {
+    padding-left: 10px;
+  }
+  #nodebb .profile-image {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 21px;
+  }
+  #nodebb .topic-profile-pic {
+    margin-left: -20px;
+  }
+  .user-status {
+    width: 10px;
+    height: 10px;
+    margin-left: 53px;
+    margin-top: -78px;
+  }
+  #nodebb .topic-item {
+    padding-left: 15px;
+  }
+  #nodebb > ul li {
+    margin-top: 10px;
+  }
+  #nodebb li.expandable ul>li {
+    padding-left: 35px;
+  }
+  #nodebb li.expandable ul li:before {
+    content: "";
+    width: 25px;
+    margin-left: -37px;
+    border-bottom-left-radius: 10px;
+    height: 46px;
+    margin-top: -27px;
+  }
+  #nodebb li.expandable ul>li:last-child {
+    border-left: none;
+    padding-left: 37px;
+  }
+  .load-more-div {
+    padding-left: 0px;
+    margin: 15px;
+    padding-top: 30px;
+  }
+  .nodebb-copyright {
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+  .nodebb-copyright .see-topic {
+    position: absolute;
+    margin-top: 25px;
+    margin-left: 0px;
+    font-size: 13px;
+    color: #a7a7a7;
+  }
 }
