@@ -328,6 +328,7 @@ exports.getIndexesOf = getIndexesOf;
 exports.parseLineBreaks = parseLineBreaks;
 exports.parseCommentQuotes = parseCommentQuotes;
 exports.getCoords = getCoords;
+exports.dragElement = dragElement;
 exports.bindOnClick = void 0;
 
 var _settings = require("../settings.js");
@@ -631,6 +632,52 @@ function getCoords(elem) {
     top: Math.round(top),
     left: Math.round(left)
   };
+} // Drag a window
+
+
+function dragElement(elmnt) {
+  var pos1 = 0,
+      pos2 = 0,
+      pos3 = 0,
+      pos4 = 0;
+
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault(); // get the mouse cursor position at startup:
+
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement; // call a function whenever the cursor moves:
+
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault(); // calculate the new cursor position:
+
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY; // set the element's new position:
+
+    elmnt.style.top = elmnt.offsetTop - pos2 + "px";
+    elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
 }
 },{"../settings.js":"LXja"}],"gYYA":[function(require,module,exports) {
 "use strict";
@@ -1623,7 +1670,7 @@ function tenorCallback_search(responsetext) {
 function grab_data(search_term) {
   // set the apikey and limit
   var apikey = "D68S16GQGKWB";
-  var lmt = 20; // using default locale of en_US
+  var lmt = 30; // using default locale of en_US
 
   var search_url = "https://api.tenor.com/v1/search?tag=" + search_term + "&key=" + apikey + "&limit=" + lmt;
   httpGetAsync(search_url, tenorCallback_search); // data will be loaded by each call's callback
@@ -1804,6 +1851,7 @@ function drawComments() {
   var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   // <<REMARK>> might be better to draw and remove after
   (0, _util.removeLoader)();
+  (0, _util2.dragElement)(document.getElementById(".comments-enhancement-box"));
 
   if ((0, _wordpress.checkIfWpAdmin)() || _settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = {},

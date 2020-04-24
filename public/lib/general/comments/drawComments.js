@@ -11,8 +11,7 @@ import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
-import { parseLineBreaks } from '../util.js';
-import { parseCommentQuotes } from '../util.js';
+import { dragElement, parseLineBreaks, parseCommentQuotes } from '../util.js';
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 // import $ from 'jquery';
 
@@ -21,6 +20,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     // <<REMARK>> might be better to draw and remove after
     removeLoader();
+    dragElement(document.getElementById(".comments-enhancement-box"));
 
     if (checkIfWpAdmin() || XHR.status >= 200 && XHR.status < 400) {
 
@@ -44,7 +44,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       set.commentsCounter(document.getElementById("nodebb-comments-count"));
       set.commentsAuthor(document.getElementById("nodebb-comments-author"));
       set.commentsCategory(document.getElementById("nodebb-comments-category"));
-      
+
       set.postTemplate(data.singleCommentTpl);
       set.wholeTemplate(data.template);
       data.relative_path = nodeBBURL;

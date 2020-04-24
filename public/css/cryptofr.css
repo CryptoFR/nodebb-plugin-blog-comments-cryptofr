@@ -1389,7 +1389,7 @@ form{
 *****************/
 
 .gifs-box{
-  /* display: none; */
+  display: none;
   position: fixed;
   top: 30%;
   left: 300px;
