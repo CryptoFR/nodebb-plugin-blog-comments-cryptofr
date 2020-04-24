@@ -1,6 +1,7 @@
 <!-- IF isValid -->
 	<div class="gifs-box comments-enhancement-box">
 		<div class="header draggable">
+			<i class="fad fa-grip-lines"></i>
 		</div>
 		<div class="header-box">
 			<span class="tab">Emojis</span>
