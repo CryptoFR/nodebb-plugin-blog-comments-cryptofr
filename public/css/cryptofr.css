@@ -1399,6 +1399,7 @@ form{
   background: white;
   box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
+  margin: 0px;
 }
 
 .emoji-selection {
@@ -1406,8 +1407,19 @@ form{
 }
 .comments-enhancement-box .header.draggable {
   height: 10px;
-  background: #ffc0c0;
   border-radius: 8px 8px 0px 0px;
+  cursor: grab;
+  font-size: 16px;
+  text-align: center;
+  line-height: 10px;
+  color: #b3b3b3;
+}
+.comments-enhancement-box .header.draggable:hover {
+  color: #868686;
+}
+.comments-enhancement-box .header.draggable:active {
+  cursor: grabbing;
+  color: #868686;
 }
 .comments-enhancement-box .header-box {
   font-size: 14px;
@@ -1419,7 +1431,7 @@ form{
   color: #838383;
   padding: 7px 12px;
   padding-bottom: 0px;
-  margin-top: -10px;
+  margin-top: -2px;
 }
 .comments-enhancement-box .header-box .tab {
   margin-right: 0px;
