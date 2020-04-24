@@ -11,7 +11,7 @@ import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
-import { dragElement, parseLineBreaks, parseCommentQuotes } from '../util.js';
+import { parseLineBreaks, parseCommentQuotes } from '../util.js';
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 // import $ from 'jquery';
 

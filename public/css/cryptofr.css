@@ -1404,7 +1404,11 @@ form{
 .emoji-selection {
     display: none;
 }
-
+.comments-enhancement-box .header.draggable {
+  height: 10px;
+  background: #ffc0c0;
+  border-radius: 8px 8px 0px 0px;
+}
 .comments-enhancement-box .header-box {
   font-size: 14px;
   line-height: 26px;
@@ -1415,6 +1419,7 @@ form{
   color: #838383;
   padding: 7px 12px;
   padding-bottom: 0px;
+  margin-top: -10px;
 }
 .comments-enhancement-box .header-box .tab {
   margin-right: 0px;

@@ -1,4 +1,5 @@
 import { set, gifCommentBox } from "../../settings.js";
+import { dragElement } from '../util.js';
 
 // url Async requesting function
 function httpGetAsync(theUrl, callback){
