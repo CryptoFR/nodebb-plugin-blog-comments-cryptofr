@@ -20,7 +20,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     // <<REMARK>> might be better to draw and remove after
     removeLoader();
-    dragElement(document.getElementById(".comments-enhancement-box"));
 
     if (checkIfWpAdmin() || XHR.status >= 200 && XHR.status < 400) {
 

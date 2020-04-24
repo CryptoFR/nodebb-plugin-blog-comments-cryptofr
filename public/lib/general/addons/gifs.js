@@ -63,7 +63,7 @@ function grab_data(search_term){
   return;
 }
 
-// OPENT GIF BOX
+// OPEN GIF BOX
 export function gifBoxInit(){ 
   for (let gifButton of document.querySelectorAll('.special-action.gif .icon')) {
     gifButton.addEventListener('click', function(event){
@@ -71,6 +71,8 @@ export function gifBoxInit(){
       set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"))
     });
   }
+
+  dragElement(document.getElementById(".comments-enhancement-box"));
 
   document.querySelector(".gif-search").addEventListener("keyup", function(event){
     grab_data(document.querySelector(".gif-search").value)

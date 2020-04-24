@@ -1676,7 +1676,7 @@ function grab_data(search_term) {
   httpGetAsync(search_url, tenorCallback_search); // data will be loaded by each call's callback
 
   return;
-} // OPENT GIF BOX
+} // OPEN GIF BOX
 
 
 function gifBoxInit() {
@@ -1702,6 +1702,7 @@ function gifBoxInit() {
     _iterator3.f();
   }
 
+  dragElement(document.getElementById(".comments-enhancement-box"));
   document.querySelector(".gif-search").addEventListener("keyup", function (event) {
     grab_data(document.querySelector(".gif-search").value);
   });
@@ -1851,7 +1852,6 @@ function drawComments() {
   var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   // <<REMARK>> might be better to draw and remove after
   (0, _util.removeLoader)();
-  (0, _util2.dragElement)(document.getElementById(".comments-enhancement-box"));
 
   if ((0, _wordpress.checkIfWpAdmin)() || _settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = {},
