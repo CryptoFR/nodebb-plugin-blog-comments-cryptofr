@@ -9,7 +9,7 @@
 			<i class="close-box close-gif far fa-times"></i>
 		</div>
 		<div class="emoji-selection">
-			Emojis here
+			<div id="emoji-button"></div>
 		</div>
 		<div class="gif-selection">
 			<input class="gif-search">

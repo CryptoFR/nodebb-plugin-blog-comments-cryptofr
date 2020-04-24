@@ -207,6 +207,7 @@ import { pluginURL } from "../settings.js";
     loadScript(pluginURL + "/js/util.js");
     loadScript(pluginURL + "/js/jquery.emojiarea.js");
     loadScript(pluginURL + "/js/emoji-picker.js");
+    loadScript(pluginURL + "/js/emoji-button-3.0.1.min.js");
   }
 
   export function dispatchEmojis(){

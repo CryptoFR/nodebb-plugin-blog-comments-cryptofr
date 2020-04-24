@@ -535,6 +535,7 @@ function windowOnload() {
   loadScript(_settings.pluginURL + "/js/util.js");
   loadScript(_settings.pluginURL + "/js/jquery.emojiarea.js");
   loadScript(_settings.pluginURL + "/js/emoji-picker.js");
+  loadScript(_settings.pluginURL + "/js/emoji-button-3.0.1.min.js");
 }
 
 function dispatchEmojis() {
@@ -1704,6 +1705,14 @@ function gifBoxInit() {
     _iterator3.f();
   }
 
+  var button = document.querySelector('#emoji-button');
+  var picker = new EmojiButton();
+  picker.on('emoji', function (emoji) {
+    document.querySelector('input').value += emoji;
+  });
+  button.addEventListener('click', function () {
+    picker.togglePicker(button);
+  });
   (0, _util.dragElement)(document.querySelector(".comments-enhancement-box"));
   document.querySelector(".gif-search").addEventListener("keyup", function (event) {
     grab_data(document.querySelector(".gif-search").value);

@@ -73,6 +73,17 @@ export function gifBoxInit(){
     });
   }
 
+  var button = document.querySelector('#emoji-button');
+  var picker = new EmojiButton();
+
+  picker.on('emoji', emoji => {
+    document.querySelector('input').value += emoji;
+  });
+
+  button.addEventListener('click', () => {
+    picker.togglePicker(button);
+  });
+
   dragElement(document.querySelector(".comments-enhancement-box"));
 
   document.querySelector(".gif-search").addEventListener("keyup", function(event){
