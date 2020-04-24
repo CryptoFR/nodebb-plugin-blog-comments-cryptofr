@@ -73,7 +73,7 @@ export function gifBoxInit(){
     });
   }
 
-  dragElement(document.getElementById(".comments-enhancement-box"));
+  dragElement(document.querySelector(".comments-enhancement-box"));
 
   document.querySelector(".gif-search").addEventListener("keyup", function(event){
     grab_data(document.querySelector(".gif-search").value)

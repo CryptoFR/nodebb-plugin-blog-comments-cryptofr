@@ -1704,7 +1704,7 @@ function gifBoxInit() {
     _iterator3.f();
   }
 
-  (0, _util.dragElement)(document.getElementById(".comments-enhancement-box"));
+  (0, _util.dragElement)(document.querySelector(".comments-enhancement-box"));
   document.querySelector(".gif-search").addEventListener("keyup", function (event) {
     grab_data(document.querySelector(".gif-search").value);
   });
