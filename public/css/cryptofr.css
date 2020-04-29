@@ -1543,6 +1543,7 @@ form{
   margin: 0px;
   margin-left: -108px;
   margin-top: -2px;
+  display: none;
 }
 
 .options-container:before {
@@ -1579,7 +1580,6 @@ form{
   font-size: 20px;
   text-align: center;
   cursor: pointer;
-  display: block;
   display: none;
   line-height: 20px;
   color: #9a9a9a;

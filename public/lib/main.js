@@ -2093,8 +2093,6 @@ function drawComments() {
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
           }
         } else if (/\/reply$/.test(dataComponent)) {
-          console.log('closest', closest(topicItem, 'ul'));
-
           if (topicItem.classList.contains("replying")) {
             topicItem.classList.remove("replying");
             elementForm.classList.add("hidden");
