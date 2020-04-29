@@ -984,12 +984,6 @@ var _api = require("../api.js");
 
 var _wordpress = require("../../integration/wordpress.js");
 
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function addButtons() {
   var div = document.createElement("div");
   div.classList.add("load-more-div");
@@ -1119,8 +1113,9 @@ function onBookmarked(topicItem, isBookmark) {
 
 
 function commentSubmissionsHandler() {
-  var _iterator = _createForOfIteratorHelper(document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')),
-      _step;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
   try {
     var _loop = function _loop() {
@@ -1129,33 +1124,52 @@ function commentSubmissionsHandler() {
         form.querySelector(".submit-comment").classList.add("loading-button");
         event.preventDefault();
         var inputs = {};
-
-        var _iterator2 = _createForOfIteratorHelper(form.querySelectorAll("input")),
-            _step2;
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
 
         try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          for (var _iterator2 = form.querySelectorAll("input")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var input = _step2.value;
             inputs[input.getAttribute("name")] = input.getAttribute("value");
           }
         } catch (err) {
-          _iterator2.e(err);
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
         } finally {
-          _iterator2.f();
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
         }
 
-        var _iterator3 = _createForOfIteratorHelper(form.querySelectorAll("textarea")),
-            _step3;
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
 
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          for (var _iterator3 = form.querySelectorAll("textarea")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
             var _input = _step3.value;
             inputs.content = _input.value;
           }
         } catch (err) {
-          _iterator3.e(err);
+          _didIteratorError3 = true;
+          _iteratorError3 = err;
         } finally {
-          _iterator3.f();
+          try {
+            if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+              _iterator3.return();
+            }
+          } finally {
+            if (_didIteratorError3) {
+              throw _iteratorError3;
+            }
+          }
         }
 
         if (inputs["content"].length < 8) {
@@ -1175,13 +1189,22 @@ function commentSubmissionsHandler() {
       });
     };
 
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    for (var _iterator = document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       _loop();
     }
   } catch (err) {
-    _iterator.e(err);
+    _didIteratorError = true;
+    _iteratorError = err;
   } finally {
-    _iterator.f();
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
 }
 
@@ -1378,22 +1401,17 @@ var _loadComments = require("../comments/loadComments.js");
 
 var _modal = require("./modal.js");
 
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 /**
  * Function that adds social auth link listeners
  * @param {DOMElement} modal modal element
  */
 function addSocialAuthListeners(modal) {
-  var _iterator = _createForOfIteratorHelper(modal.querySelectorAll("a[data-link]")),
-      _step;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    for (var _iterator = modal.querySelectorAll("a[data-link]")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var socialLink = _step.value;
       socialLink.addEventListener('click', function (event) {
         event.preventDefault();
@@ -1407,9 +1425,18 @@ function addSocialAuthListeners(modal) {
       });
     }
   } catch (err) {
-    _iterator.e(err);
+    _didIteratorError = true;
+    _iteratorError = err;
   } finally {
-    _iterator.f();
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
 }
 },{"../comments/loadComments.js":"V8ra","./modal.js":"kjEe"}],"QP4Q":[function(require,module,exports) {
@@ -1503,23 +1530,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.checkExpandableComments = checkExpandableComments;
 
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 /**************************************
 
    Expand/Collapse comments functions
 
 ***************************************/
 function checkExpandableComments() {
-  var _iterator = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list li")),
-      _step;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    for (var _iterator = document.querySelectorAll("#nodebb-comments-list li")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var comment = _step.value;
 
       if (comment.querySelector("ul")) {
@@ -1533,17 +1555,27 @@ function checkExpandableComments() {
       }
     }
   } catch (err) {
-    _iterator.e(err);
+    _didIteratorError = true;
+    _iteratorError = err;
   } finally {
-    _iterator.f();
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
 
   collapseExpandCommentEvent();
 }
 
 function collapseExpandCommentEvent() {
-  var _iterator2 = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")),
-      _step2;
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
 
   try {
     var _loop = function _loop() {
@@ -1571,13 +1603,22 @@ function collapseExpandCommentEvent() {
       });
     };
 
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+    for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       _loop();
     }
   } catch (err) {
-    _iterator2.e(err);
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
   } finally {
-    _iterator2.f();
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
   }
 }
 },{}],"XBBC":[function(require,module,exports) {
@@ -1593,12 +1634,6 @@ exports.closeGifBox = closeGifBox;
 var _settings = require("../../settings.js");
 
 var _util = require("../util.js");
-
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 // url Async requesting function
 function httpGetAsync(theUrl, callback) {
@@ -1623,24 +1658,34 @@ function tenorCallback_search(responsetext) {
   // parse the json response
   var response_objects = JSON.parse(responsetext); // load the GIFs -- for our example we will load the first GIFs preview size (nanogif) and share size (tinygif)
 
-  var _iterator = _createForOfIteratorHelper(document.querySelectorAll("#gifs-list img")),
-      _step;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    for (var _iterator = document.querySelectorAll("#gifs-list img")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var img = _step.value;
       img.parentNode.removeChild(img);
     }
   } catch (err) {
-    _iterator.e(err);
+    _didIteratorError = true;
+    _iteratorError = err;
   } finally {
-    _iterator.f();
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
 
   document.querySelector("#gifs-list").innerHTML = "";
-
-  var _iterator2 = _createForOfIteratorHelper(response_objects["results"]),
-      _step2;
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
 
   try {
     var _loop = function _loop() {
@@ -1655,15 +1700,24 @@ function tenorCallback_search(responsetext) {
       document.querySelector("#gifs-list").appendChild(element);
     };
 
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+    for (var _iterator2 = response_objects["results"][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       var element;
 
       _loop();
     }
   } catch (err) {
-    _iterator2.e(err);
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
   } finally {
-    _iterator2.f();
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
   }
 
   return;
@@ -1683,8 +1737,9 @@ function grab_data(search_term) {
 
 
 function gifBoxInit() {
-  var _iterator3 = _createForOfIteratorHelper(document.querySelectorAll('.special-action.gif .icon')),
-      _step3;
+  var _iteratorNormalCompletion3 = true;
+  var _didIteratorError3 = false;
+  var _iteratorError3 = undefined;
 
   try {
     var _loop2 = function _loop2() {
@@ -1696,13 +1751,22 @@ function gifBoxInit() {
       });
     };
 
-    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+    for (var _iterator3 = document.querySelectorAll('.special-action.gif .icon')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
       _loop2();
     }
   } catch (err) {
-    _iterator3.e(err);
+    _didIteratorError3 = true;
+    _iteratorError3 = err;
   } finally {
-    _iterator3.f();
+    try {
+      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+        _iterator3.return();
+      }
+    } finally {
+      if (_didIteratorError3) {
+        throw _iteratorError3;
+      }
+    }
   }
 
   var button = document.querySelector('#emoji-button');
@@ -1730,11 +1794,12 @@ function gifBoxInit() {
 
 
 function gifContentCheck() {
-  var _iterator4 = _createForOfIteratorHelper(document.querySelectorAll(".post-body")),
-      _step4;
+  var _iteratorNormalCompletion4 = true;
+  var _didIteratorError4 = false;
+  var _iteratorError4 = undefined;
 
   try {
-    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+    for (var _iterator4 = document.querySelectorAll(".post-body")[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
       var comment = _step4.value;
 
       while (comment.innerText.indexOf("![") >= 0) {
@@ -1749,9 +1814,18 @@ function gifContentCheck() {
       }
     }
   } catch (err) {
-    _iterator4.e(err);
+    _didIteratorError4 = true;
+    _iteratorError4 = err;
   } finally {
-    _iterator4.f();
+    try {
+      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+        _iterator4.return();
+      }
+    } finally {
+      if (_didIteratorError4) {
+        throw _iteratorError4;
+      }
+    }
   }
 } // FIX CLOSE GIF
 // NOT WORKING !!
@@ -1772,12 +1846,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.uploadInit = uploadInit;
 
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 /******* UPLOAD FILES *******/
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -1788,11 +1856,12 @@ function generateUUID() {
 }
 
 function uploadInit() {
-  var _iterator = _createForOfIteratorHelper(document.querySelectorAll(".special-action.img")),
-      _step;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+    for (var _iterator = document.querySelectorAll(".special-action.img")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var icon = _step.value;
       icon.addEventListener('click', function (event) {
         $("#formupload #file").attr("focused", "1");
@@ -1800,9 +1869,18 @@ function uploadInit() {
       });
     }
   } catch (err) {
-    _iterator.e(err);
+    _didIteratorError = true;
+    _iteratorError = err;
   } finally {
-    _iterator.f();
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
 
   $("#formupload #file").on("change", function (e) {
@@ -1849,12 +1927,6 @@ var _upload = require("../addons/upload.js");
 var _util2 = require("../util.js");
 
 var _wordpress = require("../../integration/wordpress.js");
-
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 // import $ from 'jquery';
 // window.drawComments = drawComments
@@ -1992,6 +2064,12 @@ function drawComments() {
           topicItem.classList.remove("replying");
           topicItem.classList.remove("quoting");
           visibleForm.classList.add("hidden");
+          var cl = visibleForm.closest('.replying');
+
+          if (cl) {
+            console.log('remove replying');
+            cl.classList.remove('replying');
+          }
         }
 
         var postBody;
@@ -2015,6 +2093,8 @@ function drawComments() {
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
           }
         } else if (/\/reply$/.test(dataComponent)) {
+          console.log('closest', closest(topicItem, 'ul'));
+
           if (topicItem.classList.contains("replying")) {
             topicItem.classList.remove("replying");
             elementForm.classList.add("hidden");
@@ -2387,19 +2467,28 @@ function parse(data, template) {
 
       if ((0, _wordpress.checkIfWpAdmin)()) {
         console.log(document.querySelectorAll("#nodebb-comments-list"));
-
-        var _iterator = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list")),
-            _step;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          for (var _iterator = document.querySelectorAll("#nodebb-comments-list")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var commentUL = _step.value;
             if (commentUL.getAttribute('data-mainpid') != data.mainPost.pid) parentNodebbComments.appendChild(commentUL);
           }
         } catch (err) {
-          _iterator.e(err);
+          _didIteratorError = true;
+          _iteratorError = err;
         } finally {
-          _iterator.f();
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return != null) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
         }
       }
 
@@ -2417,34 +2506,53 @@ function parse(data, template) {
 
 
 function checkNewComments(existingComments, loadedComments) {
-  var _iterator2 = _createForOfIteratorHelper(loadedComments.querySelectorAll("li")),
-      _step2;
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
 
   try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+    for (var _iterator2 = loadedComments.querySelectorAll("li")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       var comment = _step2.value;
       var flag = false;
-
-      var _iterator3 = _createForOfIteratorHelper(existingComments.querySelectorAll("li")),
-          _step3;
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
       try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        for (var _iterator3 = existingComments.querySelectorAll("li")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
           var oldcomment = _step3.value;
           if (comment.getAttribute("data-pid") == oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')) flag = true;
         }
       } catch (err) {
-        _iterator3.e(err);
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
       } finally {
-        _iterator3.f();
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
       }
 
       if (!flag) comment.classList.add("new-comment");
     }
   } catch (err) {
-    _iterator2.e(err);
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
   } finally {
-    _iterator2.f();
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
   }
 
   _settings.set.reloading(0);
@@ -2616,9 +2724,9 @@ function commentOptions() {
       $(".options-container").hide();
     }
   });
-
-  var _iterator4 = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list .topic-body")),
-      _step4;
+  var _iteratorNormalCompletion4 = true;
+  var _didIteratorError4 = false;
+  var _iteratorError4 = undefined;
 
   try {
     var _loop = function _loop() {
@@ -2638,30 +2746,49 @@ function commentOptions() {
         });
       }
 
-      var _iterator5 = _createForOfIteratorHelper(comment.querySelectorAll(".menuButton")),
-          _step5;
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
 
       try {
-        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+        for (var _iterator5 = comment.querySelectorAll(".menuButton")[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
           var button = _step5.value;
           button.addEventListener("click", function () {
             comment.querySelector(".options-container").style.display = "block";
           });
         }
       } catch (err) {
-        _iterator5.e(err);
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
       } finally {
-        _iterator5.f();
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
+          }
+        }
       }
     };
 
-    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+    for (var _iterator4 = document.querySelectorAll("#nodebb-comments-list .topic-body")[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
       _loop();
     }
   } catch (err) {
-    _iterator4.e(err);
+    _didIteratorError4 = true;
+    _iteratorError4 = err;
   } finally {
-    _iterator4.f();
+    try {
+      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+        _iterator4.return();
+      }
+    } finally {
+      if (_didIteratorError4) {
+        throw _iteratorError4;
+      }
+    }
   }
 }
 },{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../util.js":"VGLh","../../integration/wordpress.js":"poQx"}],"sutU":[function(require,module,exports) {

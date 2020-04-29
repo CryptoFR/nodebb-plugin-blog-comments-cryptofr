@@ -13,6 +13,7 @@ import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
 import { parseLineBreaks, parseCommentQuotes } from '../util.js';
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
+
 // import $ from 'jquery';
 
   // window.drawComments = drawComments
@@ -178,6 +179,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             topicItem.classList.remove("replying");
             topicItem.classList.remove("quoting");
             visibleForm.classList.add("hidden");
+            const cl = visibleForm.closest('.replying')
+            if (cl) {
+              console.log('remove replying')
+              cl.classList.remove('replying')
+            }
           }
           var postBody;
           if (/\/(quote|edit)$/.test(dataComponent)) {
@@ -199,6 +205,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
             }
           } else if (/\/reply$/.test(dataComponent)) {
+            
+            console.log('closest' , closest(topicItem, 'ul'))
             if (topicItem.classList.contains("replying")){
               topicItem.classList.remove("replying");
               elementForm.classList.add("hidden");
