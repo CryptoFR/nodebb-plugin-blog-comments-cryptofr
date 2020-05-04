@@ -16,6 +16,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
 // import $ from 'jquery';
 
+window.drawComments = drawComments
   // window.drawComments = drawComments
   export function drawComments(res=null,i=0) {
 
@@ -131,6 +132,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       html = parse(data, data.template);
       nodebbDiv.innerHTML = normalizePost(html);
+      setTimeout(() => {
+        if (commentData['']) {
+          nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor').innerText = commentData['']
+        }
+        console.log('nodebbdiv query selector', nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor'))
+      }, 1000)
       // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
       setActiveSortingLi(sorting);
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");

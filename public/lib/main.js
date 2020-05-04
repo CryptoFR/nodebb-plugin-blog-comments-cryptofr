@@ -156,7 +156,6 @@ exports.gifCommentBox = gifCommentBox;
 exports.commentData = commentData;
 exports.firstTime = firstTime;
 exports.commentData = commentData = {};
-window.commentData = commentData;
 var set = {
   commentData: commentDataVal,
   pluginURL: pluginURLVal,
@@ -1936,8 +1935,8 @@ var _util2 = require("../util.js");
 
 var _wordpress = require("../../integration/wordpress.js");
 
-window.drawComments = drawComments; // import $ from 'jquery';
-// window.drawComments = drawComments
+// import $ from 'jquery';
+window.drawComments = drawComments; // window.drawComments = drawComments
 
 function drawComments() {
   var res = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -2034,8 +2033,14 @@ function drawComments() {
     }
 
     html = parse(data, data.template);
-    console.log(data);
-    _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html); // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
+    _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html);
+    setTimeout(function () {
+      if (_settings.commentData['']) {
+        _settings.nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor').innerText = _settings.commentData[''];
+      }
+
+      console.log('nodebbdiv query selector', _settings.nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor'));
+    }, 1000); // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting);
 
@@ -2131,16 +2136,13 @@ function drawComments() {
             //   formInput.value = "";
             // }
 
-            console.log('form Input', formInput.closest('[data-pid]'));
             var closest = formInput.closest('[data-pid]');
             var key = closest ? closest.getAttribute('data-pid') : '';
 
             if (_settings.commentData.hasOwnProperty(key)) {
-              console.log('has own property', _settings.commentData[key]);
               formInput.value = _settings.commentData[key];
               $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value);
             } else {
-              console.log('setting input value to ""');
               formInput.value = "";
             }
 
