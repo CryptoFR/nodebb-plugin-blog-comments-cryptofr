@@ -1,6 +1,9 @@
-export var firstTime,gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates,reload;
+export var firstTime,commentData,gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates,reload;
+
+commentData = {}
 
 export var set = {
+	commentData: commentDataVal,
 	pluginURL : pluginURLVal,
 	voteXHR : voteXHRVal,
 	authXHR : authXHRVal,
@@ -61,3 +64,4 @@ function reloadingVal( value ) { reloading = value; }
 function gifCommentBoxVal( value ) { gifCommentBox = value; }
 function reloadVal( value ) { reload = value; }
 function firstTimeVal( value ) { firstTime = value; }
+function commentDataVal( pid, value ) { commentData[pid] = value }

@@ -1,4 +1,4 @@
-import { set,firstTime,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload } from "../../settings.js";
+import { set,firstTime,commentData,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload } from "../../settings.js";
 import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis,reactElementRelocation } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
@@ -130,7 +130,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       }
 
       html = parse(data, data.template);
-      console.log(data);
       nodebbDiv.innerHTML = normalizePost(html);
       // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
       setActiveSortingLi(sorting);
@@ -144,8 +143,14 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         '[data-component="post/edit"]',
         '[data-component="post/delete"]'
       ].join(",");
-
       // CLICK EVENT ON THE DIFFERENT SELECTORS
+
+      $(nodebbDiv).on('keyup', '.emoji-wysiwyg-editor', function () {
+        const closest = this.closest('[data-pid]')
+        const key = closest ? closest.getAttribute('data-pid') : '';
+        set.commentData(key, this.innerText)
+        console.log(commentData)
+      })
       bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
         if (!data.user || !data.user.uid) {
           authenticate("login");
@@ -227,7 +232,14 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               // } else {
               //   formInput.value = "";
               // }
-              formInput.value = "";
+              const closest = formInput.closest('[data-pid]');
+              const key = closest ? closest.getAttribute('data-pid') : '';
+              if(commentData.hasOwnProperty(key)) {
+                formInput.value = commentData[key]
+                $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
+              } else {
+                formInput.value = "";
+              }
               elementForm.classList.remove("hidden");
             }
           } else if (/\/edit$/.test(dataComponent)) {

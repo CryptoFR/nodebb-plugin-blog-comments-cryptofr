@@ -123,8 +123,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.set = exports.reload = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = exports.firstTime = void 0;
-var firstTime, gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates, reload;
+exports.set = exports.reload = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = exports.commentData = exports.firstTime = void 0;
+var firstTime, commentData, gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates, reload;
 exports.reload = reload;
 exports.templates = templates;
 exports.renderedCaptcha = renderedCaptcha;
@@ -153,8 +153,12 @@ exports.reloading = reloading;
 exports.commentXHR = commentXHR;
 exports.dataRes = dataRes;
 exports.gifCommentBox = gifCommentBox;
+exports.commentData = commentData;
 exports.firstTime = firstTime;
+exports.commentData = commentData = {};
+window.commentData = commentData;
 var set = {
+  commentData: commentDataVal,
   pluginURL: pluginURLVal,
   voteXHR: voteXHRVal,
   authXHR: authXHRVal,
@@ -301,6 +305,10 @@ function reloadVal(value) {
 
 function firstTimeVal(value) {
   exports.firstTime = firstTime = value;
+}
+
+function commentDataVal(pid, value) {
+  commentData[pid] = value;
 }
 },{}],"VGLh":[function(require,module,exports) {
 "use strict";
@@ -1928,8 +1936,9 @@ var _util2 = require("../util.js");
 
 var _wordpress = require("../../integration/wordpress.js");
 
-// import $ from 'jquery';
+window.drawComments = drawComments; // import $ from 'jquery';
 // window.drawComments = drawComments
+
 function drawComments() {
   var res = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -2034,6 +2043,14 @@ function drawComments() {
 
     var selectors = ['[data-component="post/reply"]', '[data-component="post/quote"]', '[data-component="post/bookmark"]', '[data-component="post/upvote"]', '[data-component="post/downvote"]', '[data-component="post/edit"]', '[data-component="post/delete"]'].join(","); // CLICK EVENT ON THE DIFFERENT SELECTORS
 
+    $(_settings.nodebbDiv).on('keyup', '.emoji-wysiwyg-editor', function () {
+      var closest = this.closest('[data-pid]');
+      var key = closest ? closest.getAttribute('data-pid') : '';
+
+      _settings.set.commentData(key, this.innerText);
+
+      console.log(_settings.commentData);
+    });
     (0, _util.bindOnClick)(_settings.nodebbDiv.querySelectorAll(selectors), function (event) {
       if (!data.user || !data.user.uid) {
         (0, _modal.authenticate)("login");
@@ -2114,7 +2131,19 @@ function drawComments() {
             //   formInput.value = "";
             // }
 
-            formInput.value = "";
+            console.log('form Input', formInput.closest('[data-pid]'));
+            var closest = formInput.closest('[data-pid]');
+            var key = closest ? closest.getAttribute('data-pid') : '';
+
+            if (_settings.commentData.hasOwnProperty(key)) {
+              console.log('has own property', _settings.commentData[key]);
+              formInput.value = _settings.commentData[key];
+              $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value);
+            } else {
+              console.log('setting input value to ""');
+              formInput.value = "";
+            }
+
             elementForm.classList.remove("hidden");
           }
         } else if (/\/edit$/.test(dataComponent)) {
