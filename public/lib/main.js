@@ -1257,7 +1257,12 @@ function prepareModal(modalTemplate, token, onSubmit) {
   form.onsubmit = onSubmit;
   form.setAttribute("action", nodeBBURL + "/login");
   form.querySelector("input[name='_csrf']").setAttribute("value", token);
-  div.querySelector(".register-modal-open").setAttribute("href", nodeBBURL + "/register");
+  var registerModal$ = div.querySelector(".register-modal-open");
+
+  if (registerModal$) {
+    registerModal$.setAttribute("href", nodeBBURL + "/register");
+  }
+
   div.querySelector(".google a").setAttribute("data-link", nodeBBURL + "/auth/google");
   div.querySelector(".facebook a").setAttribute("data-link", nodeBBURL + "/auth/facebook");
   div.querySelector(".twitter a").setAttribute("data-link", nodeBBURL + "/auth/twitter");
@@ -2034,11 +2039,11 @@ function drawComments() {
     html = parse(data, data.template);
     _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html);
     setTimeout(function () {
-      if (_settings.commentData['']) {
-        _settings.nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor').innerText = _settings.commentData[''];
-      }
+      var $editor = _settings.nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor');
 
-      console.log('nodebbdiv query selector', _settings.nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor'));
+      if (_settings.commentData[''] && $editor) {
+        $editor.innerText = _settings.commentData[''];
+      }
     }, 1000); // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting);

@@ -18,7 +18,10 @@ import { login,signUp } from "../api.js";
     form.onsubmit = onSubmit;
     form.setAttribute("action", nodeBBURL + "/login");
     form.querySelector("input[name='_csrf']").setAttribute("value", token);
-    div.querySelector(".register-modal-open").setAttribute("href", nodeBBURL + "/register");
+    const registerModal$ = div.querySelector(".register-modal-open");
+    if (registerModal$) {
+      registerModal$.setAttribute("href", nodeBBURL + "/register");
+    }
     div.querySelector(".google a").setAttribute("data-link", nodeBBURL + "/auth/google");
     div.querySelector(".facebook a").setAttribute("data-link", nodeBBURL + "/auth/facebook");
     div.querySelector(".twitter a").setAttribute("data-link", nodeBBURL + "/auth/twitter");

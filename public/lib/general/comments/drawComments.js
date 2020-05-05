@@ -132,10 +132,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       html = parse(data, data.template);
       nodebbDiv.innerHTML = normalizePost(html);
       setTimeout(() => {
-        if (commentData['']) {
-          nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor').innerText = commentData['']
+        const $editor = nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor');
+        if (commentData[''] && $editor) {
+          $editor.innerText = commentData['']
         }
-        console.log('nodebbdiv query selector', nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor'))
       }, 1000)
       // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
       setActiveSortingLi(sorting);

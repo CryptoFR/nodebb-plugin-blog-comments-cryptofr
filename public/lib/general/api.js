@@ -78,7 +78,7 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
     return xhr;
   }
 
-  function newFetch(path, data) {
+  export function newFetch(path, data) {
     var encodedString = "";
     for (var prop in data) {
       if (data.hasOwnProperty(prop)) {
