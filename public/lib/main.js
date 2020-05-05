@@ -1936,8 +1936,7 @@ var _util2 = require("../util.js");
 var _wordpress = require("../../integration/wordpress.js");
 
 // import $ from 'jquery';
-window.drawComments = drawComments; // window.drawComments = drawComments
-
+// window.drawComments = drawComments
 function drawComments() {
   var res = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -2057,6 +2056,8 @@ function drawComments() {
       console.log(_settings.commentData);
     });
     (0, _util.bindOnClick)(_settings.nodebbDiv.querySelectorAll(selectors), function (event) {
+      var _this = this;
+
       if (!data.user || !data.user.uid) {
         (0, _modal.authenticate)("login");
         return;
@@ -2153,10 +2154,21 @@ function drawComments() {
           elementForm.classList.remove("hidden");
         } else if (/\/upvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
+            console.log('voting', upvoted, this);
             (0, _api.upvotePost)(topicItem, pid, upvoted).then(function () {
-              _settings.set.reload(true);
+              var postValue$ = _this.parentNode.querySelector('span.post-value');
 
-              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+              _this.setAttribute('data-upvoted', !upvoted);
+
+              if (upvoted) {
+                postValue$.innerText = Number(postValue$.innerHTML) - 1;
+                console.log('upvoted', _this.parentNode.querySelector('span.post-value'));
+              } else {
+                postValue$.innerText = Number(postValue$.innerHTML) + 1;
+              }
+
+              _settings.set.reload(true); // reloadComments(pagination,0,false);
+
             }).catch(console.log);
           }
         } else if (/\/downvote$/.test(dataComponent)) {
@@ -2967,6 +2979,7 @@ XHRaux.onload = (0, _onload.onLoadFunction)(XHRaux);
 _settings.set.XHR(XHRaux);
 
 var voteXHRaux = (0, _api.newXHR)();
+console.log('aux', XHRaux === voteXHRaux);
 voteXHRaux.onload = (0, _onload.onLoadFunction)(voteXHRaux);
 
 _settings.set.voteXHR(voteXHRaux);

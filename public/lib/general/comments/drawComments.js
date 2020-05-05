@@ -16,7 +16,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
 // import $ from 'jquery';
 
-window.drawComments = drawComments
   // window.drawComments = drawComments
   export function drawComments(res=null,i=0) {
 
@@ -255,8 +254,14 @@ window.drawComments = drawComments
           } else if (/\/upvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
               upvotePost(topicItem, pid, upvoted).then(() => {
-    				    set.reload(true)
-  				      reloadComments(pagination,0,false);
+                const postValue$ = this.parentNode.querySelector('span.post-value');
+                this.setAttribute('data-upvoted', !upvoted)
+                if (upvoted) {
+                  postValue$.innerText = Number(postValue$.innerHTML) - 1
+                  console.log('upvoted', this.parentNode.querySelector('span.post-value'))
+                } else {
+                  postValue$.innerText = Number(postValue$.innerHTML) + 1
+                }
   			      }).catch(console.log);
             }
           } else if (/\/downvote$/.test(dataComponent)) {
