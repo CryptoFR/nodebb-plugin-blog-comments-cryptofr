@@ -2154,7 +2154,6 @@ function drawComments() {
           elementForm.classList.remove("hidden");
         } else if (/\/upvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
-            console.log('voting', upvoted, this);
             (0, _api.upvotePost)(topicItem, pid, upvoted).then(function () {
               var postValue$ = _this.parentNode.querySelector('span.post-value');
 
@@ -2162,21 +2161,25 @@ function drawComments() {
 
               if (upvoted) {
                 postValue$.innerText = Number(postValue$.innerHTML) - 1;
-                console.log('upvoted', _this.parentNode.querySelector('span.post-value'));
               } else {
                 postValue$.innerText = Number(postValue$.innerHTML) + 1;
               }
-
-              _settings.set.reload(true); // reloadComments(pagination,0,false);
-
             }).catch(console.log);
           }
         } else if (/\/downvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
             (0, _api.downvotePost)(topicItem, pid, downvoted).then(function () {
-              _settings.set.reload(true);
+              console.log('downvote post');
 
-              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+              var postValue$ = _this.parentNode.querySelector('span.post-value');
+
+              _this.setAttribute('data-downvoted', !downvoted);
+
+              if (downvoted) {
+                postValue$.innerText = Number(postValue$.innerHTML) + 1;
+              } else {
+                postValue$.innerText = Number(postValue$.innerHTML) - 1;
+              }
             }).catch(console.log);
           }
         } else if (/\/bookmark$/.test(dataComponent)) {
@@ -2979,7 +2982,6 @@ XHRaux.onload = (0, _onload.onLoadFunction)(XHRaux);
 _settings.set.XHR(XHRaux);
 
 var voteXHRaux = (0, _api.newXHR)();
-console.log('aux', XHRaux === voteXHRaux);
 voteXHRaux.onload = (0, _onload.onLoadFunction)(voteXHRaux);
 
 _settings.set.voteXHR(voteXHRaux);

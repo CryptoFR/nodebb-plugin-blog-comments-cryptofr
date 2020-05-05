@@ -258,7 +258,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
                 this.setAttribute('data-upvoted', !upvoted)
                 if (upvoted) {
                   postValue$.innerText = Number(postValue$.innerHTML) - 1
-                  console.log('upvoted', this.parentNode.querySelector('span.post-value'))
                 } else {
                   postValue$.innerText = Number(postValue$.innerHTML) + 1
                 }
@@ -267,8 +266,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           } else if (/\/downvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
               downvotePost(topicItem, pid, downvoted).then(() => {
-                set.reload(true)
-                reloadComments(pagination,0,false);
+                const postValue$ = this.parentNode.querySelector('span.post-value');
+                this.setAttribute('data-downvoted', !downvoted)
+                if (downvoted) {
+                  postValue$.innerText = Number(postValue$.innerHTML) + 1
+                } else {
+                  postValue$.innerText = Number(postValue$.innerHTML) - 1
+                }
               }).catch(console.log);
             }
           } else if (/\/bookmark$/.test(dataComponent)) {
