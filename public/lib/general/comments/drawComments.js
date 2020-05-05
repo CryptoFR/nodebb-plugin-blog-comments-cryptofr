@@ -948,7 +948,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
         // DELETE BUTTON
         comment.querySelector(".options-container .delete-option").addEventListener("click",function(){
-          deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid"));
+          console.log('data-pid', comment.parentNode.getAttribute("data-pid"))
+          deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then((...args) => {
+            console.log('pid new', comment.parentNode.getAttribute("data-pid"), args)
+          }).catch(console.log);
           reloadComments(pagination,0,false);
         })
       }

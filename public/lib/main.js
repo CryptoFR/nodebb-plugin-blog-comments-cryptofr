@@ -943,7 +943,7 @@ function deletePost(topicItem, pid) {
 
   _settings.set.voteXHR(voteXHRaux);
 
-  return newFetch(_settings.voteXHR, nodeBBURL + "/comments/delete/" + pid);
+  return newFetch(nodeBBURL + "/comments/delete/" + pid, {});
 }
 
 function logout(token) {
@@ -2169,8 +2169,6 @@ function drawComments() {
         } else if (/\/downvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
             (0, _api.downvotePost)(topicItem, pid, downvoted).then(function () {
-              console.log('downvote post');
-
               var postValue$ = _this.parentNode.querySelector('span.post-value');
 
               _this.setAttribute('data-downvoted', !downvoted);
@@ -2785,7 +2783,14 @@ function commentOptions() {
         }); // DELETE BUTTON
 
         comment.querySelector(".options-container .delete-option").addEventListener("click", function () {
-          (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid"));
+          console.log('data-pid', comment.parentNode.getAttribute("data-pid"));
+          (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {
+            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+              args[_key] = arguments[_key];
+            }
+
+            console.log('pid new', comment.parentNode.getAttribute("data-pid"), args);
+          }).catch(console.log);
           (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
         });
       }

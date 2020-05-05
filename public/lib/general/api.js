@@ -216,7 +216,7 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
     voteXHRaux.isBusy = true;
     voteXHRaux.topicItem = topicItem;
     set.voteXHR(voteXHRaux)
-    return newFetch(voteXHR, nodeBBURL + "/comments/delete/" + pid);
+    return newFetch(nodeBBURL + "/comments/delete/" + pid, {});
   }
 
 
