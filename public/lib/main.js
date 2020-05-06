@@ -1535,6 +1535,10 @@ function commentSubmissionsHandler() {
                 _img.style.backgroundColor = res.user['icon:bgColor'];
                 $profilePicture.outerHTML = _img.outerHTML;
               }
+
+              var $status = $li.querySelector('.user-status');
+              $status.classList.remove('offline');
+              $status.classList.add('online');
             }
           });
         }

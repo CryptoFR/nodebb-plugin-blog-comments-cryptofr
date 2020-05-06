@@ -202,6 +202,9 @@ import { singleGifComment } from "../addons/gifs.js";
                 img.style.backgroundColor = res.user['icon:bgColor'];
                 $profilePicture.outerHTML = img.outerHTML;
               }
+              const $status = $li.querySelector('.user-status');
+              $status.classList.remove('offline');
+              $status.classList.add('online')
             }
           });
         }
