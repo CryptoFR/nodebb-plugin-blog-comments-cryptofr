@@ -2,6 +2,7 @@ import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sor
 import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
 import { upvotePost,downvotePost,xpost } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
+import { singleGifComment } from "../addons/gifs.js";
 
 
   export function addButtons() {
@@ -145,9 +146,17 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         else {
         	xpost(XHR, form.getAttribute("action"), inputs);	      
           setTimeout(function() {
-            set.reload(true)
-            form.querySelector(".submit-comment").classList.remove("loading-button");
-            reloadComments(pagination,0,true);
+            if(/edit/.test(form.getAttribute('action'))) {
+              const $postBody = form.closest('div').querySelector('.post-body')
+              const content = inputs.content
+              $postBody.innerHTML = content;
+              singleGifComment($postBody)
+              set.reload(true)
+              $(form).hide();
+              form.querySelector(".submit-comment").classList.remove("loading-button");
+            } else {
+              reloadComments(pagination,0,true);
+            }
           },500);
         }
         return false;

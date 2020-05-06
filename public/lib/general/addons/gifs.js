@@ -116,6 +116,23 @@ export function gifContentCheck(){
   }
 }
 
+/**
+ * Checks for comments
+ * @param {HTMLDivElement} comment comment div
+ */
+export function singleGifComment(comment) {
+  while (comment.innerText.indexOf("![")>=0){
+    let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,comment.innerHTML.indexOf(".gif)")+4)
+    let imgTag="<img class='gif-post' src='"+src+"'></br>";
+
+    if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]")-6,comment.innerHTML.indexOf("![]"))!="&gt;  " && comment.innerHTML.indexOf("![]") > 1){
+      imgTag="</br>"+imgTag;
+    }
+    comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)")+5,comment.innerHTML.length);
+  }
+  return comment
+}
+
 // FIX CLOSE GIF
 // NOT WORKING !!
 export function closeGifBox(){
