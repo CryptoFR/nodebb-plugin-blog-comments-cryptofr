@@ -164,9 +164,11 @@ import { singleGifComment } from "../addons/gifs.js";
                 )
                 ul = newUL
               }
-              console.log('parent node', form.parentNode.parentNode)
               ul.appendChild($li);
-              console.log('form.closest', form.closest('ul'))
+              const $childUL = $li.querySelector('ul')
+              if ($childUL) {
+                removeNodes($childUL);
+              }
               // reloadComments(pagination,0,true);
             }
           });

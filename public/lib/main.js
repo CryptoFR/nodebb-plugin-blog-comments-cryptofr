@@ -1451,9 +1451,13 @@ function commentSubmissionsHandler() {
                 ul = newUL;
               }
 
-              console.log('parent node', form.parentNode.parentNode);
               ul.appendChild($li);
-              console.log('form.closest', form.closest('ul')); // reloadComments(pagination,0,true);
+              var $childUL = $li.querySelector('ul');
+
+              if ($childUL) {
+                (0, _util.removeNodes)($childUL);
+              } // reloadComments(pagination,0,true);
+
             }
           });
         }
