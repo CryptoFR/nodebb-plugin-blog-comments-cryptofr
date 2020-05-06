@@ -185,6 +185,25 @@ import { singleGifComment } from "../addons/gifs.js";
               $postBody.innerHTML = res.content;
               singleGifComment($postBody);
               // reloadComments(pagination,0,true);
+              const $profilePicture = $li.querySelector('.profile-image');
+              if (res.user.picture) {
+                console.log('res.user.picture', res.user)
+                const img = document.createElement('img');
+                img.setAttribute('src', res.user.picture);
+                img.setAttribute('alt', res.user.username);
+                img.setAttribute('title', res.user.username);
+                img.classList.add('profile-image');
+                $profilePicture.outerHTML = img.outerHTML;
+              } else {
+                console.log('!res.user.picture', res.user)
+                const img = document.createElement('div');
+                img.setAttribute('alt', res.user.username);
+                img.setAttribute('title', res.user.username);
+                img.classList.add('profile-image');
+                img.innerText = res.user['icon:text'];
+                img.style.backgroundColor = res.user['icon:bgColor'];
+                $profilePicture.outerHTML = img.outerHTML;
+              }
             }
           });
         }

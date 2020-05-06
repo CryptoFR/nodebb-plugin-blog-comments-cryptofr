@@ -1511,8 +1511,34 @@ function commentSubmissionsHandler() {
               $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid));
               $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid);
               _$postBody.innerHTML = res.content;
-              (0, _gifs.singleGifComment)(_$postBody);
-              console.log('post body', _$postBody); // reloadComments(pagination,0,true);
+              (0, _gifs.singleGifComment)(_$postBody); // reloadComments(pagination,0,true);
+
+              var $profilePicture = $li.querySelector('.profile-image');
+
+              if (res.user.picture) {
+                console.log('res.user.picture', res.user);
+                var img = document.createElement('img');
+                img.setAttribute('src', res.user.picture);
+                img.setAttribute('alt', res.user.username);
+                img.setAttribute('title', res.user.username);
+                img.classList.add('profile-image');
+                $profilePicture.outerHTML = img.outerHTML;
+              } else {
+                console.log('!res.user.picture', res.user);
+                debugger;
+
+                var _img = document.createElement('div');
+
+                _img.setAttribute('alt', res.user.username);
+
+                _img.setAttribute('title', res.user.username);
+
+                _img.classList.add('profile-image');
+
+                _img.innerText = res.user['icon:text'];
+                _img.style.backgroundColor = res.user['icon:bgColor'];
+                $profilePicture.outerHTML = _img.outerHTML;
+              }
             }
           });
         }
