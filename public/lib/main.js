@@ -1507,6 +1507,9 @@ function commentSubmissionsHandler() {
                 }
               }
 
+              var $editForm = $li.querySelector('form.sub-edit-input');
+              $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid));
+              $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid);
               _$postBody.innerHTML = res.content;
               (0, _gifs.singleGifComment)(_$postBody);
               console.log('post body', _$postBody); // reloadComments(pagination,0,true);

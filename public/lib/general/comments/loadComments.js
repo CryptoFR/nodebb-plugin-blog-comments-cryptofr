@@ -179,9 +179,11 @@ import { singleGifComment } from "../addons/gifs.js";
               for (const uidField of ul.querySelectorAll('[data-uid]')) {
                 uidField.setAttribute('data-uid', res.user.uid)
               }
+              const $editForm = $li.querySelector('form.sub-edit-input');
+              $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid))
+              $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid)
               $postBody.innerHTML = res.content;
               singleGifComment($postBody);
-              console.log('post body', $postBody);
               // reloadComments(pagination,0,true);
             }
           });
