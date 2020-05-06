@@ -1,6 +1,6 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
 import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
-import { upvotePost,downvotePost,xpost } from "../api.js";
+import { upvotePost,downvotePost,xpost, newFetch } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
 
@@ -144,8 +144,8 @@ import { singleGifComment } from "../addons/gifs.js";
           form.querySelector(".submit-comment").classList.remove("loading-button");
         }
         else {
-        	xpost(XHR, form.getAttribute("action"), inputs);	      
-          setTimeout(function() {
+        	newFetch(form.getAttribute("action"), inputs).then((...args) => {
+            console.log('fetch', args)
             if(/edit/.test(form.getAttribute('action'))) {
               const $postBody = form.closest('div').querySelector('.post-body')
               const content = inputs.content
@@ -155,9 +155,21 @@ import { singleGifComment } from "../addons/gifs.js";
               $(form).hide();
               form.querySelector(".submit-comment").classList.remove("loading-button");
             } else {
-              reloadComments(pagination,0,true);
+              const $li = form.closest('li').cloneNode(true);
+              let ul=form.parentNode.parentNode.querySelector('ul')
+              if (!ul) {
+                const newUL = document.createElement('ul')
+                form.parentNode.parentNode.append(
+                  newUL
+                )
+                ul = newUL
+              }
+              console.log('parent node', form.parentNode.parentNode)
+              ul.appendChild($li);
+              console.log('form.closest', form.closest('ul'))
+              // reloadComments(pagination,0,true);
             }
-          },500);
+          });
         }
         return false;
       });

@@ -317,7 +317,13 @@
         content: content
       },
       function(err, postData) {
-        res.redirect(get_redirect_url(url, err));
+        //res.redirect(get_redirect_url(url, err));
+        return res.json({
+          tid,
+          uid,
+          toPid,
+          content
+        })
       }
     );
   };

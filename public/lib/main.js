@@ -1424,8 +1424,13 @@ function commentSubmissionsHandler() {
           formSubmitError("Message too short", form);
           form.querySelector(".submit-comment").classList.remove("loading-button");
         } else {
-          (0, _api.xpost)(_settings.XHR, form.getAttribute("action"), inputs);
-          setTimeout(function () {
+          (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function () {
+            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+              args[_key] = arguments[_key];
+            }
+
+            console.log('fetch', args);
+
             if (/edit/.test(form.getAttribute('action'))) {
               var $postBody = form.closest('div').querySelector('.post-body');
               var content = inputs.content;
@@ -1437,9 +1442,20 @@ function commentSubmissionsHandler() {
               $(form).hide();
               form.querySelector(".submit-comment").classList.remove("loading-button");
             } else {
-              reloadComments(_settings.pagination, 0, true);
+              var $li = form.closest('li').cloneNode(true);
+              var ul = form.parentNode.parentNode.querySelector('ul');
+
+              if (!ul) {
+                var newUL = document.createElement('ul');
+                form.parentNode.parentNode.append(newUL);
+                ul = newUL;
+              }
+
+              console.log('parent node', form.parentNode.parentNode);
+              ul.appendChild($li);
+              console.log('form.closest', form.closest('ul')); // reloadComments(pagination,0,true);
             }
-          }, 500);
+          });
         }
 
         return false;
