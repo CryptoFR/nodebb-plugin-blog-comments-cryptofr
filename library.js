@@ -322,7 +322,9 @@
           tid,
           uid,
           toPid,
-          content
+          content,
+          pid: postData.pid,
+          user: postData.user
         })
       }
     );
