@@ -1424,13 +1424,9 @@ function commentSubmissionsHandler() {
           formSubmitError("Message too short", form);
           form.querySelector(".submit-comment").classList.remove("loading-button");
         } else {
-          (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function () {
-            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-              args[_key] = arguments[_key];
-            }
-
-            console.log('fetch', args);
-
+          (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
+            return res.json();
+          }).then(function (res) {
             if (/edit/.test(form.getAttribute('action'))) {
               var $postBody = form.closest('div').querySelector('.post-body');
               var content = inputs.content;
@@ -1456,8 +1452,64 @@ function commentSubmissionsHandler() {
 
               if ($childUL) {
                 (0, _util.removeNodes)($childUL);
-              } // reloadComments(pagination,0,true);
+              }
 
+              var _$postBody = $li.querySelector('.post-body');
+
+              _$postBody.setAttribute('content', res.content);
+
+              console.log(res);
+              var _iteratorNormalCompletion4 = true;
+              var _didIteratorError4 = false;
+              var _iteratorError4 = undefined;
+
+              try {
+                for (var _iterator4 = ul.querySelectorAll('[data-pid]')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                  var pidField = _step4.value;
+                  pidField.setAttribute('data-pid', res.pid);
+                }
+              } catch (err) {
+                _didIteratorError4 = true;
+                _iteratorError4 = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+                    _iterator4.return();
+                  }
+                } finally {
+                  if (_didIteratorError4) {
+                    throw _iteratorError4;
+                  }
+                }
+              }
+
+              var _iteratorNormalCompletion5 = true;
+              var _didIteratorError5 = false;
+              var _iteratorError5 = undefined;
+
+              try {
+                for (var _iterator5 = ul.querySelectorAll('[data-uid]')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                  var uidField = _step5.value;
+                  uidField.setAttribute('data-uid', res.user.uid);
+                }
+              } catch (err) {
+                _didIteratorError5 = true;
+                _iteratorError5 = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+                    _iterator5.return();
+                  }
+                } finally {
+                  if (_didIteratorError5) {
+                    throw _iteratorError5;
+                  }
+                }
+              }
+
+              _$postBody.innerHTML = res.content;
+              (0, _gifs.singleGifComment)(_$postBody);
+              console.log('post body', _$postBody); // reloadComments(pagination,0,true);
             }
           });
         }

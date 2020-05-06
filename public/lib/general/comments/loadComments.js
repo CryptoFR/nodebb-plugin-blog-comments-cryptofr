@@ -144,8 +144,9 @@ import { singleGifComment } from "../addons/gifs.js";
           form.querySelector(".submit-comment").classList.remove("loading-button");
         }
         else {
-        	newFetch(form.getAttribute("action"), inputs).then((...args) => {
-            console.log('fetch', args)
+          newFetch(form.getAttribute("action"), inputs)
+            .then(res => res.json())
+            .then((res) => {
             if(/edit/.test(form.getAttribute('action'))) {
               const $postBody = form.closest('div').querySelector('.post-body')
               const content = inputs.content
@@ -169,6 +170,18 @@ import { singleGifComment } from "../addons/gifs.js";
               if ($childUL) {
                 removeNodes($childUL);
               }
+              const $postBody = $li.querySelector('.post-body')
+              $postBody.setAttribute('content', res.content)
+              console.log(res)
+              for(const pidField of ul.querySelectorAll('[data-pid]')) {
+                pidField.setAttribute('data-pid', res.pid)
+              }
+              for (const uidField of ul.querySelectorAll('[data-uid]')) {
+                uidField.setAttribute('data-uid', res.user.uid)
+              }
+              $postBody.innerHTML = res.content;
+              singleGifComment($postBody);
+              console.log('post body', $postBody);
               // reloadComments(pagination,0,true);
             }
           });
