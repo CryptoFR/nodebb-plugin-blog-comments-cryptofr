@@ -1516,7 +1516,6 @@ function commentSubmissionsHandler() {
               var $profilePicture = $li.querySelector('.profile-image');
 
               if (res.user.picture) {
-                console.log('res.user.picture', res.user);
                 var img = document.createElement('img');
                 img.setAttribute('src', res.user.picture);
                 img.setAttribute('alt', res.user.username);
@@ -1524,9 +1523,6 @@ function commentSubmissionsHandler() {
                 img.classList.add('profile-image');
                 $profilePicture.outerHTML = img.outerHTML;
               } else {
-                console.log('!res.user.picture', res.user);
-                debugger;
-
                 var _img = document.createElement('div');
 
                 _img.setAttribute('alt', res.user.username);
