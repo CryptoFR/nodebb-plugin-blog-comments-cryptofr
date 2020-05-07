@@ -334,7 +334,7 @@
     const content = req.body.content,
       url = req.body.url,
       uid = req.user ? req.user.uid : 0;
-
+    console.log('edit post');
     posts.edit(
       {
         uid,
@@ -343,7 +343,13 @@
         req
       },
       function(err, postData) {
-        res.redirect(get_redirect_url(url, err));
+        console.log('post data', postData)
+        return res.json({
+          uid,
+          content,
+          pid: postData.pid,
+          user: postData.user
+        });
       }
     );
   };

@@ -1438,7 +1438,8 @@ function commentSubmissionsHandler() {
               $(form).hide();
               form.querySelector(".submit-comment").classList.remove("loading-button");
             } else {
-              var $li = form.closest('li').cloneNode(true);
+              var _$li = form.closest('li').cloneNode(true);
+
               var ul = form.parentNode.parentNode.querySelector('ul');
 
               if (!ul) {
@@ -1447,14 +1448,15 @@ function commentSubmissionsHandler() {
                 ul = newUL;
               }
 
-              ul.appendChild($li);
-              var $childUL = $li.querySelector('ul');
+              ul.appendChild(_$li);
+
+              var $childUL = _$li.querySelector('ul');
 
               if ($childUL) {
                 (0, _util.removeNodes)($childUL);
               }
 
-              var _$postBody = $li.querySelector('.post-body');
+              var _$postBody = _$li.querySelector('.post-body');
 
               _$postBody.setAttribute('content', res.content);
 
@@ -1507,13 +1509,16 @@ function commentSubmissionsHandler() {
                 }
               }
 
-              var $editForm = $li.querySelector('form.sub-edit-input');
+              var $editForm = _$li.querySelector('form.sub-edit-input');
+
               $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid));
-              $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid);
+
+              _$li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid);
+
               _$postBody.innerHTML = res.content;
               (0, _gifs.singleGifComment)(_$postBody); // reloadComments(pagination,0,true);
 
-              var $profilePicture = $li.querySelector('.profile-image');
+              var $profilePicture = _$li.querySelector('.profile-image');
 
               if (res.user.picture) {
                 var img = document.createElement('img');
@@ -1536,9 +1541,34 @@ function commentSubmissionsHandler() {
                 $profilePicture.outerHTML = _img.outerHTML;
               }
 
-              var $status = $li.querySelector('.user-status');
+              var $status = _$li.querySelector('.user-status');
+
               $status.classList.remove('offline');
               $status.classList.add('online');
+            }
+
+            var _iteratorNormalCompletion6 = true;
+            var _didIteratorError6 = false;
+            var _iteratorError6 = undefined;
+
+            try {
+              for (var _iterator6 = $li.querySelectorAll('form, .form-control')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                var $form = _step6.value;
+                $form.style.display = 'none';
+              }
+            } catch (err) {
+              _didIteratorError6 = true;
+              _iteratorError6 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
+                  _iterator6.return();
+                }
+              } finally {
+                if (_didIteratorError6) {
+                  throw _iteratorError6;
+                }
+              }
             }
           });
         }
