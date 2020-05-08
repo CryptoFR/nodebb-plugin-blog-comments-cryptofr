@@ -1427,6 +1427,8 @@ function commentSubmissionsHandler() {
           (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
             return res.json();
           }).then(function (res) {
+            form.classList.add('hidden');
+            form.querySelector('button.loading-button').classList.remove('loading-button');
             if (/edit/.test(form.getAttribute('action'))) {
               var $postBody = form.closest('div').querySelector('.post-body');
               var content = inputs.content;
@@ -1439,36 +1441,14 @@ function commentSubmissionsHandler() {
               form.querySelector(".submit-comment").classList.remove("loading-button");
             } else if (/reply/.test(form.getAttribute('action'))) {
               var $li = form.closest('li').cloneNode(true);
-              var ul = form.closest('li').querySelector('ul');
-              console.log('ul', ul, 'form', form);
-              /*if (!ul) {
-                const newUL = document.createElement('ul')
-                form.parentNode.parentNode.append(
-                  newUL
-                )
-                ul = newUL
-              }*/
-
-              ul.appendChild($li);
-              var $childUL = $li.querySelector('ul');
-
-              if ($childUL) {
-                (0, _util.removeNodes)($childUL);
-              }
-
-              var _$postBody = $li.querySelector('.post-body');
-
-              _$postBody.setAttribute('content', res.content);
-
-              console.log(res);
               var _iteratorNormalCompletion4 = true;
               var _didIteratorError4 = false;
               var _iteratorError4 = undefined;
 
               try {
-                for (var _iterator4 = ul.querySelectorAll('[data-pid]')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                  var pidField = _step4.value;
-                  pidField.setAttribute('data-pid', res.pid);
+                for (var _iterator4 = $li.querySelectorAll('form')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                  var f = _step4.value;
+                  f.classList.add('hidden');
                 }
               } catch (err) {
                 _didIteratorError4 = true;
@@ -1485,14 +1465,41 @@ function commentSubmissionsHandler() {
                 }
               }
 
+              var $topicItem = $li.querySelector('.topic-item');
+
+              if ($topicItem) {
+                $topicItem.classList.remove('replying');
+              }
+
+              var ul = form.closest('li').querySelector('ul');
+              console.log('ul', ul, 'form', form);
+
+              if (!ul) {
+                var newUL = document.createElement('ul');
+                form.closest('li').append(newUL);
+                ul = newUL;
+              }
+
+              ul.appendChild($li);
+              var $childUL = $li.querySelector('ul');
+
+              if ($childUL) {
+                (0, _util.removeNodes)($childUL);
+              }
+
+              var _$postBody = $li.querySelector('.post-body');
+
+              _$postBody.setAttribute('content', res.content);
+
+              console.log(res);
               var _iteratorNormalCompletion5 = true;
               var _didIteratorError5 = false;
               var _iteratorError5 = undefined;
 
               try {
-                for (var _iterator5 = ul.querySelectorAll('[data-uid]')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                  var uidField = _step5.value;
-                  uidField.setAttribute('data-uid', res.user.uid);
+                for (var _iterator5 = ul.querySelectorAll('[data-pid]')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                  var pidField = _step5.value;
+                  pidField.setAttribute('data-pid', res.pid);
                 }
               } catch (err) {
                 _didIteratorError5 = true;
@@ -1505,6 +1512,30 @@ function commentSubmissionsHandler() {
                 } finally {
                   if (_didIteratorError5) {
                     throw _iteratorError5;
+                  }
+                }
+              }
+
+              var _iteratorNormalCompletion6 = true;
+              var _didIteratorError6 = false;
+              var _iteratorError6 = undefined;
+
+              try {
+                for (var _iterator6 = ul.querySelectorAll('[data-uid]')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                  var uidField = _step6.value;
+                  uidField.setAttribute('data-uid', res.user.uid);
+                }
+              } catch (err) {
+                _didIteratorError6 = true;
+                _iteratorError6 = err;
+              } finally {
+                try {
+                  if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
+                    _iterator6.return();
+                  }
+                } finally {
+                  if (_didIteratorError6) {
+                    throw _iteratorError6;
                   }
                 }
               }
@@ -1541,7 +1572,6 @@ function commentSubmissionsHandler() {
               var $status = $li.querySelector('.user-status');
               $status.classList.remove('offline');
               $status.classList.add('online');
-              $(form).hide();
             }
           });
         }
@@ -3161,6 +3191,5 @@ _settings.set.templates({
 
 (0, _onload.onloadXHR)();
 (0, _modal.tabIsActive)();
-(0, _util.windowOnload)();
-(0, _loadComments.newCommentsCheck)();
+(0, _util.windowOnload)(); // newCommentsCheck();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["ZSQl"], null)

@@ -147,6 +147,9 @@ import { singleGifComment } from "../addons/gifs.js";
           newFetch(form.getAttribute("action"), inputs)
             .then(res => res.json())
             .then((res) => {
+            form.classList.add('hidden');
+            form.querySelector('button.loading-button').classList.remove('loading-button');
+            console.log('form', form)
             if(/edit/.test(form.getAttribute('action'))) {
               const $postBody = form.closest('div').querySelector('.post-body')
               const content = inputs.content
@@ -157,15 +160,22 @@ import { singleGifComment } from "../addons/gifs.js";
               form.querySelector(".submit-comment").classList.remove("loading-button");
             } else if (/reply/.test(form.getAttribute('action'))) {
               const $li = form.closest('li').cloneNode(true);
+              for (const f of $li.querySelectorAll('form')) {
+                f.classList.add('hidden');
+              }
+              const $topicItem = $li.querySelector('.topic-item');
+              if ($topicItem) {
+                $topicItem.classList.remove('replying');
+              }
               let ul=form.closest('li').querySelector('ul')
               console.log('ul', ul, 'form', form)
-              /*if (!ul) {
+              if (!ul) {
                 const newUL = document.createElement('ul')
-                form.parentNode.parentNode.append(
+                form.closest('li').append(
                   newUL
                 )
                 ul = newUL
-              }*/
+              }
               ul.appendChild($li);
               const $childUL = $li.querySelector('ul')
               if ($childUL) {
@@ -206,7 +216,6 @@ import { singleGifComment } from "../addons/gifs.js";
               const $status = $li.querySelector('.user-status');
               $status.classList.remove('offline');
               $status.classList.add('online')
-              $(form).hide()
             }
           });
         }

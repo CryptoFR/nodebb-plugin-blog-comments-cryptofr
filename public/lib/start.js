@@ -71,4 +71,4 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 
   windowOnload();
 
-  newCommentsCheck();
+  // newCommentsCheck();
