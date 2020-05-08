@@ -149,7 +149,6 @@ import { singleGifComment } from "../addons/gifs.js";
             .then((res) => {
             form.classList.add('hidden');
             form.querySelector('button.loading-button').classList.remove('loading-button');
-            console.log('form', form)
             if(/edit/.test(form.getAttribute('action'))) {
               const $postBody = form.closest('div').querySelector('.post-body')
               const content = inputs.content
