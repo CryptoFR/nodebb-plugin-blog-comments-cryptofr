@@ -159,13 +159,21 @@ import { singleGifComment } from "../addons/gifs.js";
               form.querySelector(".submit-comment").classList.remove("loading-button");
             } else if (/reply/.test(form.getAttribute('action'))) {
               const $li = form.closest('li').cloneNode(true);
+              $li.classList.remove('expandable');
+              $li.classList.remove('expanded')
+              const oldLi = form.closest('li');
+              oldLi.classList.add('expandable');
+              oldLi.classList.add('expanded')
               for (const f of $li.querySelectorAll('form')) {
                 f.classList.add('hidden');
               }
-              form.closest('li').querySelector('.topic-item').classList.remove('replying');
+              const $oldTopicItem = form.closest('li').querySelector('.topic-item')
+              $oldTopicItem.classList.remove('quoting');
+              $oldTopicItem.classList.remove('replying');
               const $topicItem = $li.querySelector('.topic-item');
               if ($topicItem) {
                 $topicItem.classList.remove('replying');
+                $topicItem.classList.remove('quoting');
               }
               let ul=form.closest('li').querySelector('ul')
               console.log('ul', ul, 'form', form)
@@ -237,8 +245,8 @@ import { singleGifComment } from "../addons/gifs.js";
   }
 
   export function setMaxHeight(comments){
-    console.log('set max height', comments);
     for (let ul of comments.querySelectorAll('ul')){
-      ul.style.maxHeight=getComputedStyle(ul)['height']
+     ul.style.maxHeight='initial';
+     ul.style.maxHeight=getComputedStyle(ul)['height']
     }
   }

@@ -1443,6 +1443,11 @@ function commentSubmissionsHandler() {
               form.querySelector(".submit-comment").classList.remove("loading-button");
             } else if (/reply/.test(form.getAttribute('action'))) {
               var $li = form.closest('li').cloneNode(true);
+              $li.classList.remove('expandable');
+              $li.classList.remove('expanded');
+              var oldLi = form.closest('li');
+              oldLi.classList.add('expandable');
+              oldLi.classList.add('expanded');
               var _iteratorNormalCompletion4 = true;
               var _didIteratorError4 = false;
               var _iteratorError4 = undefined;
@@ -1467,11 +1472,14 @@ function commentSubmissionsHandler() {
                 }
               }
 
-              form.closest('li').querySelector('.topic-item').classList.remove('replying');
+              var $oldTopicItem = form.closest('li').querySelector('.topic-item');
+              $oldTopicItem.classList.remove('quoting');
+              $oldTopicItem.classList.remove('replying');
               var $topicItem = $li.querySelector('.topic-item');
 
               if ($topicItem) {
                 $topicItem.classList.remove('replying');
+                $topicItem.classList.remove('quoting');
               }
 
               var ul = form.closest('li').querySelector('ul');
@@ -1615,15 +1623,15 @@ function formSubmitError(message, form) {
 }
 
 function setMaxHeight(comments) {
-  console.log('set max height', comments);
   var _iteratorNormalCompletion7 = true;
   var _didIteratorError7 = false;
   var _iteratorError7 = undefined;
 
   try {
-    for (var _iterator7 = comments.querySelectorAll('ul')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+    for (var _iterator7 = comments.querySelectorAll('ul')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {// ul.style.maxHeight='initial';
+      // ul.style.maxHeight=getComputedStyle(ul)['height']
+
       var ul = _step7.value;
-      ul.style.maxHeight = getComputedStyle(ul)['height'];
     }
   } catch (err) {
     _didIteratorError7 = true;
