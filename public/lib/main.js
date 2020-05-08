@@ -1221,6 +1221,7 @@ exports.reloadComments = reloadComments;
 exports.newCommentsCheck = newCommentsCheck;
 exports.commentSubmissionsHandler = commentSubmissionsHandler;
 exports.formSubmitError = formSubmitError;
+exports.setMaxHeight = setMaxHeight;
 
 var _settings = require("../../settings.js");
 
@@ -1429,6 +1430,7 @@ function commentSubmissionsHandler() {
           }).then(function (res) {
             form.classList.add('hidden');
             form.querySelector('button.loading-button').classList.remove('loading-button');
+
             if (/edit/.test(form.getAttribute('action'))) {
               var $postBody = form.closest('div').querySelector('.post-body');
               var content = inputs.content;
@@ -1572,6 +1574,9 @@ function commentSubmissionsHandler() {
               var $status = $li.querySelector('.user-status');
               $status.classList.remove('offline');
               $status.classList.add('online');
+            } else if (form.classList.contains('form-top-post')) {// Obtener nodo de comentarios
+              // setear atributos
+              // pegar en el dom
             }
           });
         }
@@ -1604,6 +1609,33 @@ function formSubmitError(message, form) {
   setTimeout(function () {
     form.querySelector(".nodebb-error").innerText = "";
   }, 3000);
+}
+
+function setMaxHeight(comments) {
+  console.log('set max height', comments);
+  var _iteratorNormalCompletion7 = true;
+  var _didIteratorError7 = false;
+  var _iteratorError7 = undefined;
+
+  try {
+    for (var _iterator7 = comments.querySelectorAll('ul')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+      var ul = _step7.value;
+      ul.style.maxHeight = getComputedStyle(ul)['height'];
+    }
+  } catch (err) {
+    _didIteratorError7 = true;
+    _iteratorError7 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
+        _iterator7.return();
+      }
+    } finally {
+      if (_didIteratorError7) {
+        throw _iteratorError7;
+      }
+    }
+  }
 }
 },{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","../../integration/wordpress.js":"poQx","../addons/gifs.js":"XBBC"}],"kjEe":[function(require,module,exports) {
 "use strict";
@@ -1926,6 +1958,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.checkExpandableComments = checkExpandableComments;
 
+var _loadComments = require("./loadComments");
+
 /**************************************
 
    Expand/Collapse comments functions
@@ -1965,6 +1999,7 @@ function checkExpandableComments() {
     }
   }
 
+  (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
   collapseExpandCommentEvent();
 }
 
@@ -2017,7 +2052,7 @@ function collapseExpandCommentEvent() {
     }
   }
 }
-},{}],"w7Fc":[function(require,module,exports) {
+},{"./loadComments":"V8ra"}],"w7Fc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2507,6 +2542,8 @@ function drawComments() {
   } // onLoadFunction();
   // uploadInit();
 
+
+  setMaxHeight(document.getElementById('nodebb-comments-list'));
 }
 
 function prepareSignout(token) {

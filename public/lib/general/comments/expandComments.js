@@ -4,6 +4,8 @@
 
 ***************************************/
 
+import { setMaxHeight } from "./loadComments";
+
 export function checkExpandableComments() {
   for (let comment of document.querySelectorAll("#nodebb-comments-list li")) { 
     if (comment.querySelector("ul")) {
@@ -17,6 +19,7 @@ export function checkExpandableComments() {
       comment.querySelector(".topic-item > .topic-body > .topic-text > .post-content >small ").appendChild(expandableButton);
     }
   }
+  setMaxHeight(document.getElementById('nodebb-comments-list'));
   collapseExpandCommentEvent();
 }
 

@@ -215,6 +215,10 @@ import { singleGifComment } from "../addons/gifs.js";
               const $status = $li.querySelector('.user-status');
               $status.classList.remove('offline');
               $status.classList.add('online')
+            } else if (form.classList.contains('form-top-post')) {
+              // Obtener nodo de comentarios
+              // setear atributos
+              // pegar en el dom
             }
           });
         }
@@ -228,4 +232,11 @@ import { singleGifComment } from "../addons/gifs.js";
     setTimeout(function(){
       form.querySelector(".nodebb-error").innerText="";
     },3000)
+  }
+
+  export function setMaxHeight(comments){
+    console.log('set max height', comments);
+    for (let ul of comments.querySelectorAll('ul')){
+      ul.style.maxHeight=getComputedStyle(ul)['height']
+    }
   }

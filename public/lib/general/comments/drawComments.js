@@ -439,7 +439,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       reloadComments(pagination,page+1,false)
     } 
 
-    
     commentSubmissionsHandler();
     checkExpandableComments();
     commentOptions();
@@ -907,7 +906,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 	  var retVal = document.createElement("div");
 	  for (var i = 0; i < comments.length; i++) {
 	    retVal.appendChild(createNestedCommentsInternal(comments[i], 0));
-	  }
+    }
 	  return retVal;
   }
 
