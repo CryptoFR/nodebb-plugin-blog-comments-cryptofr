@@ -1467,6 +1467,7 @@ function commentSubmissionsHandler() {
                 }
               }
 
+              form.closest('li').querySelector('.topic-item').classList.remove('replying');
               var $topicItem = $li.querySelector('.topic-item');
 
               if ($topicItem) {
@@ -1578,6 +1579,8 @@ function commentSubmissionsHandler() {
               // setear atributos
               // pegar en el dom
             }
+
+            setMaxHeight(document.getElementById('nodebb-comments-list'));
           });
         }
 
@@ -2018,6 +2021,7 @@ function collapseExpandCommentEvent() {
           expandedButton.classList.add("collapsed");
           var expandedComment = expandedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
           expandedComment.classList.remove("expanded");
+          console.log('topic item', expandedComment.querySelector('.topic-item'));
           expandedComment.classList.add("collapsed");
           expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
           expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
@@ -2026,6 +2030,7 @@ function collapseExpandCommentEvent() {
           collapsedButton.classList.remove("collapsed");
           collapsedButton.classList.add("expanded");
           var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+          console.log('topic item', collapsedComment.querySelector('.topic-item'));
           collapsedComment.classList.remove("collapsed");
           collapsedComment.classList.add("expanded");
           collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
@@ -2542,8 +2547,6 @@ function drawComments() {
   } // onLoadFunction();
   // uploadInit();
 
-
-  setMaxHeight(document.getElementById('nodebb-comments-list'));
 }
 
 function prepareSignout(token) {

@@ -162,6 +162,7 @@ import { singleGifComment } from "../addons/gifs.js";
               for (const f of $li.querySelectorAll('form')) {
                 f.classList.add('hidden');
               }
+              form.closest('li').querySelector('.topic-item').classList.remove('replying');
               const $topicItem = $li.querySelector('.topic-item');
               if ($topicItem) {
                 $topicItem.classList.remove('replying');
@@ -220,6 +221,7 @@ import { singleGifComment } from "../addons/gifs.js";
               // setear atributos
               // pegar en el dom
             }
+            setMaxHeight(document.getElementById('nodebb-comments-list'))
           });
         }
         return false;
