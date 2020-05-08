@@ -1628,10 +1628,10 @@ function setMaxHeight(comments) {
   var _iteratorError7 = undefined;
 
   try {
-    for (var _iterator7 = comments.querySelectorAll('ul')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {// ul.style.maxHeight='initial';
-      // ul.style.maxHeight=getComputedStyle(ul)['height']
-
+    for (var _iterator7 = comments.querySelectorAll('ul')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
       var ul = _step7.value;
+      ul.style.maxHeight = 'initial';
+      ul.style.maxHeight = getComputedStyle(ul)['height'];
     }
   } catch (err) {
     _didIteratorError7 = true;
