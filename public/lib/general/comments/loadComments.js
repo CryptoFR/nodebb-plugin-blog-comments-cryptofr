@@ -155,16 +155,17 @@ import { singleGifComment } from "../addons/gifs.js";
               set.reload(true)
               $(form).hide();
               form.querySelector(".submit-comment").classList.remove("loading-button");
-            } else {
+            } else if (/reply/.test(form.getAttribute('action'))) {
               const $li = form.closest('li').cloneNode(true);
-              let ul=form.parentNode.parentNode.querySelector('ul')
-              if (!ul) {
+              let ul=form.closest('li').querySelector('ul')
+              console.log('ul', ul, 'form', form)
+              /*if (!ul) {
                 const newUL = document.createElement('ul')
                 form.parentNode.parentNode.append(
                   newUL
                 )
                 ul = newUL
-              }
+              }*/
               ul.appendChild($li);
               const $childUL = $li.querySelector('ul')
               if ($childUL) {
@@ -205,6 +206,7 @@ import { singleGifComment } from "../addons/gifs.js";
               const $status = $li.querySelector('.user-status');
               $status.classList.remove('offline');
               $status.classList.add('online')
+              $(form).hide()
             }
           });
         }
