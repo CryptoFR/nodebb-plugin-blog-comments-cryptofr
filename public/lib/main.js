@@ -1313,7 +1313,35 @@ function collapseExpandCommentEvent() {
     }
   }
 }
-},{"./loadComments":"V8ra"}],"V8ra":[function(require,module,exports) {
+},{"./loadComments":"V8ra"}],"OGtT":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseNewComment = parseNewComment;
+
+var _settings = require("../../settings.js");
+
+function parseNewComment(post, user, token, tid) {
+  var newComment = '<li data-pid="' + post.pid + '">' + '<div class="topic-item" data-pid="' + post.pid + '" data-userslug="' + user.userslug + '" data-uid="' + post.uid + '">' + '<div class="topic-body">' + '<div class="topic-profile-pic">' + '<a href="' + _settings.dataRes.relative_path + '/user/{' + user.userslug + '}">';
+
+  if (user.picture.length) {
+    newComment += '<img src="' + user.picture + '" alt="' + user.username + '" class="profile-image" title="' + user.username + '">';
+  } else {
+    newComment += '<div class="profile-image" style="background-color: ' + user['icon:bgColor'] + '" title="' + user.username + '" alt="' + user.username + '">' + user['icon:text'] + '</div>';
+  }
+
+  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + '<span class="post-time" data-timestamp="" title="' + post.timestampISO + '">' + post.timestamp + '</span>';
+
+  if (post.isReply) {
+    newComment += '<button data-component="post/parent" class="reply-label no-select" data-topid="' + post.toPid + '">' + '<i class="icon-reply"></i> <span data-parent-username="">@' + post.parentUsername + '</span>' + '</button>';
+  }
+
+  newComment += '<div class="menuButton-container">' + '<span class="menuButton"><i class="fad fa-caret-down"></i></span>' + '<div class="options-container">' + '<span class="edit-option"><i class="fad fa-edit"></i> Éditer</span>' + '<span class="delete-option"><i class="fad fa-trash"></i> Supprimer</span>' + '</div>' + '</div>' + '</small>' + '<div class="post-body" content="' + post.content + '">' + post.content + '</div>' + '<div class="nodebb-post-tools post-tools no-select">' + '<a class="upvote" data-component="post/upvote" data-pid="' + post.pid + '" data-upvoted="' + post.upvoted + '" data-votes="' + post.votes + '" title="Upvote">' + '<i class="i-upvote fad fa-angle-up"></i>' + '<span class="upvote-count" style="display: none;">' + +post.votes + '</span>' + '</a>' + '<div class="posts-vote">' + '<span class="post-value">' + post.votes + '</span>' + '</div>' + '<a class="downvote" data-component="post/downvote" data-pid="' + post.pid + '" data-downvoted="' + post.downvoted + '" data-votes="' + post.votes + '" title="Downvote">' + '<i class="i-downvote fad fa-angle-down"></i>' + '</a>' + '<a class="reply" data-component="post/reply" class="reply" title="Reply">' + '<i class="fad fa-reply"></i>' + '<span class="text">Répondre</span>' + '</a>' + '<a class="quote" data-component="post/quote" class="quote" title="Quote">' + '<i class="fad fa-quote-right"></i>' + '<span class="text">Citer</span>' + '</a>' + '<a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none;display: none;" title="Quote">' + 'Effacer' + '</a>' + '<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;display: none;" title="Edit">' + 'Éditer' + '</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<form action="' + _settings.dataRes.relative_path + '/comments/reply" method="post" class="sub-reply-input hidden">' + '<strong class="nodebb-error"></strong>' + '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>' + '<div class="comments-toolbar">' + '<div class="special-box">' + '<span class="special-action emojis">' + '<i class="fad fa-smile"></i>' + '</span>' + '<span class="special-action gif">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">' + '</span>' + '</div>' + '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à XXX</button>' + '</div>' + '<input type="hidden" name="_csrf" value="' + token + '" />' + '<input type="hidden" name="tid" value="' + tid + '" />' + '<input type="hidden" name="toPid" value="' + post.pid + '" />' + '<input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" />' + '</form>' + '<form action="' + _settings.dataRes.relative_path + '/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="' + post.pid + '">' + '<strong class="nodebb-error"></strong>' + '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>' + '<div class="comments-toolbar">' + '<div class="special-box">' + '<span class="special-action emojis">' + '<i class="fad fa-smile"></i>' + '</span>' + '<span class="special-action gif">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">' + '</span>' + '</div>' + '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">éditer</button>' + '</div>' + '<input type="hidden" name="_csrf" value="' + token + '" />' + '<input type="hidden" name="tid" value="' + tid + '" />' + '<input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" />' + '</form>' + '<div data-recursive-replies=""></div>' + '</div>' + '</li>' + '<form action="' + _settings.dataRes.relative_path + '/comments/reply" method="post" class="sub-reply-input hidden">' + '<strong class="nodebb-error"></strong>' + '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>' + '<div class="comments-toolbar">' + '<div class="special-box">' + '<span class="special-action emojis">' + '<i class="fad fa-smile"></i>' + '</span>' + '<span class="special-action gif">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">' + '</span>' + '</div>' + '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à XXX</button>' + '</div>' + '<input type="hidden" name="_csrf" value="' + token + '" />' + '<input type="hidden" name="tid" value="' + tid + '" />' + '<input type="hidden" name="toPid" value="' + post.pid + '" />' + '<input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" />' + '</form>' + '<form action="' + _settings.dataRes.relative_path + '/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="' + post.pid + '">' + '<strong class="nodebb-error"></strong>' + '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>' + '<div class="comments-toolbar">' + '<div class="special-box">' + '<span class="special-action emojis">' + '<i class="fad fa-smile"></i>' + '</span>' + '<span class="special-action gif">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">' + '</span>' + '</div>' + '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Éditer</button>' + '</div>' + '<input type="hidden" name="_csrf" value="' + token + '" />' + '<input type="hidden" name="tid" value="' + tid + '" />' + '<input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" />' + '</frm>' + '<div data-recursive-replies=""></div>' + '</div>' + '</li>';
+  return newComment;
+}
+},{"../../settings.js":"LXja"}],"V8ra":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1338,6 +1366,8 @@ var _wordpress = require("../../integration/wordpress.js");
 var _gifs = require("../addons/gifs.js");
 
 var _expandComments = require("./expandComments.js");
+
+var _newComment = require("./newComment.js");
 
 function addButtons() {
   var div = document.createElement("div");
@@ -1534,14 +1564,16 @@ function commentSubmissionsHandler() {
           (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
             return res.json();
           }).then(function (res) {
-            form.classList.add('hidden');
             form.querySelector('button.loading-button').classList.remove('loading-button');
+            console.log(form);
 
             if (/edit/.test(form.getAttribute('action'))) {
+              form.classList.add('hidden');
               editActionHandler(form, inputs);
-            } else if (form.classList.contains('form-top-post')) {
+            } else if (form.classList.contains('top-post-form')) {
               topReplyHandler(form, res);
             } else if (/reply/.test(form.getAttribute('action'))) {
+              form.classList.add('hidden');
               innerReplyHandler(form, res);
             }
 
@@ -1584,7 +1616,13 @@ function editActionHandler(form, inputs) {
   form.querySelector(".submit-comment").classList.remove("loading-button");
 }
 
-function topReplyHandler() {}
+function topReplyHandler(form, res) {
+  var newComment = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid);
+  var nodebbDiv = document.getElementById("nodebb-comments-list");
+  nodebbDiv.insertAdjacentHTML('afterbegin', newComment);
+  form.querySelector('textarea').value = '';
+  form.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+}
 
 function liSetToDefault($li, isClone) {
   if (isClone) {
@@ -1608,6 +1646,7 @@ function liSetToDefault($li, isClone) {
       var f = _step4.value;
       f.classList.add('hidden');
       f.querySelector('textarea').value = '';
+      f.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
     }
   } catch (err) {
     _didIteratorError4 = true;
@@ -1742,7 +1781,16 @@ function innerReplyHandler(form, res) {
 
   var $status = $li.querySelector('.user-status');
   $status.classList.remove('offline');
-  $status.classList.add('online');
+  $status.classList.add('online'); // Downvotes & Upvotes to 0
+
+  var downvoteElement = $li.querySelector('.downvote');
+  var upvoteElement = $li.querySelector('.upvote');
+  downvoteElement.setAttribute('data-downvoted', false);
+  upvoteElement.setAttribute('data-upvoted', false);
+  downvoteElement.classList.add('disabled');
+  upvoteElement.classList.add('disabled');
+  var postValue = $li.querySelector('.post-value');
+  postValue.innerHTML = 0;
   (0, _expandComments.checkExpandableComments)();
 }
 
@@ -1785,7 +1833,7 @@ function setMaxHeight(comments) {
     }
   }
 }
-},{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","../../integration/wordpress.js":"poQx","../addons/gifs.js":"XBBC","./expandComments.js":"PCfX"}],"kjEe":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","../../integration/wordpress.js":"poQx","../addons/gifs.js":"XBBC","./expandComments.js":"PCfX","./newComment.js":"OGtT"}],"kjEe":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2234,8 +2282,9 @@ function drawComments() {
     data.category_id = categoryID;
     data.postCount = parseInt(data.postCount, 10);
 
-    _settings.set.dataRes(data); // console.log(data)
+    _settings.set.dataRes(data);
 
+    console.log(data);
 
     if (_settings.firstTime && data.isValid) {
       (0, _loadComments.addButtons)();
@@ -2284,8 +2333,12 @@ function drawComments() {
       _settings.commentsAuthor.innerHTML = '<span class="nodebb-author"><img src="' + data.mainPost.user.picture + '" /> <a href="' + nodeBBURL + "/user/" + data.mainPost.user.userslug + '">' + data.mainPost.user.username + "</a></span>";
     }
 
-    html = parse(data, data.template);
-    _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html);
+    html = parse(data, data.template); // if ((firstTime /*|| deleting*/) && data.isValid) {
+
+    _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html); // } else {
+    // NewSort or LoadMoreComments or CheckingNewComments
+    // }
+
     setTimeout(function () {
       var $editor = _settings.nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor');
 
@@ -2769,7 +2822,7 @@ function parse(data, template) {
       var loadedComments = document.createElement('div');
       loadedComments.innerHTML = nested.innerHTML;
       var existingComments = document.querySelector("#nodebb-comments-list");
-      if (_settings.reloading) loadedComments = checkNewComments(existingComments, loadedComments); // console.log(div)
+      if (_settings.reloading) loadedComments = checkNewComments(existingComments, loadedComments);
 
       if (div.querySelector("#nodebb-comments-list")) {
         if (_settings.pagination == 0 || _settings.page == 0 && _settings.reload) {
@@ -2853,7 +2906,9 @@ function checkNewComments(existingComments, loadedComments) {
         }
       }
 
-      if (!flag) comment.classList.add("new-comment");
+      if (!flag) {
+        comment.classList.add("new-comment");
+      }
     }
   } catch (err) {
     _didIteratorError2 = true;

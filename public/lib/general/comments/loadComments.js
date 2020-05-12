@@ -4,8 +4,9 @@ import { upvotePost,downvotePost,xpost, newFetch } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
 import { checkExpandableComments } from "./expandComments.js";
+import { parseNewComment } from "./newComment.js";
  
-  export function addButtons() {
+  export function addButtons() { 
     var div = document.createElement("div");
     div.classList.add("load-more-div");
     var button = document.createElement("button");
@@ -147,20 +148,18 @@ import { checkExpandableComments } from "./expandComments.js";
           newFetch(form.getAttribute("action"), inputs)
             .then(res => res.json())
             .then((res) => {
-            form.classList.add('hidden');
             form.querySelector('button.loading-button').classList.remove('loading-button');
-            if(/edit/.test(form.getAttribute('action'))) {
-              
+            console.log(form)
+            if(/edit/.test(form.getAttribute('action'))) {              
+              form.classList.add('hidden');
               editActionHandler(form,inputs);
 
-            } else if (form.classList.contains('form-top-post')) {
-              
+            } else if (form.classList.contains('top-post-form')) {
               topReplyHandler(form,res)
 
             }else if (/reply/.test(form.getAttribute('action'))) {
-               
-               innerReplyHandler(form,res);
-
+              form.classList.add('hidden');
+              innerReplyHandler(form,res);
             } 
             setMaxHeight(document.getElementById('nodebb-comments-list'))
           });
@@ -180,8 +179,12 @@ import { checkExpandableComments } from "./expandComments.js";
     form.querySelector(".submit-comment").classList.remove("loading-button");
   }
 
-  function topReplyHandler(){
-
+  function topReplyHandler(form,res){
+    let newComment= parseNewComment(res,res.user,dataRes.token,res.tid)
+    const nodebbDiv= document.getElementById("nodebb-comments-list")
+    nodebbDiv.insertAdjacentHTML('afterbegin', newComment); 
+    form.querySelector('textarea').value='';
+    form.querySelector('.emoji-wysiwyg-editor').innerHTML='';
   }
  
 
@@ -202,6 +205,7 @@ import { checkExpandableComments } from "./expandComments.js";
     for (const f of $li.querySelectorAll('form')) {
       f.classList.add('hidden');
       f.querySelector('textarea').value='';
+      f.querySelector('.emoji-wysiwyg-editor').innerHTML='';
     }
 
   }
@@ -284,7 +288,20 @@ import { checkExpandableComments } from "./expandComments.js";
     }
     const $status = $li.querySelector('.user-status');
     $status.classList.remove('offline');
-    $status.classList.add('online')
+    $status.classList.add('online');
+
+    // Downvotes & Upvotes to 0
+    let downvoteElement= $li.querySelector('.downvote')
+    let upvoteElement= $li.querySelector('.upvote')
+
+    downvoteElement.setAttribute('data-downvoted',false)
+    upvoteElement.setAttribute('data-upvoted',false)
+
+    downvoteElement.classList.add('disabled')
+    upvoteElement.classList.add('disabled')
+
+    let postValue= $li.querySelector('.post-value')
+    postValue.innerHTML=0; 
 
     checkExpandableComments();
             

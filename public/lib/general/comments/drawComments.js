@@ -58,7 +58,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       set.dataRes(data);
 
-      // console.log(data)
+      console.log(data)
 
       if (firstTime && data.isValid) {
         addButtons();set.firstTime(false);
@@ -130,7 +130,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       }
 
       html = parse(data, data.template);
-      nodebbDiv.innerHTML = normalizePost(html);
+
+      // if ((firstTime /*|| deleting*/) && data.isValid) {
+        nodebbDiv.innerHTML = normalizePost(html);
+      // } else {
+        // NewSort or LoadMoreComments or CheckingNewComments
+      // }
+
       setTimeout(() => {
         const $editor = nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor');
         if (commentData[''] && $editor) {
@@ -703,8 +709,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
           if (reloading) loadedComments=checkNewComments(existingComments,loadedComments)
 
-          // console.log(div)
           if (div.querySelector("#nodebb-comments-list")){
+            
             if (pagination==0 || (page ==0 && reload) ){
               div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
             }
@@ -712,6 +718,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
               div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
             }
+
           } 
 
           if (checkIfWpAdmin()){
@@ -741,7 +748,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         if (comment.getAttribute("data-pid")==oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')  ) 
           flag=true;
       }
-      if (!flag ) comment.classList.add("new-comment");
+
+      if (!flag ) {
+        comment.classList.add("new-comment");
+      }
     }
 
     set.reloading(0);
@@ -799,8 +809,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 	   * @param {Object} comment the comment
 	   * @param {Number} level nesting level of the comment, if it's first order it'll be 1 and so forth
 	   * @returns {DOMElement} returns nested comments
-	   */
-	   
+	   */ 
 	  function createNestedCommentsInternal(comment, level) {
 	    var clone = template.cloneNode(true);
 	    // Here we should manipulate the node
