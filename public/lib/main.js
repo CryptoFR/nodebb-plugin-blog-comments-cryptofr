@@ -1233,8 +1233,6 @@ var _wordpress = require("../../integration/wordpress.js");
 
 var _gifs = require("../addons/gifs.js");
 
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 function addButtons() {
   var div = document.createElement("div");
   div.classList.add("load-more-div");
@@ -1487,8 +1485,8 @@ function liSetToDefault($li, isClone) {
     $li.classList.remove('expandable');
     $li.classList.remove('expanded');
   } else {
-    $oldLi.classList.add('expandable');
-    $oldLi.classList.add('expanded');
+    $li.classList.add('expandable');
+    $li.classList.add('expanded');
   }
 
   var $topicItem = $li.querySelector('.topic-item');
@@ -1525,9 +1523,9 @@ function liSetToDefault($li, isClone) {
 
 function innerReplyHandler(form, res) {
   var $oldLi = form.closest('li');
-  $oldLi = (_readOnlyError("$oldLi"), liSetToDefault($oldLi, false));
+  $oldLi = liSetToDefault($oldLi, false);
   var $li = form.closest('li').cloneNode(true);
-  $li = (_readOnlyError("$li"), liSetToDefault($li, true)); // Setting Parent ul to append the new li
+  $li = liSetToDefault($li, true); // Setting Parent ul to append the new li
 
   var parentUl = $oldLi.querySelector('ul');
 
@@ -1645,10 +1643,16 @@ function setMaxHeight(comments) {
   var _iteratorError7 = undefined;
 
   try {
-    for (var _iterator7 = comments.querySelectorAll('ul')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+    var _loop2 = function _loop2() {
       var ul = _step7.value;
       ul.style.maxHeight = 'initial';
-      ul.style.maxHeight = getComputedStyle(ul)['height'];
+      setTimeout(function () {
+        ul.style.maxHeight = getComputedStyle(ul)['height'];
+      }, 1000);
+    };
+
+    for (var _iterator7 = comments.querySelectorAll('ul')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+      _loop2();
     }
   } catch (err) {
     _didIteratorError7 = true;
@@ -2337,10 +2341,14 @@ function drawComments() {
         }
 
         if (/\/quote$/.test(dataComponent)) {
+          //  Click to hide
           if (topicItem.classList.contains("quoting")) {
             topicItem.classList.remove("quoting");
             elementForm.classList.add("hidden");
+            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // Click to quote
           } else {
+            formInput.value = '';
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
             topicItem.classList.add("quoting");
             topicItem.classList.remove("replying");
             var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
@@ -2349,14 +2357,21 @@ function drawComments() {
             formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
             elementForm.classList.remove("hidden");
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
+            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
           }
         } else if (/\/reply$/.test(dataComponent)) {
+          // Click to hide
           if (topicItem.classList.contains("replying")) {
             topicItem.classList.remove("replying");
             elementForm.classList.add("hidden");
+            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // click to reply
           } else {
+            formInput.value = '';
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
             topicItem.classList.add("replying");
-            topicItem.classList.remove("quoting"); // /!\ LEVEL >2 not functional /!\
+            topicItem.classList.remove("quoting");
+            elementForm.classList.remove("hidden");
+            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional /!\
             // if (level >= 2) {
             //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
             //   var regex = new RegExp("^" + atStr, "i");
@@ -2371,18 +2386,14 @@ function drawComments() {
             // } else {
             //   formInput.value = "";
             // }
-
-            var closest = formInput.closest('[data-pid]');
-            var key = closest ? closest.getAttribute('data-pid') : '';
-
-            if (_settings.commentData.hasOwnProperty(key)) {
-              formInput.value = _settings.commentData[key];
-              $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value);
-            } else {
-              formInput.value = "";
-            }
-
-            elementForm.classList.remove("hidden");
+            // const closest = formInput.closest('[data-pid]');
+            // const key = closest ? closest.getAttribute('data-pid') : '';
+            // if(commentData.hasOwnProperty(key)) {
+            //   formInput.value = commentData[key]
+            //   $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
+            // } else {
+            //   formInput.value = "";
+            // }
           }
         } else if (/\/edit$/.test(dataComponent)) {
           formInput.value = postBody.getAttribute('content');

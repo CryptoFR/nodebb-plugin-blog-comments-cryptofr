@@ -1793,7 +1793,7 @@ small.logged-as {
 }
 #nodebb li.expandable ul.collapsed-comments{
   overflow-y: hidden;
-  max-height: 0px;
+  max-height: 0px!important;
   transition: 0.6s;
 }
 

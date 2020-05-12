@@ -3,7 +3,7 @@ import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,chan
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments,commentSubmissionsHandler,addButtons } from "./loadComments.js"; 
+import { reloadComments,commentSubmissionsHandler,addButtons,setMaxHeight } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
@@ -202,10 +202,15 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           }
 
           if (/\/quote$/.test(dataComponent)) {
+            //  Click to hide
             if (topicItem.classList.contains("quoting")){
               topicItem.classList.remove("quoting");
               elementForm.classList.add("hidden");
-            } else {
+              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+              // Click to quote
+            } else { 
+              formInput.value='';
+              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''; 
               topicItem.classList.add("quoting");
               topicItem.classList.remove("replying");
               var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
@@ -214,14 +219,24 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
               elementForm.classList.remove("hidden");
               elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
+              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+              
             }
           } else if (/\/reply$/.test(dataComponent)) {
+            // Click to hide
             if (topicItem.classList.contains("replying")){
               topicItem.classList.remove("replying");
               elementForm.classList.add("hidden");
+              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+              // click to reply
             } else {
+              formInput.value='';
+              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''
               topicItem.classList.add("replying");
               topicItem.classList.remove("quoting");
+              elementForm.classList.remove("hidden");
+              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+
               // /!\ LEVEL >2 not functional /!\
               // if (level >= 2) {
               //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
@@ -238,15 +253,14 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               // } else {
               //   formInput.value = "";
               // }
-              const closest = formInput.closest('[data-pid]');
-              const key = closest ? closest.getAttribute('data-pid') : '';
-              if(commentData.hasOwnProperty(key)) {
-                formInput.value = commentData[key]
-                $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
-              } else {
-                formInput.value = "";
-              }
-              elementForm.classList.remove("hidden");
+              // const closest = formInput.closest('[data-pid]');
+              // const key = closest ? closest.getAttribute('data-pid') : '';
+              // if(commentData.hasOwnProperty(key)) {
+              //   formInput.value = commentData[key]
+              //   $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
+              // } else {
+              //   formInput.value = "";
+              // }
             }
           } else if (/\/edit$/.test(dataComponent)) {
             formInput.value = postBody.getAttribute('content');  

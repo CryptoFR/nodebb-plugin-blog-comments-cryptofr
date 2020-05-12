@@ -190,8 +190,8 @@ import { singleGifComment } from "../addons/gifs.js";
       $li.classList.remove('expandable');
       $li.classList.remove('expanded');
     }else {
-      $oldLi.classList.add('expandable');
-      $oldLi.classList.add('expanded');
+      $li.classList.add('expandable');
+      $li.classList.add('expanded');
     }
 
     const $topicItem = $li.querySelector('.topic-item');
@@ -288,6 +288,8 @@ import { singleGifComment } from "../addons/gifs.js";
   export function setMaxHeight(comments){
     for (let ul of comments.querySelectorAll('ul')){
      ul.style.maxHeight='initial';
-     ul.style.maxHeight=getComputedStyle(ul)['height']
+     setTimeout(function(){
+      ul.style.maxHeight=getComputedStyle(ul)['height']
+     },1000)
     }
   }
