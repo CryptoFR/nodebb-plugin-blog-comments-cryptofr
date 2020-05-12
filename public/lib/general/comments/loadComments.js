@@ -150,85 +150,18 @@ import { singleGifComment } from "../addons/gifs.js";
             form.classList.add('hidden');
             form.querySelector('button.loading-button').classList.remove('loading-button');
             if(/edit/.test(form.getAttribute('action'))) {
-              const $postBody = form.closest('div').querySelector('.post-body')
-              const content = inputs.content
-              $postBody.innerHTML = content;
-              singleGifComment($postBody)
-              set.reload(true)
-              $(form).hide();
-              form.querySelector(".submit-comment").classList.remove("loading-button");
-            } else if (/reply/.test(form.getAttribute('action'))) {
-              const $li = form.closest('li').cloneNode(true);
-              $li.classList.remove('expandable');
-              $li.classList.remove('expanded')
-              const oldLi = form.closest('li');
-              oldLi.classList.add('expandable');
-              oldLi.classList.add('expanded')
-              for (const f of $li.querySelectorAll('form')) {
-                f.classList.add('hidden');
-              }
-              const $oldTopicItem = form.closest('li').querySelector('.topic-item')
-              $oldTopicItem.classList.remove('quoting');
-              $oldTopicItem.classList.remove('replying');
-              const $topicItem = $li.querySelector('.topic-item');
-              if ($topicItem) {
-                $topicItem.classList.remove('replying');
-                $topicItem.classList.remove('quoting');
-              }
-              let ul=form.closest('li').querySelector('ul')
-              console.log('ul', ul, 'form', form)
-              if (!ul) {
-                const newUL = document.createElement('ul')
-                form.closest('li').append(
-                  newUL
-                )
-                ul = newUL
-              }
-              ul.appendChild($li);
-              const $childUL = $li.querySelector('ul')
-              if ($childUL) {
-                removeNodes($childUL);
-              }
-              const $postBody = $li.querySelector('.post-body')
-              $postBody.setAttribute('content', res.content)
-              console.log(res)
-              for(const pidField of ul.querySelectorAll('[data-pid]')) {
-                pidField.setAttribute('data-pid', res.pid)
-              }
-              for (const uidField of ul.querySelectorAll('[data-uid]')) {
-                uidField.setAttribute('data-uid', res.user.uid)
-              }
-              const $editForm = $li.querySelector('form.sub-edit-input');
-              $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid))
-              $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid)
-              $postBody.innerHTML = res.content;
-              singleGifComment($postBody);
-              // reloadComments(pagination,0,true);
-              const $profilePicture = $li.querySelector('.profile-image');
-              if (res.user.picture) {
-                const img = document.createElement('img');
-                img.setAttribute('src', res.user.picture);
-                img.setAttribute('alt', res.user.username);
-                img.setAttribute('title', res.user.username);
-                img.classList.add('profile-image');
-                $profilePicture.outerHTML = img.outerHTML;
-              } else {
-                const img = document.createElement('div');
-                img.setAttribute('alt', res.user.username);
-                img.setAttribute('title', res.user.username);
-                img.classList.add('profile-image');
-                img.innerText = res.user['icon:text'];
-                img.style.backgroundColor = res.user['icon:bgColor'];
-                $profilePicture.outerHTML = img.outerHTML;
-              }
-              const $status = $li.querySelector('.user-status');
-              $status.classList.remove('offline');
-              $status.classList.add('online')
+              
+              editActionHandler(form,inputs);
+
             } else if (form.classList.contains('form-top-post')) {
-              // Obtener nodo de comentarios
-              // setear atributos
-              // pegar en el dom
-            }
+              
+              topReplyHandler(form,res)
+
+            }else if (/reply/.test(form.getAttribute('action'))) {
+               
+               innerReplyHandler(form,res);
+
+            } 
             setMaxHeight(document.getElementById('nodebb-comments-list'))
           });
         }
@@ -236,6 +169,114 @@ import { singleGifComment } from "../addons/gifs.js";
       });
     }
   }
+
+  function editActionHandler(form,inputs){
+    const $postBody = form.closest('div').querySelector('.post-body')
+    const content = inputs.content
+    $postBody.innerHTML = content;
+    singleGifComment($postBody)
+    set.reload(true)
+    $(form).hide();
+    form.querySelector(".submit-comment").classList.remove("loading-button");
+  }
+
+  function topReplyHandler(){
+
+  }
+ 
+
+  function liSetToDefault($li,isClone){
+    if (isClone){
+      $li.classList.remove('expandable');
+      $li.classList.remove('expanded');
+    }else {
+      $oldLi.classList.add('expandable');
+      $oldLi.classList.add('expanded');
+    }
+
+    const $topicItem = $li.querySelector('.topic-item');
+    $topicItem.classList.remove('replying');
+    $topicItem.classList.remove('quoting');
+    
+    // Hide and clear forms 
+    for (const f of $li.querySelectorAll('form')) {
+      f.classList.add('hidden');
+      f.querySelector('textarea').value='';
+    }
+
+    return $li;
+  }
+
+
+  function innerReplyHandler(form,res){
+    const $oldLi = form.closest('li');
+    $oldLi=liSetToDefault($oldLi,false)
+
+    const $li = form.closest('li').cloneNode(true);
+    $li=liSetToDefault($li,true)
+    
+    // Setting Parent ul to append the new li
+    let parentUl=$oldLi.querySelector('ul')
+    if (!parentUl) {
+      const newUL = document.createElement('ul')
+      $oldLi.append(
+        newUL
+      )
+      parentUl = newUL
+    }
+    parentUl.appendChild($li);
+    
+    // Removing child ul of new li
+    const $childUL = $li.querySelector('ul')
+    if ($childUL) {
+      removeNodes($childUL);
+    }
+
+    // Changing the text content of the new li with the new content
+    const $postBody = $li.querySelector('.post-body')
+    $postBody.setAttribute('content', res.content)
+    $postBody.innerHTML = res.content;
+
+    // Setting new ids attributes
+    for(const pidField of parentUl.querySelectorAll('[data-pid]')) {
+      pidField.setAttribute('data-pid', res.pid)
+    }
+    for (const uidField of parentUl.querySelectorAll('[data-uid]')) {
+      uidField.setAttribute('data-uid', res.user.uid)
+    }
+    
+    // Change new edit form action id to the new id
+    const $editForm = $li.querySelector('form.sub-edit-input');
+    $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid))
+    
+    // Change the new topid in the reply form, reply to itself
+    $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid)
+    
+    // put the image of the user who commmented
+    const $profilePicture = $li.querySelector('.profile-image');
+    if (res.user.picture) {
+      const img = document.createElement('img');
+      img.setAttribute('src', res.user.picture);
+      img.setAttribute('alt', res.user.username);
+      img.setAttribute('title', res.user.username);
+      img.classList.add('profile-image');
+      $profilePicture.outerHTML = img.outerHTML;
+    } else {
+      const img = document.createElement('div');
+      img.setAttribute('alt', res.user.username);
+      img.setAttribute('title', res.user.username);
+      img.classList.add('profile-image');
+      img.innerText = res.user['icon:text'];
+      img.style.backgroundColor = res.user['icon:bgColor'];
+      $profilePicture.outerHTML = img.outerHTML;
+    }
+    const $status = $li.querySelector('.user-status');
+    $status.classList.remove('offline');
+    $status.classList.add('online')
+            
+  }
+
+
 
   export function formSubmitError(message,form){
     form.querySelector(".nodebb-error").innerText=message;

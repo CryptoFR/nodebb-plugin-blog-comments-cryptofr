@@ -1233,6 +1233,8 @@ var _wordpress = require("../../integration/wordpress.js");
 
 var _gifs = require("../addons/gifs.js");
 
+function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
+
 function addButtons() {
   var div = document.createElement("div");
   div.classList.add("load-more-div");
@@ -1432,160 +1434,11 @@ function commentSubmissionsHandler() {
             form.querySelector('button.loading-button').classList.remove('loading-button');
 
             if (/edit/.test(form.getAttribute('action'))) {
-              var $postBody = form.closest('div').querySelector('.post-body');
-              var content = inputs.content;
-              $postBody.innerHTML = content;
-              (0, _gifs.singleGifComment)($postBody);
-
-              _settings.set.reload(true);
-
-              $(form).hide();
-              form.querySelector(".submit-comment").classList.remove("loading-button");
+              editActionHandler(form, inputs);
+            } else if (form.classList.contains('form-top-post')) {
+              topReplyHandler(form, res);
             } else if (/reply/.test(form.getAttribute('action'))) {
-              var $li = form.closest('li').cloneNode(true);
-              $li.classList.remove('expandable');
-              $li.classList.remove('expanded');
-              var oldLi = form.closest('li');
-              oldLi.classList.add('expandable');
-              oldLi.classList.add('expanded');
-              var _iteratorNormalCompletion4 = true;
-              var _didIteratorError4 = false;
-              var _iteratorError4 = undefined;
-
-              try {
-                for (var _iterator4 = $li.querySelectorAll('form')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                  var f = _step4.value;
-                  f.classList.add('hidden');
-                }
-              } catch (err) {
-                _didIteratorError4 = true;
-                _iteratorError4 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-                    _iterator4.return();
-                  }
-                } finally {
-                  if (_didIteratorError4) {
-                    throw _iteratorError4;
-                  }
-                }
-              }
-
-              var $oldTopicItem = form.closest('li').querySelector('.topic-item');
-              $oldTopicItem.classList.remove('quoting');
-              $oldTopicItem.classList.remove('replying');
-              var $topicItem = $li.querySelector('.topic-item');
-
-              if ($topicItem) {
-                $topicItem.classList.remove('replying');
-                $topicItem.classList.remove('quoting');
-              }
-
-              var ul = form.closest('li').querySelector('ul');
-              console.log('ul', ul, 'form', form);
-
-              if (!ul) {
-                var newUL = document.createElement('ul');
-                form.closest('li').append(newUL);
-                ul = newUL;
-              }
-
-              ul.appendChild($li);
-              var $childUL = $li.querySelector('ul');
-
-              if ($childUL) {
-                (0, _util.removeNodes)($childUL);
-              }
-
-              var _$postBody = $li.querySelector('.post-body');
-
-              _$postBody.setAttribute('content', res.content);
-
-              console.log(res);
-              var _iteratorNormalCompletion5 = true;
-              var _didIteratorError5 = false;
-              var _iteratorError5 = undefined;
-
-              try {
-                for (var _iterator5 = ul.querySelectorAll('[data-pid]')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                  var pidField = _step5.value;
-                  pidField.setAttribute('data-pid', res.pid);
-                }
-              } catch (err) {
-                _didIteratorError5 = true;
-                _iteratorError5 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-                    _iterator5.return();
-                  }
-                } finally {
-                  if (_didIteratorError5) {
-                    throw _iteratorError5;
-                  }
-                }
-              }
-
-              var _iteratorNormalCompletion6 = true;
-              var _didIteratorError6 = false;
-              var _iteratorError6 = undefined;
-
-              try {
-                for (var _iterator6 = ul.querySelectorAll('[data-uid]')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                  var uidField = _step6.value;
-                  uidField.setAttribute('data-uid', res.user.uid);
-                }
-              } catch (err) {
-                _didIteratorError6 = true;
-                _iteratorError6 = err;
-              } finally {
-                try {
-                  if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
-                    _iterator6.return();
-                  }
-                } finally {
-                  if (_didIteratorError6) {
-                    throw _iteratorError6;
-                  }
-                }
-              }
-
-              var $editForm = $li.querySelector('form.sub-edit-input');
-              $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid));
-              $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid);
-              _$postBody.innerHTML = res.content;
-              (0, _gifs.singleGifComment)(_$postBody); // reloadComments(pagination,0,true);
-
-              var $profilePicture = $li.querySelector('.profile-image');
-
-              if (res.user.picture) {
-                var img = document.createElement('img');
-                img.setAttribute('src', res.user.picture);
-                img.setAttribute('alt', res.user.username);
-                img.setAttribute('title', res.user.username);
-                img.classList.add('profile-image');
-                $profilePicture.outerHTML = img.outerHTML;
-              } else {
-                var _img = document.createElement('div');
-
-                _img.setAttribute('alt', res.user.username);
-
-                _img.setAttribute('title', res.user.username);
-
-                _img.classList.add('profile-image');
-
-                _img.innerText = res.user['icon:text'];
-                _img.style.backgroundColor = res.user['icon:bgColor'];
-                $profilePicture.outerHTML = _img.outerHTML;
-              }
-
-              var $status = $li.querySelector('.user-status');
-              $status.classList.remove('offline');
-              $status.classList.add('online');
-            } else if (form.classList.contains('form-top-post')) {// Obtener nodo de comentarios
-              // setear atributos
-              // pegar en el dom
+              innerReplyHandler(form, res);
             }
 
             setMaxHeight(document.getElementById('nodebb-comments-list'));
@@ -1613,6 +1466,170 @@ function commentSubmissionsHandler() {
       }
     }
   }
+}
+
+function editActionHandler(form, inputs) {
+  var $postBody = form.closest('div').querySelector('.post-body');
+  var content = inputs.content;
+  $postBody.innerHTML = content;
+  (0, _gifs.singleGifComment)($postBody);
+
+  _settings.set.reload(true);
+
+  $(form).hide();
+  form.querySelector(".submit-comment").classList.remove("loading-button");
+}
+
+function topReplyHandler() {}
+
+function liSetToDefault($li, isClone) {
+  if (isClone) {
+    $li.classList.remove('expandable');
+    $li.classList.remove('expanded');
+  } else {
+    $oldLi.classList.add('expandable');
+    $oldLi.classList.add('expanded');
+  }
+
+  var $topicItem = $li.querySelector('.topic-item');
+  $topicItem.classList.remove('replying');
+  $topicItem.classList.remove('quoting'); // Hide and clear forms 
+
+  var _iteratorNormalCompletion4 = true;
+  var _didIteratorError4 = false;
+  var _iteratorError4 = undefined;
+
+  try {
+    for (var _iterator4 = $li.querySelectorAll('form')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+      var f = _step4.value;
+      f.classList.add('hidden');
+      f.querySelector('textarea').value = '';
+    }
+  } catch (err) {
+    _didIteratorError4 = true;
+    _iteratorError4 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+        _iterator4.return();
+      }
+    } finally {
+      if (_didIteratorError4) {
+        throw _iteratorError4;
+      }
+    }
+  }
+
+  return $li;
+}
+
+function innerReplyHandler(form, res) {
+  var $oldLi = form.closest('li');
+  $oldLi = (_readOnlyError("$oldLi"), liSetToDefault($oldLi, false));
+  var $li = form.closest('li').cloneNode(true);
+  $li = (_readOnlyError("$li"), liSetToDefault($li, true)); // Setting Parent ul to append the new li
+
+  var parentUl = $oldLi.querySelector('ul');
+
+  if (!parentUl) {
+    var newUL = document.createElement('ul');
+    $oldLi.append(newUL);
+    parentUl = newUL;
+  }
+
+  parentUl.appendChild($li); // Removing child ul of new li
+
+  var $childUL = $li.querySelector('ul');
+
+  if ($childUL) {
+    (0, _util.removeNodes)($childUL);
+  } // Changing the text content of the new li with the new content
+
+
+  var $postBody = $li.querySelector('.post-body');
+  $postBody.setAttribute('content', res.content);
+  $postBody.innerHTML = res.content; // Setting new ids attributes
+
+  var _iteratorNormalCompletion5 = true;
+  var _didIteratorError5 = false;
+  var _iteratorError5 = undefined;
+
+  try {
+    for (var _iterator5 = parentUl.querySelectorAll('[data-pid]')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+      var pidField = _step5.value;
+      pidField.setAttribute('data-pid', res.pid);
+    }
+  } catch (err) {
+    _didIteratorError5 = true;
+    _iteratorError5 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+        _iterator5.return();
+      }
+    } finally {
+      if (_didIteratorError5) {
+        throw _iteratorError5;
+      }
+    }
+  }
+
+  var _iteratorNormalCompletion6 = true;
+  var _didIteratorError6 = false;
+  var _iteratorError6 = undefined;
+
+  try {
+    for (var _iterator6 = parentUl.querySelectorAll('[data-uid]')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+      var uidField = _step6.value;
+      uidField.setAttribute('data-uid', res.user.uid);
+    } // Change new edit form action id to the new id
+
+  } catch (err) {
+    _didIteratorError6 = true;
+    _iteratorError6 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
+        _iterator6.return();
+      }
+    } finally {
+      if (_didIteratorError6) {
+        throw _iteratorError6;
+      }
+    }
+  }
+
+  var $editForm = $li.querySelector('form.sub-edit-input');
+  $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid)); // Change the new topid in the reply form, reply to itself
+
+  $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid); // put the image of the user who commmented
+
+  var $profilePicture = $li.querySelector('.profile-image');
+
+  if (res.user.picture) {
+    var img = document.createElement('img');
+    img.setAttribute('src', res.user.picture);
+    img.setAttribute('alt', res.user.username);
+    img.setAttribute('title', res.user.username);
+    img.classList.add('profile-image');
+    $profilePicture.outerHTML = img.outerHTML;
+  } else {
+    var _img = document.createElement('div');
+
+    _img.setAttribute('alt', res.user.username);
+
+    _img.setAttribute('title', res.user.username);
+
+    _img.classList.add('profile-image');
+
+    _img.innerText = res.user['icon:text'];
+    _img.style.backgroundColor = res.user['icon:bgColor'];
+    $profilePicture.outerHTML = _img.outerHTML;
+  }
+
+  var $status = $li.querySelector('.user-status');
+  $status.classList.remove('offline');
+  $status.classList.add('online');
 }
 
 function formSubmitError(message, form) {
