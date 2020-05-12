@@ -1648,6 +1648,7 @@ function setMaxHeight(comments) {
       ul.style.maxHeight = 'initial';
       setTimeout(function () {
         ul.style.maxHeight = getComputedStyle(ul)['height'];
+        console.log(ul.style.maxHeight);
       }, 1000);
     };
 
@@ -2031,7 +2032,6 @@ function checkExpandableComments() {
     }
   }
 
-  (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
   collapseExpandCommentEvent();
 }
 
@@ -2044,6 +2044,7 @@ function collapseExpandCommentEvent() {
     var _loop = function _loop() {
       var expandableButton = _step2.value;
       expandableButton.addEventListener('click', function (e) {
+        // collapsing
         if (expandableButton.classList.contains('expanded')) {
           var expandedButton = expandableButton;
           expandedButton.classList.remove("expanded");
@@ -2053,16 +2054,18 @@ function collapseExpandCommentEvent() {
           expandedComment.classList.add("collapsed");
           expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
           expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
-        } else {
-          var collapsedButton = expandableButton;
-          collapsedButton.classList.remove("collapsed");
-          collapsedButton.classList.add("expanded");
-          var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-          collapsedComment.classList.remove("collapsed");
-          collapsedComment.classList.add("expanded");
-          collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
-          expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
-        }
+        } // expanding
+        else {
+            var collapsedButton = expandableButton;
+            collapsedButton.classList.remove("collapsed");
+            collapsedButton.classList.add("expanded");
+            var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+            collapsedComment.classList.remove("collapsed");
+            collapsedComment.classList.add("expanded");
+            collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
+            expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
+            (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+          }
       });
     };
 
@@ -2345,7 +2348,7 @@ function drawComments() {
           if (topicItem.classList.contains("quoting")) {
             topicItem.classList.remove("quoting");
             elementForm.classList.add("hidden");
-            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // Click to quote
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // Click to quote
           } else {
             formInput.value = '';
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
@@ -2357,21 +2360,21 @@ function drawComments() {
             formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
             elementForm.classList.remove("hidden");
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
-            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
           }
         } else if (/\/reply$/.test(dataComponent)) {
           // Click to hide
           if (topicItem.classList.contains("replying")) {
             topicItem.classList.remove("replying");
             elementForm.classList.add("hidden");
-            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // click to reply
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // click to reply
           } else {
             formInput.value = '';
             elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
             topicItem.classList.add("replying");
             topicItem.classList.remove("quoting");
             elementForm.classList.remove("hidden");
-            (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional /!\
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional /!\
             // if (level >= 2) {
             //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
             //   var regex = new RegExp("^" + atStr, "i");

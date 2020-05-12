@@ -206,7 +206,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             if (topicItem.classList.contains("quoting")){
               topicItem.classList.remove("quoting");
               elementForm.classList.add("hidden");
-              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+               setMaxHeight(document.querySelector("#nodebb-comments-list")); 
               // Click to quote
             } else { 
               formInput.value='';
@@ -219,15 +220,16 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
               elementForm.classList.remove("hidden");
               elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
-              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
-              
+              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+               setMaxHeight(document.querySelector("#nodebb-comments-list"));
             }
           } else if (/\/reply$/.test(dataComponent)) {
             // Click to hide
             if (topicItem.classList.contains("replying")){
               topicItem.classList.remove("replying");
               elementForm.classList.add("hidden");
-              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+               setMaxHeight(document.querySelector("#nodebb-comments-list"));
               // click to reply
             } else {
               formInput.value='';
@@ -235,7 +237,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               topicItem.classList.add("replying");
               topicItem.classList.remove("quoting");
               elementForm.classList.remove("hidden");
-              setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+               setMaxHeight(document.querySelector("#nodebb-comments-list"));
 
               // /!\ LEVEL >2 not functional /!\
               // if (level >= 2) {

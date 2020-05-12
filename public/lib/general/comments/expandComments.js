@@ -19,13 +19,13 @@ export function checkExpandableComments() {
       comment.querySelector(".topic-item > .topic-body > .topic-text > .post-content >small ").appendChild(expandableButton);
     }
   }
-  setMaxHeight(document.getElementById('nodebb-comments-list'));
   collapseExpandCommentEvent();
 }
 
 function collapseExpandCommentEvent() {
   for (let expandableButton of document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")) { 
     expandableButton.addEventListener('click',function(e) {
+      // collapsing
       if (expandableButton.classList.contains('expanded') ){
         let expandedButton = expandableButton;
         expandedButton.classList.remove("expanded");
@@ -36,6 +36,7 @@ function collapseExpandCommentEvent() {
         expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
         expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
       }
+      // expanding
       else {
         let collapsedButton = expandableButton;
         collapsedButton.classList.remove("collapsed");
@@ -45,6 +46,7 @@ function collapseExpandCommentEvent() {
         collapsedComment.classList.add("expanded");
         collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
         expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
+        setMaxHeight(document.getElementById('nodebb-comments-list'));
       }
     });
   }

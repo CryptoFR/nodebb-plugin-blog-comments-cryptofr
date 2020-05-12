@@ -290,6 +290,7 @@ import { singleGifComment } from "../addons/gifs.js";
      ul.style.maxHeight='initial';
      setTimeout(function(){
       ul.style.maxHeight=getComputedStyle(ul)['height']
+      console.log(ul.style.maxHeight)
      },1000)
     }
   }
