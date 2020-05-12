@@ -155,7 +155,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         const closest = this.closest('[data-pid]')
         const key = closest ? closest.getAttribute('data-pid') : '';
         set.commentData(key, this.innerText)
-        console.log(commentData)
+        // console.log(commentData)
       })
       bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
         if (!data.user || !data.user.uid) {
@@ -192,7 +192,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             visibleForm.classList.add("hidden");
             const cl = visibleForm.closest('.replying')
             if (cl) {
-              console.log('remove replying')
+              // console.log('remove replying')
               cl.classList.remove('replying')
             }
           }
@@ -270,11 +270,20 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             elementForm.classList.remove("hidden");
           } else if (/\/upvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
+              let downvoteElement= this.parentNode.querySelector('.downvote')
+              let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
+              console.log(wasDownvoted)
               upvotePost(topicItem, pid, upvoted).then(() => {
                 const postValue$ = this.parentNode.querySelector('span.post-value');
                 this.setAttribute('data-upvoted', !upvoted)
-                if (upvoted) {
+                downvoteElement.setAttribute('data-downvoted', false)
+                // Removing upvote
+                if (upvoted==true) {
                   postValue$.innerText = Number(postValue$.innerHTML) - 1
+                  // Upvoting a downvoted comment
+                } else if (wasDownvoted=='true'){
+                  postValue$.innerText = Number(postValue$.innerHTML) + 2
+                  // Upvoting a comment without vote
                 } else {
                   postValue$.innerText = Number(postValue$.innerHTML) + 1
                 }
@@ -282,11 +291,20 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             }
           } else if (/\/downvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
+              let upvoteElement= this.parentNode.querySelector('.upvote')
+              let wasUpvoted= upvoteElement.getAttribute('data-upvoted')
+              console.log(wasUpvoted)
               downvotePost(topicItem, pid, downvoted).then(() => {
                 const postValue$ = this.parentNode.querySelector('span.post-value');
                 this.setAttribute('data-downvoted', !downvoted)
+                upvoteElement.setAttribute('data-upvoted', false)
+                // Removing downvote
                 if (downvoted) {
                   postValue$.innerText = Number(postValue$.innerHTML) + 1
+                  // Downvoting an upvoted comment
+                } else if (wasUpvoted=='true'){
+                  postValue$.innerText = Number(postValue$.innerHTML) - 2
+                  // Downvoting a comment without vote
                 } else {
                   postValue$.innerText = Number(postValue$.innerHTML) - 1
                 }
@@ -966,7 +984,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         comment.querySelector(".options-container .delete-option").addEventListener("click",function(){
           console.log('data-pid', comment.parentNode.getAttribute("data-pid"))
           deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then((...args) => {
-            console.log('pid new', comment.parentNode.getAttribute("data-pid"), args)
+            // console.log('pid new', comment.parentNode.getAttribute("data-pid"), args)
           }).catch(console.log);
           reloadComments(pagination,0,false);
         })

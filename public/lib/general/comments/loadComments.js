@@ -3,8 +3,8 @@ import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo
 import { upvotePost,downvotePost,xpost, newFetch } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
-
-
+import { checkExpandableComments } from "./expandComments.js";
+ 
   export function addButtons() {
     var div = document.createElement("div");
     div.classList.add("load-more-div");
@@ -186,7 +186,7 @@ import { singleGifComment } from "../addons/gifs.js";
  
 
   function liSetToDefault($li,isClone){
-    if (isClone){
+    if (isClone){ 
       $li.classList.remove('expandable');
       $li.classList.remove('expanded');
     }else {
@@ -204,19 +204,31 @@ import { singleGifComment } from "../addons/gifs.js";
       f.querySelector('textarea').value='';
     }
 
-    return $li;
   }
 
 
   function innerReplyHandler(form,res){
     let $oldLi = form.closest('li');
-    $oldLi=liSetToDefault($oldLi,false)
+    liSetToDefault($oldLi,false)
 
     let $li = form.closest('li').cloneNode(true);
-    $li=liSetToDefault($li,true)
+    liSetToDefault($li,true)
+    
+    let parentUl=null;
     
     // Setting Parent ul to append the new li
-    let parentUl=$oldLi.querySelector('ul')
+    let dataLevel= $oldLi.querySelector('.topic-item').getAttribute('data-level')
+
+    if (dataLevel==2){
+      $li.querySelector('.topic-item').setAttribute('data-level',2)
+      parentUl=$oldLi.parentNode.parentNode.querySelector('ul') 
+      $oldLi.classList.remove('expandable');
+      $oldLi.classList.remove('expanded');
+    }else{
+      $li.querySelector('.topic-item').setAttribute('data-level',dataLevel+1);
+      parentUl=$oldLi.querySelector('ul');
+    }
+
     if (!parentUl) {
       const newUL = document.createElement('ul')
       $oldLi.append(
@@ -273,6 +285,8 @@ import { singleGifComment } from "../addons/gifs.js";
     const $status = $li.querySelector('.user-status');
     $status.classList.remove('offline');
     $status.classList.add('online')
+
+    checkExpandableComments();
             
   }
 
@@ -290,7 +304,6 @@ import { singleGifComment } from "../addons/gifs.js";
      ul.style.maxHeight='initial';
      setTimeout(function(){
       ul.style.maxHeight=getComputedStyle(ul)['height']
-      console.log(ul.style.maxHeight)
      },1000)
     }
   }

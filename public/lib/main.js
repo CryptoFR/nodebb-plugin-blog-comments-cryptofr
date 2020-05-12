@@ -1209,7 +1209,111 @@ function closeGifBox() {
   event.initEvent('keyup', true, false);
   document.querySelector(".gifs-box input").dispatchEvent(event);
 }
-},{"../../settings.js":"LXja","../util.js":"VGLh"}],"V8ra":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../util.js":"VGLh"}],"PCfX":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.checkExpandableComments = checkExpandableComments;
+
+var _loadComments = require("./loadComments");
+
+/**************************************
+
+   Expand/Collapse comments functions
+
+***************************************/
+function checkExpandableComments() {
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = document.querySelectorAll("#nodebb-comments-list li")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var comment = _step.value;
+
+      if (comment.querySelector("ul")) {
+        var expandableButton = document.createElement("span");
+        expandableButton.classList.add("expandable-button");
+        expandableButton.classList.add("expanded");
+        expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
+        comment.classList.add("expandable");
+        comment.classList.add("expanded");
+        comment.querySelector(".topic-item > .topic-body > .topic-text > .post-content >small ").appendChild(expandableButton);
+      }
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  collapseExpandCommentEvent();
+}
+
+function collapseExpandCommentEvent() {
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    var _loop = function _loop() {
+      var expandableButton = _step2.value;
+      expandableButton.addEventListener('click', function (e) {
+        // collapsing
+        if (expandableButton.classList.contains('expanded')) {
+          var expandedButton = expandableButton;
+          expandedButton.classList.remove("expanded");
+          expandedButton.classList.add("collapsed");
+          var expandedComment = expandedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+          expandedComment.classList.remove("expanded");
+          expandedComment.classList.add("collapsed");
+          expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
+          expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
+        } // expanding
+        else {
+            var collapsedButton = expandableButton;
+            collapsedButton.classList.remove("collapsed");
+            collapsedButton.classList.add("expanded");
+            var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+            collapsedComment.classList.remove("collapsed");
+            collapsedComment.classList.add("expanded");
+            collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
+            expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
+            (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+          }
+      });
+    };
+
+    for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      _loop();
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+}
+},{"./loadComments":"V8ra"}],"V8ra":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1232,6 +1336,8 @@ var _api = require("../api.js");
 var _wordpress = require("../../integration/wordpress.js");
 
 var _gifs = require("../addons/gifs.js");
+
+var _expandComments = require("./expandComments.js");
 
 function addButtons() {
   var div = document.createElement("div");
@@ -1517,17 +1623,26 @@ function liSetToDefault($li, isClone) {
       }
     }
   }
-
-  return $li;
 }
 
 function innerReplyHandler(form, res) {
   var $oldLi = form.closest('li');
-  $oldLi = liSetToDefault($oldLi, false);
+  liSetToDefault($oldLi, false);
   var $li = form.closest('li').cloneNode(true);
-  $li = liSetToDefault($li, true); // Setting Parent ul to append the new li
+  liSetToDefault($li, true);
+  var parentUl = null; // Setting Parent ul to append the new li
 
-  var parentUl = $oldLi.querySelector('ul');
+  var dataLevel = $oldLi.querySelector('.topic-item').getAttribute('data-level');
+
+  if (dataLevel == 2) {
+    $li.querySelector('.topic-item').setAttribute('data-level', 2);
+    parentUl = $oldLi.parentNode.parentNode.querySelector('ul');
+    $oldLi.classList.remove('expandable');
+    $oldLi.classList.remove('expanded');
+  } else {
+    $li.querySelector('.topic-item').setAttribute('data-level', dataLevel + 1);
+    parentUl = $oldLi.querySelector('ul');
+  }
 
   if (!parentUl) {
     var newUL = document.createElement('ul');
@@ -1628,6 +1743,7 @@ function innerReplyHandler(form, res) {
   var $status = $li.querySelector('.user-status');
   $status.classList.remove('offline');
   $status.classList.add('online');
+  (0, _expandComments.checkExpandableComments)();
 }
 
 function formSubmitError(message, form) {
@@ -1648,7 +1764,6 @@ function setMaxHeight(comments) {
       ul.style.maxHeight = 'initial';
       setTimeout(function () {
         ul.style.maxHeight = getComputedStyle(ul)['height'];
-        console.log(ul.style.maxHeight);
       }, 1000);
     };
 
@@ -1670,7 +1785,7 @@ function setMaxHeight(comments) {
     }
   }
 }
-},{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","../../integration/wordpress.js":"poQx","../addons/gifs.js":"XBBC"}],"kjEe":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","../../integration/wordpress.js":"poQx","../addons/gifs.js":"XBBC","./expandComments.js":"PCfX"}],"kjEe":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1983,111 +2098,7 @@ function setActiveSortingLi(sorting) {
     element.parentNode.classList.add("active");
   }
 }
-},{"../../settings.js":"LXja","./loadComments.js":"V8ra"}],"PCfX":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.checkExpandableComments = checkExpandableComments;
-
-var _loadComments = require("./loadComments");
-
-/**************************************
-
-   Expand/Collapse comments functions
-
-***************************************/
-function checkExpandableComments() {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = document.querySelectorAll("#nodebb-comments-list li")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var comment = _step.value;
-
-      if (comment.querySelector("ul")) {
-        var expandableButton = document.createElement("span");
-        expandableButton.classList.add("expandable-button");
-        expandableButton.classList.add("expanded");
-        expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
-        comment.classList.add("expandable");
-        comment.classList.add("expanded");
-        comment.querySelector(".topic-item > .topic-body > .topic-text > .post-content >small ").appendChild(expandableButton);
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  collapseExpandCommentEvent();
-}
-
-function collapseExpandCommentEvent() {
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    var _loop = function _loop() {
-      var expandableButton = _step2.value;
-      expandableButton.addEventListener('click', function (e) {
-        // collapsing
-        if (expandableButton.classList.contains('expanded')) {
-          var expandedButton = expandableButton;
-          expandedButton.classList.remove("expanded");
-          expandedButton.classList.add("collapsed");
-          var expandedComment = expandedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-          expandedComment.classList.remove("expanded");
-          expandedComment.classList.add("collapsed");
-          expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
-          expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
-        } // expanding
-        else {
-            var collapsedButton = expandableButton;
-            collapsedButton.classList.remove("collapsed");
-            collapsedButton.classList.add("expanded");
-            var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-            collapsedComment.classList.remove("collapsed");
-            collapsedComment.classList.add("expanded");
-            collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
-            expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
-            (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
-          }
-      });
-    };
-
-    for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      _loop();
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-}
-},{"./loadComments":"V8ra"}],"w7Fc":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./loadComments.js":"V8ra"}],"w7Fc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2293,9 +2304,8 @@ function drawComments() {
       var closest = this.closest('[data-pid]');
       var key = closest ? closest.getAttribute('data-pid') : '';
 
-      _settings.set.commentData(key, this.innerText);
+      _settings.set.commentData(key, this.innerText); // console.log(commentData)
 
-      console.log(_settings.commentData);
     });
     (0, _util.bindOnClick)(_settings.nodebbDiv.querySelectorAll(selectors), function (event) {
       var _this = this;
@@ -2332,7 +2342,7 @@ function drawComments() {
           var cl = visibleForm.closest('.replying');
 
           if (cl) {
-            console.log('remove replying');
+            // console.log('remove replying')
             cl.classList.remove('replying');
           }
         }
@@ -2403,13 +2413,20 @@ function drawComments() {
           elementForm.classList.remove("hidden");
         } else if (/\/upvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
+            var downvoteElement = this.parentNode.querySelector('.downvote');
+            var wasDownvoted = downvoteElement.getAttribute('data-downvoted');
+            console.log(wasDownvoted);
             (0, _api.upvotePost)(topicItem, pid, upvoted).then(function () {
               var postValue$ = _this.parentNode.querySelector('span.post-value');
 
               _this.setAttribute('data-upvoted', !upvoted);
 
-              if (upvoted) {
-                postValue$.innerText = Number(postValue$.innerHTML) - 1;
+              downvoteElement.setAttribute('data-downvoted', false); // Removing upvote
+
+              if (upvoted == true) {
+                postValue$.innerText = Number(postValue$.innerHTML) - 1; // Upvoting a downvoted comment
+              } else if (wasDownvoted == 'true') {
+                postValue$.innerText = Number(postValue$.innerHTML) + 2; // Upvoting a comment without vote
               } else {
                 postValue$.innerText = Number(postValue$.innerHTML) + 1;
               }
@@ -2417,13 +2434,20 @@ function drawComments() {
           }
         } else if (/\/downvote$/.test(dataComponent)) {
           if (data.user.uid != uid) {
+            var upvoteElement = this.parentNode.querySelector('.upvote');
+            var wasUpvoted = upvoteElement.getAttribute('data-upvoted');
+            console.log(wasUpvoted);
             (0, _api.downvotePost)(topicItem, pid, downvoted).then(function () {
               var postValue$ = _this.parentNode.querySelector('span.post-value');
 
               _this.setAttribute('data-downvoted', !downvoted);
 
+              upvoteElement.setAttribute('data-upvoted', false); // Removing downvote
+
               if (downvoted) {
-                postValue$.innerText = Number(postValue$.innerHTML) + 1;
+                postValue$.innerText = Number(postValue$.innerHTML) + 1; // Downvoting an upvoted comment
+              } else if (wasUpvoted == 'true') {
+                postValue$.innerText = Number(postValue$.innerHTML) - 2; // Downvoting a comment without vote
               } else {
                 postValue$.innerText = Number(postValue$.innerHTML) - 1;
               }
@@ -3033,12 +3057,7 @@ function commentOptions() {
 
         comment.querySelector(".options-container .delete-option").addEventListener("click", function () {
           console.log('data-pid', comment.parentNode.getAttribute("data-pid"));
-          (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {
-            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-              args[_key] = arguments[_key];
-            }
-
-            console.log('pid new', comment.parentNode.getAttribute("data-pid"), args);
+          (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {// console.log('pid new', comment.parentNode.getAttribute("data-pid"), args)
           }).catch(console.log);
           (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
         });
