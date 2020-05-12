@@ -209,10 +209,10 @@ import { singleGifComment } from "../addons/gifs.js";
 
 
   function innerReplyHandler(form,res){
-    const $oldLi = form.closest('li');
+    let $oldLi = form.closest('li');
     $oldLi=liSetToDefault($oldLi,false)
 
-    const $li = form.closest('li').cloneNode(true);
+    let $li = form.closest('li').cloneNode(true);
     $li=liSetToDefault($li,true)
     
     // Setting Parent ul to append the new li
