@@ -492,7 +492,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       reloadComments(pagination,page+1,false)
     } 
 
-    commentSubmissionsHandler();
+    for (let form of nodebbDiv.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')){
+      commentSubmissionsHandler(form);
+    }
+
     checkExpandableComments();
     commentOptions();
     dispatchEmojis();
@@ -504,6 +507,210 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     // onLoadFunction();
     // uploadInit();
   }
+
+  export function bindEvents(user,li){
+    
+    var selectors = [
+      '[data-component="post/reply"]',
+      '[data-component="post/quote"]',
+      '[data-component="post/bookmark"]',
+      '[data-component="post/upvote"]',
+      '[data-component="post/downvote"]',
+      '[data-component="post/edit"]',
+      '[data-component="post/delete"]'
+    ].join(",");
+
+    var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
+    
+    console.log(li)
+    
+    bindOnClick(li.querySelectorAll(selectors), function(event) {
+      if (!user || !user.uid) {
+        authenticate("login");
+        return;
+      }
+
+      var dataComponent = this.getAttribute("data-component");
+      var topicItem = event.target;
+      var bookmarked = JSON.parse(this.getAttribute("data-bookmarked"));
+      var upvoted = JSON.parse(this.getAttribute("data-upvoted"));
+      var downvoted = JSON.parse(this.getAttribute("data-downvoted"));
+
+      while (topicItem && !topicItem.classList.contains("topic-item")) {
+        topicItem = topicItem.parentElement;
+      }
+
+      // CHECK AND .... [COMPLETE]
+      if (topicItem) {
+        var pid = topicItem.getAttribute("data-pid");
+        var uid = topicItem.getAttribute("data-uid");
+        var level = topicItem.getAttribute("data-level");
+        var formClass = /\/edit$/.test(dataComponent)
+          ? ".sub-edit-input"
+          : ".sub-reply-input";
+        var elementForm = topicItem.querySelector("form" + formClass);
+        var formInput = elementForm.querySelector("textarea");
+        
+        var visibleForm = nodebbCommentsList.querySelector(
+          "li .topic-item form:not(.hidden)"
+        );
+        if (visibleForm && visibleForm !== elementForm) {
+          topicItem.classList.remove("replying");
+          topicItem.classList.remove("quoting");
+          visibleForm.classList.add("hidden");
+          const cl = visibleForm.closest('.replying')
+          if (cl) {
+            // console.log('remove replying')
+            cl.classList.remove('replying')
+          }
+        }
+
+        var postBody;
+        if (/\/(quote|edit)$/.test(dataComponent)) {
+          postBody = topicItem.querySelector(".post-content .post-body");
+        }
+
+        if (/\/quote$/.test(dataComponent)) {
+          //  Click to hide
+          if (topicItem.classList.contains("quoting")){
+            topicItem.classList.remove("quoting");
+            elementForm.classList.add("hidden");
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+             setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+            // Click to quote
+          } else { 
+            formInput.value='';
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''; 
+            topicItem.classList.add("quoting");
+            topicItem.classList.remove("replying");
+            var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
+              return line ? "> " + line : line;
+            }).join(" \n ");
+            formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
+            elementForm.classList.remove("hidden");
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+             setMaxHeight(document.querySelector("#nodebb-comments-list"));
+          }
+        } else if (/\/reply$/.test(dataComponent)) {
+          // Click to hide
+          if (topicItem.classList.contains("replying")){
+            topicItem.classList.remove("replying");
+            elementForm.classList.add("hidden");
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+             setMaxHeight(document.querySelector("#nodebb-comments-list"));
+            // click to reply
+          } else {
+            formInput.value='';
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''
+            topicItem.classList.add("replying");
+            topicItem.classList.remove("quoting");
+            elementForm.classList.remove("hidden");
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+             setMaxHeight(document.querySelector("#nodebb-comments-list"));
+
+            // /!\ LEVEL >2 not functional /!\
+            // if (level >= 2) {
+            //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
+            //   var regex = new RegExp("^" + atStr, "i");
+
+            //   if (regex.test(formInput.value)) {
+            //     if (formInput.value.trim() !== atStr) {
+            //       formInput.value = formInput.value.replace(regex, "").trim();
+            //     }
+            //   } else {
+            //     formInput.value = atStr + " " + formInput.value;
+            //     elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " " + formInput.value;
+            //   }
+            // } else {
+            //   formInput.value = "";
+            // }
+            // const closest = formInput.closest('[data-pid]');
+            // const key = closest ? closest.getAttribute('data-pid') : '';
+            // if(commentData.hasOwnProperty(key)) {
+            //   formInput.value = commentData[key]
+            //   $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
+            // } else {
+            //   formInput.value = "";
+            // }
+          }
+        } else if (/\/edit$/.test(dataComponent)) {
+          formInput.value = postBody.getAttribute('content');  
+          elementForm.classList.remove("hidden");
+        
+
+        } else if (/\/upvote$/.test(dataComponent)) {
+          if (user.uid != uid) {
+            let downvoteElement= this.parentNode.querySelector('.downvote')
+            let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
+            if (!flagVote){
+              flagVote=true;
+              upvotePost(topicItem, pid, upvoted).then(() => {
+                flagVote=false;
+                const postValue$ = this.parentNode.querySelector('span.post-value');
+                this.setAttribute('data-upvoted', !upvoted)
+                downvoteElement.setAttribute('data-downvoted', false)
+                // Removing upvote
+                if (upvoted==true) {
+                  postValue$.innerText = Number(postValue$.innerHTML) - 1
+                  // Upvoting a downvoted comment
+                } else if (wasDownvoted=='true'){
+                    postValue$.innerText = Number(postValue$.innerHTML) + 2
+                    // Upvoting a comment without vote
+                  } else {
+                    postValue$.innerText = Number(postValue$.innerHTML) + 1
+                  }
+                }).catch(console.log);
+              }
+            }
+          } else if (/\/downvote$/.test(dataComponent)) {
+            if (user.uid != uid) {
+              let upvoteElement= this.parentNode.querySelector('.upvote')
+              let wasUpvoted= upvoteElement.getAttribute('data-upvoted')
+
+              if (!flagVote){
+                flagVote=true;
+                downvotePost(topicItem, pid, downvoted).then(() => {
+                  flagVote=false;
+                  const postValue$ = this.parentNode.querySelector('span.post-value');
+                  this.setAttribute('data-downvoted', !downvoted)
+                  upvoteElement.setAttribute('data-upvoted', false)
+                  // Removing downvote
+                  if (downvoted) {
+                    postValue$.innerText = Number(postValue$.innerHTML) + 1
+                    // Downvoting an upvoted comment
+                  } else if (wasUpvoted=='true'){
+                    postValue$.innerText = Number(postValue$.innerHTML) - 2
+                    // Downvoting a comment without vote
+                  } else {
+                    postValue$.innerText = Number(postValue$.innerHTML) - 1
+                  }
+                }).catch(console.log);
+              }
+            }
+          } else if (/\/delete/.test(dataComponent)) {
+            deletePost(topicItem, pid).then(() => {
+              set.reload(true)
+              reloadComments(pagination,0,false);
+            });
+          }  
+        }
+      
+      });
+      
+      for (const form of li.querySelectorAll('form')){
+        commentSubmissionsHandler(form);
+      }
+      
+      gifContentCheck();
+      commentOptions(); 
+      checkExpandableComments(); 
+      dispatchEmojis();
+      gifBoxInit();
+  }
+
+
+
 
   function prepareSignout(token){
     // console.log('calling prepare signout', $(".logout-box"))
@@ -799,6 +1006,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         "value",
         token
       );
+
       changeAttribute(form.querySelectorAll('input[name="tid"]'), "value", tid);
       changeAttribute(
         form.querySelectorAll('input[name="url"]'),

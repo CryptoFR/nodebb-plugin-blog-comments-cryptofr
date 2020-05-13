@@ -5,6 +5,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { parseNewComment } from "./newComment.js";
+import { bindEvents } from "./drawComments.js";
  
   export function addButtons() { 
     var div = document.createElement("div");
@@ -125,48 +126,49 @@ import { parseNewComment } from "./newComment.js";
   }
 
   // FUNCTION FOR COMMENT SUBMISSION
-  export function commentSubmissionsHandler(){
-    for (let form of document.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')) {
-      form.addEventListener('submit', function(event){
-        form.querySelector(".submit-comment").classList.add("loading-button");
+  export function commentSubmissionsHandler(form){
+    form.addEventListener('submit', function(event){
+      form.querySelector(".submit-comment").classList.add("loading-button");
+      
+      event.preventDefault();        
+
+      let inputs={};
+      for (let input of form.querySelectorAll("input")) {
+        inputs[input.getAttribute("name")]=input.getAttribute("value");
+      }
+      for (let input of form.querySelectorAll("textarea")) {
+        inputs.content=input.value;
+      }
+
+      if (inputs["content"].length<8){
+      	formSubmitError("Message too short",form);
+        form.querySelector(".submit-comment").classList.remove("loading-button");
+      }
+      else {
+        let newLi=null;
+        newFetch(form.getAttribute("action"), inputs)
+          .then(res => res.json())
+          .then((res) => {
+          form.querySelector('button.loading-button').classList.remove('loading-button');
+          if(/edit/.test(form.getAttribute('action'))) {              
+            form.classList.add('hidden');
+            editActionHandler(form,inputs);
+
+          } else if (form.classList.contains('top-post-form')) {
+            newLi=topReplyHandler(form,res)
+
+          }else if (/reply/.test(form.getAttribute('action'))) {
+            form.classList.add('hidden');
+            newLi=innerReplyHandler(form,res);
+          }  
+
+          if (newLi) bindEvents(res.user,newLi);
+          setMaxHeight(document.getElementById('nodebb-comments-list'))
         
-        event.preventDefault();        
-
-        let inputs={};
-        for (let input of form.querySelectorAll("input")) {
-          inputs[input.getAttribute("name")]=input.getAttribute("value");
-        }
-        for (let input of form.querySelectorAll("textarea")) {
-          inputs.content=input.value;
-        }
-
-        if (inputs["content"].length<8){
-        	formSubmitError("Message too short",form);
-          form.querySelector(".submit-comment").classList.remove("loading-button");
-        }
-        else {
-          newFetch(form.getAttribute("action"), inputs)
-            .then(res => res.json())
-            .then((res) => {
-            form.querySelector('button.loading-button').classList.remove('loading-button');
-            if(/edit/.test(form.getAttribute('action'))) {              
-              form.classList.add('hidden');
-              editActionHandler(form,inputs);
-
-            } else if (form.classList.contains('top-post-form')) {
-              topReplyHandler(form,res)
-
-            }else if (/reply/.test(form.getAttribute('action'))) {
-              form.classList.add('hidden');
-              innerReplyHandler(form,res);
-            } 
-            checkExpandableComments();            
-            setMaxHeight(document.getElementById('nodebb-comments-list'))
-          });
-        }
-        return false;
-      });
-    }
+        });
+      }
+      return false;
+    });
   }
 
   function editActionHandler(form,inputs){
@@ -180,11 +182,14 @@ import { parseNewComment } from "./newComment.js";
   }
 
   function topReplyHandler(form,res){
-    let newComment= parseNewComment(res,res.user,dataRes.token,res.tid)
+    let newComment= document.createElement('li') 
+    newComment.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid)
     const nodebbDiv= document.getElementById("nodebb-comments-list")
-    nodebbDiv.insertAdjacentHTML('afterbegin', newComment); 
+    nodebbDiv.prepend(newComment)
     form.querySelector('textarea').value='';
     form.querySelector('.emoji-wysiwyg-editor').innerHTML='';
+
+    return newComment;
   }
  
 
@@ -198,11 +203,9 @@ import { parseNewComment } from "./newComment.js";
     
     // Hide and clear forms 
     for (const f of $li.querySelector('.topic-item').querySelectorAll('form')) {
-      console.log('before',f)
       f.classList.add('hidden');
       f.querySelector('textarea').value='';
       f.querySelector('.emoji-wysiwyg-editor').innerHTML='';
-      console.log('after',f)
     }
 
   }
@@ -237,7 +240,9 @@ import { parseNewComment } from "./newComment.js";
       )
       parentUl = newUL
     }
-    parentUl.prepend($li); 
+    parentUl.prepend($li);
+
+    return $li; 
             
   }
 
