@@ -55,6 +55,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       data.blogger = blogger;
       data.category_id = categoryID;
       data.postCount = parseInt(data.postCount, 10);
+      var flagVote=false;
 
       set.dataRes(data);
 
@@ -168,7 +169,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           authenticate("login");
           return;
         }
-        
+
         var dataComponent = this.getAttribute("data-component");
         var topicItem = event.target;
         var bookmarked = JSON.parse(this.getAttribute("data-bookmarked"));
@@ -274,47 +275,58 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           } else if (/\/edit$/.test(dataComponent)) {
             formInput.value = postBody.getAttribute('content');  
             elementForm.classList.remove("hidden");
+          
+
           } else if (/\/upvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
               let downvoteElement= this.parentNode.querySelector('.downvote')
               let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
-              console.log(wasDownvoted)
-              upvotePost(topicItem, pid, upvoted).then(() => {
-                const postValue$ = this.parentNode.querySelector('span.post-value');
-                this.setAttribute('data-upvoted', !upvoted)
-                downvoteElement.setAttribute('data-downvoted', false)
-                // Removing upvote
-                if (upvoted==true) {
-                  postValue$.innerText = Number(postValue$.innerHTML) - 1
-                  // Upvoting a downvoted comment
-                } else if (wasDownvoted=='true'){
-                  postValue$.innerText = Number(postValue$.innerHTML) + 2
-                  // Upvoting a comment without vote
-                } else {
-                  postValue$.innerText = Number(postValue$.innerHTML) + 1
-                }
-  			      }).catch(console.log);
+              console.log(flagVote)
+              if (!flagVote){
+                flagVote=true;
+                upvotePost(topicItem, pid, upvoted).then(() => {
+                  flagVote=false;
+                  const postValue$ = this.parentNode.querySelector('span.post-value');
+                  this.setAttribute('data-upvoted', !upvoted)
+                  downvoteElement.setAttribute('data-downvoted', false)
+                  // Removing upvote
+                  if (upvoted==true) {
+                    postValue$.innerText = Number(postValue$.innerHTML) - 1
+                    // Upvoting a downvoted comment
+                  } else if (wasDownvoted=='true'){
+                    postValue$.innerText = Number(postValue$.innerHTML) + 2
+                    // Upvoting a comment without vote
+                  } else {
+                    postValue$.innerText = Number(postValue$.innerHTML) + 1
+                  }
+    			      }).catch(console.log);
+              }
             }
           } else if (/\/downvote$/.test(dataComponent)) {
             if (data.user.uid != uid) {
               let upvoteElement= this.parentNode.querySelector('.upvote')
               let wasUpvoted= upvoteElement.getAttribute('data-upvoted')
-              console.log(wasUpvoted)
-              downvotePost(topicItem, pid, downvoted).then(() => {
-                const postValue$ = this.parentNode.querySelector('span.post-value');
-                this.setAttribute('data-downvoted', !downvoted)
-                upvoteElement.setAttribute('data-upvoted', false)
-                // Removing downvote
-                if (downvoted) {
-                  postValue$.innerText = Number(postValue$.innerHTML) + 1
-                  // Downvoting an upvoted comment
-                } else if (wasUpvoted=='true'){
-                  postValue$.innerText = Number(postValue$.innerHTML) - 2
-                  // Downvoting a comment without vote
-                } else {
-                  postValue$.innerText = Number(postValue$.innerHTML) - 1
-                }
-              }).catch(console.log);
+
+              console.log(flagVote)
+              if (!flagVote){
+                flagVote=true;
+                downvotePost(topicItem, pid, downvoted).then(() => {
+                  flagVote=false;
+                  const postValue$ = this.parentNode.querySelector('span.post-value');
+                  this.setAttribute('data-downvoted', !downvoted)
+                  upvoteElement.setAttribute('data-upvoted', false)
+                  // Removing downvote
+                  if (downvoted) {
+                    postValue$.innerText = Number(postValue$.innerHTML) + 1
+                    // Downvoting an upvoted comment
+                  } else if (wasUpvoted=='true'){
+                    postValue$.innerText = Number(postValue$.innerHTML) - 2
+                    // Downvoting a comment without vote
+                  } else {
+                    postValue$.innerText = Number(postValue$.innerHTML) - 1
+                  }
+                }).catch(console.log);
+              }
             }
           } else if (/\/bookmark$/.test(dataComponent)) {
             bookmarkPost(topicItem, pid, bookmarked).then(() => {
@@ -906,7 +918,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 	      removeNodes(img);
 	    }
 
-	    clone.querySelector("a.username").setAttribute('href',relativePath+"/user/"+comment.user.userslug );
+	    clone.querySelector(".topic-profile-pic").querySelector('a').setAttribute('href',relativePath+"/user/"+comment.user.userslug );
+      clone.querySelector("a.username").setAttribute('href',relativePath+"/user/"+comment.user.userslug );
 	    clone.querySelector("span[data-strong-username]").innerText =
 	      comment.user.username;
 	    if (comment.parent && comment.parent.username) {

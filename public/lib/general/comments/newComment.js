@@ -1,12 +1,12 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
+import { getCurrentDate } from "../util.js"; 
 
 export function parseNewComment(post,user,token,tid){
-  
-  let newComment= '<li data-pid="'+post.pid+'">'+
+  let newComment= /*'<li data-pid="'+post.pid+'">'+*/
                     '<div class="topic-item" data-pid="'+post.pid+'" data-userslug="'+user.userslug+'" data-uid="'+post.uid+'">'+
                       '<div class="topic-body">'+
                         '<div class="topic-profile-pic">'+
-                          '<a href="'+dataRes.relative_path+'/user/{'+user.userslug+'}">';  
+                          '<a href="'+dataRes.relative_path+'/user/'+user.userslug+'">';  
                           if (user.picture.length){
                newComment+= '<img src="'+user.picture+'" alt="'+user.username+'" class="profile-image" title="'+user.username+'">';
                           }else{
@@ -19,7 +19,7 @@ export function parseNewComment(post,user,token,tid){
                           '<div class="post-content" itemprop="text">'+
                             '<small>'+
                               '<a href="'+dataRes.relative_path+'/user/'+user.userslug+'" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">'+user.username+'</span></a>'+
-                              '<span class="post-time" data-timestamp="" title="'+post.timestampISO+'">'+post.timestamp+'</span>';
+                              "<span class='post-time' data-timestamp='' title='"+getCurrentDate()+"'>à l'instant</span>";
                               if (post.isReply){
                    newComment+= '<button data-component="post/parent" class="reply-label no-select" data-topid="'+post.toPid+'">'+
                                 '<i class="icon-reply"></i> <span data-parent-username="">@'+post.parentUsername+'</span>'+
@@ -35,16 +35,14 @@ export function parseNewComment(post,user,token,tid){
                             '</small>'+
                             '<div class="post-body" content="'+post.content+'">'+post.content+'</div>'+
                             '<div class="nodebb-post-tools post-tools no-select">'+
-                              '<a class="upvote" data-component="post/upvote" data-pid="'+post.pid+'" data-upvoted="'+post.upvoted+'" data-votes="'+post.votes+'" title="Upvote">'+
+                              '<a class="upvote disabled" data-component="post/upvote" data-pid="'+post.pid+'" data-upvoted="false" data-votes="0" title="Upvote">'+
                                 '<i class="i-upvote fad fa-angle-up"></i>'+
-                                '<span class="upvote-count" style="display: none;">'+
-                                  +post.votes+
-                                '</span>'+
+                                '<span class="upvote-count" style="display: none;">0</span>'+
                               '</a>'+
                               '<div class="posts-vote">'+
-                                '<span class="post-value">'+post.votes+'</span>'+
+                                '<span class="post-value">0</span>'+
                               '</div>'+
-                              '<a class="downvote" data-component="post/downvote" data-pid="'+post.pid+'" data-downvoted="'+post.downvoted+'" data-votes="'+post.votes+'" title="Downvote">'+
+                              '<a class="downvote disabled" data-component="post/downvote" data-pid="'+post.pid+'" data-downvoted="false" data-votes="0" title="Downvote">'+
                                 '<i class="i-downvote fad fa-angle-down"></i>'+
                               '</a>'+
                               '<a class="reply" data-component="post/reply" class="reply" title="Reply">'+
@@ -147,8 +145,8 @@ export function parseNewComment(post,user,token,tid){
                     '<input type="hidden" name="url" value="'+dataRes.redirect_url+'" />'+
                   '</frm>'+
                   '<div data-recursive-replies=""></div>'+
-                '</div>'+
-              '</li>';
+                '</div>'
+              /*'</li>'*/;
 
               return newComment;
 

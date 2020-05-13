@@ -1,5 +1,5 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
-import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo } from "../util.js"; 
+import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo,getCurrentDate } from "../util.js"; 
 import { upvotePost,downvotePost,xpost, newFetch } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
@@ -149,7 +149,6 @@ import { parseNewComment } from "./newComment.js";
             .then(res => res.json())
             .then((res) => {
             form.querySelector('button.loading-button').classList.remove('loading-button');
-            console.log(form)
             if(/edit/.test(form.getAttribute('action'))) {              
               form.classList.add('hidden');
               editActionHandler(form,inputs);
@@ -161,6 +160,7 @@ import { parseNewComment } from "./newComment.js";
               form.classList.add('hidden');
               innerReplyHandler(form,res);
             } 
+            checkExpandableComments();            
             setMaxHeight(document.getElementById('nodebb-comments-list'))
           });
         }
@@ -188,24 +188,21 @@ import { parseNewComment } from "./newComment.js";
   }
  
 
-  function liSetToDefault($li,isClone){
-    if (isClone){ 
-      $li.classList.remove('expandable');
-      $li.classList.remove('expanded');
-    }else {
-      $li.classList.add('expandable');
-      $li.classList.add('expanded');
-    }
+  function parentCommentSetToDefault($li){ 
+    $li.classList.add('expandable');
+    $li.classList.add('expanded'); 
 
     const $topicItem = $li.querySelector('.topic-item');
     $topicItem.classList.remove('replying');
     $topicItem.classList.remove('quoting');
     
     // Hide and clear forms 
-    for (const f of $li.querySelectorAll('form')) {
+    for (const f of $li.querySelector('.topic-item').querySelectorAll('form')) {
+      console.log('before',f)
       f.classList.add('hidden');
       f.querySelector('textarea').value='';
       f.querySelector('.emoji-wysiwyg-editor').innerHTML='';
+      console.log('after',f)
     }
 
   }
@@ -213,11 +210,11 @@ import { parseNewComment } from "./newComment.js";
 
   function innerReplyHandler(form,res){
     let $oldLi = form.closest('li');
-    liSetToDefault($oldLi,false)
-
-    let $li = form.closest('li').cloneNode(true);
-    liSetToDefault($li,true)
-    
+    parentCommentSetToDefault($oldLi)
+ 
+    let $li = document.createElement('li') 
+    $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid); 
+  
     let parentUl=null;
     
     // Setting Parent ul to append the new li
@@ -240,70 +237,7 @@ import { parseNewComment } from "./newComment.js";
       )
       parentUl = newUL
     }
-    parentUl.appendChild($li);
-    
-    // Removing child ul of new li
-    const $childUL = $li.querySelector('ul')
-    if ($childUL) {
-      removeNodes($childUL);
-    }
-
-    // Changing the text content of the new li with the new content
-    const $postBody = $li.querySelector('.post-body')
-    $postBody.setAttribute('content', res.content)
-    $postBody.innerHTML = res.content;
-
-    // Setting new ids attributes
-    for(const pidField of parentUl.querySelectorAll('[data-pid]')) {
-      pidField.setAttribute('data-pid', res.pid)
-    }
-    for (const uidField of parentUl.querySelectorAll('[data-uid]')) {
-      uidField.setAttribute('data-uid', res.user.uid)
-    }
-    
-    // Change new edit form action id to the new id
-    const $editForm = $li.querySelector('form.sub-edit-input');
-    $editForm.setAttribute('action', $editForm.getAttribute('action').replace(/[0-9]+$/g, res.pid))
-    
-    // Change the new topid in the reply form, reply to itself
-    $li.querySelector('form.sub-reply-input input[name="toPid"]').setAttribute('value', res.toPid)
-    
-    // put the image of the user who commmented
-    const $profilePicture = $li.querySelector('.profile-image');
-    if (res.user.picture) {
-      const img = document.createElement('img');
-      img.setAttribute('src', res.user.picture);
-      img.setAttribute('alt', res.user.username);
-      img.setAttribute('title', res.user.username);
-      img.classList.add('profile-image');
-      $profilePicture.outerHTML = img.outerHTML;
-    } else {
-      const img = document.createElement('div');
-      img.setAttribute('alt', res.user.username);
-      img.setAttribute('title', res.user.username);
-      img.classList.add('profile-image');
-      img.innerText = res.user['icon:text'];
-      img.style.backgroundColor = res.user['icon:bgColor'];
-      $profilePicture.outerHTML = img.outerHTML;
-    }
-    const $status = $li.querySelector('.user-status');
-    $status.classList.remove('offline');
-    $status.classList.add('online');
-
-    // Downvotes & Upvotes to 0
-    let downvoteElement= $li.querySelector('.downvote')
-    let upvoteElement= $li.querySelector('.upvote')
-
-    downvoteElement.setAttribute('data-downvoted',false)
-    upvoteElement.setAttribute('data-upvoted',false)
-
-    downvoteElement.classList.add('disabled')
-    upvoteElement.classList.add('disabled')
-
-    let postValue= $li.querySelector('.post-value')
-    postValue.innerHTML=0; 
-
-    checkExpandableComments();
+    parentUl.prepend($li); 
             
   }
 
