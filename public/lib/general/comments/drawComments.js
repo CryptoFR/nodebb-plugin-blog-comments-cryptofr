@@ -192,17 +192,27 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           var formInput = elementForm.querySelector("textarea");
           var visibleForm = nodebbCommentsList.querySelector(
             "li .topic-item form:not(.hidden)"
-          );
+          ); 
           if (visibleForm && visibleForm !== elementForm) {
             topicItem.classList.remove("replying");
             topicItem.classList.remove("quoting");
+
             visibleForm.classList.add("hidden");
-            const cl = visibleForm.closest('.replying')
+
+            let cl = visibleForm.closest('.replying') 
             if (cl) {
               // console.log('remove replying')
               cl.classList.remove('replying')
             }
+
+            cl = visibleForm.closest('.quoting') 
+            if (cl) {
+              // console.log('remove replying')
+              cl.classList.remove('quoting')
+            } 
           }
+
+
           var postBody;
           if (/\/(quote|edit)$/.test(dataComponent)) {
             postBody = topicItem.querySelector(".post-content .post-body");
@@ -553,16 +563,25 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         
         var visibleForm = nodebbCommentsList.querySelector(
           "li .topic-item form:not(.hidden)"
-        );
+        ); 
         if (visibleForm && visibleForm !== elementForm) {
           topicItem.classList.remove("replying");
           topicItem.classList.remove("quoting");
+
           visibleForm.classList.add("hidden");
-          const cl = visibleForm.closest('.replying')
+
+          let cl = visibleForm.closest('.replying') 
           if (cl) {
             // console.log('remove replying')
             cl.classList.remove('replying')
           }
+
+          cl = visibleForm.closest('.quoting') 
+          if (cl) {
+            // console.log('remove replying')
+            cl.classList.remove('quoting')
+          }
+
         }
 
         var postBody;
@@ -701,7 +720,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       for (const form of li.querySelectorAll('form')){
         commentSubmissionsHandler(form);
       }
-      
+
       gifContentCheck();
       commentOptions(); 
       checkExpandableComments(); 

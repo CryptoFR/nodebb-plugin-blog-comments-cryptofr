@@ -1747,6 +1747,13 @@ function drawComments() {
             // console.log('remove replying')
             cl.classList.remove('replying');
           }
+
+          cl = visibleForm.closest('.quoting');
+
+          if (cl) {
+            // console.log('remove replying')
+            cl.classList.remove('quoting');
+          }
         }
 
         var postBody;
@@ -2090,6 +2097,13 @@ function bindEvents(user, li) {
         if (cl) {
           // console.log('remove replying')
           cl.classList.remove('replying');
+        }
+
+        cl = visibleForm.closest('.quoting');
+
+        if (cl) {
+          // console.log('remove replying')
+          cl.classList.remove('quoting');
         }
       }
 
