@@ -175,8 +175,7 @@ import { bindEvents } from "./drawComments.js";
     const $postBody = form.closest('div').querySelector('.post-body')
     const content = inputs.content
     $postBody.innerHTML = content;
-    singleGifComment($postBody)
-    set.reload(true)
+    singleGifComment($postBody) 
     $(form).hide();
     form.querySelector(".submit-comment").classList.remove("loading-button");
   }
@@ -184,6 +183,7 @@ import { bindEvents } from "./drawComments.js";
   function topReplyHandler(form,res){
     let newComment= document.createElement('li') 
     newComment.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid)
+    $li.setAttribute('data-pid',res.pid)
     const nodebbDiv= document.getElementById("nodebb-comments-list")
     nodebbDiv.prepend(newComment)
     form.querySelector('textarea').value='';
@@ -217,6 +217,7 @@ import { bindEvents } from "./drawComments.js";
  
     let $li = document.createElement('li') 
     $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid); 
+    $li.setAttribute('data-pid',res.pid) 
   
     let parentUl=null;
     
@@ -239,7 +240,9 @@ import { bindEvents } from "./drawComments.js";
         newUL
       )
       parentUl = newUL
-    }
+    } 
+
+
     parentUl.prepend($li);
 
     return $li; 

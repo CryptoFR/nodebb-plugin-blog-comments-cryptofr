@@ -83,7 +83,7 @@ export function parseNewComment(post,user,token,tid){
                         '<input type="hidden" name="toPid" value="'+post.pid+'" />'+
                         '<input type="hidden" name="url" value="'+dataRes.redirect_url+'" />'+
                       '</form>'+
-                      '<form action="'+dataRes.relative_path+'/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="'+post.pid+'">'+
+                      '<form action="'+dataRes.relative_path+'/comments/edit/'+post.pid+'" method="post" class="sub-edit-input hidden" data-pid="'+post.pid+'">'+
                         '<strong class="nodebb-error"></strong>'+
                         '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>'+
                         '<div class="comments-toolbar">'+
@@ -105,45 +105,6 @@ export function parseNewComment(post,user,token,tid){
                       '<div data-recursive-replies=""></div>'+
                     '</div>'+
                   '</li>'+
-                  '<form action="'+dataRes.relative_path+'/comments/reply" method="post" class="sub-reply-input hidden">'+
-                    '<strong class="nodebb-error"></strong>'+
-                    '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>'+
-                    '<div class="comments-toolbar">'+
-                      '<div class="special-box">'+
-                        '<span class="special-action emojis">'+
-                          '<i class="fad fa-smile"></i>'+
-                        '</span>'+
-                        '<span class="special-action gif">'+
-                          '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
-                          '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
-                        '</span>'+
-                      '</div>'+
-                      '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à XXX</button>'+
-                    '</div>'+
-                    '<input type="hidden" name="_csrf" value="'+token+'" />'+
-                    '<input type="hidden" name="tid" value="'+tid+'" />'+
-                    '<input type="hidden" name="toPid" value="'+post.pid+'" />'+
-                    '<input type="hidden" name="url" value="'+dataRes.redirect_url+'" />'+
-                  '</form>'+
-                  '<form action="'+dataRes.relative_path+'/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="'+post.pid+'">'+
-                    '<strong class="nodebb-error"></strong>'+
-                    '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>'+
-                    '<div class="comments-toolbar">'+
-                      '<div class="special-box">'+
-                        '<span class="special-action emojis">'+
-                          '<i class="fad fa-smile"></i>'+
-                        '</span>'+
-                        '<span class="special-action gif">'+
-                          '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
-                          '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
-                        '</span>'+
-                      '</div>'+
-                      '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Éditer</button>'+
-                    '</div>'+
-                    '<input type="hidden" name="_csrf" value="'+token+'" />'+
-                    '<input type="hidden" name="tid" value="'+tid+'" />'+
-                    '<input type="hidden" name="url" value="'+dataRes.redirect_url+'" />'+
-                  '</frm>'+
                   '<div data-recursive-replies=""></div>'+
                 '</div>'
               /*'</li>'*/;

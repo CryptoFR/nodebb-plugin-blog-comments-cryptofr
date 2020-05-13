@@ -532,7 +532,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
     
-    console.log(li)
     
     bindOnClick(li.querySelectorAll(selectors), function(event) {
       if (!user || !user.uid) {
@@ -1221,12 +1220,23 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     for (let comment of document.querySelectorAll("#nodebb-comments-list .topic-body")) {
 
       if (comment.querySelector(".options-container .edit-option")){
+        
+        
+          
 
         // EDIT BUTTON
         comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
+          
+          var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list"); 
+          var visibleForm = nodebbCommentsList.querySelector(
+              "li .topic-item form:not(.hidden)"
+            ); 
+          if (visibleForm) visibleForm.classList.add('hidden');
+
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");  
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content");
+          setMaxHeight(document.getElementById('nodebb-comments-list'))
         })
 
         // DELETE BUTTON
