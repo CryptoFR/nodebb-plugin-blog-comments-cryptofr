@@ -1776,9 +1776,9 @@ function drawComments() {
             var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
               return line ? "> " + line : line;
             }).join(" \n ");
-            formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
+            formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
             elementForm.classList.remove("hidden");
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
             if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
           }
         } else if (/\/reply$/.test(dataComponent)) {
@@ -1793,29 +1793,15 @@ function drawComments() {
             topicItem.classList.add("replying");
             topicItem.classList.remove("quoting");
             elementForm.classList.remove("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional /!\
-            // if (level >= 2) {
-            //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
-            //   var regex = new RegExp("^" + atStr, "i");
-            //   if (regex.test(formInput.value)) {
-            //     if (formInput.value.trim() !== atStr) {
-            //       formInput.value = formInput.value.replace(regex, "").trim();
-            //     }
-            //   } else {
-            //     formInput.value = atStr + " " + formInput.value;
-            //     elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " " + formInput.value;
-            //   }
-            // } else {
-            //   formInput.value = "";
-            // }
-            // const closest = formInput.closest('[data-pid]');
-            // const key = closest ? closest.getAttribute('data-pid') : '';
-            // if(commentData.hasOwnProperty(key)) {
-            //   formInput.value = commentData[key]
-            //   $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
-            // } else {
-            //   formInput.value = "";
-            // }
+            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional - I think it does :D /!\
+
+            console.log('level', level);
+
+            if (level >= 2) {
+              var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
+              formInput.value = atStr + " ";
+              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " ";
+            }
           }
         } else if (/\/edit$/.test(dataComponent)) {
           formInput.value = postBody.getAttribute('content');
@@ -2126,9 +2112,9 @@ function bindEvents(user, li) {
           var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
             return line ? "> " + line : line;
           }).join(" \n ");
-          formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
+          formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+          elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
           elementForm.classList.remove("hidden");
-          elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
           if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
         }
       } else if (/\/reply$/.test(dataComponent)) {
@@ -2143,29 +2129,15 @@ function bindEvents(user, li) {
           topicItem.classList.add("replying");
           topicItem.classList.remove("quoting");
           elementForm.classList.remove("hidden");
-          if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional /!\
-          // if (level >= 2) {
-          //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
-          //   var regex = new RegExp("^" + atStr, "i");
-          //   if (regex.test(formInput.value)) {
-          //     if (formInput.value.trim() !== atStr) {
-          //       formInput.value = formInput.value.replace(regex, "").trim();
-          //     }
-          //   } else {
-          //     formInput.value = atStr + " " + formInput.value;
-          //     elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " " + formInput.value;
-          //   }
-          // } else {
-          //   formInput.value = "";
-          // }
-          // const closest = formInput.closest('[data-pid]');
-          // const key = closest ? closest.getAttribute('data-pid') : '';
-          // if(commentData.hasOwnProperty(key)) {
-          //   formInput.value = commentData[key]
-          //   $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
-          // } else {
-          //   formInput.value = "";
-          // }
+          if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional - I think it does :D /!\
+
+          console.log('level', level);
+
+          if (level >= 2) {
+            var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
+            formInput.value = atStr + " ";
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " ";
+          }
         }
       } else if (/\/edit$/.test(dataComponent)) {
         formInput.value = postBody.getAttribute('content');
@@ -3018,14 +2990,14 @@ function editActionHandler(form, inputs) {
 }
 
 function topReplyHandler(form, res) {
-  var newComment = document.createElement('li');
-  newComment.innerHTML = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid);
+  var $li = document.createElement('li');
+  $li.innerHTML = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid);
   $li.setAttribute('data-pid', res.pid);
   var nodebbDiv = document.getElementById("nodebb-comments-list");
-  nodebbDiv.prepend(newComment);
+  nodebbDiv.prepend($li);
   form.querySelector('textarea').value = '';
   form.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
-  return newComment;
+  return $li;
 }
 
 function parentCommentSetToDefault($li) {
@@ -3071,14 +3043,17 @@ function innerReplyHandler(form, res) {
   var parentUl = null; // Setting Parent ul to append the new li
 
   var dataLevel = $oldLi.querySelector('.topic-item').getAttribute('data-level');
+  console.log('dataLevel', dataLevel);
 
-  if (dataLevel == 2) {
+  if (dataLevel >= '2') {
+    console.log('if 2');
     $li.querySelector('.topic-item').setAttribute('data-level', 2);
     parentUl = $oldLi.parentNode.parentNode.querySelector('ul');
     $oldLi.classList.remove('expandable');
     $oldLi.classList.remove('expanded');
   } else {
-    $li.querySelector('.topic-item').setAttribute('data-level', dataLevel + 1);
+    console.log('else', dataLevel);
+    $li.querySelector('.topic-item').setAttribute('data-level', Number(dataLevel) + 1);
     parentUl = $oldLi.querySelector('ul');
   }
 

@@ -181,15 +181,15 @@ import { bindEvents } from "./drawComments.js";
   }
 
   function topReplyHandler(form,res){
-    let newComment= document.createElement('li') 
-    newComment.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid)
+    let $li= document.createElement('li') 
+    $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid)
     $li.setAttribute('data-pid',res.pid)
     const nodebbDiv= document.getElementById("nodebb-comments-list")
-    nodebbDiv.prepend(newComment)
+    nodebbDiv.prepend($li)
     form.querySelector('textarea').value='';
     form.querySelector('.emoji-wysiwyg-editor').innerHTML='';
 
-    return newComment;
+    return $li;
   }
  
 
@@ -224,13 +224,17 @@ import { bindEvents } from "./drawComments.js";
     // Setting Parent ul to append the new li
     let dataLevel= $oldLi.querySelector('.topic-item').getAttribute('data-level')
 
-    if (dataLevel==2){
+    console.log('dataLevel',dataLevel)
+    
+    if (dataLevel>='2'){
+      console.log('if 2')
       $li.querySelector('.topic-item').setAttribute('data-level',2)
       parentUl=$oldLi.parentNode.parentNode.querySelector('ul') 
       $oldLi.classList.remove('expandable');
       $oldLi.classList.remove('expanded');
     }else{
-      $li.querySelector('.topic-item').setAttribute('data-level',dataLevel+1);
+      console.log('else',dataLevel)
+      $li.querySelector('.topic-item').setAttribute('data-level',Number(dataLevel)+1);
       parentUl=$oldLi.querySelector('ul');
     }
 
@@ -240,7 +244,7 @@ import { bindEvents } from "./drawComments.js";
         newUL
       )
       parentUl = newUL
-    } 
+    }
 
 
     parentUl.prepend($li);

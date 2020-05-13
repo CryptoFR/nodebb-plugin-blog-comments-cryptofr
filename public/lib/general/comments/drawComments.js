@@ -234,9 +234,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
                 return line ? "> " + line : line;
               }).join(" \n ");
-              formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
+              
+              formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+              
               elementForm.classList.remove("hidden");
-              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
+              
               if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
                setMaxHeight(document.querySelector("#nodebb-comments-list"));
             }
@@ -257,30 +260,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
                setMaxHeight(document.querySelector("#nodebb-comments-list"));
 
-              // /!\ LEVEL >2 not functional /!\
-              // if (level >= 2) {
-              //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
-              //   var regex = new RegExp("^" + atStr, "i");
-
-              //   if (regex.test(formInput.value)) {
-              //     if (formInput.value.trim() !== atStr) {
-              //       formInput.value = formInput.value.replace(regex, "").trim();
-              //     }
-              //   } else {
-              //     formInput.value = atStr + " " + formInput.value;
-              //     elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " " + formInput.value;
-              //   }
-              // } else {
-              //   formInput.value = "";
-              // }
-              // const closest = formInput.closest('[data-pid]');
-              // const key = closest ? closest.getAttribute('data-pid') : '';
-              // if(commentData.hasOwnProperty(key)) {
-              //   formInput.value = commentData[key]
-              //   $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
-              // } else {
-              //   formInput.value = "";
-              // }
+              // /!\ LEVEL >2 not functional - I think it does :D /!\
+              console.log('level',level) 
+              if (level >= 2) {
+                var atStr = "@" + topicItem.getAttribute("data-userslug") + ":"; 
+                formInput.value = atStr + " ";
+                elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " "; 
+              }  
             }
           } else if (/\/edit$/.test(dataComponent)) {
             formInput.value = postBody.getAttribute('content');  
@@ -604,9 +590,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
               return line ? "> " + line : line;
             }).join(" \n ");
-            formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote + formInput.value;
+            
+            formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+            
             elementForm.classList.remove("hidden");
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = quote;
+            
             if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
              setMaxHeight(document.querySelector("#nodebb-comments-list"));
           }
@@ -627,31 +616,15 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
              setMaxHeight(document.querySelector("#nodebb-comments-list"));
 
-            // /!\ LEVEL >2 not functional /!\
-            // if (level >= 2) {
-            //   var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
-            //   var regex = new RegExp("^" + atStr, "i");
-
-            //   if (regex.test(formInput.value)) {
-            //     if (formInput.value.trim() !== atStr) {
-            //       formInput.value = formInput.value.replace(regex, "").trim();
-            //     }
-            //   } else {
-            //     formInput.value = atStr + " " + formInput.value;
-            //     elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " " + formInput.value;
-            //   }
-            // } else {
-            //   formInput.value = "";
-            // }
-            // const closest = formInput.closest('[data-pid]');
-            // const key = closest ? closest.getAttribute('data-pid') : '';
-            // if(commentData.hasOwnProperty(key)) {
-            //   formInput.value = commentData[key]
-            //   $(formInput).closest('[data-pid]').find('.emoji-wysiwyg-editor').text(formInput.value)
-            // } else {
-            //   formInput.value = "";
-            // }
+            // /!\ LEVEL >2 not functional - I think it does :D /!\
+              console.log('level',level) 
+              if (level >= 2) {
+                var atStr = "@" + topicItem.getAttribute("data-userslug") + ":"; 
+                formInput.value = atStr + " ";
+                elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " "; 
+              }
           }
+
         } else if (/\/edit$/.test(dataComponent)) {
           formInput.value = postBody.getAttribute('content');  
           elementForm.classList.remove("hidden");
