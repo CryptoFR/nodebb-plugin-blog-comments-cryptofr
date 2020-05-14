@@ -305,32 +305,38 @@
     });
   };
 
-  Comments.replyToComment = function(req, res, callback) {
-    var content = req.body.content,
-      tid = req.body.tid,
-      url = req.body.url,
-      toPid = req.body.toPid,
-      uid = req.user ? req.user.uid : 0;
-
+  const replyTopic = (tid, uid, toPid, content) => new Promise((resolve, reject) => {
     topics.reply(
       {
         tid: tid,
         uid: uid,
         toPid: toPid,
         content: content
-      },
-      function(err, postData) {
-        //res.redirect(get_redirect_url(url, err));
-        return res.json({
-          tid,
-          uid,
-          toPid,
-          content,
-          pid: postData.pid,
-          user: postData.user
-        })
-      }
-    );
+      }, function cb(err, postData) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(postData)
+        }
+      })
+  });
+
+  Comments.replyToComment = async function(req, res, callback) {
+    var content = req.body.content,
+      tid = req.body.tid,
+      url = req.body.url,
+      toPid = req.body.toPid,
+      uid = req.user ? req.user.uid : 0;
+    const postData = await replyTopic(tid, uid, toPid, content)
+
+    return res.json({
+      tid,
+      uid,
+      toPid,
+      content,
+      pid: postData.pid,
+      user: postData.user
+    })
   };
   Comments.editPost = function(req, res) {
     const { pid } = req.params;
