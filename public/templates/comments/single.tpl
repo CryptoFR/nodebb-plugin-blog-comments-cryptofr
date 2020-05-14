@@ -1,4 +1,4 @@
-<li data-pid="{posts.pid}">
+<li data-pid="{posts.pid}" class="hola"> 
   <div class="topic-item" data-pid="{posts.pid}" data-userslug="{user.userslug}" data-uid="{posts.uid}">
     <div class="topic-body">
       <div class="topic-profile-pic">

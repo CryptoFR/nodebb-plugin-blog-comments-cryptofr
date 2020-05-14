@@ -106,7 +106,7 @@ small.logged-as {
 }
 
 #nodebb .btn.btn-primary, #root .btn.btn-primary {
-  float: right;
+  float: none;
   margin-right: 0px;
   margin-top: 0px;
   padding: 12px 20px;

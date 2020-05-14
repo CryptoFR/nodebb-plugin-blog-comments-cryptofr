@@ -1480,8 +1480,6 @@ var _loadComments = require("./loadComments.js");
 function setSorting(s) {
   _settings.set.sorting(s);
 
-  _settings.set.firstTime(false);
-
   (0, _loadComments.reloadComments)(0, 0, true, 1);
 }
 /**
@@ -1644,16 +1642,6 @@ function drawComments() {
     _settings.set.dataRes(data);
 
     console.log(data);
-    if (_settings.firstTime || data.posts.length > 0) (0, _loadComments.addLoadMore)();else (0, _loadComments.hideLoadMore)();
-
-    if (_settings.firstTime && data.isValid) {
-      (0, _loadComments.addFooterText)();
-
-      _settings.set.firstTime(false);
-    }
-
-    console.log("dataRes.posts");
-    console.log(data.posts);
     setTimeout(function () {
       (0, _modal.grecaptchaGrab)();
       var body = document.querySelector("body");
@@ -2000,6 +1988,19 @@ function drawComments() {
   (0, _gifs.gifContentCheck)();
   checkImgProfile();
 
+  if (data.isValid && _settings.firstTime) {
+    (0, _loadComments.addFooterText)();
+    (0, _loadComments.loadMoreEvent)();
+
+    _settings.set.firstTime(false);
+  }
+
+  if (data.isValid && !data.isLastPage) {
+    (0, _loadComments.showLoadMore)();
+  } else {
+    (0, _loadComments.hideLoadMore)();
+  }
+
   if (_settings.pagination == 0 && !_settings.reload) {
     $("#nodebb-comments-list").css('min-height', 0);
   } else {
@@ -2036,6 +2037,7 @@ function drawComments() {
     }
   }
 
+  (0, _loadComments.addFooterText)();
   (0, _expandComments.checkExpandableComments)();
   commentOptions();
   (0, _util.dispatchEmojis)();
@@ -2755,7 +2757,8 @@ function commentOptions() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addLoadMore = addLoadMore;
+exports.loadMoreEvent = loadMoreEvent;
+exports.showLoadMore = showLoadMore;
 exports.hideLoadMore = hideLoadMore;
 exports.addFooterText = addFooterText;
 exports.createSnackbar = createSnackbar;
@@ -2781,40 +2784,29 @@ var _newComment = require("./newComment.js");
 
 var _drawComments = require("./drawComments.js");
 
-function addLoadMore() {
-  var div = null;
+function loadMoreEvent() {
+  console.log('load more event');
+  var button = document.querySelector("#nodebb-load-more");
+  button.addEventListener("click", function loadMoreClick() {
+    if (!$("body").hasClass("hasLoader")) reloadComments(_settings.pagination + 1);
+  });
+}
 
-  if (!document.querySelector('.load-more-div')) {
-    var div = document.createElement("div");
-    div.classList.add("load-more-div");
-    (0, _util.insertAfter)(div, document.querySelector("#nodebb"));
-    var button = document.createElement("button");
-    button.id = "nodebb-load-more";
-    button.classList.add("btn");
-    button.classList.add("btn-primary");
-    button.innerText = "Charger plus de commentaires...";
-    button.addEventListener("click", function loadMoreClick() {
-      if (!$("body").hasClass("hasLoader")) reloadComments(_settings.pagination + 1);
-    });
-    var text = document.createElement("p");
-    text.classList.add("load-more-text");
-    text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
-    div.appendChild(button);
-  } else {
-    document.querySelector('#nodebb-load-more').style.display = 'block';
-  }
+function showLoadMore() {
+  console.log('block');
+  document.querySelector('#nodebb-load-more').style.display = 'block';
 }
 
 function hideLoadMore() {
+  console.log('hide');
   document.querySelector('#nodebb-load-more').style.display = 'none';
 }
 
 function addFooterText() {
-  var div = document.querySelector(".load-more-div");
-  var text = document.createElement("p");
-  text.classList.add("load-more-text");
+  var text = document.querySelector(".load-more-text");
+  $(text).insertAfter('#nodebb-comments-list');
+  $('.load-more-div').insertAfter('#nodebb-comments-list');
   text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
-  div.appendChild(text);
 }
 /**
  * Creates a snackbar inside the dom

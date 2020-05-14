@@ -20,29 +20,7 @@
 		<form enctype="multipart/form-data" id="formupload" method="post" action="/api/post/upload">
 	        <input  type="file" id="file" name="file"/>
 	    </form> 
-    </div>
-    
-	<!-- <div class="top-tool-box">
-		<a href="" class='need-more-share2'
-		    data-shareUrl='{redirect_url}'
-		    title="Share">
-			<i class="i-share icon-share" aria-hidden="true"></i>
-		</a>
-
-		<a data-component="post/bookmark" style="color: inherit; text-decoration: none;" title="Mark">
-			<i class="i-bookmark icon-bookmark"></i>
-		</a>
-		<a data-component="post/upvote" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
-			<i class="i-upvote icon-thumbs-up-alt"></i>
-			<span class="upvote-count">
-			</span>
-		</a>
-		<a data-component="post/downvote" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
-			<i class="i-downvote icon-thumbs-down-alt"></i>
-			<span class="downvote-count">
-			</span>
-		</a>
-	</div> -->
+    </div> 
 
 	<!-- TOP BAR: sorting comments, login, menu -- OK -->
 	<div class="sortbar">
@@ -141,6 +119,12 @@
 	<!-- ENDIF isLoggedIn -->
 	<!-- COMMENT BOX END -->
 
+	<div class="load-more-div">
+		<button id="nodebb-load-more" class="btn-primary btn">Charger plus de commentaires...</button>
+	</div>
+	<p class="load-more-text"></p>
+
+	<!-- HOLAAAAAAAAA -->
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
 		<!-- BEGIN posts -->
 		<li class="nodebb-post-fadein" data-pid="{posts.pid}">
@@ -218,6 +202,8 @@
 		</li>
 		<!-- END posts -->
 	</ul>
+
+	
 
 <!-- ELSE -->
 	<div class="no-topic">

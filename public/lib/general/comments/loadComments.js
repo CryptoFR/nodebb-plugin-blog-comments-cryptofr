@@ -7,42 +7,31 @@ import { checkExpandableComments } from "./expandComments.js";
 import { parseNewComment } from "./newComment.js";
 import { bindEvents } from "./drawComments.js";
  
-  export function addLoadMore() { 
-    var div=null;
-    if (!document.querySelector('.load-more-div')){
-      var div = document.createElement("div");
-      div.classList.add("load-more-div");
-      insertAfter(div, document.querySelector("#nodebb"));
-      var button = document.createElement("button");
-      button.id = "nodebb-load-more";
-      button.classList.add("btn");
-      button.classList.add("btn-primary");
-      button.innerText = "Charger plus de commentaires...";
-      button.addEventListener("click", function loadMoreClick() {
-        if (!$("body").hasClass("hasLoader"))
-          reloadComments(pagination+1);
-      });
-      var text = document.createElement("p");
-      text.classList.add("load-more-text");
-      text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
-      div.appendChild(button);
-    }else{
+  export function loadMoreEvent() {   
+    console.log('load more event') 
+    var button = document.querySelector("#nodebb-load-more"); 
+    button.addEventListener("click", function loadMoreClick() {
+      if (!$("body").hasClass("hasLoader"))
+        reloadComments(pagination+1);
+    });
+  }
+
+  export function showLoadMore(){
+      console.log('block')
       document.querySelector('#nodebb-load-more').style.display='block'  
-    }
   }
 
   export function hideLoadMore(){
+    console.log('hide')
     document.querySelector('#nodebb-load-more').style.display='none';
   }
 
-  export function addFooterText(){
-    var div = document.querySelector(".load-more-div"); 
-    var text = document.createElement("p");
-    text.classList.add("load-more-text");
+  export function addFooterText(){ 
+    var text = document.querySelector(".load-more-text");  
+    $(text).insertAfter('#nodebb-comments-list');
+    $('.load-more-div').insertAfter('#nodebb-comments-list');
     text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
-    div.appendChild(text);
-  }
-
+  } 
 
   /**
    * Creates a snackbar inside the dom

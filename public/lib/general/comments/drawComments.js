@@ -3,7 +3,7 @@ import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,chan
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments,commentSubmissionsHandler,addLoadMore,hideLoadMore,addFooterText,setMaxHeight } from "./loadComments.js"; 
+import { reloadComments,commentSubmissionsHandler,loadMoreEvent,showLoadMore,hideLoadMore,addFooterText,setMaxHeight } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
@@ -57,23 +57,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       data.postCount = parseInt(data.postCount, 10);
       var flagVote=false;
 
-      set.dataRes(data);
-
+      set.dataRes(data)
       console.log(data)
 
-      if (firstTime || data.posts.length>0)
-        addLoadMore();
-      else hideLoadMore()
 
-
-      if (firstTime && data.isValid) {
-        addFooterText();
-        set.firstTime(false);
-      }
-
-      console.log("dataRes.posts")
-      console.log(data.posts)
-
+  
 
       setTimeout(function() {
         grecaptchaGrab();
@@ -480,6 +468,19 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     gifContentCheck();
     checkImgProfile();
 
+    if (data.isValid && firstTime) {
+      addFooterText();
+      loadMoreEvent();
+      set.firstTime(false);
+    }
+
+    if (data.isValid && !data.isLastPage ){
+      showLoadMore()
+    } else {
+      hideLoadMore()
+    }
+      
+
     if (pagination==0 && !reload) {
       $("#nodebb-comments-list").css('min-height',0);
     }
@@ -498,6 +499,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       commentSubmissionsHandler(form);
     }
 
+    addFooterText();
     checkExpandableComments();
     commentOptions();
     dispatchEmojis();
