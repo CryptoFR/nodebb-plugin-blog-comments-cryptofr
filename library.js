@@ -321,6 +321,23 @@
       })
   });
 
+  const getUserOfPid = (toPid) => new Promise((resolve, reject) => {
+    if (!toPid) {
+      return resolve(null)
+    }
+    posts.getPostField(toPid, 'uid', function (err, uid) {
+      if (err) {
+        return reject(err)
+      }
+      user.getUserData(uid, function (err, user) {
+        if (err) {
+          return reject(err)
+        }
+        resolve(user)
+      })
+    })
+  });
+
   Comments.replyToComment = async function(req, res, callback) {
     var content = req.body.content,
       tid = req.body.tid,
@@ -328,14 +345,14 @@
       toPid = req.body.toPid,
       uid = req.user ? req.user.uid : 0;
     const postData = await replyTopic(tid, uid, toPid, content)
-
     return res.json({
       tid,
       uid,
       toPid,
       content,
       pid: postData.pid,
-      user: postData.user
+      user: postData.user,
+      parentUser: await getUserOfPid(toPid)
     })
   };
   Comments.editPost = function(req, res) {
