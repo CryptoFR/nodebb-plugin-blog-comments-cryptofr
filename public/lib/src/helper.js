@@ -142,7 +142,8 @@ const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
   const itemsPerPage = 10;
   const start = 0 + pagination * itemsPerPage;
   const end = itemsPerPage + pagination * (itemsPerPage - 1);
-  return nestedPostsWithData.slice(start, end);
+  const isLastPage = end >= nestedPostsWithData.length;
+  return {data: nestedPostsWithData.slice(start, end), isLastPage};
 };
 
 module.exports = {

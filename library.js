@@ -125,7 +125,8 @@
           }
 
           res.json({
-            posts: data.posts,
+            posts: data.posts.data,
+            isLastPage: data.posts.isLastPage,
             postCount: data.postCount - 1,
             user: data.user,
             template: Comments.template,
@@ -208,9 +209,10 @@
               bottom = true;
               top = false;
             }
-
+            console.log( 'data.posts',data.posts)
             responses.push({
-              posts: data.posts,
+              posts: data.posts.data,
+              isLastPage: data.posts.isLastPage,
               postCount: data.postCount - 1,
               user: data.user,
               template: Comments.template,
