@@ -92,23 +92,15 @@ import { pluginURL } from "../settings.js";
     var div = document.createElement("div");
     div.classList.add("loading");
     div.innerHTML = "<img src='"+nodeBBURL+"/plugins/nodebb-plugin-blog-comments-cryptofr/img/loader.gif'>";
-    document.querySelector("#nodebb").appendChild(div);
+
+    if (document.querySelector(".load-more-div"))
+      document.querySelector(".load-more-div").appendChild(div);
+    else 
+      document.querySelector("#nodebb").appendChild(div);
+    
     document.querySelector("body").classList.add("hasLoader");
   }
 
-  /**
-   * Adds a loading div in the DOM
-   */
-  export function addLoaderInside() {
-      if (document.querySelector("div.loading")) {
-        return;
-      }
-      var div = document.createElement("div");
-      div.classList.add("loading-inside");
-      div.innerHTML = "<img src='"+nodeBBURL+"/plugins/nodebb-plugin-blog-comments-cryptofr/img/loader.gif'>";
-      document.querySelector("#nodebb").appendChild(div);
-      document.querySelector("body").classList.add("hasLoader");
-    }
 
 
   /**

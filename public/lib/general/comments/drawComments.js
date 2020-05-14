@@ -468,10 +468,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     gifContentCheck();
     checkImgProfile();
 
+
+
     if (data.isValid && firstTime) {
       addFooterText();
       set.firstTime(false);
     }
+
 
     if (data.isValid && !data.isLastPage ){
       loadMoreEvent();
@@ -479,7 +482,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     } else {
       hideLoadMore()
     }
-      
+
 
     if (pagination==0 && !reload) {
       $("#nodebb-comments-list").css('min-height',0);

@@ -320,7 +320,6 @@ exports.timeAgo = timeAgo;
 exports.getCurrentDate = getCurrentDate;
 exports.removeNodes = removeNodes;
 exports.addLoader = addLoader;
-exports.addLoaderInside = addLoaderInside;
 exports.removeLoader = removeLoader;
 exports.normalizePost = normalizePost;
 exports.loadCSS = loadCSS;
@@ -425,23 +424,7 @@ function addLoader() {
   var div = document.createElement("div");
   div.classList.add("loading");
   div.innerHTML = "<img src='" + nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/img/loader.gif'>";
-  document.querySelector("#nodebb").appendChild(div);
-  document.querySelector("body").classList.add("hasLoader");
-}
-/**
- * Adds a loading div in the DOM
- */
-
-
-function addLoaderInside() {
-  if (document.querySelector("div.loading")) {
-    return;
-  }
-
-  var div = document.createElement("div");
-  div.classList.add("loading-inside");
-  div.innerHTML = "<img src='" + nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/img/loader.gif'>";
-  document.querySelector("#nodebb").appendChild(div);
+  if (document.querySelector(".load-more-div")) document.querySelector(".load-more-div").appendChild(div);else document.querySelector("#nodebb").appendChild(div);
   document.querySelector("body").classList.add("hasLoader");
 }
 /**
@@ -1347,7 +1330,6 @@ var _settings = require("../../settings.js");
 var _util = require("../util.js");
 
 function parseNewComment(post, user, token, tid) {
-  console.log('user picture puesto');
   var newComment =
   /*'<li data-pid="'+post.pid+'">'+*/
   '<div class="topic-item" data-pid="' + post.pid + '" data-userslug="' + user.userslug + '" data-uid="' + post.uid + '">' + '<div class="topic-body">' + '<div class="topic-profile-pic">' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '">';
