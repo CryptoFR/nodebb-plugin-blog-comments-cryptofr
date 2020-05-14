@@ -1990,12 +1990,12 @@ function drawComments() {
 
   if (data.isValid && _settings.firstTime) {
     (0, _loadComments.addFooterText)();
-    (0, _loadComments.loadMoreEvent)();
 
     _settings.set.firstTime(false);
   }
 
   if (data.isValid && !data.isLastPage) {
+    (0, _loadComments.loadMoreEvent)();
     (0, _loadComments.showLoadMore)();
   } else {
     (0, _loadComments.hideLoadMore)();
@@ -2788,7 +2788,12 @@ function loadMoreEvent() {
   console.log('load more event');
   var button = document.querySelector("#nodebb-load-more");
   button.addEventListener("click", function loadMoreClick() {
-    if (!$("body").hasClass("hasLoader")) reloadComments(_settings.pagination + 1);
+    console.log('antes');
+
+    if (!$("body").hasClass("hasLoader")) {
+      console.log('entre');
+      reloadComments(_settings.pagination + 1);
+    }
   });
 }
 

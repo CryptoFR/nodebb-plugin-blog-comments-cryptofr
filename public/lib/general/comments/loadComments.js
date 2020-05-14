@@ -11,8 +11,11 @@ import { bindEvents } from "./drawComments.js";
     console.log('load more event') 
     var button = document.querySelector("#nodebb-load-more"); 
     button.addEventListener("click", function loadMoreClick() {
-      if (!$("body").hasClass("hasLoader"))
+      console.log('antes')
+      if (!$("body").hasClass("hasLoader")){
+        console.log('entre')
         reloadComments(pagination+1);
+      }
     });
   }
 

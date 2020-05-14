@@ -470,11 +470,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     if (data.isValid && firstTime) {
       addFooterText();
-      loadMoreEvent();
       set.firstTime(false);
     }
 
     if (data.isValid && !data.isLastPage ){
+      loadMoreEvent();
       showLoadMore()
     } else {
       hideLoadMore()
