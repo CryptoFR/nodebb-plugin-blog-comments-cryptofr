@@ -1347,11 +1347,12 @@ var _settings = require("../../settings.js");
 var _util = require("../util.js");
 
 function parseNewComment(post, user, token, tid) {
+  console.log('user picture puesto');
   var newComment =
   /*'<li data-pid="'+post.pid+'">'+*/
   '<div class="topic-item" data-pid="' + post.pid + '" data-userslug="' + user.userslug + '" data-uid="' + post.uid + '">' + '<div class="topic-body">' + '<div class="topic-profile-pic">' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '">';
 
-  if (user.picture.length) {
+  if (user.picture && user.picture.length) {
     newComment += '<img src="' + user.picture + '" alt="' + user.username + '" class="profile-image" title="' + user.username + '">';
   } else {
     newComment += '<div class="profile-image" style="background-color: ' + user['icon:bgColor'] + '" title="' + user.username + '" alt="' + user.username + '">' + user['icon:text'] + '</div>';
