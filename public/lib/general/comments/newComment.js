@@ -65,7 +65,7 @@ export function parseNewComment(post,user,token,tid){
                       '</div>'+
                       '<form action="'+dataRes.relative_path+'/comments/reply" method="post" class="sub-reply-input hidden">'+
                         '<strong class="nodebb-error"></strong>'+
-                        '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>'+
+                        '<textarea id="" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>'+
                         '<div class="comments-toolbar">'+
                           '<div class="special-box">'+
                             '<span class="special-action emojis">'+
@@ -85,7 +85,7 @@ export function parseNewComment(post,user,token,tid){
                       '</form>'+
                       '<form action="'+dataRes.relative_path+'/comments/edit/'+post.pid+'" method="post" class="sub-edit-input hidden" data-pid="'+post.pid+'">'+
                         '<strong class="nodebb-error"></strong>'+
-                        '<textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>'+
+                        '<textarea id="" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>'+
                         '<div class="comments-toolbar">'+
                           '<div class="special-box">'+
                             '<span class="special-action emojis">'+

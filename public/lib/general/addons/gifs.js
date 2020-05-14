@@ -67,10 +67,28 @@ function grab_data(search_term){
 // OPEN GIF BOX
 export function gifBoxInit(){ 
   for (let gifButton of document.querySelectorAll('.special-action.gif .icon')) {
+    
+
+
     gifButton.addEventListener('click', function(event){
-      document.querySelector(".gifs-box").style.display="block";
+      let gifBox=document.querySelector(".gifs-box");
+      gifBox.style.display="block";
       set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"))
+
+      let closeGifBoxIcon = gifBox.querySelector('.close-gif');
+
+      //I'm using "click" but it works with any event
+      document.addEventListener('click', function(event) {
+        let isClickInside = closeGifBoxIcon.contains(event.target);
+        if (isClickInside) {
+          closeGifBox();
+        }
+      });
+
+
     });
+
+
   }
 
   var button = document.querySelector('#emoji-button');
@@ -90,7 +108,8 @@ export function gifBoxInit(){
     grab_data(document.querySelector(".gif-search").value)
   });
 
-  var closeGifBoxIcon = document.querySelector('.close-gif');
+
+  /*var closeGifBoxIcon = document.querySelector('.close-gif');
 
   //I'm using "click" but it works with any event
   document.addEventListener('click', function(event) {
@@ -98,7 +117,9 @@ export function gifBoxInit(){
     if (isClickInside) {
       closeGifBox();
     }
-  });
+  });*/
+
+
 }
 
 // CHECK CONTENT

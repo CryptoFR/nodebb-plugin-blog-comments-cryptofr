@@ -74,7 +74,7 @@
 
     <form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
       <strong class="nodebb-error"></strong>
-      <textarea id="nodebb-content" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>
+      <textarea id="" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>
       <div class="comments-toolbar">
         <div class="special-box">
           <span class="special-action emojis">
@@ -94,7 +94,7 @@
     </form>
     <form action="{relative_path}/comments/edit/" method="post" class="sub-edit-input hidden" data-pid="{pid}">
       <strong class="nodebb-error"></strong>
-      <textarea id="nodebb-content" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>
+      <textarea id="" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>
       <div class="comments-toolbar">
         <div class="special-box">
           <span class="special-action emojis">

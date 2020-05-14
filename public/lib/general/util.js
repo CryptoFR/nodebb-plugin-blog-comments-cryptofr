@@ -258,8 +258,8 @@ import { pluginURL } from "../settings.js";
   }
 
   // PARSE QUOTES (FAIL)
-  export function parseCommentQuotes(comment) {
-    var quotesChar = comment.split(">");
+  export function parseCommentQuotes(comment) { 
+    var quotesChar = comment.split(/\>|&gt;/g);
     var quoting = false;
 
     if (quotesChar.length > 1) {
@@ -271,7 +271,6 @@ import { pluginURL } from "../settings.js";
             quotesChar[i] = "<span class='quote-marks'>" + quotesChar[i];
           }
 
-          console.log('test');
 
           if (quotesChar[i].split("\n").length > 1) {
             var quotesParsed = quotesChar[i].split("\n");
@@ -289,8 +288,7 @@ import { pluginURL } from "../settings.js";
         }
       }
       comment = newcomment;
-    }
-
+    } 
     return comment;
   }
 

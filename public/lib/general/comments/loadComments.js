@@ -1,5 +1,5 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
-import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo,getCurrentDate } from "../util.js"; 
+import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo,getCurrentDate,parseCommentQuotes } from "../util.js"; 
 import { upvotePost,downvotePost,xpost, newFetch } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
@@ -7,32 +7,40 @@ import { checkExpandableComments } from "./expandComments.js";
 import { parseNewComment } from "./newComment.js";
 import { bindEvents } from "./drawComments.js";
  
-  export function addButtons() { 
-    var div = document.createElement("div");
-    div.classList.add("load-more-div");
-    var button = document.createElement("button");
-    button.id = "nodebb-load-more";
-    button.classList.add("btn");
-    button.classList.add("btn-primary");
-    button.innerText = "Charger plus de commentaires...";
-    button.addEventListener("click", function loadMoreClick() {
-      if (!$("body").hasClass("hasLoader"))
-        reloadComments(pagination+1);
-    });
+  export function addLoadMore() { 
+    var div=null;
+    if (!document.querySelector('.load-more-div')){
+      var div = document.createElement("div");
+      div.classList.add("load-more-div");
+      insertAfter(div, document.querySelector("#nodebb"));
+      var button = document.createElement("button");
+      button.id = "nodebb-load-more";
+      button.classList.add("btn");
+      button.classList.add("btn-primary");
+      button.innerText = "Charger plus de commentaires...";
+      button.addEventListener("click", function loadMoreClick() {
+        if (!$("body").hasClass("hasLoader"))
+          reloadComments(pagination+1);
+      });
+      var text = document.createElement("p");
+      text.classList.add("load-more-text");
+      text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+      div.appendChild(button);
+    }else{
+      document.querySelector('#nodebb-load-more').style.display='block'  
+    }
+  }
+
+  export function hideLoadMore(){
+    document.querySelector('#nodebb-load-more').style.display='none';
+  }
+
+  export function addFooterText(){
+    var div = document.querySelector(".load-more-div"); 
     var text = document.createElement("p");
     text.classList.add("load-more-text");
     text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
-
-    div.appendChild(button);
-
     div.appendChild(text);
-    
-    insertAfter(div, document.querySelector("#nodebb"));
-
-    var div2 = document.createElement("div");
-    div2.classList.add("publishForm");
-    div2.innerHTML='<form id="publishTopic" action="'+dataRes.relative_path+'/comments/publish" method="post"><button class="btn btn-primary">Publier cet article sur '+dataRes.siteTitle+'</button><input type="hidden" name="markdown" id="nodebb-content-markdown" value="'+dataRes.content+'"/><input type="hidden" name="title" id="nodebb-content-title" value="'+dataRes.article_title+'" /><input type="hidden" name="cid" id="nodebb-content-cid" value="'+dataRes.category_id+'" /><input type="hidden" name="blogger" id="nodebb-content-blogger" value="'+dataRes.blogger+'"/><input type="hidden" name="tags" id="nodebb-content-tags" /><input type="hidden" name="id" value="'+dataRes.article_id+'" /><input type="hidden" name="url" value="'+dataRes.redirect_url+'" /><input type="hidden" name="_csrf" value="'+dataRes.token+'" /><input type="hidden" name="timestamp" value="'+Date.now()+'" /><input type="hidden" name="uid" value="'+dataRes.user.uid+'" /></form>';
-    insertAfter(div2, document.querySelector("#nodebb"));
   }
 
 
@@ -218,13 +226,13 @@ import { bindEvents } from "./drawComments.js";
     let $li = document.createElement('li') 
     $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid); 
     $li.setAttribute('data-pid',res.pid) 
+    $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
   
     let parentUl=null;
     
     // Setting Parent ul to append the new li
     let dataLevel= $oldLi.querySelector('.topic-item').getAttribute('data-level')
 
-    console.log('dataLevel',dataLevel)
     
     if (dataLevel>='2'){
       console.log('if 2')

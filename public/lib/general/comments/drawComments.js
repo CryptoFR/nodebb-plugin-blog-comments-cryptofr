@@ -3,7 +3,7 @@ import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,chan
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments,commentSubmissionsHandler,addButtons,setMaxHeight } from "./loadComments.js"; 
+import { reloadComments,commentSubmissionsHandler,addLoadMore,hideLoadMore,addFooterText,setMaxHeight } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
@@ -61,8 +61,14 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       console.log(data)
 
+      if (firstTime || data.posts.length>0)
+        addLoadMore();
+      else hideLoadMore()
+
+
       if (firstTime && data.isValid) {
-        addButtons();set.firstTime(false);
+        addFooterText();
+        set.firstTime(false);
       }
 
       console.log("dataRes.posts")
@@ -392,12 +398,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       // LOAD MORE
       // <<FIX>> ===> Load more button still display when all post have been shown
       if (data.tid) {
-        var loadMore = document.getElementById("nodebb-load-more");
-        if (data.posts.length==10) {
-          loadMore.style.display = "block";
-        }else {
-          loadMore.style.display = "none";
-        } 
+        // var loadMore = document.getElementById("nodebb-load-more");
+        // if (data.posts.length==10) {
+        //   loadMore.style.display = "block";
+        // }else {
+        //   loadMore.style.display = "none";
+        // } 
         if (typeof jQuery !== "undefined" && jQuery() && jQuery().fitVids) {
           jQuery(nodebbDiv).fitVids();
         }

@@ -67,6 +67,7 @@ small.logged-as {
   border-bottom-right-radius: 0px;
   height: fit-content !important;
   min-height: 83px;
+  max-height: 83px;
 }
 #nodebb .form-control:focus {
   box-shadow: none;
@@ -1471,7 +1472,7 @@ form{
 #gifs-list {
   height: calc(100% - 98px);
   margin: 10px;
-  display: flex;
+  /*display: flex;*/
   position: absolute;
   left: 5px;
   right: 5px;
@@ -1481,9 +1482,9 @@ form{
 
 #gifs-list img {
   cursor: pointer;
-  display: inline-block;
+  display: block;
   height: fit-content;
-  max-width: fit-content;
+  max-width: 100%;
   width: auto;
 }
 
