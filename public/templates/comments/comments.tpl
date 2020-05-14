@@ -80,7 +80,7 @@
 		</div>
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
 			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
-			<textarea id="" class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
+			<textarea  class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<div class="special-box actions">
 					<!-- <span class="special-action bold">
@@ -108,7 +108,7 @@
 		</form>
 	<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="logged-out logged-in top-post-form clearfix" method="post">
-			<textarea id="" class="form-control comment-box" name="content" placeholder="Connectez vous pour rejoindre la discussion" rows="3" data-emojiable="false" contenteditable="false" disabled></textarea>
+			<textarea  class="form-control comment-box" name="content" placeholder="Connectez vous pour rejoindre la discussion" rows="3" data-emojiable="false" contenteditable="false" disabled></textarea>
 			<div class="comments-toolbar">
 				<button class="btn btn-primary" disabled>Répondre</button>
 			</div>
@@ -184,7 +184,7 @@
 
 				<!-- Formulaires de Posts -->
 				<!-- <form action="{relative_path}/comments/reply" method="post" class="sub-reply-input hidden">
- 					<textarea id="" class="form-control" name="content" placeholder="Répondre" rows="3" data-emojiable="true"></textarea>
+ 					<textarea  class="form-control" name="content" placeholder="Répondre" rows="3" data-emojiable="true"></textarea>
  					<div class="comments-toolbar">
  						<div class="special-box">
  							<span class="special-action gif"><i class="fa fa-tenor-gif"></i></span>

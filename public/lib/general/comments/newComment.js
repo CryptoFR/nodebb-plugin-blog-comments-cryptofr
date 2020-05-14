@@ -1,7 +1,8 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
 import { getCurrentDate } from "../util.js"; 
 
-export function parseNewComment(post,user,token,tid){
+export function parseNewComment(post,user,token,tid,dataLevel){
+  console.log(post)
   let newComment= /*'<li data-pid="'+post.pid+'">'+*/
                     '<div class="topic-item" data-pid="'+post.pid+'" data-userslug="'+user.userslug+'" data-uid="'+post.uid+'">'+
                       '<div class="topic-body">'+
@@ -22,7 +23,7 @@ export function parseNewComment(post,user,token,tid){
                               "<span class='post-time' data-timestamp='' title='"+getCurrentDate()+"'>à l'instant</span>";
                               if (post.isReply){
                    newComment+= '<button data-component="post/parent" class="reply-label no-select" data-topid="'+post.toPid+'">'+
-                                '<i class="icon-reply"></i> <span data-parent-username="">@'+post.parentUsername+'</span>'+
+                                '<i class="icon-reply"></i> <span data-parent-username="">@'+post.parentUser.username+'</span>'+
                               '</button>';
                               }
                    newComment+= '<div class="menuButton-container">'+
@@ -65,7 +66,7 @@ export function parseNewComment(post,user,token,tid){
                       '</div>'+
                       '<form action="'+dataRes.relative_path+'/comments/reply" method="post" class="sub-reply-input hidden">'+
                         '<strong class="nodebb-error"></strong>'+
-                        '<textarea id="" class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>'+
+                        '<textarea  class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>'+
                         '<div class="comments-toolbar">'+
                           '<div class="special-box">'+
                             '<span class="special-action emojis">'+
@@ -76,16 +77,22 @@ export function parseNewComment(post,user,token,tid){
                               '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
                             '</span>'+
                           '</div>'+
-                          '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à XXX</button>'+
+                          '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à '+user.username+'</button>'+
                         '</div>'+
                         '<input type="hidden" name="_csrf" value="'+token+'" />'+
-                        '<input type="hidden" name="tid" value="'+tid+'" />'+
-                        '<input type="hidden" name="toPid" value="'+post.pid+'" />'+
-                        '<input type="hidden" name="url" value="'+dataRes.redirect_url+'" />'+
+                        '<input type="hidden" name="tid" value="'+tid+'" />';
+                        if (dataLevel>=1){
+           newComment+= '<input type="hidden" name="toPid" value="'+post.toPid+'" />';                          
+                        }
+                        else{
+           newComment+= '<input type="hidden" name="toPid" value="'+post.pid+'" />';                          
+                        }
+                        
+           newComment+= '<input type="hidden" name="url" value="'+dataRes.redirect_url+'" />'+
                       '</form>'+
                       '<form action="'+dataRes.relative_path+'/comments/edit/'+post.pid+'" method="post" class="sub-edit-input hidden" data-pid="'+post.pid+'">'+
                         '<strong class="nodebb-error"></strong>'+
-                        '<textarea id="" class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>'+
+                        '<textarea  class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>'+
                         '<div class="comments-toolbar">'+
                           '<div class="special-box">'+
                             '<span class="special-action emojis">'+

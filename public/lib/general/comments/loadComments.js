@@ -214,26 +214,22 @@ import { bindEvents } from "./drawComments.js";
   function innerReplyHandler(form,res){
     let $oldLi = form.closest('li');
     parentCommentSetToDefault($oldLi)
+    let dataLevel= $oldLi.querySelector('.topic-item').getAttribute('data-level')
  
     let $li = document.createElement('li') 
-    $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid); 
+    $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid,dataLevel); 
     $li.setAttribute('data-pid',res.pid) 
     $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
   
     let parentUl=null;
     
-    // Setting Parent ul to append the new li
-    let dataLevel= $oldLi.querySelector('.topic-item').getAttribute('data-level')
-
-    
+    // Setting Parent ul to append the new li 
     if (dataLevel>='2'){
-      console.log('if 2')
       $li.querySelector('.topic-item').setAttribute('data-level',2)
       parentUl=$oldLi.parentNode.parentNode.querySelector('ul') 
       $oldLi.classList.remove('expandable');
       $oldLi.classList.remove('expanded');
     }else{
-      console.log('else',dataLevel)
       $li.querySelector('.topic-item').setAttribute('data-level',Number(dataLevel)+1);
       parentUl=$oldLi.querySelector('ul');
     }
@@ -244,8 +240,7 @@ import { bindEvents } from "./drawComments.js";
         newUL
       )
       parentUl = newUL
-    }
-
+    } 
 
     parentUl.prepend($li);
 

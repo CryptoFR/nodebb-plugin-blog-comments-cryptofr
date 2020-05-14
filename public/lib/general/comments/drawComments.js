@@ -141,6 +141,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
       setActiveSortingLi(sorting);
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
+
+
       var selectors = [
         '[data-component="post/reply"]',
         '[data-component="post/quote"]',
@@ -150,14 +152,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         '[data-component="post/edit"]',
         '[data-component="post/delete"]'
       ].join(",");
-      // CLICK EVENT ON THE DIFFERENT SELECTORS
+      // CLICK EVENT ON THE DIFFERENT SELECTORS 
 
-      $(nodebbDiv).on('keyup', '.emoji-wysiwyg-editor', function () {
-        const closest = this.closest('[data-pid]')
-        const key = closest ? closest.getAttribute('data-pid') : '';
-        set.commentData(key, this.innerText)
-        // console.log(commentData)
-      })
       bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
         if (!data.user || !data.user.uid) {
           authenticate("login");
@@ -516,199 +512,211 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
   }
 
   export function bindEvents(user,li){
-    
-    var selectors = [
-      '[data-component="post/reply"]',
-      '[data-component="post/quote"]',
-      '[data-component="post/bookmark"]',
-      '[data-component="post/upvote"]',
-      '[data-component="post/downvote"]',
-      '[data-component="post/edit"]',
-      '[data-component="post/delete"]'
-    ].join(",");
 
-    var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
-    
-    
-    bindOnClick(li.querySelectorAll(selectors), function(event) {
+    function eventAuth(){
       if (!user || !user.uid) {
         authenticate("login");
-        return;
+        return false;
       }
+      return true;
+    }
 
-      var dataComponent = this.getAttribute("data-component");
+    function initClick(element){
+
+      var dataComponent = element.getAttribute("data-component"); 
       var topicItem = event.target;
-      var bookmarked = JSON.parse(this.getAttribute("data-bookmarked"));
-      var upvoted = JSON.parse(this.getAttribute("data-upvoted"));
-      var downvoted = JSON.parse(this.getAttribute("data-downvoted"));
-
+      var upvoted = JSON.parse(element.getAttribute("data-upvoted"));
+      var downvoted = JSON.parse(element.getAttribute("data-downvoted"));
       while (topicItem && !topicItem.classList.contains("topic-item")) {
         topicItem = topicItem.parentElement;
       }
-
-      // CHECK AND .... [COMPLETE]
-      if (topicItem) {
-        var pid = topicItem.getAttribute("data-pid");
-        var uid = topicItem.getAttribute("data-uid");
-        var level = topicItem.getAttribute("data-level");
-        var formClass = /\/edit$/.test(dataComponent)
-          ? ".sub-edit-input"
-          : ".sub-reply-input";
-        var elementForm = topicItem.querySelector("form" + formClass);
-        var formInput = elementForm.querySelector("textarea");
-        
-        var visibleForm = nodebbCommentsList.querySelector(
-          "li .topic-item form:not(.hidden)"
-        ); 
-        if (visibleForm && visibleForm !== elementForm) {
-          topicItem.classList.remove("replying");
-          topicItem.classList.remove("quoting");
-
-          visibleForm.classList.add("hidden");
-
-          let cl = visibleForm.closest('.replying') 
-          if (cl) {
-            // console.log('remove replying')
-            cl.classList.remove('replying')
-          }
-
-          cl = visibleForm.closest('.quoting') 
-          if (cl) {
-            // console.log('remove replying')
-            cl.classList.remove('quoting')
-          }
-
-        }
-
-        var postBody;
-        if (/\/(quote|edit)$/.test(dataComponent)) {
-          postBody = topicItem.querySelector(".post-content .post-body");
-        }
-
-        if (/\/quote$/.test(dataComponent)) {
-          //  Click to hide
-          if (topicItem.classList.contains("quoting")){
-            topicItem.classList.remove("quoting");
-            elementForm.classList.add("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-             setMaxHeight(document.querySelector("#nodebb-comments-list")); 
-            // Click to quote
-          } else { 
-            formInput.value='';
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''; 
-            topicItem.classList.add("quoting");
-            topicItem.classList.remove("replying");
-            var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
-              return line ? "> " + line : line;
-            }).join(" \n ");
-            
-            formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-            
-            elementForm.classList.remove("hidden");
-            
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-             setMaxHeight(document.querySelector("#nodebb-comments-list"));
-          }
-        } else if (/\/reply$/.test(dataComponent)) {
-          // Click to hide
-          if (topicItem.classList.contains("replying")){
-            topicItem.classList.remove("replying");
-            elementForm.classList.add("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-             setMaxHeight(document.querySelector("#nodebb-comments-list"));
-            // click to reply
-          } else {
-            formInput.value='';
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''
-            topicItem.classList.add("replying");
-            topicItem.classList.remove("quoting");
-            elementForm.classList.remove("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-             setMaxHeight(document.querySelector("#nodebb-comments-list"));
-
-            // /!\ LEVEL >2 not functional - I think it does :D /!\
-              console.log('level',level) 
-              if (level >= 2) {
-                var atStr = "@" + topicItem.getAttribute("data-userslug") + ":"; 
-                formInput.value = atStr + " ";
-                elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " "; 
-              }
-          }
-
-        } else if (/\/edit$/.test(dataComponent)) {
-          formInput.value = postBody.getAttribute('content');  
-          elementForm.classList.remove("hidden");
-        
-
-        } else if (/\/upvote$/.test(dataComponent)) {
-          if (user.uid != uid) {
-            let downvoteElement= this.parentNode.querySelector('.downvote')
-            let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
-            if (!flagVote){
-              flagVote=true;
-              upvotePost(topicItem, pid, upvoted).then(() => {
-                flagVote=false;
-                const postValue$ = this.parentNode.querySelector('span.post-value');
-                this.setAttribute('data-upvoted', !upvoted)
-                downvoteElement.setAttribute('data-downvoted', false)
-                // Removing upvote
-                if (upvoted==true) {
-                  postValue$.innerText = Number(postValue$.innerHTML) - 1
-                  // Upvoting a downvoted comment
-                } else if (wasDownvoted=='true'){
-                    postValue$.innerText = Number(postValue$.innerHTML) + 2
-                    // Upvoting a comment without vote
-                  } else {
-                    postValue$.innerText = Number(postValue$.innerHTML) + 1
-                  }
-                }).catch(console.log);
-              }
-            }
-          } else if (/\/downvote$/.test(dataComponent)) {
-            if (user.uid != uid) {
-              let upvoteElement= this.parentNode.querySelector('.upvote')
-              let wasUpvoted= upvoteElement.getAttribute('data-upvoted')
-
-              if (!flagVote){
-                flagVote=true;
-                downvotePost(topicItem, pid, downvoted).then(() => {
-                  flagVote=false;
-                  const postValue$ = this.parentNode.querySelector('span.post-value');
-                  this.setAttribute('data-downvoted', !downvoted)
-                  upvoteElement.setAttribute('data-upvoted', false)
-                  // Removing downvote
-                  if (downvoted) {
-                    postValue$.innerText = Number(postValue$.innerHTML) + 1
-                    // Downvoting an upvoted comment
-                  } else if (wasUpvoted=='true'){
-                    postValue$.innerText = Number(postValue$.innerHTML) - 2
-                    // Downvoting a comment without vote
-                  } else {
-                    postValue$.innerText = Number(postValue$.innerHTML) - 1
-                  }
-                }).catch(console.log);
-              }
-            }
-          } else if (/\/delete/.test(dataComponent)) {
-            deletePost(topicItem, pid).then(() => {
-              set.reload(true)
-              reloadComments(pagination,0,false);
-            });
-          }  
-        }
-      
-      });
-      
-      for (const form of li.querySelectorAll('form')){
-        commentSubmissionsHandler(form);
+      var postBody;
+      if (/\/(quote|edit)$/.test(dataComponent)) {
+        postBody = topicItem.querySelector(".post-content .post-body");
       }
+      var pid = topicItem.getAttribute("data-pid");
+      var uid = topicItem.getAttribute("data-uid");
+      var level = topicItem.getAttribute("data-level");
+      var formClass = /\/edit$/.test(dataComponent)
+        ? ".sub-edit-input"
+        : ".sub-reply-input"; 
+      var elementForm = topicItem.querySelector("form" + formClass);
+      var formInput = elementForm.querySelector("textarea");
+      var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");      
+      var visibleForm = nodebbCommentsList.querySelector(
+        "li .topic-item form:not(.hidden)"
+      ); 
+      if (visibleForm && visibleForm !== elementForm) {
+        topicItem.classList.remove("replying");
+        topicItem.classList.remove("quoting");
 
-      gifContentCheck();
-      commentOptions(); 
-      checkExpandableComments(); 
-      dispatchEmojis();
-      gifBoxInit();
+        visibleForm.classList.add("hidden");
+
+        let cl = visibleForm.closest('.replying') 
+        if (cl) {
+          // console.log('remove replying')
+          cl.classList.remove('replying')
+        }
+
+        cl = visibleForm.closest('.quoting') 
+        if (cl) {
+          // console.log('remove replying')
+          cl.classList.remove('quoting')
+        }
+      } 
+      return {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted} 
+    }  
+
+    let flagVote=false;
+
+    // Reply CLick
+    li.querySelector('[data-component="post/reply"]').addEventListener('click',function(){
+      if (!eventAuth()) return false;
+      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);      
+
+      console.log('reply')
+
+      
+      // Click to hide
+      if (topicItem.classList.contains("replying")){ 
+        topicItem.classList.remove("replying");
+        elementForm.classList.add("hidden");
+        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+         setMaxHeight(document.querySelector("#nodebb-comments-list"));
+      // click to reply
+      } else { 
+        formInput.value='';
+        elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''
+        topicItem.classList.add("replying");
+        topicItem.classList.remove("quoting");
+        elementForm.classList.remove("hidden");
+
+        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+         setMaxHeight(document.querySelector("#nodebb-comments-list"));
+  
+          if (level >= 2) {
+            var atStr = "@" + topicItem.getAttribute("data-userslug") + ":"; 
+            formInput.value = atStr + " ";
+            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " "; 
+          }
+      } 
+    }) 
+
+
+    // Quote Click
+    li.querySelector('[data-component="post/quote"]').addEventListener('click',function(){
+      if (!eventAuth()) return false;
+      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
+      
+      console.log('quote')
+
+      //  Click to hide
+      if (topicItem.classList.contains("quoting")){
+        topicItem.classList.remove("quoting");
+        elementForm.classList.add("hidden");
+        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+         setMaxHeight(document.querySelector("#nodebb-comments-list")); 
+        // Click to quote
+      } else { 
+        formInput.value='';
+        elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''; 
+        topicItem.classList.add("quoting");
+        topicItem.classList.remove("replying");
+        var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
+          return line ? "> " + line : line;
+        }).join(" \n ");
+        
+        formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+        elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
+        
+        elementForm.classList.remove("hidden");
+        
+        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
+         setMaxHeight(document.querySelector("#nodebb-comments-list"));
+      }    
+    }) 
+
+
+    // Upvote click
+    li.querySelector('[data-component="post/upvote"]').addEventListener('click',function(){
+      if (!eventAuth()) return false;
+      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this); 
+        
+      console.log('upvote')
+
+      if (user.uid != uid) {
+        let downvoteElement= this.parentNode.querySelector('.downvote')
+        let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
+        if (!flagVote){
+        flagVote=true;
+        upvotePost(topicItem, pid, upvoted).then(() => {
+          flagVote=false;
+          const postValue$ = this.parentNode.querySelector('span.post-value');
+          this.setAttribute('data-upvoted', !upvoted)
+          downvoteElement.setAttribute('data-downvoted', false)
+          // Removing upvote
+          if (upvoted==true) {
+           postValue$.innerText = Number(postValue$.innerHTML) - 1
+           // Upvoting a downvoted comment
+          } else if (wasDownvoted=='true'){
+             postValue$.innerText = Number(postValue$.innerHTML) + 2
+             // Upvoting a comment without vote
+           } else {
+             postValue$.innerText = Number(postValue$.innerHTML) + 1
+           }
+          }).catch(console.log);
+        }
+       }
+    })
+
+
+    // Downvote click
+    li.querySelector('[data-component="post/downvote"]').addEventListener('click',function(){
+      if (!eventAuth()) return false;
+      
+      console.log('downvote')
+
+      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
+      
+      if (user.uid != uid) {
+       let upvoteElement= this.parentNode.querySelector('.upvote')
+       let wasUpvoted= upvoteElement.getAttribute('data-upvoted')
+
+       if (!flagVote){
+         flagVote=true;
+         downvotePost(topicItem, pid, downvoted).then(() => {
+           flagVote=false;
+           const postValue$ = this.parentNode.querySelector('span.post-value');
+           this.setAttribute('data-downvoted', !downvoted)
+           upvoteElement.setAttribute('data-upvoted', false)
+           // Removing downvote
+           if (downvoted) {
+             postValue$.innerText = Number(postValue$.innerHTML) + 1
+             // Downvoting an upvoted comment
+           } else if (wasUpvoted=='true'){
+             postValue$.innerText = Number(postValue$.innerHTML) - 2
+             // Downvoting a comment without vote
+           } else {
+             postValue$.innerText = Number(postValue$.innerHTML) - 1
+           }
+         }).catch(console.log);
+       }
+      } 
+    })
+ 
+    
+      
+    for (const form of li.querySelectorAll('form')){
+      commentSubmissionsHandler(form);
+    }
+
+    gifContentCheck();
+    commentOptions(); 
+    checkExpandableComments(); 
+    dispatchEmojis();
+    gifBoxInit();
+
+
   }
 
 
@@ -1204,11 +1212,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     for (let comment of document.querySelectorAll("#nodebb-comments-list .topic-body")) {
 
       if (comment.querySelector(".options-container .edit-option")){
-        
-        
-          
+         
 
-        // EDIT BUTTON
+        // Edit Click
         comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
           
           var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list"); 
@@ -1217,19 +1223,23 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             ); 
           if (visibleForm) visibleForm.classList.add('hidden');
 
+          console.log('edit')
+
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");  
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content");
           setMaxHeight(document.getElementById('nodebb-comments-list'))
         })
 
-        // DELETE BUTTON
-        comment.querySelector(".options-container .delete-option").addEventListener("click",function(){
-          console.log('data-pid', comment.parentNode.getAttribute("data-pid"))
-          deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then((...args) => {
-            // console.log('pid new', comment.parentNode.getAttribute("data-pid"), args)
+        // Delete Click
+        comment.querySelector(".options-container .delete-option").addEventListener("click",function(){ 
+          console.log('delete') 
+
+          deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(() => {
+            set.reload(true)
+            reloadComments(pagination,0,false);
           }).catch(console.log);
-          reloadComments(pagination,0,false);
+
         })
       }
 
