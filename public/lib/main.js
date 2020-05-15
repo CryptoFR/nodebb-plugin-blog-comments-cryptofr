@@ -1632,8 +1632,8 @@ function drawComments() {
       if (!res) res = JSON.parse(_settings.XHR.responseText);
       console.log("WpAdmin");
       console.log(res);
-      data = res[_i];
-      _i++;
+      data = res[i];
+      i++;
     } // /!\ DEV /!\ CHECK SORTING (Compare with LOCALSTORAGE)
 
 
@@ -1740,7 +1740,7 @@ function drawComments() {
       _settings.contentDiv.value = _settings.savedText;
     }
 
-    var _i = 0;
+    (0, _loadComments.commentSubmissionsHandler)(_settings.nodebbDiv.querySelector('form.top-post-form'));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -1748,7 +1748,6 @@ function drawComments() {
     try {
       for (var _iterator = nodebbCommentsList.querySelectorAll('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var li = _step.value;
-        debugger;
 
         if (!li.getAttribute('data-event')) {
           bindEvents(data.user, li);
@@ -1844,8 +1843,7 @@ function bindEvents(user, li) {
   }
 
   var flagVote = false;
-  li.setAttribute('data-event', 'true');
-  console.log('li', li); // Reply CLick
+  li.setAttribute('data-event', 'true'); // Reply CLick
 
   li.querySelector('[data-component="post/reply"]').addEventListener('click', function () {
     if (!eventAuth()) return false;

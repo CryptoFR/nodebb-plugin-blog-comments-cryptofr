@@ -79,7 +79,8 @@
 			<!-- ENDIF !userHasPicture -->		
 		</div>
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
-			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>. <strong class="nodebb-error"></strong></small> -->
+			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>.</small> --> 
+			<small><strong class="nodebb-error"></strong></small>
 			<textarea  class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<div class="special-box actions">
@@ -108,6 +109,7 @@
 		</form>
 	<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="logged-out logged-in top-post-form clearfix" method="post">
+			<strong class="nodebb-error"></strong>
 			<textarea  class="form-control comment-box" name="content" placeholder="Connectez vous pour rejoindre la discussion" rows="3" data-emojiable="false" contenteditable="false" disabled></textarea>
 			<div class="comments-toolbar">
 				<button class="btn btn-primary" disabled>Répondre</button>

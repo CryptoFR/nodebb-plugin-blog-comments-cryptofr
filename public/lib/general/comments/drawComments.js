@@ -202,6 +202,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       if (savedText) {
         contentDiv.value = savedText;
       }
+
+      commentSubmissionsHandler(nodebbDiv.querySelector('form.top-post-form'));
       for (const li of nodebbCommentsList.querySelectorAll('li') ){
         if (!li.getAttribute('data-event')){
           bindEvents(data.user,li)
@@ -279,8 +281,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     let flagVote=false;
     li.setAttribute('data-event','true')
-
-    console.log('li', li)
 
     // Reply CLick
     li.querySelector('[data-component="post/reply"]').addEventListener('click',function(){
