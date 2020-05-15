@@ -3,7 +3,7 @@ import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,chan
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments,commentSubmissionsHandler,loadMoreEvent,showLoadMore,hideLoadMore,addFooterText,setMaxHeight } from "./loadComments.js"; 
+import { reloadComments,commentSubmissionsHandler,loadMoreEvent,showLoadMore,hideLoadMore,addFooterText,setMaxHeight,moveLoadMoreDoms } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
@@ -58,6 +58,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         if (res.length<i) drawComments(res,i)
       }
 
+      moveLoadMoreDoms()
 
       // onLoadFunction();
       // uploadInit();
@@ -417,7 +418,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     gifContentCheck();
     commentOptions(); 
     checkExpandableComments(); 
-    console.log('without setTimeout')
 
       dispatchEmojis();
       gifBoxInit();

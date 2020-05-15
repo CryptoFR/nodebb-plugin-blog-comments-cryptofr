@@ -1615,9 +1615,10 @@ function drawComments() {
 
     if ((0, _wordpress.checkIfWpAdmin)()) {
       if (res.length < i) drawComments(res, i);
-    } // onLoadFunction();
-    // uploadInit();
+    }
 
+    (0, _loadComments.moveLoadMoreDoms)(); // onLoadFunction();
+    // uploadInit();
   }
 
   (0, _util.removeLoader)();
@@ -2030,7 +2031,6 @@ function bindEvents(user, li) {
   (0, _gifs.gifContentCheck)();
   commentOptions();
   (0, _expandComments.checkExpandableComments)();
-  console.log('without setTimeout');
   (0, _util.dispatchEmojis)();
   (0, _gifs.gifBoxInit)();
 }
@@ -2551,6 +2551,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.loadMoreEvent = loadMoreEvent;
+exports.moveLoadMoreDoms = moveLoadMoreDoms;
 exports.showLoadMore = showLoadMore;
 exports.hideLoadMore = hideLoadMore;
 exports.addFooterText = addFooterText;
@@ -2578,32 +2579,30 @@ var _newComment = require("./newComment.js");
 var _drawComments = require("./drawComments.js");
 
 function loadMoreEvent() {
-  console.log('load more event');
   var button = document.querySelector("#nodebb-load-more");
   button.addEventListener("click", function loadMoreClick() {
-    console.log('antes');
-
     if (!$("body").hasClass("hasLoader")) {
-      console.log('entre');
       reloadComments(_settings.pagination + 1);
     }
   });
 }
 
+function moveLoadMoreDoms() {
+  $(".load-more-text").insertAfter('#nodebb-comments-list');
+  $('.load-more-div').insertAfter('#nodebb-comments-list');
+  document.querySelector(".load-more-text").innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>'; // $(".load-more-text").innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+}
+
 function showLoadMore() {
-  console.log('block');
   document.querySelector('#nodebb-load-more').style.display = 'block';
 }
 
 function hideLoadMore() {
-  console.log('hide');
   document.querySelector('#nodebb-load-more').style.display = 'none';
 }
 
 function addFooterText() {
   var text = document.querySelector(".load-more-text");
-  $(text).insertAfter('#nodebb-comments-list');
-  $('.load-more-div').insertAfter('#nodebb-comments-list');
   text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
 }
 /**
