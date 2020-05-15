@@ -59,11 +59,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         if (res.length<i) drawComments(res,i)
       }
 
-      removeLoader();
 
       // onLoadFunction();
       // uploadInit();
     }
+    removeLoader();
 
     if (checkIfWpAdmin() || XHR.status >= 200 && XHR.status < 400) {
 
@@ -202,13 +202,14 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       if (savedText) {
         contentDiv.value = savedText;
       }
-
-
-      for (let li of nodebbCommentsList.querySelectorAll('li') ){
+      let i = 0;
+      for (const li of nodebbCommentsList.querySelectorAll('li') ){
+        debugger;
         if (!li.getAttribute('data-event')){
           bindEvents(data.user,li)
         }
-      }  
+      } 
+       
 
     }
 
@@ -283,6 +284,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     let flagVote=false;
     li.setAttribute('data-event','true')
 
+    console.log('li', li)
 
     // Reply CLick
     li.querySelector('[data-component="post/reply"]').addEventListener('click',function(){

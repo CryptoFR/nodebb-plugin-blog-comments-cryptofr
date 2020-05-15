@@ -1138,7 +1138,7 @@ function gifBoxInit() {
     grab_data(document.querySelector(".gif-search").value);
   });
   /*var closeGifBoxIcon = document.querySelector('.close-gif');
-    //I'm using "click" but it works with any event
+   //I'm using "click" but it works with any event
   document.addEventListener('click', function(event) {
     var isClickInside = closeGifBoxIcon.contains(event.target);
     if (isClickInside) {
@@ -1624,11 +1624,12 @@ function drawComments() {
 
     if ((0, _wordpress.checkIfWpAdmin)()) {
       if (res.length < i) drawComments(res, i);
-    }
-
-    (0, _util.removeLoader)(); // onLoadFunction();
+    } // onLoadFunction();
     // uploadInit();
+
   }
+
+  (0, _util.removeLoader)();
 
   if ((0, _wordpress.checkIfWpAdmin)() || _settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = {},
@@ -1640,8 +1641,8 @@ function drawComments() {
       if (!res) res = JSON.parse(_settings.XHR.responseText);
       console.log("WpAdmin");
       console.log(res);
-      data = res[i];
-      i++;
+      data = res[_i];
+      _i++;
     } // /!\ DEV /!\ CHECK SORTING (Compare with LOCALSTORAGE)
 
 
@@ -1748,6 +1749,7 @@ function drawComments() {
       _settings.contentDiv.value = _settings.savedText;
     }
 
+    var _i = 0;
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -1755,6 +1757,7 @@ function drawComments() {
     try {
       for (var _iterator = nodebbCommentsList.querySelectorAll('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var li = _step.value;
+        debugger;
 
         if (!li.getAttribute('data-event')) {
           bindEvents(data.user, li);
@@ -1851,7 +1854,8 @@ function bindEvents(user, li) {
   }
 
   var flagVote = false;
-  li.setAttribute('data-event', 'true'); // Reply CLick
+  li.setAttribute('data-event', 'true');
+  console.log('li', li); // Reply CLick
 
   li.querySelector('[data-component="post/reply"]').addEventListener('click', function () {
     if (!eventAuth()) return false;
