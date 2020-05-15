@@ -328,7 +328,6 @@ exports.loadScriptHead = loadScriptHead;
 exports.insertAfter = insertAfter;
 exports.changeAttribute = changeAttribute;
 exports.addClassHelper = addClassHelper;
-exports.windowOnload = windowOnload;
 exports.dispatchEmojis = dispatchEmojis;
 exports.reactElementRelocation = reactElementRelocation;
 exports.getIndexesOf = getIndexesOf;
@@ -533,20 +532,12 @@ function addClassHelper(element, value, classTrueValue, classFalseValue) {
   element.classList.add(classToAdd);
 }
 
-function windowOnload() {
-  loadScript(_settings.pluginURL + "/js/config.js");
-  loadScript(_settings.pluginURL + "/js/util.js");
-  loadScript(_settings.pluginURL + "/js/jquery.emojiarea.js");
-  loadScript(_settings.pluginURL + "/js/emoji-picker.js");
-  loadScript(_settings.pluginURL + "/js/emoji-button-3.0.1.min.js");
+function dispatchEmojis() {
+  var evt = new CustomEvent('dispatchEmojis', {});
+  window.dispatchEvent(evt);
 }
 
-function dispatchEmojis() {
-  setTimeout(function () {
-    var evt = new CustomEvent('dispatchEmojis', {});
-    window.dispatchEvent(evt);
-  }, 200);
-}
+window.dispatchEmojis = dispatchEmojis;
 
 function reactElementRelocation() {
   $("#buttons-container").prepend($("#root button"));
@@ -1145,8 +1136,9 @@ function gifBoxInit() {
       closeGifBox();
     }
   });*/
-} // CHECK CONTENT
+}
 
+window.gifBoxInit = gifBoxInit; // CHECK CONTENT
 
 function gifContentCheck() {
   var _iteratorNormalCompletion4 = true;
@@ -1590,8 +1582,7 @@ function drawComments() {
   var res = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-  // <<REMARK>> might be better to draw and remove after
-  function afterCommentsDomLoaded(data) {
+  function afterCommentsDomLoaded(data, res) {
     (0, _util.reactElementRelocation)();
     checkImgProfile();
 
@@ -1624,11 +1615,12 @@ function drawComments() {
 
     if ((0, _wordpress.checkIfWpAdmin)()) {
       if (res.length < i) drawComments(res, i);
-    }
-
-    (0, _util.removeLoader)(); // onLoadFunction();
+    } // onLoadFunction();
     // uploadInit();
+
   }
+
+  (0, _util.removeLoader)();
 
   if ((0, _wordpress.checkIfWpAdmin)() || _settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = {},
@@ -1776,7 +1768,6 @@ function drawComments() {
     }
   }
 
-  console.log('hola');
   afterCommentsDomLoaded(data, res);
 }
 
@@ -2038,6 +2029,7 @@ function bindEvents(user, li) {
   (0, _gifs.gifContentCheck)();
   commentOptions();
   (0, _expandComments.checkExpandableComments)();
+  console.log('without setTimeout');
   (0, _util.dispatchEmojis)();
   (0, _gifs.gifBoxInit)();
 }
@@ -3229,8 +3221,13 @@ document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<d
 
 _settings.set.nodebbDiv(document.getElementById("nodebb"));
 
-(0, _util.loadScript)("https://www.google.com/recaptcha/api.js");
-(0, _util.loadScript)(_settings.pluginURL + "/css/fontawesome/js/all.js");
+(0, _util.loadScript)("https://www.google.com/recaptcha/api.js"); // loadScript(pluginURL + "/css/fontawesome/js/all.js"); 
+// loadScript(pluginURL + "/js/config.js");
+// loadScript(pluginURL + "/js/util.js");
+// loadScript(pluginURL + "/js/jquery.emojiarea.js");
+// loadScript(pluginURL + "/js/emoji-picker.js");
+// loadScript(pluginURL + "/js/emoji-button-3.0.1.min.js");
+
 setTimeout(_modal.grecaptchaGrab, 1000);
 
 _settings.set.pagination(0);
@@ -3284,6 +3281,5 @@ _settings.set.templates({
 });
 
 (0, _onload.onloadXHR)();
-(0, _modal.tabIsActive)();
-(0, _util.windowOnload)(); // newCommentsCheck();
+(0, _modal.tabIsActive)(); // newCommentsCheck();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["ZSQl"], null)

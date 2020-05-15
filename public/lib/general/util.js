@@ -206,21 +206,14 @@ import { pluginURL } from "../settings.js";
     }
     element.classList.add(classToAdd);
   }
+ 
 
-  export function windowOnload(){
-    loadScript(pluginURL + "/js/config.js");
-    loadScript(pluginURL + "/js/util.js");
-    loadScript(pluginURL + "/js/jquery.emojiarea.js");
-    loadScript(pluginURL + "/js/emoji-picker.js");
-    loadScript(pluginURL + "/js/emoji-button-3.0.1.min.js");
+  export function dispatchEmojis(){ 
+    var evt = new CustomEvent('dispatchEmojis', {  });
+    window.dispatchEvent(evt); 
   }
 
-  export function dispatchEmojis(){
-    setTimeout(function() {
-      var evt = new CustomEvent('dispatchEmojis', {  });
-      window.dispatchEvent(evt);
-    }, 200);
-  }
+  window.dispatchEmojis=dispatchEmojis;
 
   export function reactElementRelocation(){
     $("#buttons-container").prepend($("#root button"));

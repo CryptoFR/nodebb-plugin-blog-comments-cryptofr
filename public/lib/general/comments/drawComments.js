@@ -19,9 +19,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
   // window.drawComments = drawComments
   export function drawComments(res=null,i=0) {
 
-    // <<REMARK>> might be better to draw and remove after
 
-    function afterCommentsDomLoaded(data){
+    function afterCommentsDomLoaded(data,res){
       reactElementRelocation(); 
       checkImgProfile(); 
 
@@ -59,11 +58,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         if (res.length<i) drawComments(res,i)
       }
 
-      removeLoader();
 
       // onLoadFunction();
       // uploadInit();
     }
+    
+    removeLoader();
+
 
     if (checkIfWpAdmin() || XHR.status >= 200 && XHR.status < 400) {
 
@@ -211,8 +212,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       }  
 
     }
-
-    console.log('hola')
 
     afterCommentsDomLoaded(data,res);
 
@@ -419,8 +418,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     gifContentCheck();
     commentOptions(); 
     checkExpandableComments(); 
-    dispatchEmojis();
-    gifBoxInit();
+    console.log('without setTimeout')
+
+      dispatchEmojis();
+      gifBoxInit();
 
 
   }

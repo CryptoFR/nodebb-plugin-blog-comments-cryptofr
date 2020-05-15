@@ -22,7 +22,15 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
   set.nodebbDiv(document.getElementById("nodebb"));
 
   loadScript("https://www.google.com/recaptcha/api.js");
-  loadScript(pluginURL + "/css/fontawesome/js/all.js");
+  
+  // loadScript(pluginURL + "/css/fontawesome/js/all.js"); 
+  // loadScript(pluginURL + "/js/config.js");
+  // loadScript(pluginURL + "/js/util.js");
+  // loadScript(pluginURL + "/js/jquery.emojiarea.js");
+  // loadScript(pluginURL + "/js/emoji-picker.js");
+  // loadScript(pluginURL + "/js/emoji-button-3.0.1.min.js");
+
+
 
   setTimeout(grecaptchaGrab, 1000);
 
@@ -64,11 +72,10 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 
   set.templates({ blocks: {} });
  
-
+  
   onloadXHR();
 
   tabIsActive();
 
-  windowOnload();
 
   // newCommentsCheck();

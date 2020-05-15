@@ -122,6 +122,8 @@ export function gifBoxInit(){
 
 }
 
+  window.gifBoxInit=gifBoxInit;
+
 // CHECK CONTENT
 export function gifContentCheck(){
   for (let comment of document.querySelectorAll(".post-body")){
