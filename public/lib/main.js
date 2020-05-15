@@ -2960,11 +2960,11 @@ function prepareModal(modalTemplate, token, onSubmit) {
     registerModal$.setAttribute("href", nodeBBURL + "/register");
   }
 
-  div.querySelector(".google a").setAttribute("data-link", nodeBBURL + "/auth/google");
-  div.querySelector(".facebook a").setAttribute("data-link", nodeBBURL + "/auth/facebook");
-  div.querySelector(".twitter a").setAttribute("data-link", nodeBBURL + "/auth/twitter");
-  div.querySelector(".github a").setAttribute("data-link", nodeBBURL + "/auth/github");
-  div.querySelector("img.icon").setAttribute("src", nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg");
+  if (div.querySelector(".google a")) div.querySelector(".google a").setAttribute("data-link", nodeBBURL + "/auth/google");
+  if (div.querySelector(".facebook a")) div.querySelector(".facebook a").setAttribute("data-link", nodeBBURL + "/auth/facebook");
+  if (div.querySelector(".twitter a")) div.querySelector(".twitter a").setAttribute("data-link", nodeBBURL + "/auth/twitter");
+  if (div.querySelector(".github a")) div.querySelector(".github a").setAttribute("data-link", nodeBBURL + "/auth/github");
+  if (div.querySelector("img.icon")) div.querySelector("img.icon").setAttribute("src", nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg");
   return div;
 }
 /**
