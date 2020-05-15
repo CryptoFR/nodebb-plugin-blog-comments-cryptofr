@@ -202,7 +202,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       if (savedText) {
         contentDiv.value = savedText;
       }
-      let i = 0;
       for (const li of nodebbCommentsList.querySelectorAll('li') ){
         if (!li.getAttribute('data-event')){
           bindEvents(data.user,li)
