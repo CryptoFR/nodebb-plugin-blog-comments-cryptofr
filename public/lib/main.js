@@ -1589,8 +1589,46 @@ var _wordpress = require("../../integration/wordpress.js");
 function drawComments() {
   var res = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
   // <<REMARK>> might be better to draw and remove after
-  (0, _util.removeLoader)();
+  function afterCommentsDomLoaded(data) {
+    (0, _util.reactElementRelocation)();
+    checkImgProfile();
+
+    if (data.isValid && _settings.firstTime) {
+      (0, _loadComments.addFooterText)();
+
+      _settings.set.firstTime(false);
+    }
+
+    if (data.isValid && !data.isLastPage) {
+      (0, _loadComments.loadMoreEvent)();
+      (0, _loadComments.showLoadMore)();
+    } else {
+      (0, _loadComments.hideLoadMore)();
+    }
+
+    if (_settings.pagination == 0 && !_settings.reload) {
+      $("#nodebb-comments-list").css('min-height', 0);
+    } else {
+      $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
+    }
+
+    $("body").removeClass("loadmore");
+
+    if (_settings.reload && !(0, _wordpress.checkIfWpAdmin)()) {
+      (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
+    }
+
+    prepareSignout(data.token);
+
+    if ((0, _wordpress.checkIfWpAdmin)()) {
+      if (res.length < i) drawComments(res, i);
+    }
+
+    (0, _util.removeLoader)(); // onLoadFunction();
+    // uploadInit();
+  }
 
   if ((0, _wordpress.checkIfWpAdmin)() || _settings.XHR.status >= 200 && _settings.XHR.status < 400) {
     var data = {},
@@ -1689,202 +1727,8 @@ function drawComments() {
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting);
 
-    var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
+    var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list"); // SORTING COMPONENT
 
-    var selectors = ['[data-component="post/reply"]', '[data-component="post/quote"]', '[data-component="post/bookmark"]', '[data-component="post/upvote"]', '[data-component="post/downvote"]', '[data-component="post/edit"]', '[data-component="post/delete"]'].join(","); // CLICK EVENT ON THE DIFFERENT SELECTORS 
-
-    (0, _util.bindOnClick)(_settings.nodebbDiv.querySelectorAll(selectors), function (event) {
-      var _this = this;
-
-      if (!data.user || !data.user.uid) {
-        (0, _modal.authenticate)("login");
-        return;
-      }
-
-      var dataComponent = this.getAttribute("data-component");
-      var topicItem = event.target;
-      var bookmarked = JSON.parse(this.getAttribute("data-bookmarked"));
-      var upvoted = JSON.parse(this.getAttribute("data-upvoted"));
-      var downvoted = JSON.parse(this.getAttribute("data-downvoted"));
-
-      while (topicItem && !topicItem.classList.contains("topic-item")) {
-        topicItem = topicItem.parentElement;
-      } // CHECK AND .... [COMPLETE]
-
-
-      if (topicItem) {
-        var pid = topicItem.getAttribute("data-pid");
-        var uid = topicItem.getAttribute("data-uid");
-        var level = topicItem.getAttribute("data-level");
-        var formClass = /\/edit$/.test(dataComponent) ? ".sub-edit-input" : ".sub-reply-input";
-        var elementForm = topicItem.querySelector("form" + formClass);
-        var formInput = elementForm.querySelector("textarea");
-        var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)");
-
-        if (visibleForm && visibleForm !== elementForm) {
-          topicItem.classList.remove("replying");
-          topicItem.classList.remove("quoting");
-          visibleForm.classList.add("hidden");
-          var cl = visibleForm.closest('.replying');
-
-          if (cl) {
-            // console.log('remove replying')
-            cl.classList.remove('replying');
-          }
-
-          cl = visibleForm.closest('.quoting');
-
-          if (cl) {
-            // console.log('remove replying')
-            cl.classList.remove('quoting');
-          }
-        }
-
-        var postBody;
-
-        if (/\/(quote|edit)$/.test(dataComponent)) {
-          postBody = topicItem.querySelector(".post-content .post-body");
-        }
-
-        if (/\/quote$/.test(dataComponent)) {
-          //  Click to hide
-          if (topicItem.classList.contains("quoting")) {
-            topicItem.classList.remove("quoting");
-            elementForm.classList.add("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // Click to quote
-          } else {
-            formInput.value = '';
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
-            topicItem.classList.add("quoting");
-            topicItem.classList.remove("replying");
-            var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
-              return line ? "> " + line : line;
-            }).join(" \n ");
-            formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-            elementForm.classList.remove("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
-          }
-        } else if (/\/reply$/.test(dataComponent)) {
-          // Click to hide
-          if (topicItem.classList.contains("replying")) {
-            topicItem.classList.remove("replying");
-            elementForm.classList.add("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // click to reply
-          } else {
-            formInput.value = '';
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
-            topicItem.classList.add("replying");
-            topicItem.classList.remove("quoting");
-            elementForm.classList.remove("hidden");
-            if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _loadComments.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // /!\ LEVEL >2 not functional - I think it does :D /!\
-
-            console.log('level', level);
-
-            if (level >= 2) {
-              var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
-              formInput.value = atStr + " ";
-              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " ";
-            }
-          }
-        } else if (/\/edit$/.test(dataComponent)) {
-          formInput.value = postBody.getAttribute('content');
-          elementForm.classList.remove("hidden");
-        } else if (/\/upvote$/.test(dataComponent)) {
-          if (data.user.uid != uid) {
-            var downvoteElement = this.parentNode.querySelector('.downvote');
-            var wasDownvoted = downvoteElement.getAttribute('data-downvoted');
-            console.log(flagVote);
-
-            if (!flagVote) {
-              flagVote = true;
-              (0, _api.upvotePost)(topicItem, pid, upvoted).then(function () {
-                flagVote = false;
-
-                var postValue$ = _this.parentNode.querySelector('span.post-value');
-
-                _this.setAttribute('data-upvoted', !upvoted);
-
-                downvoteElement.setAttribute('data-downvoted', false); // Removing upvote
-
-                if (upvoted == true) {
-                  postValue$.innerText = Number(postValue$.innerHTML) - 1; // Upvoting a downvoted comment
-                } else if (wasDownvoted == 'true') {
-                  postValue$.innerText = Number(postValue$.innerHTML) + 2; // Upvoting a comment without vote
-                } else {
-                  postValue$.innerText = Number(postValue$.innerHTML) + 1;
-                }
-              }).catch(console.log);
-            }
-          }
-        } else if (/\/downvote$/.test(dataComponent)) {
-          if (data.user.uid != uid) {
-            var upvoteElement = this.parentNode.querySelector('.upvote');
-            var wasUpvoted = upvoteElement.getAttribute('data-upvoted');
-            console.log(flagVote);
-
-            if (!flagVote) {
-              flagVote = true;
-              (0, _api.downvotePost)(topicItem, pid, downvoted).then(function () {
-                flagVote = false;
-
-                var postValue$ = _this.parentNode.querySelector('span.post-value');
-
-                _this.setAttribute('data-downvoted', !downvoted);
-
-                upvoteElement.setAttribute('data-upvoted', false); // Removing downvote
-
-                if (downvoted) {
-                  postValue$.innerText = Number(postValue$.innerHTML) + 1; // Downvoting an upvoted comment
-                } else if (wasUpvoted == 'true') {
-                  postValue$.innerText = Number(postValue$.innerHTML) - 2; // Downvoting a comment without vote
-                } else {
-                  postValue$.innerText = Number(postValue$.innerHTML) - 1;
-                }
-              }).catch(console.log);
-            }
-          }
-        } else if (/\/bookmark$/.test(dataComponent)) {
-          bookmarkPost(topicItem, pid, bookmarked).then(function () {
-            _settings.set.reload(true);
-
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-          }).catch(console.log);
-        } else if (/\/delete/.test(dataComponent)) {
-          (0, _api.deletePost)(topicItem, pid).then(function () {
-            _settings.set.reload(true);
-
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-          });
-        }
-      } else {
-        if (/\/upvote$/.test(dataComponent)) {
-          if (data.user.uid != mainPost.uid) {
-            (0, _api.upvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, upvoted).then(function () {
-              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-            }).catch(console.log);
-          }
-        } else if (/\/bookmark$/.test(dataComponent)) {
-          bookmarkPost(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, bookmarked).then(function () {
-            _settings.set.reload(true);
-
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-          }).catch(console.log);
-        } else if (/\/downvote$/.test(dataComponent)) {
-          (0, _api.downvotePost)(_settings.nodebbDiv.querySelector(".top-tool-box"), mainPost.pid, downvoted).then(function () {
-            _settings.set.reload(true);
-
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-          }).catch(console.log);
-        } else if (/\/delete/.test(dataComponent)) {
-          (0, _api.deletePost)(topicItem, pid).then(function () {
-            _settings.set.reload(true);
-
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-          });
-        }
-      }
-    }); // SORTING COMPONENT
 
     _settings.nodebbDiv.querySelector("a[data-component='sort/best']").addEventListener("click", function () {
       return (0, _sortComments.setSorting)("best");
@@ -1902,138 +1746,38 @@ function drawComments() {
 
     if (_settings.savedText) {
       _settings.contentDiv.value = _settings.savedText;
-    } // LOAD MORE
-    // <<FIX>> ===> Load more button still display when all post have been shown
-
-
-    if (data.tid) {
-      // var loadMore = document.getElementById("nodebb-load-more");
-      // if (data.posts.length==10) {
-      //   loadMore.style.display = "block";
-      // }else {
-      //   loadMore.style.display = "none";
-      // } 
-      if (typeof jQuery !== "undefined" && jQuery() && jQuery().fitVids) {
-        jQuery(_settings.nodebbDiv).fitVids();
-      }
-
-      if (data.user && data.user.uid) {
-        var error = window.location.href.match(/error=[\w-]*/);
-
-        if (error) {
-          error = error[0].split("=")[1];
-
-          if (error === "too-many-posts") {
-            error = "Please wait before posting so soon.";
-          } else if (error === "content-too-short") {
-            error = "Please post a longer reply.";
-          }
-
-          document.getElementById("nodebb-error").innerHTML = error;
-        }
-      } else {
-        document.getElementById("nodebb-login").onclick = function () {
-          (0, _modal.authenticate)("login");
-        };
-      }
-    } else {
-      // ADMIN POSSIBILITY
-      // <<CHECK>> If moderators too
-      // Create the comments and blog POST
-      if (data.isAdmin) {
-        var adminXHR = newXHR(); //adminXHR.open('GET', wordpressURL + '?json=get_post&post_type='+articleType+'&post_id=' + articleID);
-        // TODO Get articles too, not only post types
-
-        adminXHR.open("GET", wordpressURL + "/wp-json/wp/v2/posts/" + articleID);
-
-        adminXHR.onload = function () {
-          if (adminXHR.status >= 200 && adminXHR.status < 400) {
-            // We need tags
-            var articleData = JSON.parse(adminXHR.responseText.toString()),
-                translator = document.createElement("span"),
-                tags = articleData.tags;
-            translator.innerHTML = articleData.excerpt ? articleData.excerpt.rendered : "";
-            var markdown = translator.firstChild.innerHTML + "\n\n**Click [here](" + _settings.articlePath + ") to see the full blog post**";
-            document.getElementById("nodebb-content-markdown").value = markdown;
-            document.getElementById("nodebb-content-title").value = articleData.title.rendered;
-            document.getElementById("nodebb-content-cid").value = categoryID || -1;
-            document.getElementById("nodebb-content-tags").value = JSON.stringify(tags);
-            document.getElementById("nodebb-content-blogger").value = data.blogger || "default";
-          } else {
-            console.warn("Unable to access API. Please install the JSON API plugin located at: http://wordpress.org/plugins/json-api");
-          }
-        };
-
-        adminXHR.send();
-      }
     }
-  }
 
-  (0, _util.reactElementRelocation)();
-  (0, _gifs.gifContentCheck)();
-  checkImgProfile();
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-  if (data.isValid && _settings.firstTime) {
-    (0, _loadComments.addFooterText)();
-
-    _settings.set.firstTime(false);
-  }
-
-  if (data.isValid && !data.isLastPage) {
-    (0, _loadComments.loadMoreEvent)();
-    (0, _loadComments.showLoadMore)();
-  } else {
-    (0, _loadComments.hideLoadMore)();
-  }
-
-  if (_settings.pagination == 0 && !_settings.reload) {
-    $("#nodebb-comments-list").css('min-height', 0);
-  } else {
-    $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
-  }
-
-  $("body").removeClass("loadmore");
-
-  if (_settings.reload && !(0, _wordpress.checkIfWpAdmin)()) {
-    (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
-  }
-
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = _settings.nodebbDiv.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var form = _step.value;
-      (0, _loadComments.commentSubmissionsHandler)(form);
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
+      for (var _iterator = nodebbCommentsList.querySelectorAll('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var li = _step.value;
+
+        if (!li.getAttribute('data-event')) {
+          bindEvents(data.user, li);
+        }
       }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
     } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
       }
     }
   }
 
-  (0, _loadComments.addFooterText)();
-  (0, _expandComments.checkExpandableComments)();
-  commentOptions();
-  (0, _util.dispatchEmojis)();
-  (0, _gifs.gifBoxInit)();
-  prepareSignout(data.token);
-
-  if ((0, _wordpress.checkIfWpAdmin)()) {
-    if (res.length < i) drawComments(res, i);
-  } // onLoadFunction();
-  // uploadInit();
-
+  console.log('hola');
+  afterCommentsDomLoaded(data, res);
 }
 
 function bindEvents(user, li) {
@@ -2071,7 +1815,7 @@ function bindEvents(user, li) {
 
     var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
 
-    var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)");
+    var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)"); // Hide all other forms
 
     if (visibleForm && visibleForm !== elementForm) {
       topicItem.classList.remove("replying");
@@ -2106,7 +1850,8 @@ function bindEvents(user, li) {
     };
   }
 
-  var flagVote = false; // Reply CLick
+  var flagVote = false;
+  li.setAttribute('data-event', 'true'); // Reply CLick
 
   li.querySelector('[data-component="post/reply"]').addEventListener('click', function () {
     if (!eventAuth()) return false;
@@ -2121,9 +1866,8 @@ function bindEvents(user, li) {
         dataComponent = _initClick.dataComponent,
         postBody = _initClick.postBody,
         upvoted = _initClick.upvoted,
-        downvoted = _initClick.downvoted;
+        downvoted = _initClick.downvoted; // Click to hide
 
-    console.log('reply'); // Click to hide
 
     if (topicItem.classList.contains("replying")) {
       topicItem.classList.remove("replying");
@@ -2158,9 +1902,8 @@ function bindEvents(user, li) {
         dataComponent = _initClick2.dataComponent,
         postBody = _initClick2.postBody,
         upvoted = _initClick2.upvoted,
-        downvoted = _initClick2.downvoted;
+        downvoted = _initClick2.downvoted; //  Click to hide
 
-    console.log('quote'); //  Click to hide
 
     if (topicItem.classList.contains("quoting")) {
       topicItem.classList.remove("quoting");
@@ -2182,7 +1925,7 @@ function bindEvents(user, li) {
   }); // Upvote click
 
   li.querySelector('[data-component="post/upvote"]').addEventListener('click', function () {
-    var _this2 = this;
+    var _this = this;
 
     if (!eventAuth()) return false;
 
@@ -2198,8 +1941,6 @@ function bindEvents(user, li) {
         upvoted = _initClick3.upvoted,
         downvoted = _initClick3.downvoted;
 
-    console.log('upvote');
-
     if (user.uid != uid) {
       var downvoteElement = this.parentNode.querySelector('.downvote');
       var wasDownvoted = downvoteElement.getAttribute('data-downvoted');
@@ -2209,9 +1950,9 @@ function bindEvents(user, li) {
         (0, _api.upvotePost)(topicItem, pid, upvoted).then(function () {
           flagVote = false;
 
-          var postValue$ = _this2.parentNode.querySelector('span.post-value');
+          var postValue$ = _this.parentNode.querySelector('span.post-value');
 
-          _this2.setAttribute('data-upvoted', !upvoted);
+          _this.setAttribute('data-upvoted', !upvoted);
 
           downvoteElement.setAttribute('data-downvoted', false); // Removing upvote
 
@@ -2228,10 +1969,9 @@ function bindEvents(user, li) {
   }); // Downvote click
 
   li.querySelector('[data-component="post/downvote"]').addEventListener('click', function () {
-    var _this3 = this;
+    var _this2 = this;
 
     if (!eventAuth()) return false;
-    console.log('downvote');
 
     var _initClick4 = initClick(this),
         topicItem = _initClick4.topicItem,
@@ -2254,9 +1994,9 @@ function bindEvents(user, li) {
         (0, _api.downvotePost)(topicItem, pid, downvoted).then(function () {
           flagVote = false;
 
-          var postValue$ = _this3.parentNode.querySelector('span.post-value');
+          var postValue$ = _this2.parentNode.querySelector('span.post-value');
 
-          _this3.setAttribute('data-downvoted', !downvoted);
+          _this2.setAttribute('data-downvoted', !downvoted);
 
           upvoteElement.setAttribute('data-upvoted', false); // Removing downvote
 
@@ -3065,6 +2805,7 @@ function editActionHandler(form, inputs) {
   var $postBody = form.closest('div').querySelector('.post-body');
   var content = inputs.content;
   $postBody.innerHTML = content;
+  $postBody.innerHTML = (0, _util.parseCommentQuotes)($postBody.innerHTML);
   (0, _gifs.singleGifComment)($postBody);
   $(form).hide();
   form.querySelector(".submit-comment").classList.remove("loading-button");
@@ -3074,6 +2815,7 @@ function topReplyHandler(form, res) {
   var $li = document.createElement('li');
   $li.innerHTML = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid);
   $li.setAttribute('data-pid', res.pid);
+  $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
   var nodebbDiv = document.getElementById("nodebb-comments-list");
   nodebbDiv.prepend($li);
   form.querySelector('textarea').value = '';

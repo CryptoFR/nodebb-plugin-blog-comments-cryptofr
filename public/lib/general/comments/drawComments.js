@@ -20,7 +20,50 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
   export function drawComments(res=null,i=0) {
 
     // <<REMARK>> might be better to draw and remove after
-    removeLoader();
+
+    function afterCommentsDomLoaded(data){
+      reactElementRelocation(); 
+      checkImgProfile(); 
+
+      if (data.isValid && firstTime) {
+        addFooterText();
+        set.firstTime(false);
+      } 
+
+
+      if (data.isValid && !data.isLastPage ){
+        loadMoreEvent();
+        showLoadMore()
+      } else {
+        hideLoadMore()
+      }
+
+
+      if (pagination==0 && !reload) {
+        $("#nodebb-comments-list").css('min-height',0);
+      }
+      else {
+        $("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
+      }
+
+      $("body").removeClass("loadmore")
+
+      
+      if (reload && !checkIfWpAdmin()){
+        reloadComments(pagination,page+1,false)
+      }  
+      
+
+      prepareSignout(data.token)
+      if (checkIfWpAdmin()){
+        if (res.length<i) drawComments(res,i)
+      }
+
+      removeLoader();
+
+      // onLoadFunction();
+      // uploadInit();
+    }
 
     if (checkIfWpAdmin() || XHR.status >= 200 && XHR.status < 400) {
 
@@ -142,226 +185,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       setActiveSortingLi(sorting);
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
 
-
-      var selectors = [
-        '[data-component="post/reply"]',
-        '[data-component="post/quote"]',
-        '[data-component="post/bookmark"]',
-        '[data-component="post/upvote"]',
-        '[data-component="post/downvote"]',
-        '[data-component="post/edit"]',
-        '[data-component="post/delete"]'
-      ].join(",");
-      // CLICK EVENT ON THE DIFFERENT SELECTORS 
-
-      bindOnClick(nodebbDiv.querySelectorAll(selectors), function(event) {
-        if (!data.user || !data.user.uid) {
-          authenticate("login");
-          return;
-        }
-
-        var dataComponent = this.getAttribute("data-component");
-        var topicItem = event.target;
-        var bookmarked = JSON.parse(this.getAttribute("data-bookmarked"));
-        var upvoted = JSON.parse(this.getAttribute("data-upvoted"));
-        var downvoted = JSON.parse(this.getAttribute("data-downvoted"));
-
-        while (topicItem && !topicItem.classList.contains("topic-item")) {
-          topicItem = topicItem.parentElement;
-        }
-
-        // CHECK AND .... [COMPLETE]
-        if (topicItem) {
-          var pid = topicItem.getAttribute("data-pid");
-          var uid = topicItem.getAttribute("data-uid");
-          var level = topicItem.getAttribute("data-level");
-          var formClass = /\/edit$/.test(dataComponent)
-            ? ".sub-edit-input"
-            : ".sub-reply-input";
-          var elementForm = topicItem.querySelector("form" + formClass);
-          var formInput = elementForm.querySelector("textarea");
-          var visibleForm = nodebbCommentsList.querySelector(
-            "li .topic-item form:not(.hidden)"
-          ); 
-          if (visibleForm && visibleForm !== elementForm) {
-            topicItem.classList.remove("replying");
-            topicItem.classList.remove("quoting");
-
-            visibleForm.classList.add("hidden");
-
-            let cl = visibleForm.closest('.replying') 
-            if (cl) {
-              // console.log('remove replying')
-              cl.classList.remove('replying')
-            }
-
-            cl = visibleForm.closest('.quoting') 
-            if (cl) {
-              // console.log('remove replying')
-              cl.classList.remove('quoting')
-            } 
-          }
-
-
-          var postBody;
-          if (/\/(quote|edit)$/.test(dataComponent)) {
-            postBody = topicItem.querySelector(".post-content .post-body");
-          }
-
-          if (/\/quote$/.test(dataComponent)) {
-            //  Click to hide
-            if (topicItem.classList.contains("quoting")){
-              topicItem.classList.remove("quoting");
-              elementForm.classList.add("hidden");
-              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-               setMaxHeight(document.querySelector("#nodebb-comments-list")); 
-              // Click to quote
-            } else { 
-              formInput.value='';
-              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''; 
-              topicItem.classList.add("quoting");
-              topicItem.classList.remove("replying");
-              var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
-                return line ? "> " + line : line;
-              }).join(" \n ");
-              
-              formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-              
-              elementForm.classList.remove("hidden");
-              
-              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-               setMaxHeight(document.querySelector("#nodebb-comments-list"));
-            }
-          } else if (/\/reply$/.test(dataComponent)) {
-            // Click to hide
-            if (topicItem.classList.contains("replying")){
-              topicItem.classList.remove("replying");
-              elementForm.classList.add("hidden");
-              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-               setMaxHeight(document.querySelector("#nodebb-comments-list"));
-              // click to reply
-            } else {
-              formInput.value='';
-              elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''
-              topicItem.classList.add("replying");
-              topicItem.classList.remove("quoting");
-              elementForm.classList.remove("hidden");
-              if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-               setMaxHeight(document.querySelector("#nodebb-comments-list"));
-
-              // /!\ LEVEL >2 not functional - I think it does :D /!\
-              console.log('level',level) 
-              if (level >= 2) {
-                var atStr = "@" + topicItem.getAttribute("data-userslug") + ":"; 
-                formInput.value = atStr + " ";
-                elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " "; 
-              }  
-            }
-          } else if (/\/edit$/.test(dataComponent)) {
-            formInput.value = postBody.getAttribute('content');  
-            elementForm.classList.remove("hidden");
-          
-
-          } else if (/\/upvote$/.test(dataComponent)) {
-            if (data.user.uid != uid) {
-              let downvoteElement= this.parentNode.querySelector('.downvote')
-              let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
-              console.log(flagVote)
-              if (!flagVote){
-                flagVote=true;
-                upvotePost(topicItem, pid, upvoted).then(() => {
-                  flagVote=false;
-                  const postValue$ = this.parentNode.querySelector('span.post-value');
-                  this.setAttribute('data-upvoted', !upvoted)
-                  downvoteElement.setAttribute('data-downvoted', false)
-                  // Removing upvote
-                  if (upvoted==true) {
-                    postValue$.innerText = Number(postValue$.innerHTML) - 1
-                    // Upvoting a downvoted comment
-                  } else if (wasDownvoted=='true'){
-                    postValue$.innerText = Number(postValue$.innerHTML) + 2
-                    // Upvoting a comment without vote
-                  } else {
-                    postValue$.innerText = Number(postValue$.innerHTML) + 1
-                  }
-    			      }).catch(console.log);
-              }
-            }
-          } else if (/\/downvote$/.test(dataComponent)) {
-            if (data.user.uid != uid) {
-              let upvoteElement= this.parentNode.querySelector('.upvote')
-              let wasUpvoted= upvoteElement.getAttribute('data-upvoted')
-
-              console.log(flagVote)
-              if (!flagVote){
-                flagVote=true;
-                downvotePost(topicItem, pid, downvoted).then(() => {
-                  flagVote=false;
-                  const postValue$ = this.parentNode.querySelector('span.post-value');
-                  this.setAttribute('data-downvoted', !downvoted)
-                  upvoteElement.setAttribute('data-upvoted', false)
-                  // Removing downvote
-                  if (downvoted) {
-                    postValue$.innerText = Number(postValue$.innerHTML) + 1
-                    // Downvoting an upvoted comment
-                  } else if (wasUpvoted=='true'){
-                    postValue$.innerText = Number(postValue$.innerHTML) - 2
-                    // Downvoting a comment without vote
-                  } else {
-                    postValue$.innerText = Number(postValue$.innerHTML) - 1
-                  }
-                }).catch(console.log);
-              }
-            }
-          } else if (/\/bookmark$/.test(dataComponent)) {
-            bookmarkPost(topicItem, pid, bookmarked).then(() => {
-              set.reload(true)
-              reloadComments(pagination,0,false);
-            }).catch(console.log);
-          } else if (/\/delete/.test(dataComponent)) {
-            deletePost(topicItem, pid).then(() => {
-              set.reload(true)
-              reloadComments(pagination,0,false);
-            });
-          }
-        } else {
-          if (/\/upvote$/.test(dataComponent)) {
-            if (data.user.uid != mainPost.uid) {
-              upvotePost(
-                nodebbDiv.querySelector(".top-tool-box"),
-                mainPost.pid,
-                upvoted
-              ).then(() => {
-                reloadComments(pagination,0,false);
-                }).catch(console.log);
-            }
-          } else if (/\/bookmark$/.test(dataComponent)) {
-            bookmarkPost(
-              nodebbDiv.querySelector(".top-tool-box"),
-              mainPost.pid,
-              bookmarked
-            ).then(() => {
-            	set.reload(true)
-              reloadComments(pagination,0,false);
-            }).catch(console.log);
-          } else if (/\/downvote$/.test(dataComponent)) {
-            downvotePost(
-              nodebbDiv.querySelector(".top-tool-box"),
-              mainPost.pid,
-              downvoted
-            ).then(() => {
-              set.reload(true)
-              reloadComments(pagination,0,false);
-            }).catch(console.log);
-          } else if (/\/delete/.test(dataComponent)) {
-            deletePost(topicItem, pid).then(() => {
-              set.reload(true)
-              reloadComments(pagination,0,false);
-            })
-          }
-        }
-      });
+   
 
       // SORTING COMPONENT
       nodebbDiv
@@ -379,137 +203,23 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         contentDiv.value = savedText;
       }
 
-      // LOAD MORE
-      // <<FIX>> ===> Load more button still display when all post have been shown
-      if (data.tid) {
-        // var loadMore = document.getElementById("nodebb-load-more");
-        // if (data.posts.length==10) {
-        //   loadMore.style.display = "block";
-        // }else {
-        //   loadMore.style.display = "none";
-        // } 
-        if (typeof jQuery !== "undefined" && jQuery() && jQuery().fitVids) {
-          jQuery(nodebbDiv).fitVids();
+
+      for (let li of nodebbCommentsList.querySelectorAll('li') ){
+        if (!li.getAttribute('data-event')){
+          bindEvents(data.user,li)
         }
-        if (data.user && data.user.uid) {
-          var error = window.location.href.match(/error=[\w-]*/);
-          if (error) {
-            error = error[0].split("=")[1];
-            if (error === "too-many-posts") {
-              error = "Please wait before posting so soon.";
-            } else if (error === "content-too-short") {
-              error = "Please post a longer reply.";
-            } 
-            document.getElementById("nodebb-error").innerHTML = error;
-          }
-        } else {
-          document.getElementById("nodebb-login").onclick = function() {
-            authenticate("login");
-          };
-        }
-      } else {
+      }  
 
-        // ADMIN POSSIBILITY
-        // <<CHECK>> If moderators too
-        // Create the comments and blog POST
-        if (data.isAdmin) {
-          var adminXHR = newXHR();
-          //adminXHR.open('GET', wordpressURL + '?json=get_post&post_type='+articleType+'&post_id=' + articleID);
-          // TODO Get articles too, not only post types
-          adminXHR.open(
-            "GET",
-            wordpressURL + "/wp-json/wp/v2/posts/" + articleID
-          );
-          adminXHR.onload = function() {
-            if (adminXHR.status >= 200 && adminXHR.status < 400) {
-              // We need tags
-              var articleData = JSON.parse(adminXHR.responseText.toString()),
-                translator = document.createElement("span"),
-                tags = articleData.tags;
-
-              translator.innerHTML = articleData.excerpt
-                ? articleData.excerpt.rendered
-                : "";
-
-              var markdown =
-                translator.firstChild.innerHTML +
-                "\n\n**Click [here](" +
-                articlePath +
-                ") to see the full blog post**";
-
-              document.getElementById(
-                "nodebb-content-markdown"
-              ).value = markdown;
-              document.getElementById("nodebb-content-title").value =
-                articleData.title.rendered;
-              document.getElementById("nodebb-content-cid").value =
-                categoryID || -1;
-              document.getElementById(
-                "nodebb-content-tags"
-              ).value = JSON.stringify(tags);
-              document.getElementById("nodebb-content-blogger").value =
-                data.blogger || "default";
-            } else {
-              console.warn(
-                "Unable to access API. Please install the JSON API plugin located at: http://wordpress.org/plugins/json-api"
-              );
-            }
-          };
-          adminXHR.send();
-        }
-      }
     }
 
-    reactElementRelocation();
-    gifContentCheck();
-    checkImgProfile();
+    console.log('hola')
 
+    afterCommentsDomLoaded(data,res);
 
-
-    if (data.isValid && firstTime) {
-      addFooterText();
-      set.firstTime(false);
-    }
-
-
-    if (data.isValid && !data.isLastPage ){
-      loadMoreEvent();
-      showLoadMore()
-    } else {
-      hideLoadMore()
-    }
-
-
-    if (pagination==0 && !reload) {
-      $("#nodebb-comments-list").css('min-height',0);
-    }
-    else {
-      $("#nodebb-comments-list").css('min-height',$("#nodebb-comments-list").height());
-    }
-
-    $("body").removeClass("loadmore")
-
-    
-    if (reload && !checkIfWpAdmin()){
-      reloadComments(pagination,page+1,false)
-    } 
-
-    for (let form of nodebbDiv.querySelectorAll('form.top-post-form, form.sub-reply-input, form.sub-edit-input')){
-      commentSubmissionsHandler(form);
-    }
-
-    addFooterText();
-    checkExpandableComments();
-    commentOptions();
-    dispatchEmojis();
-    gifBoxInit();
-    prepareSignout(data.token)
-    if (checkIfWpAdmin()){
-      if (res.length<i) drawComments(res,i)
-    }
-    // onLoadFunction();
-    // uploadInit();
   }
+
+
+
 
   export function bindEvents(user,li){
 
@@ -546,6 +256,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       var visibleForm = nodebbCommentsList.querySelector(
         "li .topic-item form:not(.hidden)"
       ); 
+
+      // Hide all other forms
       if (visibleForm && visibleForm !== elementForm) {
         topicItem.classList.remove("replying");
         topicItem.classList.remove("quoting");
@@ -564,17 +276,18 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           cl.classList.remove('quoting')
         }
       } 
+
       return {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted} 
     }  
 
     let flagVote=false;
+    li.setAttribute('data-event','true')
+
 
     // Reply CLick
     li.querySelector('[data-component="post/reply"]').addEventListener('click',function(){
       if (!eventAuth()) return false;
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);      
-
-      console.log('reply')
 
       
       // Click to hide
@@ -608,8 +321,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       if (!eventAuth()) return false;
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
       
-      console.log('quote')
-
       //  Click to hide
       if (topicItem.classList.contains("quoting")){
         topicItem.classList.remove("quoting");
@@ -642,8 +353,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       if (!eventAuth()) return false;
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this); 
         
-      console.log('upvote')
-
       if (user.uid != uid) {
         let downvoteElement= this.parentNode.querySelector('.downvote')
         let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
@@ -672,10 +381,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     // Downvote click
     li.querySelector('[data-component="post/downvote"]').addEventListener('click',function(){
-      if (!eventAuth()) return false;
-      
-      console.log('downvote')
-
+      if (!eventAuth()) return false; 
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
       
       if (user.uid != uid) {
@@ -1212,8 +918,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     for (let comment of document.querySelectorAll("#nodebb-comments-list .topic-body")) {
 
       if (comment.querySelector(".options-container .edit-option")){
-         
-
+          
         // Edit Click
         comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
           
@@ -1231,6 +936,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           setMaxHeight(document.getElementById('nodebb-comments-list'))
         })
 
+
+
         // Delete Click
         comment.querySelector(".options-container .delete-option").addEventListener("click",function(){ 
           console.log('delete') 
@@ -1241,6 +948,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           }).catch(console.log);
 
         })
+
+
       }
 
       for (let button of comment.querySelectorAll(".menuButton")) {  
