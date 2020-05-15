@@ -204,7 +204,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       }
       let i = 0;
       for (const li of nodebbCommentsList.querySelectorAll('li') ){
-        debugger;
         if (!li.getAttribute('data-event')){
           bindEvents(data.user,li)
         }
