@@ -62,13 +62,6 @@ function getNestedChildren(arr, parent = null) {
   return out;
 }
 
-const saveToCache = (tid, nestedPosts) => {
-  const cacheKey = getCacheKey(tid);
-  return async.eachLimit(nestedPosts, 500, function saveToCacheAux(val, cb) {
-    db.sortedSetAdd(cacheKey, val.timestamp, JSON.stringify(val), cb);
-  });
-};
-
 const addPostData = (posts, uid) =>
   new Promise((resolve, reject) => {
     topics.addPostData(posts, uid, function addPostDataCb(err, res) {
