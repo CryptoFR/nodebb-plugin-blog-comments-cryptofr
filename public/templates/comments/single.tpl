@@ -15,6 +15,7 @@
         <div class="post-content" itemprop="text">
           <small>
             <a href="{relative_path}/user/{user.userslug}" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">{user.username}</span></a>
+            <div class="badges"></div>
             <span class="post-time" data-timestamp="" title="{posts.timestampISO}">{posts.timestamp}</span>
             <!-- IF posts.isReply -->
             <!-- IF !posts.deletedReply -->

@@ -459,5 +459,9 @@
     font-size: 15px;
 }
 
+.badges{
+    display: inline-block; 
+}
+
 
 
