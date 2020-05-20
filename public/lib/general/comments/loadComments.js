@@ -5,7 +5,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { parseNewComment } from "./newComment.js";
-import { bindEvents } from "./drawComments.js";
+import { bindEvents,addBadges } from "./drawComments.js";
  
   export function loadMoreEvent() {   
     var button = document.querySelector("#nodebb-load-more"); 
@@ -163,7 +163,14 @@ import { bindEvents } from "./drawComments.js";
             newLi=innerReplyHandler(form,res);
           }  
 
-          if (newLi) bindEvents(res.user,newLi);
+          if (newLi) {
+            bindEvents(res.user,newLi);
+            console.log('newLi', newLi)
+            console.log('res', res)
+            addBadges(newLi,res);
+          }
+
+
           setMaxHeight(document.getElementById('nodebb-comments-list'))
         
         });

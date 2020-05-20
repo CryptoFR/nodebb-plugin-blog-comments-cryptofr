@@ -20,6 +20,7 @@ export function parseNewComment(post,user,token,tid,dataLevel){
                           '<div class="post-content" itemprop="text">'+
                             '<small>'+
                               '<a href="'+dataRes.relative_path+'/user/'+user.userslug+'" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">'+user.username+'</span></a>'+
+                              '<div class="badges"></div>'+
                               "<span class='post-time' data-timestamp='' title='"+getCurrentDate()+"'>à l'instant</span>";
                               if (post.isReply){
                    newComment+= '<button data-component="post/parent" class="reply-label no-select" data-topid="'+post.toPid+'">'+

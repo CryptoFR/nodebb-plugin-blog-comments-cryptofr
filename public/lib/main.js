@@ -1333,7 +1333,7 @@ function parseNewComment(post, user, token, tid, dataLevel) {
     newComment += '<div class="profile-image" style="background-color: ' + user['icon:bgColor'] + '" title="' + user.username + '" alt="' + user.username + '">' + user['icon:text'] + '</div>';
   }
 
-  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + "<span class='post-time' data-timestamp='' title='" + (0, _util.getCurrentDate)() + "'>à l'instant</span>";
+  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + '<div class="badges"></div>' + "<span class='post-time' data-timestamp='' title='" + (0, _util.getCurrentDate)() + "'>à l'instant</span>";
 
   if (post.isReply) {
     newComment += '<button data-component="post/parent" class="reply-label no-select" data-topid="' + post.toPid + '">' + '<i class="icon-reply"></i> <span data-parent-username="">@' + post.parentUser.username + '</span>' + '</button>';
@@ -2048,8 +2048,6 @@ function bindEvents(user, li) {
 }
 
 function addBadges(li, post) {
-  console.log('li ', li);
-  console.log('post ', post);
   var pid = li.getAttribute('data-pid');
   var selectedGroups = post.user.selectedGroups;
 
@@ -2098,14 +2096,6 @@ function addBadges(li, post) {
       for (var _iterator4 = post.children[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
         var childPost = _step4.value;
         var childLi = li.querySelector('li[data-pid="' + childPost.pid + '"]');
-
-        if (childPost.pid == 107513) {
-          console.log('c post ', post);
-          console.log('c li ', li);
-          console.log('c childPost ', childPost);
-          console.log('c childLi ', childLi);
-        }
-
         addBadges(childLi, childPost);
       }
     } catch (err) {
@@ -2874,7 +2864,13 @@ function commentSubmissionsHandler(form) {
           newLi = innerReplyHandler(form, res);
         }
 
-        if (newLi) (0, _drawComments.bindEvents)(res.user, newLi);
+        if (newLi) {
+          (0, _drawComments.bindEvents)(res.user, newLi);
+          console.log('newLi', newLi);
+          console.log('res', res);
+          (0, _drawComments.addBadges)(newLi, res);
+        }
+
         setMaxHeight(document.getElementById('nodebb-comments-list'));
       });
     }
