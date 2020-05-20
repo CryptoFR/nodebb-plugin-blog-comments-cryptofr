@@ -98,7 +98,7 @@ import { login,signUp } from "../api.js";
    */
 
   export function authenticate(type) {
-    set.savedText(contentDiv.value);
+    // set.savedText(contentDiv.value);
     var modal = openModal(type);
     var timer = setInterval(function() {
       if (modal.getAttribute("data-closed") === "1") {

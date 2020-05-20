@@ -1333,7 +1333,7 @@ function parseNewComment(post, user, token, tid, dataLevel) {
     newComment += '<div class="profile-image" style="background-color: ' + user['icon:bgColor'] + '" title="' + user.username + '" alt="' + user.username + '">' + user['icon:text'] + '</div>';
   }
 
-  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + "<span class='post-time' data-timestamp='' title='" + (0, _util.getCurrentDate)() + "'>à l'instant</span>";
+  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + '<div class="badges"></div>' + "<span class='post-time' data-timestamp='' title='" + (0, _util.getCurrentDate)() + "'>à l'instant</span>";
 
   if (post.isReply) {
     newComment += '<button data-component="post/parent" class="reply-label no-select" data-topid="' + post.toPid + '">' + '<i class="icon-reply"></i> <span data-parent-username="">@' + post.parentUser.username + '</span>' + '</button>';
@@ -1546,6 +1546,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.drawComments = drawComments;
 exports.bindEvents = bindEvents;
+exports.addBadges = addBadges;
 exports.createNestedComments = createNestedComments;
 
 var _settings = require("../../settings.js");
@@ -1702,7 +1703,8 @@ function drawComments() {
 
     if (_settings.commentsAuthor) {
       _settings.commentsAuthor.innerHTML = '<span class="nodebb-author"><img src="' + data.mainPost.user.picture + '" /> <a href="' + nodeBBURL + "/user/" + data.mainPost.user.userslug + '">' + data.mainPost.user.username + "</a></span>";
-    }
+    } // ------ PARSE of Comments
+
 
     html = parse(data, data.template); // if ((firstTime /*|| deleting*/) && data.isValid) {
 
@@ -1747,12 +1749,22 @@ function drawComments() {
     var _iteratorError = undefined;
 
     try {
-      for (var _iterator = nodebbCommentsList.querySelectorAll('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var _loop = function _loop() {
         var li = _step.value;
 
         if (!li.getAttribute('data-event')) {
           bindEvents(data.user, li);
+
+          var _post = data.posts.find(function (p) {
+            return p.pid == li.getAttribute('data-pid');
+          });
+
+          if (li.closest('ul').getAttribute('id') == 'nodebb-comments-list') addBadges(li, _post);
         }
+      };
+
+      for (var _iterator = nodebbCommentsList.querySelectorAll('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        _loop();
       }
     } catch (err) {
       _didIteratorError = true;
@@ -2035,6 +2047,74 @@ function bindEvents(user, li) {
   (0, _gifs.gifBoxInit)();
 }
 
+function addBadges(li, post) {
+  var pid = li.getAttribute('data-pid');
+  var selectedGroups = post.user.selectedGroups;
+
+  if (selectedGroups) {
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = selectedGroups[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var group = _step3.value;
+        var groupDiv = document.createElement('div');
+        groupDiv.classList.add('group-badge');
+        var i = document.createElement('i');
+        i.classList.add(group.icon, 'fa');
+        var span = document.createElement('span');
+        span.innerText = group.name;
+        span.style.backgroundColor = group.labelColor;
+        span.style.color = group.textColor;
+        groupDiv.appendChild(i);
+        groupDiv.appendChild(span);
+        li.querySelector('.badges').appendChild(groupDiv);
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+  }
+
+  if (post.hasOwnProperty('children')) {
+    var _iteratorNormalCompletion4 = true;
+    var _didIteratorError4 = false;
+    var _iteratorError4 = undefined;
+
+    try {
+      for (var _iterator4 = post.children[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+        var childPost = _step4.value;
+        var childLi = li.querySelector('li[data-pid="' + childPost.pid + '"]');
+        addBadges(childLi, childPost);
+      }
+    } catch (err) {
+      _didIteratorError4 = true;
+      _iteratorError4 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+          _iterator4.return();
+        }
+      } finally {
+        if (_didIteratorError4) {
+          throw _iteratorError4;
+        }
+      }
+    }
+  }
+}
+
 function prepareSignout(token) {
   // console.log('calling prepare signout', $(".logout-box"))
   $(".logout-box").click(function () {
@@ -2207,26 +2287,26 @@ function parse(data, template) {
 
       if ((0, _wordpress.checkIfWpAdmin)()) {
         console.log(document.querySelectorAll("#nodebb-comments-list"));
-        var _iteratorNormalCompletion3 = true;
-        var _didIteratorError3 = false;
-        var _iteratorError3 = undefined;
+        var _iteratorNormalCompletion5 = true;
+        var _didIteratorError5 = false;
+        var _iteratorError5 = undefined;
 
         try {
-          for (var _iterator3 = document.querySelectorAll("#nodebb-comments-list")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var commentUL = _step3.value;
+          for (var _iterator5 = document.querySelectorAll("#nodebb-comments-list")[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var commentUL = _step5.value;
             if (commentUL.getAttribute('data-mainpid') != data.mainPost.pid) parentNodebbComments.appendChild(commentUL);
           }
         } catch (err) {
-          _didIteratorError3 = true;
-          _iteratorError3 = err;
+          _didIteratorError5 = true;
+          _iteratorError5 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-              _iterator3.return();
+            if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+              _iterator5.return();
             }
           } finally {
-            if (_didIteratorError3) {
-              throw _iteratorError3;
+            if (_didIteratorError5) {
+              throw _iteratorError5;
             }
           }
         }
@@ -2246,34 +2326,34 @@ function parse(data, template) {
 
 
 function checkNewComments(existingComments, loadedComments) {
-  var _iteratorNormalCompletion4 = true;
-  var _didIteratorError4 = false;
-  var _iteratorError4 = undefined;
+  var _iteratorNormalCompletion6 = true;
+  var _didIteratorError6 = false;
+  var _iteratorError6 = undefined;
 
   try {
-    for (var _iterator4 = loadedComments.querySelectorAll("li")[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-      var comment = _step4.value;
+    for (var _iterator6 = loadedComments.querySelectorAll("li")[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+      var comment = _step6.value;
       var flag = false;
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
+      var _iteratorNormalCompletion7 = true;
+      var _didIteratorError7 = false;
+      var _iteratorError7 = undefined;
 
       try {
-        for (var _iterator5 = existingComments.querySelectorAll("li")[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var oldcomment = _step5.value;
+        for (var _iterator7 = existingComments.querySelectorAll("li")[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+          var oldcomment = _step7.value;
           if (comment.getAttribute("data-pid") == oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')) flag = true;
         }
       } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-            _iterator5.return();
+          if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
+            _iterator7.return();
           }
         } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
+          if (_didIteratorError7) {
+            throw _iteratorError7;
           }
         }
       }
@@ -2283,16 +2363,16 @@ function checkNewComments(existingComments, loadedComments) {
       }
     }
   } catch (err) {
-    _didIteratorError4 = true;
-    _iteratorError4 = err;
+    _didIteratorError6 = true;
+    _iteratorError6 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-        _iterator4.return();
+      if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
+        _iterator6.return();
       }
     } finally {
-      if (_didIteratorError4) {
-        throw _iteratorError4;
+      if (_didIteratorError6) {
+        throw _iteratorError6;
       }
     }
   }
@@ -2467,13 +2547,13 @@ function commentOptions() {
       $(".options-container").hide();
     }
   });
-  var _iteratorNormalCompletion6 = true;
-  var _didIteratorError6 = false;
-  var _iteratorError6 = undefined;
+  var _iteratorNormalCompletion8 = true;
+  var _didIteratorError8 = false;
+  var _iteratorError8 = undefined;
 
   try {
-    var _loop = function _loop() {
-      var comment = _step6.value;
+    var _loop2 = function _loop2() {
+      var comment = _step8.value;
 
       if (comment.querySelector(".options-container .edit-option")) {
         // Edit Click
@@ -2499,47 +2579,47 @@ function commentOptions() {
         });
       }
 
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
+      var _iteratorNormalCompletion9 = true;
+      var _didIteratorError9 = false;
+      var _iteratorError9 = undefined;
 
       try {
-        for (var _iterator7 = comment.querySelectorAll(".menuButton")[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var button = _step7.value;
+        for (var _iterator9 = comment.querySelectorAll(".menuButton")[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+          var button = _step9.value;
           button.addEventListener("click", function () {
             comment.querySelector(".options-container").style.display = "block";
           });
         }
       } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
+        _didIteratorError9 = true;
+        _iteratorError9 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
-            _iterator7.return();
+          if (!_iteratorNormalCompletion9 && _iterator9.return != null) {
+            _iterator9.return();
           }
         } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
+          if (_didIteratorError9) {
+            throw _iteratorError9;
           }
         }
       }
     };
 
-    for (var _iterator6 = document.querySelectorAll("#nodebb-comments-list .topic-body")[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-      _loop();
+    for (var _iterator8 = document.querySelectorAll("#nodebb-comments-list .topic-body")[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+      _loop2();
     }
   } catch (err) {
-    _didIteratorError6 = true;
-    _iteratorError6 = err;
+    _didIteratorError8 = true;
+    _iteratorError8 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
-        _iterator6.return();
+      if (!_iteratorNormalCompletion8 && _iterator8.return != null) {
+        _iterator8.return();
       }
     } finally {
-      if (_didIteratorError6) {
-        throw _iteratorError6;
+      if (_didIteratorError8) {
+        throw _iteratorError8;
       }
     }
   }
@@ -2784,7 +2864,13 @@ function commentSubmissionsHandler(form) {
           newLi = innerReplyHandler(form, res);
         }
 
-        if (newLi) (0, _drawComments.bindEvents)(res.user, newLi);
+        if (newLi) {
+          (0, _drawComments.bindEvents)(res.user, newLi);
+          console.log('newLi', newLi);
+          console.log('res', res);
+          (0, _drawComments.addBadges)(newLi, res);
+        }
+
         setMaxHeight(document.getElementById('nodebb-comments-list'));
       });
     }
@@ -3030,8 +3116,7 @@ function tabIsActive() {
 
 
 function authenticate(type) {
-  _settings.set.savedText(_settings.contentDiv.value);
-
+  // set.savedText(contentDiv.value);
   var modal = openModal(type);
   var timer = setInterval(function () {
     if (modal.getAttribute("data-closed") === "1") {

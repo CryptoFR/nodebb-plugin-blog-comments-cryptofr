@@ -136,6 +136,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           }
         }
       }
+
       addTimeAgoRecursive(data.posts);
       data.posts = postData.concat(data.posts);
       postData.push.apply(postData, data.posts);
@@ -168,7 +169,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           "</a></span>";
       }
 
+
+
+      // ------ PARSE of Comments
       html = parse(data, data.template);
+
+
 
       // if ((firstTime /*|| deleting*/) && data.isValid) {
         nodebbDiv.innerHTML = normalizePost(html);
@@ -184,7 +190,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       }, 1000)
       // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
       setActiveSortingLi(sorting);
+
+
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
+
 
    
 
@@ -205,12 +214,16 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       }
 
       commentSubmissionsHandler(nodebbDiv.querySelector('form.top-post-form'));
-      for (const li of nodebbCommentsList.querySelectorAll('li') ){
+      for (let li of nodebbCommentsList.querySelectorAll('li') ){
         if (!li.getAttribute('data-event')){
           bindEvents(data.user,li)
+          let post= data.posts.find(p => p.pid == li.getAttribute('data-pid'))
+          if (li.closest('ul').getAttribute('id')=='nodebb-comments-list')
+            addBadges(li,post);
+
         }
       } 
-       
+
 
     }
 
@@ -422,6 +435,42 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       dispatchEmojis();
       gifBoxInit();
 
+
+  }
+
+
+
+
+  export function addBadges(li,post){   
+    let pid=li.getAttribute('data-pid')
+    let selectedGroups= post.user.selectedGroups;
+
+    if (selectedGroups){
+      for (let group of selectedGroups){
+        let groupDiv=document.createElement('div')
+        groupDiv.classList.add('group-badge')
+
+        let i= document.createElement('i')
+        i.classList.add(group.icon,'fa')
+
+        let span= document.createElement('span')
+        span.innerText=group.name;
+        span.style.backgroundColor=group.labelColor;
+        span.style.color= group.textColor;
+
+        groupDiv.appendChild(i)
+        groupDiv.appendChild(span)
+
+        li.querySelector('.badges').appendChild(groupDiv) 
+      }
+    }
+
+    if (post.hasOwnProperty('children')){
+      for (let childPost of post.children){
+        let childLi=li.querySelector('li[data-pid="'+childPost.pid+'"]') 
+        addBadges(childLi,childPost)
+      }
+    }
 
   }
 
