@@ -126,7 +126,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         addRegisterValidators(registerModal);
         addSocialAuthListeners(registerModal);
         // body.appendChild(registerModal);
-        document.querySelector("#nodebb").appendChild(registerModal);
+        document.querySelector("#nodebb").appendChild(registerModal); 
+
       }, 0);
 
       for (var post in data.posts) {
@@ -213,18 +214,26 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         contentDiv.value = savedText;
       }
 
+      if (nodebbDiv.querySelector('#nodebb-login')){
+        nodebbDiv.querySelector('#nodebb-login').addEventListener('click',function(){
+          authenticate("login");
+        })        
+      }
+
+      console.log(nodebbCommentsList.querySelectorAll('li'))
+
       commentSubmissionsHandler(nodebbDiv.querySelector('form.top-post-form'));
+
+
+
       for (let li of nodebbCommentsList.querySelectorAll('li') ){
         if (!li.getAttribute('data-event')){
           bindEvents(data.user,li)
           let post= data.posts.find(p => p.pid == li.getAttribute('data-pid'))
-          if (li.closest('ul').getAttribute('id')=='nodebb-comments-list')
+          if (post && li.closest('ul').getAttribute('id')=='nodebb-comments-list')
             addBadges(li,post);
-
         }
-      } 
-
-
+      }  
     }
 
     afterCommentsDomLoaded(data,res);
@@ -419,7 +428,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
            }
          }).catch(console.log);
        }
-      } 
+      }
     })
  
     
@@ -432,8 +441,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     commentOptions(); 
     checkExpandableComments(); 
 
-      dispatchEmojis();
-      gifBoxInit();
+    dispatchEmojis();
+    gifBoxInit();
 
 
   }
@@ -699,8 +708,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
             }
             else {
+              // old comments
               div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
-              div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
+              $($(div).find("#nodebb-comments-list li,#nodebb-comments-list li form")).removeAttr('data-event')
+
+              // new comments
+              div.querySelector("#nodebb-comments-list").appendChild(  loadedComments );
+              // div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
             }
 
           } 

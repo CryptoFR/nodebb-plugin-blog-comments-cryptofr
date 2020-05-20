@@ -8,7 +8,7 @@ import { setMaxHeight } from "./loadComments";
 
 export function checkExpandableComments() {
   for (let comment of document.querySelectorAll("#nodebb-comments-list li")) { 
-    if (comment.querySelector("ul")) {
+    if (comment.querySelector("ul") && !comment.querySelector(".expandable-button")) {
       let expandableButton=document.createElement("span");
       expandableButton.classList.add("expandable-button");
       expandableButton.classList.add("expanded");
