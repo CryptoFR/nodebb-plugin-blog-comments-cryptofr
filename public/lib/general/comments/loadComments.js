@@ -128,6 +128,11 @@ import { bindEvents,addBadges } from "./drawComments.js";
 
   // FUNCTION FOR COMMENT SUBMISSION
   export function commentSubmissionsHandler(form){
+    if (form.getAttribute('data-event')) return;
+    form.setAttribute('data-event','true')
+
+    // console.log(form)
+    
     form.addEventListener('submit', function(event){
       form.querySelector(".submit-comment").classList.add("loading-button");
       
@@ -138,8 +143,10 @@ import { bindEvents,addBadges } from "./drawComments.js";
         inputs[input.getAttribute("name")]=input.getAttribute("value");
       }
       for (let input of form.querySelectorAll("textarea")) {
-        inputs.content=input.value;
+        // inputs.content=input.value;
+        inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerText;
       }
+
 
       if (inputs["content"].length<8){
       	formSubmitError("Message too short",form);
@@ -150,7 +157,7 @@ import { bindEvents,addBadges } from "./drawComments.js";
         newFetch(form.getAttribute("action"), inputs)
           .then(res => res.json())
           .then((res) => {
-          form.querySelector('button.loading-button').classList.remove('loading-button');
+          form.querySelector('button').classList.remove('loading-button');
           if(/edit/.test(form.getAttribute('action'))) {              
             form.classList.add('hidden');
             editActionHandler(form,inputs);
@@ -165,8 +172,6 @@ import { bindEvents,addBadges } from "./drawComments.js";
 
           if (newLi) {
             bindEvents(res.user,newLi);
-            console.log('newLi', newLi)
-            console.log('res', res)
             addBadges(newLi,res);
           }
 
