@@ -237,12 +237,10 @@
   EmojiArea.prototype.setupButton = function() {
     var self = this;
 
-    console.log($('[data-id="' + this.id + '"][data-type=picker]').parent().find('.special-box .emojis'))
     $('[data-id="' + this.id + '"][data-type=picker]').parent().find('.special-box .emojis').attr('data-id',this.id);
     var $button = $('[data-id="' + this.id + '"][data-type=picker]').parent().find('.special-box .emojis')
      
     $button.on('click', function(e) {
-      console.log('click');
       self.emojiMenu.show(self);
     });
 

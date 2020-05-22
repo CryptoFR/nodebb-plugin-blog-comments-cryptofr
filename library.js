@@ -306,6 +306,7 @@
   };
 
   const replyTopic = (tid, uid, toPid, content) => new Promise((resolve, reject) => {
+    console.log('content',content)
     topics.reply(
       {
         tid: tid,
