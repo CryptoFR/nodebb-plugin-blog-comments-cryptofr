@@ -144,6 +144,7 @@ export function gifContentCheck(){
  * @param {HTMLDivElement} comment comment div
  */
 export function singleGifComment(comment) {
+  console.log(comment)
   while (comment.innerText.indexOf("![")>=0){
     let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,comment.innerHTML.indexOf(".gif)")+4)
     let imgTag="<img class='gif-post' src='"+src+"'></br>";

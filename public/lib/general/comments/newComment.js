@@ -34,8 +34,10 @@ export function parseNewComment(post,user,token,tid,dataLevel){
                                   '<span class="delete-option"><i class="fad fa-trash"></i> Supprimer</span>'+
                                 '</div>'+
                               '</div>'+
-                            '</small>'+
-                            '<div class="post-body" content="'+post.content+'">'+post.content+'</div>'+
+                            '</small>';
+                            post.content = post.content.replace('"', "&quot;")
+                            console.log (post.content)
+                           newComment+= "<div class='post-body' content='"+post.content+"'>"+post.content+"</div>"+
                             '<div class="nodebb-post-tools post-tools no-select">'+
                               '<a class="upvote disabled" data-component="post/upvote" data-pid="'+post.pid+'" data-upvoted="false" data-votes="0" title="Upvote">'+
                                 '<i class="i-upvote fad fa-angle-up"></i>'+
