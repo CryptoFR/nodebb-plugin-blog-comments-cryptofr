@@ -89,6 +89,7 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
           encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
       }
     }
+    console.log(data)
     return fetch(path, {
       method: 'POST',
       headers: {

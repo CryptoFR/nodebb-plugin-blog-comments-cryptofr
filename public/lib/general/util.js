@@ -244,7 +244,7 @@ import { pluginURL } from "../settings.js";
 
   // PARSE QUOTES (FAIL)
   export function parseCommentQuotes(comment) { 
-    var quotesChar = comment.split(/\>|&gt;/g);
+    var quotesChar = comment.split(/^\>|&gt;/gm); // Matches to first > character in each line
     var quoting = false;
 
     if (quotesChar.length > 1) {
