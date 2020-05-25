@@ -121,6 +121,8 @@
 	<!-- ENDIF isLoggedIn -->
 	<!-- COMMENT BOX END -->
 
+	<div class="newer-comments" data-timestamp="">+1</div>
+
 	<div class="load-more-div">
 		<button id="nodebb-load-more" class="btn-primary btn">Charger plus de commentaires...</button>
 	</div>

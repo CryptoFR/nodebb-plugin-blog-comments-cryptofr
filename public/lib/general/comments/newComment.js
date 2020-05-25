@@ -2,7 +2,7 @@ import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sor
 import { getCurrentDate } from "../util.js"; 
 
 export function parseNewComment(post,user,token,tid,dataLevel){
-  console.log(post)
+  set.activeUserComments(post);
   let newComment= /*'<li data-pid="'+post.pid+'">'+*/
                     '<div class="topic-item" data-pid="'+post.pid+'" data-userslug="'+user.userslug+'" data-uid="'+post.uid+'">'+
                       '<div class="topic-body">'+

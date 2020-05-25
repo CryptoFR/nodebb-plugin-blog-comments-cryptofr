@@ -1708,6 +1708,10 @@ small.logged-as {
   font-size: 13px;
 }
 
+.newer-comments{
+  display: none;
+}
+
 @media only screen and (max-width: 768px) {
 
   #root {    

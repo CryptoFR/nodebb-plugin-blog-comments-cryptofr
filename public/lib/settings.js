@@ -1,6 +1,7 @@
-export var firstTime,commentData,gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates,reload;
+export var timestamp,firstTime,activeUserComments,commentData,gifCommentBox,dataRes,commentXHR,reloading,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate,wholeTemplate,renderedCaptcha,templates,reload;
 
-commentData = {}
+commentData=[];
+activeUserComments=[];
 
 export var set = {
 	commentData: commentDataVal,
@@ -32,7 +33,10 @@ export var set = {
 	reloading : reloadingVal,
 	gifCommentBox : gifCommentBoxVal,
 	reload : reloadVal,
-	firstTime : firstTimeVal
+	firstTime : firstTimeVal,
+	timestamp : timestampVal,
+	activeUserComments: activeUserCommentsVal,
+	activeUserCommentsReset: activeUserCommentsValReset
 }
                                                          
 function pluginURLVal( value ) { pluginURL = value; }
@@ -64,4 +68,7 @@ function reloadingVal( value ) { reloading = value; }
 function gifCommentBoxVal( value ) { gifCommentBox = value; }
 function reloadVal( value ) { reload = value; }
 function firstTimeVal( value ) { firstTime = value; }
-function commentDataVal( pid, value ) { commentData[pid] = value }
+function commentDataVal(  value ) { commentData= value }
+function timestampVal( value ) { timestamp = value }
+function activeUserCommentsVal( value ) { activeUserComments.push(value) }
+function activeUserCommentsValReset( value ) { activeUserComments=value }

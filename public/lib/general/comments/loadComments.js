@@ -1,6 +1,6 @@
-import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
+import { set,commentData, activeUserComments, timestamp,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
 import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo,getCurrentDate,parseCommentQuotes } from "../util.js"; 
-import { upvotePost,downvotePost,xpost, newFetch } from "../api.js";
+import { upvotePost,downvotePost,xpost, newFetch, getNewerComments } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
 import { checkExpandableComments } from "./expandComments.js";
@@ -98,14 +98,43 @@ import { bindEvents,addBadges } from "./drawComments.js";
 
   // /!\ DON'T DO THAT /!\ >> DON'T RELOAD THE DOM EVERYTIME
   export function newCommentsCheck(){
-    if (document.hasFocus()){
-      setInterval(function() {
-        set.reloading(1);
-        set.reload(true);
-        reloadComments(pagination,0,false);
-      }, 120000);
-    }
+    // if (document.hasFocus()){
+      setInterval(function() { 
+        
+        getNewerComments(timestamp,dataRes.tid)
+        .then(res => res.json())
+        .then((res) => {
+          // pegar comentario para +1
+
+          set.commentData(res.postsData)
+
+          if (res.postsData.length>0){
+            document.querySelector('.newer-comments').style.display="block";
+            document.querySelector('.newer-comments').setAttribute('data-timestamp',res.timestamp)
+
+          } 
+
+        })
+
+
+      }, 10000);
+    // }
   }
+
+
+  export function newerCommentsEvents(){
+    document.querySelector('.newer-comments').addEventListener('click',function(){
+      // pegar comentarios 
+      console.log(activeUserComments) 
+      set.commentData(commentData.filter(p => activeUserComments.find(z => z.pid === activeUserComments))) 
+
+      console.log(commentData) 
+
+      document.querySelector('.newer-comments').style.display="block";
+    })
+  }
+
+  window.newCommentsCheck = newCommentsCheck;
 
   /**
    * Called whenever a comment is bookmarked

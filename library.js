@@ -486,7 +486,7 @@
       const pids = unfilteredPids.map(r => r.value);
       posts.getPostsData(pids, function (err, postsData) {
         topics.addPostData(postsData, uid, function (err, postsData) {
-          return res.json(postsData)
+          return res.json({postsData,timestamp}) 
         })
       })
     })

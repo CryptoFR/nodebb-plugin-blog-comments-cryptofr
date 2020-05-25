@@ -123,8 +123,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.set = exports.reload = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = exports.commentData = exports.firstTime = void 0;
-var firstTime, commentData, gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates, reload;
+exports.set = exports.reload = exports.templates = exports.renderedCaptcha = exports.wholeTemplate = exports.postTemplate = exports.articlePath = exports.commentsCategory = exports.commentsAuthor = exports.commentsCounter = exports.commentsDiv = exports.contentDiv = exports.nodebbDiv = exports.savedText = exports.commentsURL = exports.XHR = exports.pagination = exports.postData = exports.sorting = exports.signUpXHR = exports.bookmarkXHR = exports.authXHR = exports.voteXHR = exports.pluginURL = exports.page = exports.reloading = exports.commentXHR = exports.dataRes = exports.gifCommentBox = exports.commentData = exports.activeUserComments = exports.firstTime = exports.timestamp = void 0;
+var timestamp, firstTime, activeUserComments, commentData, gifCommentBox, dataRes, commentXHR, reloading, page, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates, reload;
 exports.reload = reload;
 exports.templates = templates;
 exports.renderedCaptcha = renderedCaptcha;
@@ -154,8 +154,11 @@ exports.commentXHR = commentXHR;
 exports.dataRes = dataRes;
 exports.gifCommentBox = gifCommentBox;
 exports.commentData = commentData;
+exports.activeUserComments = activeUserComments;
 exports.firstTime = firstTime;
-exports.commentData = commentData = {};
+exports.timestamp = timestamp;
+exports.commentData = commentData = [];
+exports.activeUserComments = activeUserComments = [];
 var set = {
   commentData: commentDataVal,
   pluginURL: pluginURLVal,
@@ -186,7 +189,10 @@ var set = {
   reloading: reloadingVal,
   gifCommentBox: gifCommentBoxVal,
   reload: reloadVal,
-  firstTime: firstTimeVal
+  firstTime: firstTimeVal,
+  timestamp: timestampVal,
+  activeUserComments: activeUserCommentsVal,
+  activeUserCommentsReset: activeUserCommentsValReset
 };
 exports.set = set;
 
@@ -306,8 +312,20 @@ function firstTimeVal(value) {
   exports.firstTime = firstTime = value;
 }
 
-function commentDataVal(pid, value) {
-  commentData[pid] = value;
+function commentDataVal(value) {
+  exports.commentData = commentData = value;
+}
+
+function timestampVal(value) {
+  exports.timestamp = timestamp = value;
+}
+
+function activeUserCommentsVal(value) {
+  activeUserComments.push(value);
+}
+
+function activeUserCommentsValReset(value) {
+  exports.activeUserComments = activeUserComments = value;
 }
 },{}],"VGLh":[function(require,module,exports) {
 "use strict";
@@ -709,6 +727,8 @@ exports.newXHRFixed = newXHRFixed;
 exports.xget = xget;
 exports.xpost = xpost;
 exports.newFetch = newFetch;
+exports.newFetchGet = newFetchGet;
+exports.getNewerComments = getNewerComments;
 exports.upvotePost = upvotePost;
 exports.login = login;
 exports.signUp = signUp;
@@ -809,7 +829,8 @@ function xpost(xhr, path, data) {
   return xhr;
 }
 
-function newFetch(path, data) {
+function newFetch(path) {
+  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var encodedString = "";
 
   for (var prop in data) {
@@ -831,6 +852,20 @@ function newFetch(path, data) {
     credentials: 'include',
     body: encodedString
   });
+}
+
+function newFetchGet(path) {
+  return fetch(path, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    credentials: 'include'
+  });
+}
+
+function getNewerComments(timestamp, tid) {
+  return newFetchGet(nodeBBURL + "/comments/new/" + tid + "/" + timestamp);
 }
 /**
  * Upvotes a comment
@@ -1369,7 +1404,8 @@ var _settings = require("../../settings.js");
 var _util = require("../util.js");
 
 function parseNewComment(post, user, token, tid, dataLevel) {
-  console.log(post);
+  _settings.set.activeUserComments(post);
+
   var newComment =
   /*'<li data-pid="'+post.pid+'">'+*/
   '<div class="topic-item" data-pid="' + post.pid + '" data-userslug="' + user.userslug + '" data-uid="' + post.uid + '">' + '<div class="topic-body">' + '<div class="topic-profile-pic">' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '">';
@@ -1665,8 +1701,10 @@ function drawComments() {
       if (res.length < i) drawComments(res, i);
     }
 
-    (0, _loadComments.moveLoadMoreDoms)(); // onLoadFunction();
-    // uploadInit();
+    (0, _loadComments.moveLoadMoreDoms)();
+    (0, _loadComments.newerCommentsEvents)();
+
+    _settings.set.activeUserCommentsReset([]);
   }
 
   (0, _util.removeLoader)();
@@ -1695,6 +1733,8 @@ function drawComments() {
     _settings.set.commentsAuthor(document.getElementById("nodebb-comments-author"));
 
     _settings.set.commentsCategory(document.getElementById("nodebb-comments-category"));
+
+    _settings.set.timestamp(data.timestamp);
 
     _settings.set.postTemplate(data.singleCommentTpl);
 
@@ -1757,15 +1797,8 @@ function drawComments() {
 
     _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html); // } else {
     // NewSort or LoadMoreComments or CheckingNewComments
-    // }
-
-    setTimeout(function () {
-      var $editor = _settings.nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor');
-
-      if (_settings.commentData[''] && $editor) {
-        $editor.innerText = _settings.commentData[''];
-      }
-    }, 1000); // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
+    // } 
+    // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting);
 
@@ -2695,6 +2728,7 @@ exports.addFooterText = addFooterText;
 exports.createSnackbar = createSnackbar;
 exports.reloadComments = reloadComments;
 exports.newCommentsCheck = newCommentsCheck;
+exports.newerCommentsEvents = newerCommentsEvents;
 exports.commentSubmissionsHandler = commentSubmissionsHandler;
 exports.formSubmitError = formSubmitError;
 exports.setMaxHeight = setMaxHeight;
@@ -2815,22 +2849,46 @@ function reloadComments() {
 
 
 function newCommentsCheck() {
-  if (document.hasFocus()) {
-    setInterval(function () {
-      _settings.set.reloading(1);
+  // if (document.hasFocus()){
+  setInterval(function () {
+    (0, _api.getNewerComments)(_settings.timestamp, _settings.dataRes.tid).then(function (res) {
+      return res.json();
+    }).then(function (res) {
+      // pegar comentario para +1
+      _settings.set.commentData(res.postsData);
 
-      _settings.set.reload(true);
-
-      reloadComments(_settings.pagination, 0, false);
-    }, 120000);
-  }
+      if (res.postsData.length > 0) {
+        document.querySelector('.newer-comments').style.display = "block";
+        document.querySelector('.newer-comments').setAttribute('data-timestamp', res.timestamp);
+      }
+    });
+  }, 10000); // }
 }
+
+function newerCommentsEvents() {
+  document.querySelector('.newer-comments').addEventListener('click', function () {
+    // pegar comentarios 
+    console.log(_settings.activeUserComments); // var filteredArray = commentData.filter(function(itm){
+    //   return activeUserComments.indexOf(itm.empid) > -1;
+    // });
+    // commentData.filter(p => !activeUserComments.includes(p))
+
+    _settings.set.commentData(_settings.commentData.filter(function (p) {
+      return _settings.activeUserComments.find(function (z) {
+        return z.pid === _settings.activeUserComments;
+      });
+    }));
+
+    console.log(_settings.commentData);
+  });
+}
+
+window.newCommentsCheck = newCommentsCheck;
 /**
  * Called whenever a comment is bookmarked
  * @param {DOMElement} topicItem A DOM element with the comment data
  * @param {Boolean} isBookmark whether the comment is going to be bookmarked or not
  */
-
 
 function onBookmarked(topicItem, isBookmark) {
   var el = topicItem.querySelector(".i-bookmark");
@@ -3428,5 +3486,6 @@ _settings.set.templates({
 });
 
 (0, _onload.onloadXHR)();
-(0, _modal.tabIsActive)(); // newCommentsCheck();
+(0, _modal.tabIsActive)();
+(0, _loadComments.newCommentsCheck)();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["ZSQl"], null)

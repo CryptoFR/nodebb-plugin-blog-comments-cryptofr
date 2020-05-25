@@ -3,7 +3,7 @@ import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,chan
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments,commentSubmissionsHandler,loadMoreEvent,showLoadMore,hideLoadMore,addFooterText,setMaxHeight,moveLoadMoreDoms } from "./loadComments.js"; 
+import { reloadComments,commentSubmissionsHandler,loadMoreEvent,showLoadMore,hideLoadMore,addFooterText,setMaxHeight,moveLoadMoreDoms,newerCommentsEvents } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
@@ -21,6 +21,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
 
     function afterCommentsDomLoaded(data,res){
+
       reactElementRelocation(); 
       checkImgProfile(); 
 
@@ -60,8 +61,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       moveLoadMoreDoms()
 
-      // onLoadFunction();
-      // uploadInit();
+
+      newerCommentsEvents();
+
+      set.activeUserCommentsReset([]);
+
     } 
     
     removeLoader(); 
@@ -88,6 +92,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       set.commentsCounter(document.getElementById("nodebb-comments-count"));
       set.commentsAuthor(document.getElementById("nodebb-comments-author"));
       set.commentsCategory(document.getElementById("nodebb-comments-category"));
+      set.timestamp(data.timestamp)
 
       set.postTemplate(data.singleCommentTpl);
       set.wholeTemplate(data.template);
@@ -181,14 +186,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         nodebbDiv.innerHTML = normalizePost(html);
       // } else {
         // NewSort or LoadMoreComments or CheckingNewComments
-      // }
+      // } 
 
-      setTimeout(() => {
-        const $editor = nodebbDiv.querySelector('form.top-post-form > .emoji-wysiwyg-editor');
-        if (commentData[''] && $editor) {
-          $editor.innerText = commentData['']
-        }
-      }, 1000)
+
       // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
       setActiveSortingLi(sorting);
 

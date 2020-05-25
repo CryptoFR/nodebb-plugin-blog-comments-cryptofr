@@ -78,7 +78,7 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
     return xhr;
   }
 
-  export function newFetch(path, data) {
+  export function newFetch(path, data ={}) {
     var encodedString = "";
     for (var prop in data) {
       if (data.hasOwnProperty(prop)) {
@@ -98,6 +98,22 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
       credentials: 'include',
       body: encodedString
     })
+  }
+
+
+  export function newFetchGet(path) { 
+    return fetch(path, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      credentials: 'include'
+    })
+  }
+
+
+  export function getNewerComments(timestamp,tid){
+    return newFetchGet(nodeBBURL + "/comments/new/" + tid + "/" + timestamp); 
   }
 
 
