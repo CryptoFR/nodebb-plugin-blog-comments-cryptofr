@@ -477,6 +477,20 @@
     );
   };
 
+  Comments.getNewComments = function(req, res) {
+    const timestamp = parseInt(req.params.timestamp, 10);
+    const tid = req.params.tid
+    const uid = req.user ? req.user.uid : 0;
+    return db.getSortedSetRangeByScoreWithScores(`tid:${tid}:posts`, 0, -1, timestamp, '+inf', function(err, unfilteredPids) {
+      const pids = unfilteredPids.map(r => r.value);
+      posts.getPostsData(pids, function (err, postsData) {
+        topics.addPostData(postsData, uid, function (err, postsData) {
+          return res.json(postsData)
+        })
+      })
+    })
+  }
+
   Comments.addLinkbackToArticle = function(post, callback) {
     var hostUrls = (meta.config["blog-comments:url"] || "").split(","),
       position;
@@ -529,6 +543,7 @@
   function renderAdmin(req, res, callback) {
     res.render("admin/admin", {});
   }
+
 
   function captchaMiddleware(req, res, next) {
     const privateKey = meta.config["blog-comments:captcha-api-key"]; // your private key here
@@ -644,6 +659,7 @@
     app.get("/api/admin/blog-comments", renderAdmin);
     app.post("/comments/delete/:pid", Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
+    app.get('/comments/new/:tid/:timestamp', /*middleware.applyCSRF,*/ Comments.getNewComments)
     callback();
   };
 })(module);
