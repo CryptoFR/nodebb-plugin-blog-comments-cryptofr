@@ -1148,7 +1148,7 @@ function gifBoxInit() {
 
         _settings.set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"));
         /*let closeGifBoxIcon = document.querySelector(".gifs-box");
-          //I'm using "click" but it works with any event
+         //I'm using "click" but it works with any event
         document.addEventListener('click', function(event) {
           let isClickInside = closeGifBoxIcon.contains(event.target);
           console.log('event.target',event.target)
@@ -2868,18 +2868,16 @@ function newCommentsCheck() {
 function newerCommentsEvents() {
   document.querySelector('.newer-comments').addEventListener('click', function () {
     // pegar comentarios 
-    console.log(_settings.activeUserComments); // var filteredArray = commentData.filter(function(itm){
-    //   return activeUserComments.indexOf(itm.empid) > -1;
-    // });
-    // commentData.filter(p => !activeUserComments.includes(p))
+    console.log('active comments', _settings.activeUserComments, 'comment data', _settings.commentData);
 
     _settings.set.commentData(_settings.commentData.filter(function (p) {
-      return _settings.activeUserComments.find(function (z) {
-        return z.pid === _settings.activeUserComments;
+      return !_settings.activeUserComments.find(function (z) {
+        return z.pid === p.pid;
       });
     }));
 
     console.log(_settings.commentData);
+    document.querySelector('.newer-comments').style.display = "block";
   });
 }
 

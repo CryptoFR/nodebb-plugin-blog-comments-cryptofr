@@ -125,8 +125,7 @@ import { bindEvents,addBadges } from "./drawComments.js";
   export function newerCommentsEvents(){
     document.querySelector('.newer-comments').addEventListener('click',function(){
       // pegar comentarios 
-      console.log(activeUserComments) 
-      set.commentData(commentData.filter(p => activeUserComments.find(z => z.pid === activeUserComments))) 
+      set.commentData(commentData.filter(p => !activeUserComments.find(z => z.pid === p.pid))) 
 
       console.log(commentData) 
 
