@@ -659,7 +659,7 @@
     app.get("/api/admin/blog-comments", renderAdmin);
     app.post("/comments/delete/:pid", Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
-    app.get('/comments/new/:tid/:timestamp', /*middleware.applyCSRF,*/ Comments.getNewComments)
+    app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
     callback();
   };
 })(module);
