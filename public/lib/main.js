@@ -335,6 +335,7 @@ exports.parseLineBreaks = parseLineBreaks;
 exports.parseCommentQuotes = parseCommentQuotes;
 exports.getCoords = getCoords;
 exports.dragElement = dragElement;
+exports.debounce = debounce;
 exports.bindOnClick = void 0;
 
 var _settings = require("../settings.js");
@@ -672,7 +673,31 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+} // Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+
+
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function () {
+    var context = this,
+        args = arguments;
+
+    var later = function later() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
 }
+
+;
 },{"../settings.js":"LXja"}],"gYYA":[function(require,module,exports) {
 "use strict";
 
@@ -1087,16 +1112,17 @@ function gifBoxInit() {
         gifBox.style.display = "block";
 
         _settings.set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"));
+        /*let closeGifBoxIcon = document.querySelector(".gifs-box");
+          //I'm using "click" but it works with any event
+        document.addEventListener('click', function(event) {
+          let isClickInside = closeGifBoxIcon.contains(event.target);
+          console.log('event.target',event.target)
+          console.log('isClickInside',isClickInside)
+          // if (!isClickInside) {
+          //   closeGifBox();
+          // }
+        });*/
 
-        var closeGifBoxIcon = gifBox.querySelector('.close-gif'); //I'm using "click" but it works with any event
-
-        document.addEventListener('click', function (event) {
-          var isClickInside = closeGifBoxIcon.contains(event.target);
-
-          if (isClickInside) {
-            closeGifBox();
-          }
-        });
       });
     };
 
@@ -1127,20 +1153,19 @@ function gifBoxInit() {
     picker.togglePicker(button);
   });
   (0, _util.dragElement)(document.querySelector(".comments-enhancement-box"));
-  document.querySelector(".gif-search").addEventListener("keyup", function (event) {
-    grab_data(document.querySelector(".gif-search").value);
-  });
-  /*var closeGifBoxIcon = document.querySelector('.close-gif');
-    //I'm using "click" but it works with any event
-  document.addEventListener('click', function(event) {
-    var isClickInside = closeGifBoxIcon.contains(event.target);
-    if (isClickInside) {
-      closeGifBox();
-    }
-  });*/
-}
 
-window.gifBoxInit = gifBoxInit; // CHECK CONTENT
+  if (!document.querySelector(".gif-search").getAttribute('data-event')) {
+    //I'm using "click" but it works with any event 
+    // console.log(document.querySelector('.close-gif'))
+    // document.querySelector('.close-gif').addEventListener('click',closeGifBox);
+    $('body').on('click', '.close-gif', closeGifBox);
+    document.querySelector(".gif-search").addEventListener("keyup", function (event) {
+      grab_data(document.querySelector(".gif-search").value);
+    });
+    document.querySelector(".gif-search").setAttribute('data-event', 'true');
+  }
+} // CHECK CONTENT
+
 
 function gifContentCheck() {
   var _iteratorNormalCompletion4 = true;
@@ -1184,8 +1209,6 @@ function gifContentCheck() {
 
 
 function singleGifComment(comment) {
-  console.log(comment);
-
   while (comment.innerText.indexOf("![") >= 0) {
     var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, comment.innerHTML.indexOf(".gif)") + 4);
     var imgTag = "<img class='gif-post' src='" + src + "'></br>";
@@ -1205,9 +1228,29 @@ function singleGifComment(comment) {
 function closeGifBox() {
   document.querySelector(".gifs-box").style.display = "none";
   document.querySelector(".gifs-box input").value = "";
-  var event = document.createEvent('HTMLEvents');
-  event.initEvent('keyup', true, false);
-  document.querySelector(".gifs-box input").dispatchEvent(event);
+  var _iteratorNormalCompletion5 = true;
+  var _didIteratorError5 = false;
+  var _iteratorError5 = undefined;
+
+  try {
+    for (var _iterator5 = document.querySelectorAll("#gifs-list img")[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+      var img = _step5.value;
+      img.parentNode.removeChild(img);
+    }
+  } catch (err) {
+    _didIteratorError5 = true;
+    _iteratorError5 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+        _iterator5.return();
+      }
+    } finally {
+      if (_didIteratorError5) {
+        throw _iteratorError5;
+      }
+    }
+  }
 }
 },{"../../settings.js":"LXja","../util.js":"VGLh"}],"PCfX":[function(require,module,exports) {
 "use strict";

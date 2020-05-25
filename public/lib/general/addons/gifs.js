@@ -1,5 +1,5 @@
 import { set, gifCommentBox } from "../../settings.js";
-import { dragElement } from '../util.js';
+import { dragElement,debounce } from '../util.js';
 
 // url Async requesting function
 function httpGetAsync(theUrl, callback){
@@ -66,25 +66,24 @@ function grab_data(search_term){
 
 // OPEN GIF BOX
 export function gifBoxInit(){ 
-  for (let gifButton of document.querySelectorAll('.special-action.gif .icon')) {
-    
-
+  for (let gifButton of document.querySelectorAll('.special-action.gif .icon')) { 
 
     gifButton.addEventListener('click', function(event){
       let gifBox=document.querySelector(".gifs-box");
       gifBox.style.display="block";
       set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"))
 
-      let closeGifBoxIcon = gifBox.querySelector('.close-gif');
+      /*let closeGifBoxIcon = document.querySelector(".gifs-box");
 
       //I'm using "click" but it works with any event
       document.addEventListener('click', function(event) {
         let isClickInside = closeGifBoxIcon.contains(event.target);
-        if (isClickInside) {
-          closeGifBox();
-        }
-      });
-
+        console.log('event.target',event.target)
+        console.log('isClickInside',isClickInside)
+        // if (!isClickInside) {
+        //   closeGifBox();
+        // }
+      });*/
 
     });
 
@@ -104,25 +103,22 @@ export function gifBoxInit(){
 
   dragElement(document.querySelector(".comments-enhancement-box"));
 
-  document.querySelector(".gif-search").addEventListener("keyup", function(event){
-    grab_data(document.querySelector(".gif-search").value)
-  });
+  if (!document.querySelector(".gif-search").getAttribute('data-event')){
+    
+    //I'm using "click" but it works with any event 
+    // console.log(document.querySelector('.close-gif'))
+    // document.querySelector('.close-gif').addEventListener('click',closeGifBox);
 
+    $('body').on('click', '.close-gif', closeGifBox )
 
-  /*var closeGifBoxIcon = document.querySelector('.close-gif');
+    document.querySelector(".gif-search").addEventListener("keyup", function(event){
+      grab_data(document.querySelector(".gif-search").value)
+    });
 
-  //I'm using "click" but it works with any event
-  document.addEventListener('click', function(event) {
-    var isClickInside = closeGifBoxIcon.contains(event.target);
-    if (isClickInside) {
-      closeGifBox();
-    }
-  });*/
-
-
+    document.querySelector(".gif-search").setAttribute('data-event','true');
+  }  
 }
-
-  window.gifBoxInit=gifBoxInit;
+  
 
 // CHECK CONTENT
 export function gifContentCheck(){
@@ -144,7 +140,6 @@ export function gifContentCheck(){
  * @param {HTMLDivElement} comment comment div
  */
 export function singleGifComment(comment) {
-  console.log(comment)
   while (comment.innerText.indexOf("![")>=0){
     let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,comment.innerHTML.indexOf(".gif)")+4)
     let imgTag="<img class='gif-post' src='"+src+"'></br>";
@@ -162,7 +157,8 @@ export function singleGifComment(comment) {
 export function closeGifBox(){
   document.querySelector(".gifs-box").style.display="none";
   document.querySelector(".gifs-box input").value="";
-  var event = document.createEvent('HTMLEvents');
-  event.initEvent('keyup', true, false);
-  document.querySelector(".gifs-box input").dispatchEvent(event);
+  
+  for (let img of document.querySelectorAll("#gifs-list img")){
+   img.parentNode.removeChild(img);
+  } 
 }
