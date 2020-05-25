@@ -149,6 +149,7 @@
             sorting: req.params.sorting,
             userHasPicture: !!data.user.picture,
             forumUrl: "https://testforum.cryptofr.com",
+            timestamp: Date.now()
           });
         }
       );
@@ -369,7 +370,6 @@
         req
       },
       function(err, postData) {
-        console.log('post data', postData)
         return res.json({
           uid,
           content,
