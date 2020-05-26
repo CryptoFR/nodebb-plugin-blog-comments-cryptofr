@@ -994,11 +994,12 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             ); 
           if (visibleForm) visibleForm.classList.add('hidden');
 
-          console.log('edit')
-
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
-          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");  
+          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content"); 
+          console.log(comment) 
+          console.log(comment.parentNode.querySelector(".sub-edit-input textarea").value) 
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content");
+          console.log(comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText) 
           setMaxHeight(document.getElementById('nodebb-comments-list'))
         })
 
@@ -1006,7 +1007,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
         // Delete Click
         comment.querySelector(".options-container .delete-option").addEventListener("click",function(){ 
-          console.log('delete') 
 
           deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(() => {
             set.reload(true)

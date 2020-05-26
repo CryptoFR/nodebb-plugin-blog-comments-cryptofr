@@ -170,6 +170,8 @@ import { bindEvents,addBadges } from "./drawComments.js";
           document.querySelector('#nodebb-comments-list').prepend($li)
         }
 
+        $li.querySelector('.post-body').setAttribute('content',$li.querySelector('.post-body').innerHTML)
+
         bindEvents(comment.user,$li)
         addBadges($li,comment)
 
@@ -268,7 +270,6 @@ import { bindEvents,addBadges } from "./drawComments.js";
     const content = inputs.content
     $postBody.innerHTML = content;
     $postBody.innerHTML=parseCommentQuotes($postBody.innerHTML)
-    singleGifComment($li.querySelector('.post-body')) 
 
     singleGifComment($postBody) 
 
@@ -279,7 +280,9 @@ import { bindEvents,addBadges } from "./drawComments.js";
   function topReplyHandler(form,res){
     let $li= document.createElement('li') 
     $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid)
+    $li.querySelector('.post-body').setAttribute('content',$li.querySelector('.post-body').innerHTML)
     $li.setAttribute('data-pid',res.pid)
+    
     $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
 
     const nodebbDiv= document.getElementById("nodebb-comments-list")
@@ -317,7 +320,8 @@ import { bindEvents,addBadges } from "./drawComments.js";
     let $li = document.createElement('li') 
     $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid,dataLevel); 
 
-    $li.setAttribute('content',$li.querySelector('.post-body').innerHTML)
+    $li.querySelector('.post-body').setAttribute('content',$li.querySelector('.post-body').innerHTML)
+
     $li.setAttribute('data-pid',res.pid) 
     $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
     singleGifComment($li.querySelector('.post-body')) 

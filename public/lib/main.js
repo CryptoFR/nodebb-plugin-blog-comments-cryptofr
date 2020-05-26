@@ -2652,15 +2652,16 @@ function commentOptions() {
 
           var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)");
           if (visibleForm) visibleForm.classList.add('hidden');
-          console.log('edit');
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");
+          console.log(comment);
+          console.log(comment.parentNode.querySelector(".sub-edit-input textarea").value);
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").getAttribute("content");
+          console.log(comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText);
           (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
         }); // Delete Click
 
         comment.querySelector(".options-container .delete-option").addEventListener("click", function () {
-          console.log('delete');
           (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {
             _settings.set.reload(true);
 
@@ -2901,33 +2902,30 @@ function newerCommentsEvents() {
 
         var commentTimeStamp = comment.timestamp;
         if (typeof comment.timestamp === 'number') commentTimeStamp = (0, _util.timeAgo)(comment.timestamp);
-
-        var _$li = document.createElement('li');
-
-        _$li.innerHTML = (0, _newComment.parseNewComment)(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel, commentTimeStamp);
-
-        _$li.setAttribute('data-pid', comment.pid);
-
-        _$li.querySelector('.topic-item').setAttribute('data-level', dataLevel);
+        var $li = document.createElement('li');
+        $li.innerHTML = (0, _newComment.parseNewComment)(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel, commentTimeStamp);
+        $li.setAttribute('data-pid', comment.pid);
+        $li.querySelector('.topic-item').setAttribute('data-level', dataLevel);
 
         if (parentLevel == 2) {
           var grandParentLi = parentLi.parentNode.parentNode;
           var grandParentUl = grandParentLi.querySelector('ul');
-          grandParentUl.prepend(_$li);
+          grandParentUl.prepend($li);
         } else if (parentLi && parentLi.querySelector('ul')) {
-          parentLi.querySelector('ul').prepend(_$li);
+          parentLi.querySelector('ul').prepend($li);
         } else if (parentLi && !parentLi.querySelector('ul')) {
           var parentUl = document.createElement('ul');
-          parentUl.append(_$li);
+          parentUl.append($li);
           parentLi.append(parentUl);
           parentLi.classList.add('expandable');
           parentLi.classList.add('expanded');
         } else if (!parentLi) {
-          document.querySelector('#nodebb-comments-list').prepend(_$li);
+          document.querySelector('#nodebb-comments-list').prepend($li);
         }
 
-        (0, _drawComments.bindEvents)(comment.user, _$li);
-        (0, _drawComments.addBadges)(_$li, comment);
+        $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
+        (0, _drawComments.bindEvents)(comment.user, $li);
+        (0, _drawComments.addBadges)($li, comment);
       }
     } catch (err) {
       _didIteratorError = true;
@@ -3070,7 +3068,6 @@ function editActionHandler(form, inputs) {
   var content = inputs.content;
   $postBody.innerHTML = content;
   $postBody.innerHTML = (0, _util.parseCommentQuotes)($postBody.innerHTML);
-  (0, _gifs.singleGifComment)($li.querySelector('.post-body'));
   (0, _gifs.singleGifComment)($postBody);
   $(form).hide();
   form.querySelector(".submit-comment").classList.remove("loading-button");
@@ -3079,6 +3076,7 @@ function editActionHandler(form, inputs) {
 function topReplyHandler(form, res) {
   var $li = document.createElement('li');
   $li.innerHTML = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid);
+  $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
   $li.setAttribute('data-pid', res.pid);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
   var nodebbDiv = document.getElementById("nodebb-comments-list");
@@ -3128,7 +3126,7 @@ function innerReplyHandler(form, res) {
   var dataLevel = $oldLi.querySelector('.topic-item').getAttribute('data-level');
   var $li = document.createElement('li');
   $li.innerHTML = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid, dataLevel);
-  $li.setAttribute('content', $li.querySelector('.post-body').innerHTML);
+  $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
   $li.setAttribute('data-pid', res.pid);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
   (0, _gifs.singleGifComment)($li.querySelector('.post-body'));
