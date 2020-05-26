@@ -1148,7 +1148,7 @@ function gifBoxInit() {
 
         _settings.set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"));
         /*let closeGifBoxIcon = document.querySelector(".gifs-box");
-         //I'm using "click" but it works with any event
+          //I'm using "click" but it works with any event
         document.addEventListener('click', function(event) {
           let isClickInside = closeGifBoxIcon.contains(event.target);
           console.log('event.target',event.target)
@@ -1404,8 +1404,6 @@ var _settings = require("../../settings.js");
 var _util = require("../util.js");
 
 function parseNewComment(post, user, token, tid, dataLevel) {
-  _settings.set.activeUserComments(post);
-
   var newComment =
   /*'<li data-pid="'+post.pid+'">'+*/
   '<div class="topic-item" data-pid="' + post.pid + '" data-userslug="' + user.userslug + '" data-uid="' + post.uid + '">' + '<div class="topic-body">' + '<div class="topic-profile-pic">' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '">';
@@ -1705,6 +1703,8 @@ function drawComments() {
     (0, _loadComments.newerCommentsEvents)();
 
     _settings.set.activeUserCommentsReset([]);
+
+    (0, _util.dispatchEmojis)();
   }
 
   (0, _util.removeLoader)();
@@ -2857,7 +2857,13 @@ function newCommentsCheck() {
       // pegar comentario para +1
       _settings.set.commentData(res.postsData);
 
-      if (res.postsData.length > 0) {
+      _settings.set.commentData(_settings.commentData.filter(function (p) {
+        return !_settings.activeUserComments.find(function (z) {
+          return z.pid === p.pid;
+        });
+      }));
+
+      if (_settings.commentData.length > 0) {
         document.querySelector('.newer-comments').style.display = "block";
         document.querySelector('.newer-comments').setAttribute('data-timestamp', res.timestamp);
       }
@@ -2867,26 +2873,73 @@ function newCommentsCheck() {
 
 function newerCommentsEvents() {
   document.querySelector('.newer-comments').addEventListener('click', function () {
-    // pegar comentarios 
-    console.log('active comments', _settings.activeUserComments, 'comment data', _settings.commentData);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-    _settings.set.commentData(_settings.commentData.filter(function (p) {
-      return !_settings.activeUserComments.find(function (z) {
-        return z.pid === p.pid;
-      });
-    }));
+    try {
+      for (var _iterator = _settings.commentData[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var comment = _step.value;
+        // console.log('comment',comment)
+        var dataLevel = 0;
+        var parentLi = null;
 
-    console.log(_settings.commentData);
-    document.querySelector('.newer-comments').style.display = "block";
+        if (comment.toPid) {
+          var parentPid = comment.toPid;
+          parentLi = document.querySelector('li[data-pid="' + parentPid + '"]');
+          var parentLevel = Number(parentLi.getAttribute('data-level'));
+
+          if (parentLevel != 2) {
+            dataLevel = parentLevel + 1;
+          } else {
+            dataLevel = 2;
+          }
+        }
+
+        var _$li = document.createElement('li');
+
+        _$li.innerHTML = (0, _newComment.parseNewComment)(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel);
+
+        _$li.setAttribute('data-pid', comment.pid);
+
+        if (parentLi && parentLi.querySelector('ul')) {
+          parentLi.querySelector('ul').prepend(_$li);
+        } else if (parentLi && !parentLi.querySelector('ul')) {
+          var parentUl = document.createElement('ul');
+          parentUl.append(_$li);
+          parentLi.append(parentUl);
+          parentLi.classList.add('expandable');
+          parentLi.classList.add('expanded');
+        } else if (!parentLi) {
+          document.querySelector('#nodebb-comments-list').prepend(_$li);
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    _settings.set.timestamp(this.getAttribute('data-timestamp'));
+
+    document.querySelector('.newer-comments').style.display = "none";
   });
 }
-
-window.newCommentsCheck = newCommentsCheck;
 /**
  * Called whenever a comment is bookmarked
  * @param {DOMElement} topicItem A DOM element with the comment data
  * @param {Boolean} isBookmark whether the comment is going to be bookmarked or not
  */
+
 
 function onBookmarked(topicItem, isBookmark) {
   var el = topicItem.querySelector(".i-bookmark");
@@ -2912,39 +2965,14 @@ function commentSubmissionsHandler(form) {
     form.querySelector(".submit-comment").classList.add("loading-button");
     event.preventDefault();
     var inputs = {};
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = form.querySelectorAll("input")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var input = _step.value;
-        inputs[input.getAttribute("name")] = input.getAttribute("value");
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;
     var _iteratorError2 = undefined;
 
     try {
-      for (var _iterator2 = form.querySelectorAll("textarea")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var _input = _step2.value;
-        // inputs.content=input.value;
-        inputs.content = form.querySelector('.emoji-wysiwyg-editor').innerHTML;
+      for (var _iterator2 = form.querySelectorAll("input")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var input = _step2.value;
+        inputs[input.getAttribute("name")] = input.getAttribute("value");
       }
     } catch (err) {
       _didIteratorError2 = true;
@@ -2957,6 +2985,31 @@ function commentSubmissionsHandler(form) {
       } finally {
         if (_didIteratorError2) {
           throw _iteratorError2;
+        }
+      }
+    }
+
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = form.querySelectorAll("textarea")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var _input = _step3.value;
+        // inputs.content=input.value;
+        inputs.content = form.querySelector('.emoji-wysiwyg-editor').innerHTML;
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
         }
       }
     }
@@ -2984,6 +3037,8 @@ function commentSubmissionsHandler(form) {
         if (newLi) {
           (0, _drawComments.bindEvents)(res.user, newLi);
           (0, _drawComments.addBadges)(newLi, res);
+
+          _settings.set.activeUserComments(res);
         }
 
         setMaxHeight(document.getElementById('nodebb-comments-list'));
@@ -3024,28 +3079,28 @@ function parentCommentSetToDefault($li) {
   $topicItem.classList.remove('replying');
   $topicItem.classList.remove('quoting'); // Hide and clear forms 
 
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
+  var _iteratorNormalCompletion4 = true;
+  var _didIteratorError4 = false;
+  var _iteratorError4 = undefined;
 
   try {
-    for (var _iterator3 = $li.querySelector('.topic-item').querySelectorAll('form')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var f = _step3.value;
+    for (var _iterator4 = $li.querySelector('.topic-item').querySelectorAll('form')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+      var f = _step4.value;
       f.classList.add('hidden');
       f.querySelector('textarea').value = '';
       f.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
     }
   } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
+    _didIteratorError4 = true;
+    _iteratorError4 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-        _iterator3.return();
+      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+        _iterator4.return();
       }
     } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
+      if (_didIteratorError4) {
+        throw _iteratorError4;
       }
     }
   }
@@ -3091,33 +3146,33 @@ function formSubmitError(message, form) {
 }
 
 function setMaxHeight(comments) {
-  var _iteratorNormalCompletion4 = true;
-  var _didIteratorError4 = false;
-  var _iteratorError4 = undefined;
+  var _iteratorNormalCompletion5 = true;
+  var _didIteratorError5 = false;
+  var _iteratorError5 = undefined;
 
   try {
     var _loop = function _loop() {
-      var ul = _step4.value;
+      var ul = _step5.value;
       ul.style.maxHeight = 'initial';
       setTimeout(function () {
         ul.style.maxHeight = getComputedStyle(ul)['height'];
       }, 1000);
     };
 
-    for (var _iterator4 = comments.querySelectorAll('ul')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+    for (var _iterator5 = comments.querySelectorAll('ul')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
       _loop();
     }
   } catch (err) {
-    _didIteratorError4 = true;
-    _iteratorError4 = err;
+    _didIteratorError5 = true;
+    _iteratorError5 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-        _iterator4.return();
+      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+        _iterator5.return();
       }
     } finally {
-      if (_didIteratorError4) {
-        throw _iteratorError4;
+      if (_didIteratorError5) {
+        throw _iteratorError5;
       }
     }
   }

@@ -66,6 +66,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       set.activeUserCommentsReset([]);
 
+      dispatchEmojis();
+
+
     } 
     
     removeLoader(); 

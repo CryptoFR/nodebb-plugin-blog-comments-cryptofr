@@ -1,8 +1,7 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
 import { getCurrentDate } from "../util.js"; 
 
-export function parseNewComment(post,user,token,tid,dataLevel){
-  set.activeUserComments(post);
+export function parseNewComment(post,user,token,tid,dataLevel){ 
   let newComment= /*'<li data-pid="'+post.pid+'">'+*/
                     '<div class="topic-item" data-pid="'+post.pid+'" data-userslug="'+user.userslug+'" data-uid="'+post.uid+'">'+
                       '<div class="topic-body">'+

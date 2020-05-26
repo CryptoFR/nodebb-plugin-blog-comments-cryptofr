@@ -482,11 +482,12 @@
     const timestamp = parseInt(req.params.timestamp, 10);
     const tid = req.params.tid
     const uid = req.user ? req.user.uid : 0;
+    const serverTimestamp = Date.now();
     return db.getSortedSetRangeByScoreWithScores(`tid:${tid}:posts`, 0, -1, timestamp, '+inf', function(err, unfilteredPids) {
       const pids = unfilteredPids.map(r => r.value);
       posts.getPostsData(pids, function (err, postsData) {
         topics.addPostData(postsData, uid, function (err, postsData) {
-          return res.json({postsData,timestamp}) 
+          return res.json({postsData,timestamp: serverTimestamp}) 
         })
       })
     })
