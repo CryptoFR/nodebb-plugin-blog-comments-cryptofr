@@ -1,7 +1,7 @@
 import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
 import { getCurrentDate } from "../util.js"; 
 
-export function parseNewComment(post,user,token,tid,dataLevel){ 
+export function parseNewComment(post,user,token,tid,dataLevel,timestamp="à l'instant"){ 
   let newComment= /*'<li data-pid="'+post.pid+'">'+*/
                     '<div class="topic-item" data-pid="'+post.pid+'" data-userslug="'+user.userslug+'" data-uid="'+post.uid+'">'+
                       '<div class="topic-body">'+
@@ -20,7 +20,7 @@ export function parseNewComment(post,user,token,tid,dataLevel){
                             '<small>'+
                               '<a href="'+dataRes.relative_path+'/user/'+user.userslug+'" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">'+user.username+'</span></a>'+
                               '<div class="badges"></div>'+
-                              "<span class='post-time' data-timestamp='' title='"+getCurrentDate()+"'>à l'instant</span>";
+                              "<span class='post-time' data-timestamp='' title='"+getCurrentDate()+"'>"+timestamp+"</span>";
                               if (post.isReply){
                    newComment+= '<button data-component="post/parent" class="reply-label no-select" data-topid="'+post.toPid+'">'+
                                 '<i class="icon-reply"></i> <span data-parent-username="">@'+post.parentUser.username+'</span>'+

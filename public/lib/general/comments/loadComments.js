@@ -1,5 +1,5 @@
 import { set,commentData, activeUserComments, timestamp,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
-import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,timeAgo,getCurrentDate,parseCommentQuotes } from "../util.js"; 
+import { addLoader, addLoaderInside,removeLoader,insertAfter,removeNodes,getCurrentDate,parseCommentQuotes,timeAgo } from "../util.js"; 
 import { upvotePost,downvotePost,xpost, newFetch, getNewerComments } from "../api.js";
 import { checkIfWpAdmin } from '../../integration/wordpress.js';
 import { singleGifComment } from "../addons/gifs.js";
@@ -111,6 +111,7 @@ import { bindEvents,addBadges } from "./drawComments.js";
           set.commentData(commentData.filter(p => !activeUserComments.find(z => z.pid === p.pid))) 
 
           if (commentData.length>0){
+            document.querySelector('.new-comments-counter').innerText=commentData.length;
             document.querySelector('.newer-comments').style.display="block";
             document.querySelector('.newer-comments').setAttribute('data-timestamp',res.timestamp) 
           } 
@@ -130,11 +131,13 @@ import { bindEvents,addBadges } from "./drawComments.js";
         
         let dataLevel=0;
         let parentLi=null;
+        let parentLevel=0;
 
         if (comment.toPid){
           let parentPid= comment.toPid;
           parentLi= document.querySelector('li[data-pid="'+parentPid+'"]')
-          let parentLevel= Number(parentLi.getAttribute('data-level'))
+          if (!parentLi) continue;
+          parentLevel= Number(parentLi.querySelector('.topic-item').getAttribute('data-level'))
           if (parentLevel!=2) {
             dataLevel=parentLevel+1
           } else {
@@ -142,12 +145,20 @@ import { bindEvents,addBadges } from "./drawComments.js";
           }
         } 
 
+        let commentTimeStamp=comment.timestamp; 
+        if (typeof comment.timestamp === 'number') commentTimeStamp=timeAgo(comment.timestamp) 
+
         let $li = document.createElement('li') 
-        $li.innerHTML= parseNewComment(comment,comment.user,dataRes.token,comment.tid,dataLevel); 
+        $li.innerHTML= parseNewComment(comment,comment.user,dataRes.token,comment.tid,dataLevel,commentTimeStamp); 
 
         $li.setAttribute('data-pid',comment.pid)
- 
-        if (parentLi && parentLi.querySelector('ul')){
+        $li.querySelector('.topic-item').setAttribute('data-level',dataLevel)
+
+        if (parentLevel==2){
+          let grandParentLi=parentLi.parentNode.parentNode;
+          let grandParentUl=grandParentLi.querySelector('ul')
+          grandParentUl.prepend($li);
+        }else if (parentLi && parentLi.querySelector('ul')){
           parentLi.querySelector('ul').prepend($li)
         }else if (parentLi && !parentLi.querySelector('ul')){
           let parentUl= document.createElement('ul')
@@ -159,9 +170,16 @@ import { bindEvents,addBadges } from "./drawComments.js";
           document.querySelector('#nodebb-comments-list').prepend($li)
         }
 
+        bindEvents(comment.user,$li)
+        addBadges($li,comment)
+
+
+
+
       } 
  
-      set.timestamp(this.getAttribute('data-timestamp'))  
+      set.timestamp(this.getAttribute('data-timestamp'))   
+      setMaxHeight(document.getElementById('nodebb-comments-list'))
       document.querySelector('.newer-comments').style.display="none";
     })
   }

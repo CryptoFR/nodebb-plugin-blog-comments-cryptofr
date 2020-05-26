@@ -843,7 +843,6 @@ function newFetch(path) {
     }
   }
 
-  console.log(data);
   return fetch(path, {
     method: 'POST',
     headers: {
@@ -1404,6 +1403,7 @@ var _settings = require("../../settings.js");
 var _util = require("../util.js");
 
 function parseNewComment(post, user, token, tid, dataLevel) {
+  var timestamp = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "à l'instant";
   var newComment =
   /*'<li data-pid="'+post.pid+'">'+*/
   '<div class="topic-item" data-pid="' + post.pid + '" data-userslug="' + user.userslug + '" data-uid="' + post.uid + '">' + '<div class="topic-body">' + '<div class="topic-profile-pic">' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '">';
@@ -1414,7 +1414,7 @@ function parseNewComment(post, user, token, tid, dataLevel) {
     newComment += '<div class="profile-image" style="background-color: ' + user['icon:bgColor'] + '" title="' + user.username + '" alt="' + user.username + '">' + user['icon:text'] + '</div>';
   }
 
-  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + '<div class="badges"></div>' + "<span class='post-time' data-timestamp='' title='" + (0, _util.getCurrentDate)() + "'>à l'instant</span>";
+  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + '<div class="badges"></div>' + "<span class='post-time' data-timestamp='' title='" + (0, _util.getCurrentDate)() + "'>" + timestamp + "</span>";
 
   if (post.isReply) {
     newComment += '<button data-component="post/parent" class="reply-label no-select" data-topid="' + post.toPid + '">' + '<i class="icon-reply"></i> <span data-parent-username="">@' + post.parentUser.username + '</span>' + '</button>';
@@ -2864,6 +2864,7 @@ function newCommentsCheck() {
       }));
 
       if (_settings.commentData.length > 0) {
+        document.querySelector('.new-comments-counter').innerText = _settings.commentData.length;
         document.querySelector('.newer-comments').style.display = "block";
         document.querySelector('.newer-comments').setAttribute('data-timestamp', res.timestamp);
       }
@@ -2883,11 +2884,13 @@ function newerCommentsEvents() {
         // console.log('comment',comment)
         var dataLevel = 0;
         var parentLi = null;
+        var parentLevel = 0;
 
         if (comment.toPid) {
           var parentPid = comment.toPid;
           parentLi = document.querySelector('li[data-pid="' + parentPid + '"]');
-          var parentLevel = Number(parentLi.getAttribute('data-level'));
+          if (!parentLi) continue;
+          parentLevel = Number(parentLi.querySelector('.topic-item').getAttribute('data-level'));
 
           if (parentLevel != 2) {
             dataLevel = parentLevel + 1;
@@ -2896,13 +2899,22 @@ function newerCommentsEvents() {
           }
         }
 
+        var commentTimeStamp = comment.timestamp;
+        if (typeof comment.timestamp === 'number') commentTimeStamp = (0, _util.timeAgo)(comment.timestamp);
+
         var _$li = document.createElement('li');
 
-        _$li.innerHTML = (0, _newComment.parseNewComment)(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel);
+        _$li.innerHTML = (0, _newComment.parseNewComment)(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel, commentTimeStamp);
 
         _$li.setAttribute('data-pid', comment.pid);
 
-        if (parentLi && parentLi.querySelector('ul')) {
+        _$li.querySelector('.topic-item').setAttribute('data-level', dataLevel);
+
+        if (parentLevel == 2) {
+          var grandParentLi = parentLi.parentNode.parentNode;
+          var grandParentUl = grandParentLi.querySelector('ul');
+          grandParentUl.prepend(_$li);
+        } else if (parentLi && parentLi.querySelector('ul')) {
           parentLi.querySelector('ul').prepend(_$li);
         } else if (parentLi && !parentLi.querySelector('ul')) {
           var parentUl = document.createElement('ul');
@@ -2913,6 +2925,9 @@ function newerCommentsEvents() {
         } else if (!parentLi) {
           document.querySelector('#nodebb-comments-list').prepend(_$li);
         }
+
+        (0, _drawComments.bindEvents)(comment.user, _$li);
+        (0, _drawComments.addBadges)(_$li, comment);
       }
     } catch (err) {
       _didIteratorError = true;
@@ -2931,6 +2946,7 @@ function newerCommentsEvents() {
 
     _settings.set.timestamp(this.getAttribute('data-timestamp'));
 
+    setMaxHeight(document.getElementById('nodebb-comments-list'));
     document.querySelector('.newer-comments').style.display = "none";
   });
 }
