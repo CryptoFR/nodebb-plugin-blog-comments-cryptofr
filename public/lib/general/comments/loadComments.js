@@ -19,8 +19,7 @@ import { bindEvents,addBadges } from "./drawComments.js";
   export function moveLoadMoreDoms(){
     $(".load-more-text").insertAfter('#nodebb-comments-list');
     $('.load-more-div').insertAfter('#nodebb-comments-list');
-    document.querySelector(".load-more-text").innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
-    // $(".load-more-text").innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+    document.querySelector(".load-more-text").innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>'; 
 
   }
 
@@ -34,7 +33,7 @@ import { bindEvents,addBadges } from "./drawComments.js";
 
   export function addFooterText(){ 
     var text = document.querySelector(".load-more-text");  
-    text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+    text.innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
   } 
 
   /**
@@ -245,8 +244,9 @@ import { bindEvents,addBadges } from "./drawComments.js";
           .then((res) => {
           form.querySelector('button').classList.remove('loading-button');
           if(/edit/.test(form.getAttribute('action'))) {              
-            form.classList.add('hidden');
             editActionHandler(form,inputs);
+            form.classList.add('hidden');
+            $('.editing').removeClass('hidden').removeClass('editing');
 
           } else if (form.classList.contains('top-post-form')) {
             newLi=topReplyHandler(form,res)
@@ -382,3 +382,5 @@ import { bindEvents,addBadges } from "./drawComments.js";
      },1000)
     }
   }
+
+  window.setMaxHeight = setMaxHeight;

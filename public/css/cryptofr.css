@@ -1017,9 +1017,13 @@ i.i-downvote {
     display: block;
     font-size: 10px;
     margin-top: 0px;
-    width: 90px;
-    margin: 0 auto;
+    margin: 0px auto;
     position: inherit;
+    text-align: center;
+}
+
+.loading img{
+  width: 90px;
 }
 
 /* :not(:required) hides these rules from IE9 and below */
@@ -1247,7 +1251,11 @@ i.i-downvote {
   list-style-type: none;
   max-width: 655px;
   margin: calc(3 * 1rem) calc(10% + 60px);
-  padding-left: 25px;
+  text-align: center;
+}
+
+#nodebb-load-more{
+  margin: 0px auto!important;
 }
 
 .load-more-div button {
@@ -1273,10 +1281,14 @@ i.i-downvote {
 
 /* Copyright */
 
+.load-more-text{
+  text-align: center;
+}
+
 .nodebb-copyright {
   font-size: 14px;
   line-height: 29px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   letter-spacing: -0.035em;
   font-family: Poppins;

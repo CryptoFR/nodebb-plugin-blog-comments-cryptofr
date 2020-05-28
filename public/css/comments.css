@@ -326,7 +326,7 @@
 }
 
 #nodebb .hidden {
-    display: none;
+    display: none!important;
 }
 
 #nodebb .highlight {

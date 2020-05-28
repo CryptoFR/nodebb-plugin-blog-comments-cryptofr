@@ -1947,6 +1947,7 @@ function bindEvents(user, li) {
 
   li.querySelector('[data-component="post/reply"]').addEventListener('click', function () {
     if (!eventAuth()) return false;
+    $('.editing').removeClass('hidden').removeClass('editing');
 
     var _initClick = initClick(this),
         topicItem = _initClick.topicItem,
@@ -1983,6 +1984,7 @@ function bindEvents(user, li) {
 
   li.querySelector('[data-component="post/quote"]').addEventListener('click', function () {
     if (!eventAuth()) return false;
+    $('.editing').removeClass('hidden').removeClass('editing');
 
     var _initClick2 = initClick(this),
         topicItem = _initClick2.topicItem,
@@ -2020,6 +2022,7 @@ function bindEvents(user, li) {
     var _this = this;
 
     if (!eventAuth()) return false;
+    $('.editing').removeClass('hidden').removeClass('editing');
 
     var _initClick3 = initClick(this),
         topicItem = _initClick3.topicItem,
@@ -2064,6 +2067,7 @@ function bindEvents(user, li) {
     var _this2 = this;
 
     if (!eventAuth()) return false;
+    $('.editing').removeClass('hidden').removeClass('editing');
 
     var _initClick4 = initClick(this),
         topicItem = _initClick4.topicItem,
@@ -2664,10 +2668,18 @@ function commentOptions() {
 
           var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)");
           if (visibleForm) visibleForm.classList.add('hidden');
+          $('.editing').removeClass('hidden').removeClass('editing');
+          $('.replying, .quoting').removeClass('replying').removeClass('quoting');
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").getAttribute("content").replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
-          (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+          comment.querySelector('.post-body').classList.add('hidden');
+          comment.querySelector('.post-tools').classList.add('hidden');
+          comment.querySelector('.post-body').classList.add('editing');
+          comment.querySelector('.post-tools').classList.add('editing');
+          setTimeout(function () {
+            (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+          }, 0);
         }); // Delete Click
 
         comment.querySelector(".options-container .delete-option").addEventListener("click", function () {
@@ -2771,7 +2783,7 @@ function loadMoreEvent() {
 function moveLoadMoreDoms() {
   $(".load-more-text").insertAfter('#nodebb-comments-list');
   $('.load-more-div').insertAfter('#nodebb-comments-list');
-  document.querySelector(".load-more-text").innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>'; // $(".load-more-text").innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+  document.querySelector(".load-more-text").innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
 }
 
 function showLoadMore() {
@@ -2784,7 +2796,7 @@ function hideLoadMore() {
 
 function addFooterText() {
   var text = document.querySelector(".load-more-text");
-  text.innerHTML = '<div class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></div>';
+  text.innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
 }
 /**
  * Creates a snackbar inside the dom
@@ -3055,8 +3067,9 @@ function commentSubmissionsHandler(form) {
             form.querySelector('button').classList.remove('loading-button');
 
             if (/edit/.test(form.getAttribute('action'))) {
-              form.classList.add('hidden');
               editActionHandler(form, inputs);
+              form.classList.add('hidden');
+              $('.editing').removeClass('hidden').removeClass('editing');
             } else if (form.classList.contains('top-post-form')) {
               newLi = topReplyHandler(form, res);
             } else if (/reply/.test(form.getAttribute('action'))) {
@@ -3210,6 +3223,8 @@ function setMaxHeight(comments) {
     }
   }
 }
+
+window.setMaxHeight = setMaxHeight;
 },{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA","../../integration/wordpress.js":"poQx","../addons/gifs.js":"XBBC","./expandComments.js":"PCfX","./newComment.js":"OGtT","./drawComments.js":"xsmJ"}],"kjEe":[function(require,module,exports) {
 "use strict";
 

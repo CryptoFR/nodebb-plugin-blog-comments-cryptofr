@@ -308,6 +308,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     // Reply CLick
     li.querySelector('[data-component="post/reply"]').addEventListener('click',function(){
       if (!eventAuth()) return false;
+
+      $('.editing').removeClass('hidden').removeClass('editing');
+
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);      
 
       
@@ -340,6 +343,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     // Quote Click
     li.querySelector('[data-component="post/quote"]').addEventListener('click',function(){
       if (!eventAuth()) return false;
+      
+      $('.editing').removeClass('hidden').removeClass('editing');
+
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
       
       //  Click to hide
@@ -372,6 +378,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     // Upvote click
     li.querySelector('[data-component="post/upvote"]').addEventListener('click',function(){
       if (!eventAuth()) return false;
+
+      $('.editing').removeClass('hidden').removeClass('editing');
+      
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this); 
         
       if (user.uid != uid) {
@@ -402,7 +411,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     // Downvote click
     li.querySelector('[data-component="post/downvote"]').addEventListener('click',function(){
-      if (!eventAuth()) return false; 
+      if (!eventAuth()) return false;
+
+      $('.editing').removeClass('hidden').removeClass('editing');    
+
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
       
       if (user.uid != uid) {
@@ -1000,10 +1012,21 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             ); 
           if (visibleForm) visibleForm.classList.add('hidden');
 
+          $('.editing').removeClass('hidden').removeClass('editing');
+          $('.replying, .quoting').removeClass('replying').removeClass('quoting');
+
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content"); 
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content").replace(/<br>|&lt;br&gt;/ig,'\n').replace(/(<([^>]+)>)/ig,"");
-          setMaxHeight(document.getElementById('nodebb-comments-list'))
+
+          comment.querySelector('.post-body').classList.add('hidden');
+          comment.querySelector('.post-tools').classList.add('hidden');
+          comment.querySelector('.post-body').classList.add('editing');
+          comment.querySelector('.post-tools').classList.add('editing');
+
+          setTimeout(function(){
+            setMaxHeight(document.getElementById('nodebb-comments-list'))
+          },0)          
         })
 
 
