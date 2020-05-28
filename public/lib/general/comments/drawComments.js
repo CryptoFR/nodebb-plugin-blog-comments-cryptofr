@@ -182,24 +182,15 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       // ------ PARSE of Comments
       html = parse(data, data.template);
-
-
-
-      // if ((firstTime /*|| deleting*/) && data.isValid) {
-        nodebbDiv.innerHTML = normalizePost(html);
-      // } else {
-        // NewSort or LoadMoreComments or CheckingNewComments
-      // } 
-
-
-      // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
-      setActiveSortingLi(sorting);
-
-
+ 
+      
+      // Appending to DOM
+      nodebbDiv.innerHTML = normalizePost(html); 
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
 
 
-   
+      // Add Sorts
+      setActiveSortingLi(sorting);  
 
       // SORTING COMPONENT
       nodebbDiv
@@ -233,6 +224,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       for (let li of nodebbCommentsList.querySelectorAll('li') ){
         if (!li.getAttribute('data-event')){
+          li.querySelector('.post-body').innerHTML=li.querySelector('.post-body').innerHTML.replace('\n','<br>')
           bindEvents(data.user,li)
           let post= data.posts.find(p => p.pid == li.getAttribute('data-pid'))
           if (post && li.closest('ul').getAttribute('id')=='nodebb-comments-list'){
@@ -1010,7 +1002,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content"); 
-          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content");
+          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content").replace(/<br>|&lt;br&gt;/ig,'\n').replace(/(<([^>]+)>)/ig,"");
           setMaxHeight(document.getElementById('nodebb-comments-list'))
         })
 

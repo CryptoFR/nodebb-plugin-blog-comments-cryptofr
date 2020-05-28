@@ -1793,17 +1793,14 @@ function drawComments() {
     } // ------ PARSE of Comments
 
 
-    html = parse(data, data.template); // if ((firstTime /*|| deleting*/) && data.isValid) {
+    html = parse(data, data.template); // Appending to DOM
 
-    _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html); // } else {
-    // NewSort or LoadMoreComments or CheckingNewComments
-    // } 
-    // nodebbDiv.insertAdjacentHTML('beforeend', normalizePost(html));
+    _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html);
 
-    (0, _sortComments.setActiveSortingLi)(_settings.sorting);
+    var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list"); // Add Sorts
 
-    var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list"); // SORTING COMPONENT
 
+    (0, _sortComments.setActiveSortingLi)(_settings.sorting); // SORTING COMPONENT
 
     _settings.nodebbDiv.querySelector("a[data-component='sort/best']").addEventListener("click", function () {
       return (0, _sortComments.setSorting)("best");
@@ -1840,6 +1837,7 @@ function drawComments() {
         var li = _step.value;
 
         if (!li.getAttribute('data-event')) {
+          li.querySelector('.post-body').innerHTML = li.querySelector('.post-body').innerHTML.replace('\n', '<br>');
           bindEvents(data.user, li);
 
           var _post = data.posts.find(function (p) {
@@ -2668,7 +2666,7 @@ function commentOptions() {
           if (visibleForm) visibleForm.classList.add('hidden');
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");
-          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").getAttribute("content");
+          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").getAttribute("content").replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
           (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
         }); // Delete Click
 
@@ -3039,36 +3037,43 @@ function commentSubmissionsHandler(form) {
       }
     }
 
+    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, ""); // ERROR: Comment too short
+
     if (inputs["content"].length < 8) {
       formSubmitError("Message too short", form);
       form.querySelector(".submit-comment").classList.remove("loading-button");
-    } else {
-      var newLi = null;
-      (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        form.querySelector('button').classList.remove('loading-button');
+    } // ERROR: Comment Too Long
+    else if (inputs["content"].length > 30000) {
+        formSubmitError("Message too Long", form);
+        form.querySelector(".submit-comment").classList.remove("loading-button");
+      } // OK! Sending Reply or Edit POST
+      else {
+          var newLi = null;
+          (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            form.querySelector('button').classList.remove('loading-button');
 
-        if (/edit/.test(form.getAttribute('action'))) {
-          form.classList.add('hidden');
-          editActionHandler(form, inputs);
-        } else if (form.classList.contains('top-post-form')) {
-          newLi = topReplyHandler(form, res);
-        } else if (/reply/.test(form.getAttribute('action'))) {
-          form.classList.add('hidden');
-          newLi = innerReplyHandler(form, res);
+            if (/edit/.test(form.getAttribute('action'))) {
+              form.classList.add('hidden');
+              editActionHandler(form, inputs);
+            } else if (form.classList.contains('top-post-form')) {
+              newLi = topReplyHandler(form, res);
+            } else if (/reply/.test(form.getAttribute('action'))) {
+              form.classList.add('hidden');
+              newLi = innerReplyHandler(form, res);
+            }
+
+            if (newLi) {
+              (0, _drawComments.bindEvents)(res.user, newLi);
+              (0, _drawComments.addBadges)(newLi, res);
+
+              _settings.set.activeUserComments(res);
+            }
+
+            setMaxHeight(document.getElementById('nodebb-comments-list'));
+          });
         }
-
-        if (newLi) {
-          (0, _drawComments.bindEvents)(res.user, newLi);
-          (0, _drawComments.addBadges)(newLi, res);
-
-          _settings.set.activeUserComments(res);
-        }
-
-        setMaxHeight(document.getElementById('nodebb-comments-list'));
-      });
-    }
 
     return false;
   });
@@ -3091,6 +3096,7 @@ function topReplyHandler(form, res) {
   $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
   $li.setAttribute('data-pid', res.pid);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
+  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
   var nodebbDiv = document.getElementById("nodebb-comments-list");
   nodebbDiv.prepend($li);
   form.querySelector('textarea').value = '';
@@ -3141,6 +3147,7 @@ function innerReplyHandler(form, res) {
   $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
   $li.setAttribute('data-pid', res.pid);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
+  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
   (0, _gifs.singleGifComment)($li.querySelector('.post-body'));
   var parentUl = null; // Setting Parent ul to append the new li 
 

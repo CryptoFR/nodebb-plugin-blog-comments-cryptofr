@@ -226,13 +226,19 @@ import { bindEvents,addBadges } from "./drawComments.js";
         // inputs.content=input.value;
         inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
+      
+      inputs.content=inputs.content.replace(/<br>|&lt;br&gt;/ig,'\n').replace(/(<([^>]+)>)/ig,"")
 
-
+      // ERROR: Comment too short
       if (inputs["content"].length<8){
       	formSubmitError("Message too short",form);
         form.querySelector(".submit-comment").classList.remove("loading-button");
-      }
-      else {
+      } // ERROR: Comment Too Long
+      else if (inputs["content"].length>30000){
+        formSubmitError("Message too Long",form);
+        form.querySelector(".submit-comment").classList.remove("loading-button");
+      } // OK! Sending Reply or Edit POST
+      else { 
         let newLi=null;
         newFetch(form.getAttribute("action"), inputs)
           .then(res => res.json())
@@ -285,6 +291,7 @@ import { bindEvents,addBadges } from "./drawComments.js";
     $li.setAttribute('data-pid',res.pid)
     
     $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
+    $li.querySelector('.post-body').innerHTML=$li.querySelector('.post-body').innerHTML.replace(/\n/gim,'<br>')
 
     const nodebbDiv= document.getElementById("nodebb-comments-list")
     nodebbDiv.prepend($li)
@@ -319,12 +326,16 @@ import { bindEvents,addBadges } from "./drawComments.js";
     let dataLevel= $oldLi.querySelector('.topic-item').getAttribute('data-level')
  
     let $li = document.createElement('li') 
+
     $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid,dataLevel); 
+
 
     $li.querySelector('.post-body').setAttribute('content',$li.querySelector('.post-body').innerHTML)
 
     $li.setAttribute('data-pid',res.pid) 
     $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
+    $li.querySelector('.post-body').innerHTML=$li.querySelector('.post-body').innerHTML.replace(/\n/gim,'<br>')
+
     singleGifComment($li.querySelector('.post-body')) 
     
     let parentUl=null;
