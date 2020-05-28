@@ -1815,7 +1815,8 @@ function drawComments() {
 
     _settings.nodebbDiv.querySelector("a[data-component='sort/oldest']").addEventListener("click", function () {
       return (0, _sortComments.setSorting)("oldest");
-    });
+    }); // Dont know this
+
 
     _settings.set.contentDiv(document.getElementById("nodebb-content"));
 
@@ -1829,7 +1830,6 @@ function drawComments() {
       });
     }
 
-    console.log(nodebbCommentsList.querySelectorAll('li'));
     (0, _loadComments.commentSubmissionsHandler)(_settings.nodebbDiv.querySelector('form.top-post-form'));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -1846,7 +1846,9 @@ function drawComments() {
             return p.pid == li.getAttribute('data-pid');
           });
 
-          if (_post && li.closest('ul').getAttribute('id') == 'nodebb-comments-list') addBadges(li, _post);
+          if (_post && li.closest('ul').getAttribute('id') == 'nodebb-comments-list') {
+            addBadges(li, _post);
+          }
         }
       };
 
@@ -2128,7 +2130,13 @@ function bindEvents(user, li) {
   }
 
   (0, _gifs.gifContentCheck)();
-  commentOptions();
+
+  if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid) {
+    commentOptions();
+  } else {
+    (0, _util.removeNodes)(li.querySelector(".menuButton-container"));
+  }
+
   (0, _expandComments.checkExpandableComments)();
   (0, _util.dispatchEmojis)();
   (0, _gifs.gifBoxInit)();
@@ -2183,7 +2191,12 @@ function addBadges(li, post) {
       for (var _iterator4 = post.children[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
         var childPost = _step4.value;
         var childLi = li.querySelector('li[data-pid="' + childPost.pid + '"]');
-        addBadges(childLi, childPost);
+
+        if (!childLi) {
+          console.log('error of childLi on addBadges', childLi);
+        } else {
+          addBadges(childLi, childPost);
+        }
       }
     } catch (err) {
       _didIteratorError4 = true;
@@ -2574,9 +2587,10 @@ function createNestedComments(comments, template, otherData) {
       }
     } else {
       (0, _util.removeNodes)(clone.querySelector("button.reply-label"));
-    }
+    } // If connected user is owner of comment
 
-    if (comment.uid !== uid) {
+
+    if (comment.uid !== uid && !_settings.dataRes.isAdmin) {
       (0, _util.removeNodes)(clone.querySelector("a.edit"));
       (0, _util.removeNodes)(clone.querySelector("a.delete"));
       (0, _util.removeNodes)(clone.querySelector(".menuButton-container"));
@@ -2654,10 +2668,7 @@ function commentOptions() {
           if (visibleForm) visibleForm.classList.add('hidden');
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");
-          console.log(comment);
-          console.log(comment.parentNode.querySelector(".sub-edit-input textarea").value);
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").getAttribute("content");
-          console.log(comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText);
           (0, _loadComments.setMaxHeight)(document.getElementById('nodebb-comments-list'));
         }); // Delete Click
 
@@ -3067,9 +3078,10 @@ function editActionHandler(form, inputs) {
   var $postBody = form.closest('div').querySelector('.post-body');
   var content = inputs.content;
   $postBody.innerHTML = content;
+  $postBody.setAttribute('content', content);
   $postBody.innerHTML = (0, _util.parseCommentQuotes)($postBody.innerHTML);
   (0, _gifs.singleGifComment)($postBody);
-  $(form).hide();
+  form.classList.add('hidden');
   form.querySelector(".submit-comment").classList.remove("loading-button");
 }
 

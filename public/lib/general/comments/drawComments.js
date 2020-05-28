@@ -212,10 +212,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         .querySelector("a[data-component='sort/oldest']")
         .addEventListener("click", () => setSorting("oldest"));
       
+      // Dont know this
       set.contentDiv(document.getElementById("nodebb-content"));
       if (savedText) {
         contentDiv.value = savedText;
       }
+
+
 
       if (nodebbDiv.querySelector('#nodebb-login')){
         nodebbDiv.querySelector('#nodebb-login').addEventListener('click',function(){
@@ -223,7 +226,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         })        
       }
 
-      console.log(nodebbCommentsList.querySelectorAll('li'))
 
       commentSubmissionsHandler(nodebbDiv.querySelector('form.top-post-form'));
 
@@ -233,10 +235,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         if (!li.getAttribute('data-event')){
           bindEvents(data.user,li)
           let post= data.posts.find(p => p.pid == li.getAttribute('data-pid'))
-          if (post && li.closest('ul').getAttribute('id')=='nodebb-comments-list')
+          if (post && li.closest('ul').getAttribute('id')=='nodebb-comments-list'){
             addBadges(li,post);
+          }
         }
       }  
+
+
     }
 
     afterCommentsDomLoaded(data,res);
@@ -441,7 +446,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     }
 
     gifContentCheck();
-    commentOptions(); 
+    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid){
+      commentOptions(); 
+    }else{
+      removeNodes(li.querySelector(".menuButton-container"));  
+    }
     checkExpandableComments(); 
 
     dispatchEmojis();
@@ -480,7 +489,11 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     if (post.hasOwnProperty('children')){
       for (let childPost of post.children){
         let childLi=li.querySelector('li[data-pid="'+childPost.pid+'"]') 
-        addBadges(childLi,childPost)
+        if (!childLi){
+          console.log('error of childLi on addBadges',childLi)
+        }else {
+          addBadges(childLi,childPost)
+        }
       }
     }
 
@@ -923,7 +936,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 	      removeNodes(clone.querySelector("button.reply-label"));
 	    }
 
-	    if (comment.uid !== uid) {
+      // If connected user is owner of comment
+	    if (comment.uid !== uid && !dataRes.isAdmin) {
 	      removeNodes(clone.querySelector("a.edit"));
 	      removeNodes(clone.querySelector("a.delete"));
 	      removeNodes(clone.querySelector(".menuButton-container"));
@@ -996,10 +1010,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
           comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
           comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content"); 
-          console.log(comment) 
-          console.log(comment.parentNode.querySelector(".sub-edit-input textarea").value) 
           comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content");
-          console.log(comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText) 
           setMaxHeight(document.getElementById('nodebb-comments-list'))
         })
 

@@ -105,8 +105,9 @@ small.logged-as {
   display: none;
 }
 
+
 #nodebb .btn.btn-primary, #root .btn.btn-primary {
-  float: none;
+  float: right;
   margin-right: 0px;
   margin-top: 0px;
   padding: 12px 20px;
@@ -118,6 +119,11 @@ small.logged-as {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
+}
+
+
+#nodebb #nodebb-load-more {
+    float: none!important;
 }
 #nodebb .btn.btn-primary:hover, #root .btn.btn-primary:hover {
   background: #434A81;

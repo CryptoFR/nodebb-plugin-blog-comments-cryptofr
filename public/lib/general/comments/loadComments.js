@@ -269,11 +269,12 @@ import { bindEvents,addBadges } from "./drawComments.js";
     const $postBody = form.closest('div').querySelector('.post-body')
     const content = inputs.content
     $postBody.innerHTML = content;
+    $postBody.setAttribute('content',content)
     $postBody.innerHTML=parseCommentQuotes($postBody.innerHTML)
 
     singleGifComment($postBody) 
 
-    $(form).hide();
+    form.classList.add('hidden')
     form.querySelector(".submit-comment").classList.remove("loading-button");
   }
 
