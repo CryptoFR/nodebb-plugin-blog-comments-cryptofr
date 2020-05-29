@@ -477,16 +477,23 @@
     );
   };
 
-  Comments.getAllArticlesCategory = function (req, res) {
-    // Deberia tener un category id
-    // por ahora vamos a hacerla sin anidado
+  Comments.getAllArticlesCategory = async function (req, res) {
     const { categoryId } = req.params
     const sorting = req.params.sorting || 'best'
     const uid = req.user ? req.user.uid : 0;
-    console.log('categoryid', categoryId)
-    getPostsCategory(categoryId, uid, sorting).then(result => {
-      return res.json(result)
-    })
+    try {
+      const u = await user.getUserData(uid);
+      const isAdministrator = await user.isAdministrator(uid);
+      const posts = await getPostsCategory(categoryId, uid, sorting)
+      return res.json({user: u, isAdministrator, posts})
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        error: true,
+        message: err.message
+      })
+    }
+    
   }
 
   Comments.getNewComments = function(req, res) {
