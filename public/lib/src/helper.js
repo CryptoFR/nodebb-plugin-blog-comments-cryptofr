@@ -118,7 +118,7 @@ const sortRecursively = (array, sorting) => {
   sortRecursivelyInternal(array);
 };
 
-const getNestedPostsWithoutPagination = async (tid, uid, sorting) => {
+const getPostsWithoutNesting = async (tid, uid) => {
   const posts = (await getPostDataWithoutCache(tid)).filter(p => !p.deleted);
   for (const p of posts) {
     p.isReply =
@@ -130,6 +130,11 @@ const getNestedPostsWithoutPagination = async (tid, uid, sorting) => {
     p.deletedReply = !!(p.parent && !p.parent.username);
   }
   const postData = await addPostData(posts, uid);
+  return postData
+}
+
+const getNestedPostsWithoutPagination = async (tid, uid, sorting) => {
+  const postData = await getPostsWithoutNesting(tid, uid, sorting)
   const nestedPostsWithData = getNestedChildren(postData);
   sortRecursively(nestedPostsWithData, sorting);
   return nestedPostsWithData
@@ -144,11 +149,10 @@ const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
   return {data: nestedPostsWithData.slice(start, end), isLastPage};
 };
 
-const getPostsCategory = async (categoryId) => {
-  // Necesito los tid de cada categoria
-  console.log('key', `cid:${categoryId}:tids`)
-  const range = await db.getSortedSetRange(`cid:${categoryId}:tids`, 0, -1);
-  return range
+const getPostsCategory = async (categoryId, uid, sorting) => {
+  const tids = await db.getSortedSetRange(`cid:${categoryId}:tids`, 0, -1);
+  const posts = await Promise.all(tids.map(t => getNestedPostsWithoutPagination(t, uid, sorting)))
+  return posts.reduce((previousValue, acc) => previousValue.concat(acc), [])
 }
 
 module.exports = {

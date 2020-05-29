@@ -362,7 +362,6 @@
     const content = req.body.content,
       url = req.body.url,
       uid = req.user ? req.user.uid : 0;
-    console.log('edit post');
     posts.edit(
       {
         uid,
@@ -482,8 +481,10 @@
     // Deberia tener un category id
     // por ahora vamos a hacerla sin anidado
     const { categoryId } = req.params
+    const sorting = req.params.sorting || 'best'
+    const uid = req.user ? req.user.uid : 0;
     console.log('categoryid', categoryId)
-    getPostsCategory(categoryId).then(result => {
+    getPostsCategory(categoryId, uid, sorting).then(result => {
       return res.json(result)
     })
   }
@@ -672,7 +673,7 @@
     app.post("/comments/delete/:pid", Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
-    app.get('/comments/bycid/:categoryId', Comments.getAllArticlesCategory);
+    app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
     callback();
   };
 })(module);
