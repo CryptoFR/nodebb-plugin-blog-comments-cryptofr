@@ -118,7 +118,7 @@ const sortRecursively = (array, sorting) => {
   sortRecursivelyInternal(array);
 };
 
-const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
+const getNestedPostsWithoutPagination = async (tid, uid, sorting) => {
   const posts = (await getPostDataWithoutCache(tid)).filter(p => !p.deleted);
   for (const p of posts) {
     p.isReply =
@@ -132,6 +132,11 @@ const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
   const postData = await addPostData(posts, uid);
   const nestedPostsWithData = getNestedChildren(postData);
   sortRecursively(nestedPostsWithData, sorting);
+  return nestedPostsWithData
+}
+
+const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
+  const nestedPostsWithData = await getNestedPostsWithoutPagination(tid, uid, sorting)
   const itemsPerPage = 10;
   const start = 0 + pagination * itemsPerPage;
   const end = itemsPerPage + pagination * (itemsPerPage - 1);
@@ -139,7 +144,15 @@ const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
   return {data: nestedPostsWithData.slice(start, end), isLastPage};
 };
 
+const getPostsCategory = async (categoryId) => {
+  // Necesito los tid de cada categoria
+  console.log('key', `cid:${categoryId}:tids`)
+  const range = await db.getSortedSetRange(`cid:${categoryId}:tids`, 0, -1);
+  return range
+}
+
 module.exports = {
   getNestedPosts,
-  getNestedChildren
+  getNestedChildren,
+  getPostsCategory
 };

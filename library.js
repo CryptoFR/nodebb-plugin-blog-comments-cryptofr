@@ -2,7 +2,7 @@
   "use strict";
 
   var Comments = {};
-  const { getNestedChildren, getNestedPosts } = require("./public/lib/src/helper");
+  const { getNestedChildren, getNestedPosts, getPostsCategory } = require("./public/lib/src/helper");
   var db = require.main.require("./src/database"),
     meta = require.main.require("./src/meta"),
     posts = require.main.require("./src/posts"),
@@ -478,6 +478,16 @@
     );
   };
 
+  Comments.getAllArticlesCategory = function (req, res) {
+    // Deberia tener un category id
+    // por ahora vamos a hacerla sin anidado
+    const { categoryId } = req.params
+    console.log('categoryid', categoryId)
+    getPostsCategory(categoryId).then(result => {
+      return res.json(result)
+    })
+  }
+
   Comments.getNewComments = function(req, res) {
     const timestamp = parseInt(req.params.timestamp, 10);
     const tid = req.params.tid
@@ -662,6 +672,7 @@
     app.post("/comments/delete/:pid", Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
+    app.get('/comments/bycid/:categoryId', Comments.getAllArticlesCategory);
     callback();
   };
 })(module);
