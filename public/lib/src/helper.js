@@ -171,9 +171,28 @@ const getPostsCategory = async (categoryId, uid, sorting) => {
   const topicsData = await topics.getTopicsByTids(tids)
   const posts = await Promise.all(tids.map(t => getNestedPostsWithoutPagination(t, uid, sorting)))
   const concatenated = posts.reduce((previousValue, acc) => previousValue.concat(acc), [])
-  // Next line mutates the post
+  // Next lines mutates the post
   assignNestedTopics(topicsData, concatenated)
-  return concatenated
+  return addAllPostsWithChildren(concatenated)
+}
+
+const addAllPostsWithChildren = posts => {
+  const isInPosts = {}
+  const comments = []
+  const addAllPostsWithChildrenInternal = posts => {
+    for (const c of posts) {
+      if (isInPosts.hasOwnProperty(c.pid)) {
+        return
+      }
+      comments.push(c)
+      isInPosts[c.pid] = true;
+      if (c.children) {
+        addAllPostsWithChildrenInternal(c.children)
+      }
+    }
+  }
+  addAllPostsWithChildrenInternal(posts)
+  return comments
 }
 
 
