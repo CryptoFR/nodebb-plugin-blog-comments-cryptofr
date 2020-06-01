@@ -149,11 +149,33 @@ const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
   return {data: nestedPostsWithData.slice(start, end), isLastPage};
 };
 
+const assignNestedTopics = (topicsData, posts) => {
+  const topicsDataByTid = {}
+  for (const t of topicsData) {
+    topicsDataByTid[t.tid] = t
+  }
+  const assignNestedTopicsInternal = (posts) => {
+    for (const p of posts) {
+      p.topic = topicsDataByTid[p.tid]
+      if (p.children) {
+        assignNestedTopicsInternal(p.children)
+      }
+    }
+  };
+  assignNestedTopicsInternal(posts)
+}
+
+
 const getPostsCategory = async (categoryId, uid, sorting) => {
   const tids = await db.getSortedSetRange(`cid:${categoryId}:tids`, 0, -1);
+  const topicsData = await topics.getTopicsByTids(tids)
   const posts = await Promise.all(tids.map(t => getNestedPostsWithoutPagination(t, uid, sorting)))
-  return posts.reduce((previousValue, acc) => previousValue.concat(acc), [])
+  const concatenated = posts.reduce((previousValue, acc) => previousValue.concat(acc), [])
+  // Next line mutates the post
+  assignNestedTopics(topicsData, concatenated)
+  return concatenated
 }
+
 
 module.exports = {
   getNestedPosts,
