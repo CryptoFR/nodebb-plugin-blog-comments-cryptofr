@@ -2161,7 +2161,7 @@ function addBadges(li, post) {
         var i = document.createElement('i');
         i.classList.add(group.icon, 'fa');
         var span = document.createElement('span');
-        span.innerText = group.name;
+        span.innerText = group.userTitle;
         span.style.backgroundColor = group.labelColor;
         span.style.color = group.textColor;
         groupDiv.appendChild(i);
