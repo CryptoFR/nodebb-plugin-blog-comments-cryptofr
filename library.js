@@ -9,6 +9,7 @@
     topics = require.main.require("./src/topics"),
     user = require.main.require("./src/user"),
     groups = require.main.require("./src/groups"),
+    privileges = require.main.require("./src/privileges"),
     fs = require.main.require("fs"),
     path = require.main.require("path"),
     async = require.main.require("async"),
@@ -485,7 +486,9 @@
       const u = await user.getUserData(uid);
       const isAdministrator = await user.isAdministrator(uid);
       const groupData = await groups.getUserGroups([uid])
+      const isAdminOrMod = await privileges.categories.isAdminOrMod(categoryId, uid)
       u.groupData = groupData
+      u.isAdminOrMod = isAdminOrMod
       const posts = await getPostsCategory(categoryId, uid, sorting)
       return res.json({user: u, isAdministrator, posts})
     } catch (err) {
