@@ -496,7 +496,7 @@
       u.groupData = groupData
       u.isAdminOrMod = isAdminOrMod
       const posts = await getPostsCategory(categoryId, uid, sorting)
-      return res.json({user: u, isAdministrator, posts})
+      return res.json({user: u, isAdministrator, posts, token: req.csrfToken() })
     } catch (err) {
       console.log(err)
       return res.status(500).json({
