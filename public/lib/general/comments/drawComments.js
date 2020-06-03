@@ -479,7 +479,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         i.classList.add(group.icon,'fa')
 
         let span= document.createElement('span')
-        span.innerText=group.name;
+        span.innerText=group.userTitle;
         span.style.backgroundColor=group.labelColor;
         span.style.color= group.textColor;
 
