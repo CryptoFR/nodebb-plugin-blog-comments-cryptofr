@@ -2,7 +2,9 @@
 const posts = require.main.require("./src/posts");
 const topics = require.main.require("./src/topics");
 const db = require.main.require("./src/database");
+const groups = require.main.require("./src/groups");
 const async = require.main.require("async");
+const _ = require('lodash')
 
 const getCacheKey = tid => `cache:nested_tid:${tid}`;
 
@@ -62,16 +64,24 @@ function getNestedChildren(arr, parent = null) {
   return out;
 }
 
-const addPostData = (posts, uid) =>
-  new Promise((resolve, reject) => {
-    topics.addPostData(posts, uid, function addPostDataCb(err, res) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(res);
-      }
-    });
-  });
+const getUsersData = async (data) => {
+  const uids = _.uniq(data.map(post => post.uid))
+  const myGroups = await groups.getUserGroups(uids);
+  const groupDataById = {};
+  const len = myGroups.length;
+  for (let i = 0; i < len; i++) {
+    groupDataById[uids[i]] = myGroups[i];
+  }
+  for (const post of data) {
+    post.user.groupData = groupDataById[post.uid]
+  }
+  return data
+}
+
+const addPostData = async (posts, uid) => {
+  const data = await topics.addPostData(posts, uid);
+  return getUsersData(data)
+}
 
 const getPostsFromCache = tid =>
   new Promise((resolve, reject) => {
