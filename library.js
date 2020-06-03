@@ -487,7 +487,8 @@
       if (!isAdminOrMod) {
         return res.status(403).json({
           error: true,
-          message: 'Not authorized'
+          message: 'Not authorized',
+          token: req.csrfToken()
         });
       }
       const u = await user.getUserData(uid);
