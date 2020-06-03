@@ -484,6 +484,8 @@
     try {
       const u = await user.getUserData(uid);
       const isAdministrator = await user.isAdministrator(uid);
+      const groupData = await groups.getUserGroups([uid])
+      u.groupData = groupData
       const posts = await getPostsCategory(categoryId, uid, sorting)
       return res.json({user: u, isAdministrator, posts})
     } catch (err) {
