@@ -419,13 +419,16 @@
         },
         isPublisher: function(next) {
           groups.isMember(uid, "publishers", next);
-        }
+        },
+        isModerator: function (next) {
+          user.isModerator(uid, [cid], next)
+        },
       },
       function(err, userStatus) {
-        if (!userStatus.isAdministrator && !userStatus.isPublisher) {
+        if (!userStatus.isAdministrator && !userStatus.isPublisher && !userStatus.isModerator) {
           return res.json({
             error:
-              "Only Administrators or members of the publishers group can publish articles"
+              "Only Administrators or moderators or members of the publishers group can publish articles"
           });
         }
 
