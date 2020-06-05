@@ -467,9 +467,8 @@
                   if (url.indexOf("#") !== -1) {
                     // compatible for mmmw's blog, he uses hash in url;
                     rurl = url;
-                  }
-
-                  res.redirect(rurl);
+                  } 
+                  res.json({ok:true});
                 }
               );
             } else {
