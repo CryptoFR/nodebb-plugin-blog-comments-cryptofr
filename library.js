@@ -62,7 +62,7 @@
   Comments.getToken = function (req, res) {
     return res.json({
       token: req.csrfToken(),
-      uid: req.user.uid ? req.user.uid : 0
+      uid: req.user ? req.user.uid : 0
     })
   }
 
