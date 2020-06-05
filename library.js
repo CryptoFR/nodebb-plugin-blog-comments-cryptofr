@@ -427,7 +427,7 @@
       },
       function(err, userStatus) {
         if (!userStatus.isAdministrator && !userStatus.isPublisher && !userStatus.isModerator) {
-          return res.json({
+          return res.status(403).json({
             error:
               "Only Administrators or moderators or members of the publishers group can publish articles"
           });
@@ -452,7 +452,7 @@
                 url,
                 function(err) {
                   if (err) {
-                    return res.json({
+                    return res.status(403).json({
                       error: "Unable to post topic",
                       result: result
                     });
@@ -473,7 +473,7 @@
                 }
               );
             } else {
-              res.json({ error: "Unable to post topic", result: result });
+              res.status(403).json({ error: "Unable to post topic", result: result });
             }
           }
         );
