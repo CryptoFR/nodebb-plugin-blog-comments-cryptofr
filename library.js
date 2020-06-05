@@ -479,9 +479,16 @@
   };
 
   Comments.getAllArticlesCategory = async function (req, res) {
+    const uid = req.user ? req.user.uid : 0;
+    if (uid === 0) {
+      return res.status(401).json({
+        error: true,
+        message: 'Not connected',
+        token: req.csrfToken()
+      });
+    }
     const { categoryId } = req.params
     const sorting = req.params.sorting || 'best'
-    const uid = req.user ? req.user.uid : 0;
     try {
       const isAdminOrMod = await privileges.categories.isAdminOrMod(categoryId, uid)
       if (!isAdminOrMod) {
