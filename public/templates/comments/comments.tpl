@@ -4,8 +4,8 @@
 			<i class="fad fa-grip-lines"></i>
 		</div>
 		<div class="header-box">
-			<span class="tab">Emojis</span>
-			<span class="tab selected">Gif</span>
+			<span class="tab emoji-tab">Emojis</span>
+			<span class="tab gif-tab selected">Gif</span>
 			<i class="close-box close-gif far fa-times"></i>
 		</div>
 		<div class="emoji-selection">

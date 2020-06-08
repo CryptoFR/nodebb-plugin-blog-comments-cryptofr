@@ -69,9 +69,20 @@ export function gifBoxInit(){
   for (let gifButton of document.querySelectorAll('.special-action.gif .icon')) { 
 
     gifButton.addEventListener('click', function(event){
-      let gifBox=document.querySelector(".gifs-box");
-      gifBox.style.display="block";
-      set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"))
+      console.log("hola gif")
+      let commentsEnhancementBox=document.querySelector(".comments-enhancement-box");
+
+      commentsEnhancementBox.style.display="block";
+      set.gifCommentBox(gifButton.closest('form').querySelector("textarea"))
+
+      let emojiSelectionBox=commentsEnhancementBox.querySelector(".emoji-selection");
+      let gifSelectionBox=commentsEnhancementBox.querySelector(".gif-selection");
+
+      emojiSelectionBox.style.display="none";
+      gifSelectionBox.style.display="block";
+
+      commentsEnhancementBox.querySelector('.header-box .emoji-tab').classList.remove('selected')
+      commentsEnhancementBox.querySelector('.header-box .gif-tab').classList.add('selected')
 
       /*let closeGifBoxIcon = document.querySelector(".gifs-box");
 

@@ -9,6 +9,7 @@ import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { onLoadFunction } from "../onload.js";
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
+import { emojiBoxInit } from "../addons/emoji.js";
 import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
 import { parseLineBreaks, parseCommentQuotes } from '../util.js';
@@ -68,7 +69,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
       dispatchEmojis();
 
-
+      emojiBoxInit();
+ 
     } 
     
     removeLoader(); 

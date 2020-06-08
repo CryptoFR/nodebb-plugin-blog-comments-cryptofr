@@ -554,6 +554,8 @@ function addClassHelper(element, value, classTrueValue, classFalseValue) {
 function dispatchEmojis() {
   var evt = new CustomEvent('dispatchEmojis', {});
   window.dispatchEvent(evt);
+  var emojiBox = document.querySelector('.comments-enhancement-box #emoji-button');
+  $(emojiBox).append($('.emoji-menu'));
 }
 
 window.dispatchEmojis = dispatchEmojis;
@@ -1142,10 +1144,18 @@ function gifBoxInit() {
     var _loop2 = function _loop2() {
       var gifButton = _step3.value;
       gifButton.addEventListener('click', function (event) {
-        var gifBox = document.querySelector(".gifs-box");
-        gifBox.style.display = "block";
+        console.log("hola gif");
+        var commentsEnhancementBox = document.querySelector(".comments-enhancement-box");
+        commentsEnhancementBox.style.display = "block";
 
-        _settings.set.gifCommentBox(gifButton.parentNode.parentNode.parentNode.parentNode.querySelector("textarea"));
+        _settings.set.gifCommentBox(gifButton.closest('form').querySelector("textarea"));
+
+        var emojiSelectionBox = commentsEnhancementBox.querySelector(".emoji-selection");
+        var gifSelectionBox = commentsEnhancementBox.querySelector(".gif-selection");
+        emojiSelectionBox.style.display = "none";
+        gifSelectionBox.style.display = "block";
+        commentsEnhancementBox.querySelector('.header-box .emoji-tab').classList.remove('selected');
+        commentsEnhancementBox.querySelector('.header-box .gif-tab').classList.add('selected');
         /*let closeGifBoxIcon = document.querySelector(".gifs-box");
           //I'm using "click" but it works with any event
         document.addEventListener('click', function(event) {
@@ -1156,7 +1166,6 @@ function gifBoxInit() {
           //   closeGifBox();
           // }
         });*/
-
       });
     };
 
@@ -1566,7 +1575,38 @@ function setActiveSortingLi(sorting) {
     element.parentNode.classList.add("active");
   }
 }
-},{"../../settings.js":"LXja","./loadComments.js":"V8ra"}],"w7Fc":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./loadComments.js":"V8ra"}],"MTTM":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.emojiBoxInit = emojiBoxInit;
+
+var _settings = require("../../settings.js");
+
+function emojiBoxInit() {
+  var commentsEnhancementBox = document.querySelector(".comments-enhancement-box");
+  var emojiSelectionBox = commentsEnhancementBox.querySelector(".emoji-selection");
+  var gifSelectionBox = commentsEnhancementBox.querySelector(".gif-selection");
+  $(document).on('click', '.special-action.emojis .fa-smile', function (event) {
+    commentsEnhancementBox.style.display = "block";
+    emojiSelectionBox.style.display = "block";
+    gifSelectionBox.style.display = "none";
+
+    _settings.set.gifCommentBox(this.closest('form').querySelector("textarea"));
+
+    commentsEnhancementBox.querySelector('.header-box .emoji-tab').classList.add('selected');
+    commentsEnhancementBox.querySelector('.header-box .gif-tab').classList.remove('selected');
+  });
+  commentsEnhancementBox.querySelector('.header-box .emoji-tab').addEventListener('click', function () {
+    $(_settings.gifCommentBox.closest('form').querySelector('.special-action.emojis .fa-smile')).trigger('click');
+  });
+  commentsEnhancementBox.querySelector('.header-box .gif-tab').addEventListener('click', function () {
+    $(_settings.gifCommentBox.closest('form').querySelector('.special-action.gif .icon')).trigger('click');
+  });
+}
+},{"../../settings.js":"LXja"}],"w7Fc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1652,6 +1692,8 @@ var _onload = require("../onload.js");
 
 var _gifs = require("../addons/gifs.js");
 
+var _emoji = require("../addons/emoji.js");
+
 var _upload = require("../addons/upload.js");
 
 var _util2 = require("../util.js");
@@ -1705,6 +1747,7 @@ function drawComments() {
     _settings.set.activeUserCommentsReset([]);
 
     (0, _util.dispatchEmojis)();
+    (0, _emoji.emojiBoxInit)();
   }
 
   (0, _util.removeLoader)();
@@ -2757,7 +2800,7 @@ function commentOptions() {
     }
   }
 }
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/upload.js":"w7Fc","../util.js":"VGLh","../../integration/wordpress.js":"poQx"}],"V8ra":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/emoji.js":"MTTM","../addons/upload.js":"w7Fc","../util.js":"VGLh","../../integration/wordpress.js":"poQx"}],"V8ra":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
