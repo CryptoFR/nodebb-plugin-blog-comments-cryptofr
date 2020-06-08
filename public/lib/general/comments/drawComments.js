@@ -303,6 +303,13 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     }  
 
     let flagVote=false;
+
+    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid){
+      commentOptions(); 
+    }else{
+      removeNodes(li.querySelector(".menuButton-container"));  
+    }
+
     li.setAttribute('data-event','true')
 
     // Reply CLick
@@ -450,11 +457,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     }
 
     gifContentCheck();
-    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid){
-      commentOptions(); 
-    }else{
-      removeNodes(li.querySelector(".menuButton-container"));  
-    }
     checkExpandableComments(); 
 
     dispatchEmojis();
@@ -1001,7 +1003,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
     for (let comment of document.querySelectorAll("#nodebb-comments-list .topic-body")) {
 
-      if (comment.querySelector(".options-container .edit-option")){
+      if (comment.querySelector(".options-container .edit-option") && !comment.closest('li').getAttribute('data-event')){
           
         // Edit Click
         comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
@@ -1034,10 +1036,38 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         // Delete Click
         comment.querySelector(".options-container .delete-option").addEventListener("click",function(){ 
 
-          deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(() => {
-            set.reload(true)
-            reloadComments(pagination,0,false);
-          }).catch(console.log);
+          if (comment.querySelector('.confirm-delete')) return;
+
+          let div=document.createElement('div');
+          div.classList.add('confirm-delete')
+          let buttonYes=document.createElement('button')
+          buttonYes.classList.add('YesDelete')
+          buttonYes.innerText="Yes"
+          let buttonNo=document.createElement('button')
+          buttonNo.classList.add('NoDelete')
+          buttonNo.innerText="No"
+
+          let p=document.createElement('p')
+          p.innerText="Are you sure you want to delete this comment?";
+
+          div.append(p)
+          div.append(buttonYes)
+          div.append(buttonNo)
+
+          comment.append(div)
+
+          buttonYes.addEventListener('click',function(){
+            deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(() => {
+              set.reload(true)
+              reloadComments(pagination,0,false);
+            }).catch(console.log);
+            removeNodes(div)
+          })
+
+
+          buttonNo.addEventListener('click',function(){
+            removeNodes(div)
+          })
 
         })
 

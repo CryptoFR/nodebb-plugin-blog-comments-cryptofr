@@ -1943,6 +1943,13 @@ function bindEvents(user, li) {
   }
 
   var flagVote = false;
+
+  if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid) {
+    commentOptions();
+  } else {
+    (0, _util.removeNodes)(li.querySelector(".menuButton-container"));
+  }
+
   li.setAttribute('data-event', 'true'); // Reply CLick
 
   li.querySelector('[data-component="post/reply"]').addEventListener('click', function () {
@@ -2132,13 +2139,6 @@ function bindEvents(user, li) {
   }
 
   (0, _gifs.gifContentCheck)();
-
-  if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid) {
-    commentOptions();
-  } else {
-    (0, _util.removeNodes)(li.querySelector(".menuButton-container"));
-  }
-
   (0, _expandComments.checkExpandableComments)();
   (0, _util.dispatchEmojis)();
   (0, _gifs.gifBoxInit)();
@@ -2661,7 +2661,7 @@ function commentOptions() {
     var _loop2 = function _loop2() {
       var comment = _step8.value;
 
-      if (comment.querySelector(".options-container .edit-option")) {
+      if (comment.querySelector(".options-container .edit-option") && !comment.closest('li').getAttribute('data-event')) {
         // Edit Click
         comment.querySelector(".options-container .edit-option").addEventListener("click", function () {
           var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
@@ -2683,11 +2683,32 @@ function commentOptions() {
         }); // Delete Click
 
         comment.querySelector(".options-container .delete-option").addEventListener("click", function () {
-          (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {
-            _settings.set.reload(true);
+          if (comment.querySelector('.confirm-delete')) return;
+          var div = document.createElement('div');
+          div.classList.add('confirm-delete');
+          var buttonYes = document.createElement('button');
+          buttonYes.classList.add('YesDelete');
+          buttonYes.innerText = "Yes";
+          var buttonNo = document.createElement('button');
+          buttonNo.classList.add('NoDelete');
+          buttonNo.innerText = "No";
+          var p = document.createElement('p');
+          p.innerText = "Are you sure you want to delete this comment?";
+          div.append(p);
+          div.append(buttonYes);
+          div.append(buttonNo);
+          comment.append(div);
+          buttonYes.addEventListener('click', function () {
+            (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {
+              _settings.set.reload(true);
 
-            (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
-          }).catch(console.log);
+              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
+            }).catch(console.log);
+            (0, _util.removeNodes)(div);
+          });
+          buttonNo.addEventListener('click', function () {
+            (0, _util.removeNodes)(div);
+          });
         });
       }
 

@@ -1730,6 +1730,21 @@ small.logged-as {
   display: none;
 }
 
+.confirm-delete{
+  position: absolute;
+  z-index: 10000000000000000000;
+  background: white;
+  border: 1px solid black;
+  padding: 20px;
+  text-align: center;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+.confirm-delete button{
+  margin: 5px;
+}
+
 @media only screen and (max-width: 768px) {
 
   #root {    
