@@ -459,7 +459,7 @@
      * implementation of createIcon function.
      */
     var insertionContent = '';
-    if (this.options.inputMethod == 'unicode') {
+    if (/*this.options.inputMethod == 'unicode' ||*/ 1==1) {
       insertionContent = this.emojiPopup.colonToUnicode(emoji);
     } else {
       var $img = $(EmojiArea.createIcon($.emojiarea.icons[emoji]));
@@ -636,7 +636,6 @@
     });
 
     this.$menu.on('click', 'a', function(e) {
-
       self.emojiarea.updateBodyPadding(self.emojiarea.$editor);
       if ($(this).hasClass('emoji-menu-tab')) {
         if (self.getTabIndex(this) !== self.currentCategory) {
@@ -650,7 +649,7 @@
         self.onItemSelected(emoji);
         if (e.ctrlKey || e.metaKey) {
           self.hide();
-        }
+        } 
       }, 0);
       e.stopPropagation();
       return false;
