@@ -1156,7 +1156,7 @@ function gifBoxInit() {
         commentsEnhancementBox.querySelector('.header-box .emoji-tab').classList.remove('selected');
         commentsEnhancementBox.querySelector('.header-box .gif-tab').classList.add('selected');
         /*let closeGifBoxIcon = document.querySelector(".gifs-box");
-          //I'm using "click" but it works with any event
+         //I'm using "click" but it works with any event
         document.addEventListener('click', function(event) {
           let isClickInside = closeGifBoxIcon.contains(event.target);
           console.log('event.target',event.target)
@@ -3094,8 +3094,7 @@ function commentSubmissionsHandler(form) {
     try {
       for (var _iterator3 = form.querySelectorAll("textarea")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
         var _input = _step3.value;
-        // inputs.content=input.value;
-        inputs.content = form.querySelector('.emoji-wysiwyg-editor').innerHTML;
+        inputs.content = _input.value; // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
     } catch (err) {
       _didIteratorError3 = true;
@@ -3112,7 +3111,8 @@ function commentSubmissionsHandler(form) {
       }
     }
 
-    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, ""); // ERROR: Comment too short
+    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
+    console.log('inputs', inputs); // ERROR: Comment too short
 
     if (inputs["content"].length < 8) {
       formSubmitError("Message too short", form);

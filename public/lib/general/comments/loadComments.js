@@ -222,12 +222,12 @@ import { bindEvents,addBadges } from "./drawComments.js";
         inputs[input.getAttribute("name")]=input.getAttribute("value");
       }
       for (let input of form.querySelectorAll("textarea")) {
-        // inputs.content=input.value;
-        inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
+        inputs.content=input.value;
+        // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
       
       inputs.content=inputs.content.replace(/<br>|&lt;br&gt;/ig,'\n').replace(/(<([^>]+)>)/ig,"")
-
+      console.log('inputs', inputs)
       // ERROR: Comment too short
       if (inputs["content"].length<8){
       	formSubmitError("Message too short",form);

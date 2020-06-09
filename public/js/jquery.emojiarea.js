@@ -125,13 +125,16 @@
           range.setStart(node, 0);
 
           window.setTimeout(function() {
-            console.log(node)
-            console.log(range)
-            range = document.createRange();
-            range.setStartAfter(node);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
+            try {
+              range = document.createRange();
+              console.log('node', node)
+              range.setStartAfter(node);
+              range.collapse(true);
+              sel.removeAllRanges();
+              sel.addRange(range);
+            } catch (err) {
+              console.log('error', err)
+            }
           }, 0);
         }
       }
@@ -336,10 +339,7 @@
     var self = this;
 
     this.options = options || {};
-    if ($($textarea).attr('data-emoji-input') === 'unicode')
-      this.options.inputMethod = 'unicode';
-    else
-      this.options.inputMethod = 'image';
+    this.options.inputMethod = 'unicode';
     this.id = id;
     this.$textarea = $textarea;
     this.emojiPopup = options.emojiPopup;
