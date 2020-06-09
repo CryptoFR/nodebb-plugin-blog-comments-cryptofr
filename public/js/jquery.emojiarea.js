@@ -127,13 +127,11 @@
           window.setTimeout(function() {
             try {
               range = document.createRange();
-              console.log('node', node)
               range.setStartAfter(node);
               range.collapse(true);
               sel.removeAllRanges();
               sel.addRange(range);
             } catch (err) {
-              console.log('error', err)
             }
           }, 0);
         }

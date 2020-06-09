@@ -82,19 +82,7 @@ export function gifBoxInit(){
 
       commentsEnhancementBox.querySelector('.header-box .emoji-tab').classList.remove('selected')
       commentsEnhancementBox.querySelector('.header-box .gif-tab').classList.add('selected')
-
-      /*let closeGifBoxIcon = document.querySelector(".gifs-box");
-
-      //I'm using "click" but it works with any event
-      document.addEventListener('click', function(event) {
-        let isClickInside = closeGifBoxIcon.contains(event.target);
-        console.log('event.target',event.target)
-        console.log('isClickInside',isClickInside)
-        // if (!isClickInside) {
-        //   closeGifBox();
-        // }
-      });*/
-
+ 
     });
 
 

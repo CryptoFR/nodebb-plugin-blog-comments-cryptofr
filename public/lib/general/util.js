@@ -302,6 +302,7 @@ import { pluginURL } from "../settings.js";
 
   // Drag a window
   export function dragElement(elmnt) {
+    console.log('dragElement')
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (elmnt.querySelector(".header")) {
       // if present, the header is where you move the DIV from:

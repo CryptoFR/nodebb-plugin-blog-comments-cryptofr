@@ -190,6 +190,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       nodebbDiv.innerHTML = normalizePost(html); 
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
 
+      emojiBoxInit();
+      gifBoxInit();
+
 
       // Add Sorts
       setActiveSortingLi(sorting);  
