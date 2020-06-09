@@ -125,6 +125,8 @@
           range.setStart(node, 0);
 
           window.setTimeout(function() {
+            console.log(node)
+            console.log(range)
             range = document.createRange();
             range.setStartAfter(node);
             range.collapse(true);
@@ -459,9 +461,10 @@
      * implementation of createIcon function.
      */
     var insertionContent = '';
-    if (/*this.options.inputMethod == 'unicode' ||*/ 1==1) {
+    if (this.options.inputMethod == 'unicode' /*|| 1==1*/) {
       insertionContent = this.emojiPopup.colonToUnicode(emoji);
     } else {
+      console.log()
       var $img = $(EmojiArea.createIcon($.emojiarea.icons[emoji]));
       if ($img[0].attachEvent) {
         $img[0].attachEvent('onresizestart', function(e) {

@@ -262,9 +262,11 @@ import { bindEvents,addBadges } from "./drawComments.js";
             set.activeUserComments(res);
           }
 
-
-          setMaxHeight(document.getElementById('nodebb-comments-list'))
-        
+          $(newLi).find('.post-body img').each(function(){
+            this.onload=function(){
+              setMaxHeight(document.getElementById('nodebb-comments-list')) 
+            }
+          })       
         });
       }
       return false;

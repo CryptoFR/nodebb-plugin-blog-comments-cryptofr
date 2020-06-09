@@ -69,7 +69,6 @@ export function gifBoxInit(){
   for (let gifButton of document.querySelectorAll('.special-action.gif .icon')) { 
 
     gifButton.addEventListener('click', function(event){
-      console.log("hola gif")
       let commentsEnhancementBox=document.querySelector(".comments-enhancement-box");
 
       commentsEnhancementBox.style.display="block";

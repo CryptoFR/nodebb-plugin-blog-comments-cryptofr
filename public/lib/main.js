@@ -1144,7 +1144,6 @@ function gifBoxInit() {
     var _loop2 = function _loop2() {
       var gifButton = _step3.value;
       gifButton.addEventListener('click', function (event) {
-        console.log("hola gif");
         var commentsEnhancementBox = document.querySelector(".comments-enhancement-box");
         commentsEnhancementBox.style.display = "block";
 
@@ -3148,7 +3147,11 @@ function commentSubmissionsHandler(form) {
               _settings.set.activeUserComments(res);
             }
 
-            setMaxHeight(document.getElementById('nodebb-comments-list'));
+            $(newLi).find('.post-body img').each(function () {
+              this.onload = function () {
+                setMaxHeight(document.getElementById('nodebb-comments-list'));
+              };
+            });
           });
         }
 
