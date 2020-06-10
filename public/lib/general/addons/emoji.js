@@ -1,4 +1,5 @@
 import { set, gifCommentBox } from "../../settings.js";
+import { debounce, isHidden } from "../util.js";
 
 export function emojiBoxInit(){ 
   	let commentsEnhancementBox=document.querySelector(".comments-enhancement-box");
@@ -28,5 +29,35 @@ export function emojiBoxInit(){
 		$(gifCommentBox.closest('form').querySelector('.special-action.gif .icon')).trigger('click')
 	
 	});
+
+  textareaFocusChangeTarget();
+
+}
+
+
+export function textareaFocusChangeTarget(){
+    let commentsEnhancementBox=document.querySelector(".comments-enhancement-box");
+
+    function focusHandler(){  
+        if (!isHidden(commentsEnhancementBox)){
+          console.log('!hidden')
+          let selectedTab = commentsEnhancementBox.querySelector('.selected');
+          console.log(selectedTab)
+          if ($(selectedTab).hasClass('gif-tab')){
+            console.log('gif')
+            $(this.closest('form').querySelector('.special-action.gif .icon')).trigger('click')
+          }
+          else if ($(selectedTab).hasClass('emoji-tab')){
+            console.log('emoji')
+            $(this.closest('form').querySelector('.special-action.emojis .fa-smile')).trigger('click')
+          }
+          
+        }else {
+          console.log('hidden')
+        }
+  }
+
+
+  $(document).on('click','.emoji-wysiwyg-editor',focusHandler);
 
 }

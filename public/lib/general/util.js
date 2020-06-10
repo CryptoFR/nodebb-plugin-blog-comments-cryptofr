@@ -363,3 +363,10 @@ import { pluginURL } from "../settings.js";
       if (callNow) func.apply(context, args);
     };
   };
+
+
+
+  export function isHidden(el) {
+      var style = window.getComputedStyle(el);
+      return (style.display === 'none')
+  }

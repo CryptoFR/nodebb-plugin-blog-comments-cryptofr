@@ -354,6 +354,7 @@ exports.parseCommentQuotes = parseCommentQuotes;
 exports.getCoords = getCoords;
 exports.dragElement = dragElement;
 exports.debounce = debounce;
+exports.isHidden = isHidden;
 exports.bindOnClick = void 0;
 
 var _settings = require("../settings.js");
@@ -719,6 +720,11 @@ function debounce(func, wait, immediate) {
 }
 
 ;
+
+function isHidden(el) {
+  var style = window.getComputedStyle(el);
+  return style.display === 'none';
+}
 },{"../settings.js":"LXja"}],"gYYA":[function(require,module,exports) {
 "use strict";
 
@@ -1572,8 +1578,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.emojiBoxInit = emojiBoxInit;
+exports.textareaFocusChangeTarget = textareaFocusChangeTarget;
 
 var _settings = require("../../settings.js");
+
+var _util = require("../util.js");
 
 function emojiBoxInit() {
   var commentsEnhancementBox = document.querySelector(".comments-enhancement-box");
@@ -1595,8 +1604,33 @@ function emojiBoxInit() {
   commentsEnhancementBox.querySelector('.header-box .gif-tab').addEventListener('click', function () {
     $(_settings.gifCommentBox.closest('form').querySelector('.special-action.gif .icon')).trigger('click');
   });
+  textareaFocusChangeTarget();
 }
-},{"../../settings.js":"LXja"}],"w7Fc":[function(require,module,exports) {
+
+function textareaFocusChangeTarget() {
+  var commentsEnhancementBox = document.querySelector(".comments-enhancement-box");
+
+  function focusHandler() {
+    if (!(0, _util.isHidden)(commentsEnhancementBox)) {
+      console.log('!hidden');
+      var selectedTab = commentsEnhancementBox.querySelector('.selected');
+      console.log(selectedTab);
+
+      if ($(selectedTab).hasClass('gif-tab')) {
+        console.log('gif');
+        $(this.closest('form').querySelector('.special-action.gif .icon')).trigger('click');
+      } else if ($(selectedTab).hasClass('emoji-tab')) {
+        console.log('emoji');
+        $(this.closest('form').querySelector('.special-action.emojis .fa-smile')).trigger('click');
+      }
+    } else {
+      console.log('hidden');
+    }
+  }
+
+  $(document).on('click', '.emoji-wysiwyg-editor', focusHandler);
+}
+},{"../../settings.js":"LXja","../util.js":"VGLh"}],"w7Fc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

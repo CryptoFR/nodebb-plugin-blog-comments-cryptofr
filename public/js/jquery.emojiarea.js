@@ -244,6 +244,8 @@
     var $button = $('[data-id="' + this.id + '"][data-type=picker]').parent().find('.special-box .emojis')
      
     $button.on('click', function(e) {
+      $('.emoji-menu').css('display','none')
+
       self.emojiMenu.show(self);
     });
 
@@ -628,7 +630,7 @@
           return;
         }
       }
-      self.hide();
+      // self.hide();
     });
 
     this.$menu.on('mouseup', 'a', function(e) {
@@ -758,10 +760,12 @@
      * MODIFICATION: Following line was modified by Igor Zhukov, in order to
      * improve EmojiMenu behaviour
      */
-    if (this.visible)
-      return this.hide();
+    // if (this.visible)
+    //   return this.hide();
     $(this.$menu).css('z-index', ++EmojiMenu.menuZIndex);
-    this.$menu.show("fast");
+    // this.$menu.show("fast");
+    // console.log(this.$menu)
+    this.$menu[0].style.display="block";
     /*
      * MODIFICATION: Following 3 lines were added by Igor Zhukov, in order
      * to update EmojiMenu contents

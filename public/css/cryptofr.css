@@ -1520,6 +1520,10 @@ form{
   font-family: 'Poppins';
 }
 
+.emoji-picker.light{
+  display: none;
+}
+
 .emoji-wysiwyg-editor {
   padding-right: 30px!important;
 }
