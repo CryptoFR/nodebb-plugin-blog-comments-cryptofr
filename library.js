@@ -498,18 +498,19 @@
     const sorting = req.params.sorting || 'best'
     try {
       const isAdminOrMod = await privileges.categories.isAdminOrMod(categoryId, uid)
-      if (!isAdminOrMod) {
-        return res.status(403).json({
-          error: true,
-          message: 'Not authorized',
-          token: req.csrfToken()
-        });
-      }
       const u = await user.getUserData(uid);
       const isAdministrator = await user.isAdministrator(uid);
       const groupData = await groups.getUserGroups([uid])
       u.groupData = groupData
       u.isAdminOrMod = isAdminOrMod
+      if (!isAdminOrMod) {
+        return res.status(403).json({
+          error: true,
+          message: 'Not authorized',
+          token: req.csrfToken(),
+          user: u
+        });
+      }
       const posts = await getPostsCategory(categoryId, uid, sorting)
       return res.json({user: u, isAdministrator, posts, token: req.csrfToken() })
     } catch (err) {
