@@ -457,7 +457,11 @@
                       result: result
                     });
                   }
-
+                  db.setObjectField(
+                    `topic:${result.postData.tid}`,
+                    'externalLink',
+                    url
+                  );
                   db.setObjectField(
                     "blog-comments:" + blogger,
                     commentID,
@@ -696,6 +700,9 @@
     app.post("/comments/edit/:pid", Comments.editPost);
     app.get("/comments/plugin/email", emailExists);
     app.get("/comments/plugin/username", userExists);
+    app.get("/comments/tids/:blogger", (req) => {
+      Comments.getCommentIdByTopicID(19014, req.params.blogger)
+    })
 
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
