@@ -426,7 +426,7 @@
         },
       },
       function(err, userStatus) {
-        if (!userStatus.isAdministrator && !userStatus.isPublisher && !userStatus.isModerator) {
+        if (!userStatus.isAdministrator && !userStatus.isPublisher && !userStatus.isModerator[0]) {
           return res.status(403).json({
             error:
               "Only Administrators or moderators or members of the publishers group can publish articles"
