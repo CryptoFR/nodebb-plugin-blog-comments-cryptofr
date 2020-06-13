@@ -496,7 +496,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           maxCrypto = maxCrypto + 1;
 
           li.querySelector('.badges').appendChild(groupDiv)
-        } else if ((group.name === "bitcoin.fr" || group.name === "Journalducoin" || group.name === "Cryptoast" || group.name === "administrators") && maxWebsites<1) {
+        } else if ((group.name === "bitcoin.fr" || group.name === "Journalducoin" || group.name === "TheCoinTribune" || group.name === "administrators") && maxWebsites<1) {
           let groupDiv=document.createElement('div')
           groupDiv.classList.add('group-badge')
 
@@ -512,6 +512,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           } else if (group.name === "administrators") {
             group.name = "CryptoFR";
             span.style.backgroundColor = '#434A81';
+          } else if (group.name === "TheCoinTribune") {
+            span.style.backgroundColor = '#1678c1';
           }
           
           let url = 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/'+group.name.toLowerCase()+'.svg';
