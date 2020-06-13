@@ -36,25 +36,20 @@ export function emojiBoxInit(){
 
 
 export function textareaFocusChangeTarget(){
-    let commentsEnhancementBox=document.querySelector(".comments-enhancement-box");
 
     function focusHandler(){  
+        let commentsEnhancementBox=document.querySelector(".comments-enhancement-box");
         if (!isHidden(commentsEnhancementBox)){
-          console.log('!hidden')
           let selectedTab = commentsEnhancementBox.querySelector('.selected');
           console.log(selectedTab)
           if ($(selectedTab).hasClass('gif-tab')){
-            console.log('gif')
             $(this.closest('form').querySelector('.special-action.gif .icon')).trigger('click')
           }
           else if ($(selectedTab).hasClass('emoji-tab')){
-            console.log('emoji')
             $(this.closest('form').querySelector('.special-action.emojis .fa-smile')).trigger('click')
           }
           
-        }else {
-          console.log('hidden')
-        }
+        } 
   }
 
 
