@@ -2149,8 +2149,8 @@ function addBadges(li, post) {
           groupDiv.classList.add('group-badge');
           var span = document.createElement('span');
           span.innerText = " ";
-          span.style.backgroundColor = '#EDEDED';
-          var url = 'https://i.gyazo.com/402b6d874ee7fb62a0ccec9bd20d63dd.png';
+          span.classList.add('crypto-badge');
+          var url = 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/' + group.name.toLowerCase() + '.svg';
           var image = new Image();
           image.src = url;
           span.appendChild(image);

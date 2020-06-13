@@ -482,9 +482,9 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
           let span = document.createElement('span');
           span.innerText = " ";
-          span.style.backgroundColor = '#EDEDED';
+          span.classList.add('crypto-badge');
 
-          let url = 'https://i.gyazo.com/402b6d874ee7fb62a0ccec9bd20d63dd.png';
+          let url = 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/'+group.name.toLowerCase()+'.svg';
           let image = new Image();
           image.src = url;
 
