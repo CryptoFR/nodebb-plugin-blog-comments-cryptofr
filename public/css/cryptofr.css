@@ -525,6 +525,12 @@ li > ul, li > ol {
   color: #838383;
 }
 
+#nodebb .group-badge {
+  display: inline-block;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
 #nodebb .group-badge span.crypto-badge {
   height: 22px;
   width: 22px;
@@ -535,12 +541,13 @@ li > ul, li > ol {
 }
 
 #nodebb .group-badge span.website-badge {
-  height: 80px;
-  width: 22px;
+  height: 22px;
+  width: 80px;
   background: #EDEDED;
   border-radius: 34px;
   display: inline-block;
   text-align: center;
+  padding-top: 1px;
 }
 
 #nodebb .reply-label {
