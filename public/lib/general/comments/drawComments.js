@@ -496,7 +496,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           maxCrypto = maxCrypto + 1;
 
           li.querySelector('.badges').appendChild(groupDiv)
-        } else if ((group.name === "bitcoin.fr" || group.name === "Journalducoin" || group.name === "Cryptoast" || group.name === "administrators") && maxWebsites<2) {
+        } else if ((group.name === "bitcoin.fr" || group.name === "Journalducoin" || group.name === "Cryptoast" || group.name === "administrators") && maxWebsites<1) {
           let groupDiv=document.createElement('div')
           groupDiv.classList.add('group-badge')
 
@@ -508,6 +508,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
             span.style.backgroundColor = '#318CE7';
           } else if (group.name === "Journalducoin") {
             span.style.backgroundColor = '#01528C';
+            span.classList.add('journalducoin');
           } else if (group.name === "administrators") {
             group.name = "CryptoFR";
             span.style.backgroundColor = '#434A81';

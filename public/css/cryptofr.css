@@ -547,7 +547,16 @@ li > ul, li > ol {
   border-radius: 34px;
   display: inline-block;
   text-align: center;
-  padding-top: 1px;
+}
+
+#nodebb .group-badge span.website-badge img {
+  margin-top: 1px;
+}
+#nodebb .group-badge span.website-badge.journalducoin img {
+  width: 80px;
+  height: 24px;
+  margin-left: 9px;
+  margin-top: -1px;
 }
 
 #nodebb .reply-label {

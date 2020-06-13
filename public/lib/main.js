@@ -2160,7 +2160,7 @@ function addBadges(li, post) {
           groupDiv.appendChild(span);
           maxCrypto = maxCrypto + 1;
           li.querySelector('.badges').appendChild(groupDiv);
-        } else if ((group.name === "bitcoin.fr" || group.name === "Journalducoin" || group.name === "Cryptoast" || group.name === "administrators") && maxWebsites < 2) {
+        } else if ((group.name === "bitcoin.fr" || group.name === "Journalducoin" || group.name === "Cryptoast" || group.name === "administrators") && maxWebsites < 1) {
           var _groupDiv = document.createElement('div');
 
           _groupDiv.classList.add('group-badge');
@@ -2175,6 +2175,8 @@ function addBadges(li, post) {
             _span.style.backgroundColor = '#318CE7';
           } else if (group.name === "Journalducoin") {
             _span.style.backgroundColor = '#01528C';
+
+            _span.classList.add('journalducoin');
           } else if (group.name === "administrators") {
             group.name = "CryptoFR";
             _span.style.backgroundColor = '#434A81';
