@@ -1041,6 +1041,12 @@ var _settings = require("../../settings.js");
 
 var _util = require("../util.js");
 
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 // url Async requesting function
 function httpGetAsync(theUrl, callback) {
   // create the request object
@@ -1064,34 +1070,24 @@ function tenorCallback_search(responsetext) {
   // parse the json response
   var response_objects = JSON.parse(responsetext); // load the GIFs -- for our example we will load the first GIFs preview size (nanogif) and share size (tinygif)
 
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  var _iterator = _createForOfIteratorHelper(document.querySelectorAll("#gifs-list img")),
+      _step;
 
   try {
-    for (var _iterator = document.querySelectorAll("#gifs-list img")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var img = _step.value;
       img.parentNode.removeChild(img);
     }
   } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
+    _iterator.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+    _iterator.f();
   }
 
   document.querySelector("#gifs-list").innerHTML = "";
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+
+  var _iterator2 = _createForOfIteratorHelper(response_objects["results"]),
+      _step2;
 
   try {
     var _loop = function _loop() {
@@ -1106,24 +1102,15 @@ function tenorCallback_search(responsetext) {
       document.querySelector("#gifs-list").appendChild(element);
     };
 
-    for (var _iterator2 = response_objects["results"][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var element;
 
       _loop();
     }
   } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
+    _iterator2.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
+    _iterator2.f();
   }
 
   return;
@@ -1143,9 +1130,8 @@ function grab_data(search_term) {
 
 
 function gifBoxInit() {
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
+  var _iterator3 = _createForOfIteratorHelper(document.querySelectorAll('.special-action.gif .icon')),
+      _step3;
 
   try {
     var _loop2 = function _loop2() {
@@ -1165,22 +1151,13 @@ function gifBoxInit() {
       });
     };
 
-    for (var _iterator3 = document.querySelectorAll('.special-action.gif .icon')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
       _loop2();
     }
   } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
+    _iterator3.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-        _iterator3.return();
-      }
-    } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
-      }
-    }
+    _iterator3.f();
   }
 
   var button = document.querySelector('#emoji-button');
@@ -1207,12 +1184,11 @@ function gifBoxInit() {
 
 
 function gifContentCheck() {
-  var _iteratorNormalCompletion4 = true;
-  var _didIteratorError4 = false;
-  var _iteratorError4 = undefined;
+  var _iterator4 = _createForOfIteratorHelper(document.querySelectorAll(".post-body")),
+      _step4;
 
   try {
-    for (var _iterator4 = document.querySelectorAll(".post-body")[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
       var comment = _step4.value;
 
       while (comment.innerText.indexOf("![") >= 0) {
@@ -1227,18 +1203,9 @@ function gifContentCheck() {
       }
     }
   } catch (err) {
-    _didIteratorError4 = true;
-    _iteratorError4 = err;
+    _iterator4.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-        _iterator4.return();
-      }
-    } finally {
-      if (_didIteratorError4) {
-        throw _iteratorError4;
-      }
-    }
+    _iterator4.f();
   }
 }
 /**
@@ -1267,28 +1234,19 @@ function singleGifComment(comment) {
 function closeGifBox() {
   document.querySelector(".gifs-box").style.display = "none";
   document.querySelector(".gifs-box input").value = "";
-  var _iteratorNormalCompletion5 = true;
-  var _didIteratorError5 = false;
-  var _iteratorError5 = undefined;
+
+  var _iterator5 = _createForOfIteratorHelper(document.querySelectorAll("#gifs-list img")),
+      _step5;
 
   try {
-    for (var _iterator5 = document.querySelectorAll("#gifs-list img")[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
       var img = _step5.value;
       img.parentNode.removeChild(img);
     }
   } catch (err) {
-    _didIteratorError5 = true;
-    _iteratorError5 = err;
+    _iterator5.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-        _iterator5.return();
-      }
-    } finally {
-      if (_didIteratorError5) {
-        throw _iteratorError5;
-      }
-    }
+    _iterator5.f();
   }
 }
 },{"../../settings.js":"LXja","../util.js":"VGLh"}],"PCfX":[function(require,module,exports) {
@@ -1301,18 +1259,18 @@ exports.checkExpandableComments = checkExpandableComments;
 
 var _loadComments = require("./loadComments");
 
-/**************************************
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
-   Expand/Collapse comments functions
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-***************************************/
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function checkExpandableComments() {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  var _iterator = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list li")),
+      _step;
 
   try {
-    for (var _iterator = document.querySelectorAll("#nodebb-comments-list li")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var comment = _step.value;
 
       if (comment.querySelector("ul") && !comment.querySelector(".expandable-button")) {
@@ -1326,27 +1284,17 @@ function checkExpandableComments() {
       }
     }
   } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
+    _iterator.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+    _iterator.f();
   }
 
   collapseExpandCommentEvent();
 }
 
 function collapseExpandCommentEvent() {
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+  var _iterator2 = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")),
+      _step2;
 
   try {
     var _loop = function _loop() {
@@ -1377,22 +1325,13 @@ function collapseExpandCommentEvent() {
       });
     };
 
-    for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       _loop();
     }
   } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
+    _iterator2.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
+    _iterator2.f();
   }
 }
 },{"./loadComments":"V8ra"}],"OGtT":[function(require,module,exports) {
@@ -1450,17 +1389,22 @@ var _loadComments = require("../comments/loadComments.js");
 
 var _modal = require("./modal.js");
 
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 /**
  * Function that adds social auth link listeners
  * @param {DOMElement} modal modal element
  */
 function addSocialAuthListeners(modal) {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  var _iterator = _createForOfIteratorHelper(modal.querySelectorAll("a[data-link]")),
+      _step;
 
   try {
-    for (var _iterator = modal.querySelectorAll("a[data-link]")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var socialLink = _step.value;
       socialLink.addEventListener('click', function (event) {
         event.preventDefault();
@@ -1474,18 +1418,9 @@ function addSocialAuthListeners(modal) {
       });
     }
   } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
+    _iterator.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+    _iterator.f();
   }
 }
 },{"../comments/loadComments.js":"V8ra","./modal.js":"kjEe"}],"QP4Q":[function(require,module,exports) {
@@ -1638,6 +1573,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.uploadInit = uploadInit;
 
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 /******* UPLOAD FILES *******/
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -1648,12 +1589,11 @@ function generateUUID() {
 }
 
 function uploadInit() {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  var _iterator = _createForOfIteratorHelper(document.querySelectorAll(".special-action.img")),
+      _step;
 
   try {
-    for (var _iterator = document.querySelectorAll(".special-action.img")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var icon = _step.value;
       icon.addEventListener('click', function (event) {
         $("#formupload #file").attr("focused", "1");
@@ -1661,18 +1601,9 @@ function uploadInit() {
       });
     }
   } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
+    _iterator.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
+    _iterator.f();
   }
 
   $("#formupload #file").on("change", function (e) {
@@ -1723,6 +1654,12 @@ var _upload = require("../addons/upload.js");
 var _util2 = require("../util.js");
 
 var _wordpress = require("../../integration/wordpress.js");
+
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 // import $ from 'jquery';
 // window.drawComments = drawComments
@@ -1897,9 +1834,9 @@ function drawComments() {
     }
 
     (0, _loadComments.commentSubmissionsHandler)(_settings.nodebbDiv.querySelector('form.top-post-form'));
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+
+    var _iterator = _createForOfIteratorHelper(nodebbCommentsList.querySelectorAll('li')),
+        _step;
 
     try {
       var _loop = function _loop() {
@@ -1919,22 +1856,13 @@ function drawComments() {
         }
       };
 
-      for (var _iterator = nodebbCommentsList.querySelectorAll('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
         _loop();
       }
     } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
+      _iterator.e(err);
     } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
+      _iterator.f();
     }
   }
 
@@ -2183,28 +2111,19 @@ function bindEvents(user, li) {
       }
     }
   });
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+
+  var _iterator2 = _createForOfIteratorHelper(li.querySelectorAll('form')),
+      _step2;
 
   try {
-    for (var _iterator2 = li.querySelectorAll('form')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var form = _step2.value;
       (0, _loadComments.commentSubmissionsHandler)(form);
     }
   } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
+    _iterator2.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
+    _iterator2.f();
   }
 
   (0, _gifs.gifContentCheck)();
@@ -2218,48 +2137,59 @@ function addBadges(li, post) {
   var selectedGroups = post.user.selectedGroups;
 
   if (selectedGroups) {
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
+    var _iterator3 = _createForOfIteratorHelper(selectedGroups),
+        _step3;
 
     try {
-      for (var _iterator3 = selectedGroups[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
         var group = _step3.value;
-        var groupDiv = document.createElement('div');
-        groupDiv.classList.add('group-badge');
-        var i = document.createElement('i');
-        i.classList.add(group.icon, 'fa');
-        var span = document.createElement('span');
-        span.innerText = group.userTitle;
-        span.style.backgroundColor = group.labelColor;
-        span.style.color = group.textColor;
-        groupDiv.appendChild(i);
-        groupDiv.appendChild(span);
-        li.querySelector('.badges').appendChild(groupDiv);
+
+        if (group.name === "Bitcoin" || group.name === "Ethereum") {
+          var groupDiv = document.createElement('div');
+          groupDiv.classList.add('group-badge');
+          var span = document.createElement('span');
+          span.innerText = " ";
+          span.style.backgroundColor = '#EDEDED';
+          var url = 'https://i.gyazo.com/402b6d874ee7fb62a0ccec9bd20d63dd.png';
+          var image = new Image();
+          image.src = url;
+          span.appendChild(image);
+          groupDiv.appendChild(span);
+          li.querySelector('.badges').appendChild(groupDiv);
+        } else if (group.name === "bitcoin.fr" || group.name === "JournalduCoin" || group.name === "Cryptoast" || group.name === "administrators") {
+          var _groupDiv = document.createElement('div');
+
+          _groupDiv.classList.add('group-badge');
+
+          var i = document.createElement('i');
+          i.classList.add(group.icon, 'fa');
+
+          var _span = document.createElement('span');
+
+          _span.innerText = group.userTitle;
+          _span.style.backgroundColor = group.labelColor;
+          _span.style.color = group.textColor;
+
+          _groupDiv.appendChild(i);
+
+          _groupDiv.appendChild(_span);
+
+          li.querySelector('.badges').appendChild(_groupDiv);
+        }
       }
     } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
+      _iterator3.e(err);
     } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-          _iterator3.return();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
-        }
-      }
+      _iterator3.f();
     }
   }
 
   if (post.hasOwnProperty('children')) {
-    var _iteratorNormalCompletion4 = true;
-    var _didIteratorError4 = false;
-    var _iteratorError4 = undefined;
+    var _iterator4 = _createForOfIteratorHelper(post.children),
+        _step4;
 
     try {
-      for (var _iterator4 = post.children[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
         var childPost = _step4.value;
         var childLi = li.querySelector('li[data-pid="' + childPost.pid + '"]');
 
@@ -2270,18 +2200,9 @@ function addBadges(li, post) {
         }
       }
     } catch (err) {
-      _didIteratorError4 = true;
-      _iteratorError4 = err;
+      _iterator4.e(err);
     } finally {
-      try {
-        if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-          _iterator4.return();
-        }
-      } finally {
-        if (_didIteratorError4) {
-          throw _iteratorError4;
-        }
-      }
+      _iterator4.f();
     }
   }
 }
@@ -2461,28 +2382,19 @@ function parse(data, template) {
 
       if ((0, _wordpress.checkIfWpAdmin)()) {
         console.log(document.querySelectorAll("#nodebb-comments-list"));
-        var _iteratorNormalCompletion5 = true;
-        var _didIteratorError5 = false;
-        var _iteratorError5 = undefined;
+
+        var _iterator5 = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list")),
+            _step5;
 
         try {
-          for (var _iterator5 = document.querySelectorAll("#nodebb-comments-list")[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
             var commentUL = _step5.value;
             if (commentUL.getAttribute('data-mainpid') != data.mainPost.pid) parentNodebbComments.appendChild(commentUL);
           }
         } catch (err) {
-          _didIteratorError5 = true;
-          _iteratorError5 = err;
+          _iterator5.e(err);
         } finally {
-          try {
-            if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-              _iterator5.return();
-            }
-          } finally {
-            if (_didIteratorError5) {
-              throw _iteratorError5;
-            }
-          }
+          _iterator5.f();
         }
       }
 
@@ -2500,36 +2412,26 @@ function parse(data, template) {
 
 
 function checkNewComments(existingComments, loadedComments) {
-  var _iteratorNormalCompletion6 = true;
-  var _didIteratorError6 = false;
-  var _iteratorError6 = undefined;
+  var _iterator6 = _createForOfIteratorHelper(loadedComments.querySelectorAll("li")),
+      _step6;
 
   try {
-    for (var _iterator6 = loadedComments.querySelectorAll("li")[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+    for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
       var comment = _step6.value;
       var flag = false;
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
+
+      var _iterator7 = _createForOfIteratorHelper(existingComments.querySelectorAll("li")),
+          _step7;
 
       try {
-        for (var _iterator7 = existingComments.querySelectorAll("li")[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
           var oldcomment = _step7.value;
           if (comment.getAttribute("data-pid") == oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')) flag = true;
         }
       } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
+        _iterator7.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
-            _iterator7.return();
-          }
-        } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
-          }
-        }
+        _iterator7.f();
       }
 
       if (!flag) {
@@ -2537,18 +2439,9 @@ function checkNewComments(existingComments, loadedComments) {
       }
     }
   } catch (err) {
-    _didIteratorError6 = true;
-    _iteratorError6 = err;
+    _iterator6.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
-        _iterator6.return();
-      }
-    } finally {
-      if (_didIteratorError6) {
-        throw _iteratorError6;
-      }
-    }
+    _iterator6.f();
   }
 
   _settings.set.reloading(0);
@@ -2722,9 +2615,9 @@ function commentOptions() {
       $(".options-container").hide();
     }
   });
-  var _iteratorNormalCompletion8 = true;
-  var _didIteratorError8 = false;
-  var _iteratorError8 = undefined;
+
+  var _iterator8 = _createForOfIteratorHelper(document.querySelectorAll("#nodebb-comments-list .topic-body")),
+      _step8;
 
   try {
     var _loop2 = function _loop2() {
@@ -2781,49 +2674,30 @@ function commentOptions() {
         });
       }
 
-      var _iteratorNormalCompletion9 = true;
-      var _didIteratorError9 = false;
-      var _iteratorError9 = undefined;
+      var _iterator9 = _createForOfIteratorHelper(comment.querySelectorAll(".menuButton")),
+          _step9;
 
       try {
-        for (var _iterator9 = comment.querySelectorAll(".menuButton")[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
           var button = _step9.value;
           button.addEventListener("click", function () {
             comment.querySelector(".options-container").style.display = "block";
           });
         }
       } catch (err) {
-        _didIteratorError9 = true;
-        _iteratorError9 = err;
+        _iterator9.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion9 && _iterator9.return != null) {
-            _iterator9.return();
-          }
-        } finally {
-          if (_didIteratorError9) {
-            throw _iteratorError9;
-          }
-        }
+        _iterator9.f();
       }
     };
 
-    for (var _iterator8 = document.querySelectorAll("#nodebb-comments-list .topic-body")[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+    for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
       _loop2();
     }
   } catch (err) {
-    _didIteratorError8 = true;
-    _iteratorError8 = err;
+    _iterator8.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion8 && _iterator8.return != null) {
-        _iterator8.return();
-      }
-    } finally {
-      if (_didIteratorError8) {
-        throw _iteratorError8;
-      }
-    }
+    _iterator8.f();
   }
 }
 },{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","../onload.js":"sutU","../addons/gifs.js":"XBBC","../addons/emoji.js":"MTTM","../addons/upload.js":"w7Fc","../util.js":"VGLh","../../integration/wordpress.js":"poQx"}],"V8ra":[function(require,module,exports) {
@@ -2860,6 +2734,12 @@ var _expandComments = require("./expandComments.js");
 var _newComment = require("./newComment.js");
 
 var _drawComments = require("./drawComments.js");
+
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function loadMoreEvent() {
   var button = document.querySelector("#nodebb-load-more");
@@ -2986,12 +2866,11 @@ function newCommentsCheck() {
 
 function newerCommentsEvents() {
   document.querySelector('.newer-comments').addEventListener('click', function () {
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+    var _iterator = _createForOfIteratorHelper(_settings.commentData),
+        _step;
 
     try {
-      for (var _iterator = _settings.commentData[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var comment = _step.value;
         // console.log('comment',comment)
         var dataLevel = 0;
@@ -3039,18 +2918,9 @@ function newerCommentsEvents() {
         (0, _drawComments.addBadges)($li, comment);
       }
     } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
+      _iterator.e(err);
     } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
+      _iterator.f();
     }
 
     _settings.set.timestamp(this.getAttribute('data-timestamp'));
@@ -3090,52 +2960,33 @@ function commentSubmissionsHandler(form) {
     form.querySelector(".submit-comment").classList.add("loading-button");
     event.preventDefault();
     var inputs = {};
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
+
+    var _iterator2 = _createForOfIteratorHelper(form.querySelectorAll("input")),
+        _step2;
 
     try {
-      for (var _iterator2 = form.querySelectorAll("input")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
         var input = _step2.value;
         inputs[input.getAttribute("name")] = input.getAttribute("value");
       }
     } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
+      _iterator2.e(err);
     } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-          _iterator2.return();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
+      _iterator2.f();
     }
 
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
+    var _iterator3 = _createForOfIteratorHelper(form.querySelectorAll("textarea")),
+        _step3;
 
     try {
-      for (var _iterator3 = form.querySelectorAll("textarea")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
         var _input = _step3.value;
         inputs.content = _input.value; // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
     } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
+      _iterator3.e(err);
     } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-          _iterator3.return();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
-        }
-      }
+      _iterator3.f();
     }
 
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
@@ -3218,30 +3069,20 @@ function parentCommentSetToDefault($li) {
   $topicItem.classList.remove('replying');
   $topicItem.classList.remove('quoting'); // Hide and clear forms 
 
-  var _iteratorNormalCompletion4 = true;
-  var _didIteratorError4 = false;
-  var _iteratorError4 = undefined;
+  var _iterator4 = _createForOfIteratorHelper($li.querySelector('.topic-item').querySelectorAll('form')),
+      _step4;
 
   try {
-    for (var _iterator4 = $li.querySelector('.topic-item').querySelectorAll('form')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
       var f = _step4.value;
       f.classList.add('hidden');
       f.querySelector('textarea').value = '';
       f.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
     }
   } catch (err) {
-    _didIteratorError4 = true;
-    _iteratorError4 = err;
+    _iterator4.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-        _iterator4.return();
-      }
-    } finally {
-      if (_didIteratorError4) {
-        throw _iteratorError4;
-      }
-    }
+    _iterator4.f();
   }
 }
 
@@ -3286,9 +3127,8 @@ function formSubmitError(message, form) {
 }
 
 function setMaxHeight(comments) {
-  var _iteratorNormalCompletion5 = true;
-  var _didIteratorError5 = false;
-  var _iteratorError5 = undefined;
+  var _iterator5 = _createForOfIteratorHelper(comments.querySelectorAll('ul')),
+      _step5;
 
   try {
     var _loop = function _loop() {
@@ -3299,22 +3139,13 @@ function setMaxHeight(comments) {
       }, 1000);
     };
 
-    for (var _iterator5 = comments.querySelectorAll('ul')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
       _loop();
     }
   } catch (err) {
-    _didIteratorError5 = true;
-    _iteratorError5 = err;
+    _iterator5.e(err);
   } finally {
-    try {
-      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-        _iterator5.return();
-      }
-    } finally {
-      if (_didIteratorError5) {
-        throw _iteratorError5;
-      }
-    }
+    _iterator5.f();
   }
 }
 

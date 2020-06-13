@@ -470,30 +470,45 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
   }
 
-
-
-
   export function addBadges(li,post){   
     let pid=li.getAttribute('data-pid')
     let selectedGroups= post.user.selectedGroups;
 
     if (selectedGroups){
       for (let group of selectedGroups){
-        let groupDiv=document.createElement('div')
-        groupDiv.classList.add('group-badge')
+        if (group.name === "Bitcoin" || group.name === "Ethereum") {
+          let groupDiv=document.createElement('div')
+          groupDiv.classList.add('group-badge')
 
-        let i= document.createElement('i')
-        i.classList.add(group.icon,'fa')
+          let span = document.createElement('span');
+          span.innerText = " ";
+          span.style.backgroundColor = '#EDEDED';
 
-        let span= document.createElement('span')
-        span.innerText=group.userTitle;
-        span.style.backgroundColor=group.labelColor;
-        span.style.color= group.textColor;
+          let url = 'https://i.gyazo.com/402b6d874ee7fb62a0ccec9bd20d63dd.png';
+          let image = new Image();
+          image.src = url;
 
-        groupDiv.appendChild(i)
-        groupDiv.appendChild(span)
+          span.appendChild(image);
+          groupDiv.appendChild(span);
 
-        li.querySelector('.badges').appendChild(groupDiv) 
+          li.querySelector('.badges').appendChild(groupDiv)
+        } else if (group.name === "bitcoin.fr" || group.name === "JournalduCoin" || group.name === "Cryptoast" || group.name === "administrators") {
+          let groupDiv=document.createElement('div')
+          groupDiv.classList.add('group-badge')
+
+          let i= document.createElement('i')
+          i.classList.add(group.icon,'fa')
+
+          let span= document.createElement('span')
+          span.innerText=group.userTitle;
+          span.style.backgroundColor=group.labelColor;
+          span.style.color= group.textColor;
+
+          groupDiv.appendChild(i)
+          groupDiv.appendChild(span)
+
+          li.querySelector('.badges').appendChild(groupDiv)
+        }
       }
     }
 
