@@ -475,8 +475,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
     let selectedGroups= post.user.selectedGroups;
 
     if (selectedGroups){
+      let maxCrypto = 0;
+      let maxWebsites = 0;
       for (let group of selectedGroups){
-        if (group.name === "Bitcoin" || group.name === "Ethereum") {
+        if ((group.name === "Bitcoin" || group.name === "Ethereum") && maxCrypto<2) {
           let groupDiv=document.createElement('div')
           groupDiv.classList.add('group-badge')
 
@@ -491,8 +493,10 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           span.appendChild(image);
           groupDiv.appendChild(span);
 
+          maxCrypto = maxCrypto + 1;
+
           li.querySelector('.badges').appendChild(groupDiv)
-        } else if (group.name === "bitcoin.fr" || group.name === "JournalduCoin" || group.name === "Cryptoast" || group.name === "administrators") {
+        } else if ((group.name === "bitcoin.fr" || group.name === "JournalduCoin" || group.name === "Cryptoast" || group.name === "administrators") && maxWebsites<2) {
           let groupDiv=document.createElement('div')
           groupDiv.classList.add('group-badge')
 
@@ -515,6 +519,8 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
           span.appendChild(image);
           groupDiv.appendChild(span);
+
+          maxWebsites = maxWebsites + 1;
 
           li.querySelector('.badges').appendChild(groupDiv)
         }

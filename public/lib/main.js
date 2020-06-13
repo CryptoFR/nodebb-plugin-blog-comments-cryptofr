@@ -2137,6 +2137,9 @@ function addBadges(li, post) {
   var selectedGroups = post.user.selectedGroups;
 
   if (selectedGroups) {
+    var maxCrypto = 0;
+    var maxWebsites = 0;
+
     var _iterator3 = _createForOfIteratorHelper(selectedGroups),
         _step3;
 
@@ -2144,7 +2147,7 @@ function addBadges(li, post) {
       for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
         var group = _step3.value;
 
-        if (group.name === "Bitcoin" || group.name === "Ethereum") {
+        if ((group.name === "Bitcoin" || group.name === "Ethereum") && maxCrypto < 2) {
           var groupDiv = document.createElement('div');
           groupDiv.classList.add('group-badge');
           var span = document.createElement('span');
@@ -2155,8 +2158,9 @@ function addBadges(li, post) {
           image.src = url;
           span.appendChild(image);
           groupDiv.appendChild(span);
+          maxCrypto = maxCrypto + 1;
           li.querySelector('.badges').appendChild(groupDiv);
-        } else if (group.name === "bitcoin.fr" || group.name === "JournalduCoin" || group.name === "Cryptoast" || group.name === "administrators") {
+        } else if ((group.name === "bitcoin.fr" || group.name === "JournalduCoin" || group.name === "Cryptoast" || group.name === "administrators") && maxWebsites < 2) {
           var _groupDiv = document.createElement('div');
 
           _groupDiv.classList.add('group-badge');
@@ -2186,6 +2190,7 @@ function addBadges(li, post) {
 
           _groupDiv.appendChild(_span);
 
+          maxWebsites = maxWebsites + 1;
           li.querySelector('.badges').appendChild(_groupDiv);
         }
       }
