@@ -2161,16 +2161,28 @@ function addBadges(li, post) {
 
           _groupDiv.classList.add('group-badge');
 
-          var i = document.createElement('i');
-          i.classList.add(group.icon, 'fa');
-
           var _span = document.createElement('span');
 
-          _span.innerText = group.userTitle;
-          _span.style.backgroundColor = group.labelColor;
-          _span.style.color = group.textColor;
+          _span.innerText = " ";
 
-          _groupDiv.appendChild(i);
+          _span.classList.add('website-badge');
+
+          if (group.name === "bitcoin.fr") {
+            _span.style.backgroundColor = '#318CE7';
+          } else if (group.name === "JournalduCoin") {
+            _span.style.backgroundColor = '#01528C';
+          } else if (group.name === "administrators") {
+            group.name = CryptoFR;
+            _span.style.backgroundColor = '#434A81';
+          }
+
+          var _url = 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/' + group.name.toLowerCase() + '.svg';
+
+          var _image = new Image();
+
+          _image.src = _url;
+
+          _span.appendChild(_image);
 
           _groupDiv.appendChild(_span);
 

@@ -496,16 +496,25 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
           let groupDiv=document.createElement('div')
           groupDiv.classList.add('group-badge')
 
-          let i= document.createElement('i')
-          i.classList.add(group.icon,'fa')
+          let span = document.createElement('span');
+          span.innerText = " ";
+          span.classList.add('website-badge');
 
-          let span= document.createElement('span')
-          span.innerText=group.userTitle;
-          span.style.backgroundColor=group.labelColor;
-          span.style.color= group.textColor;
+          if (group.name === "bitcoin.fr") {
+            span.style.backgroundColor = '#318CE7';
+          } else if (group.name === "JournalduCoin") {
+            span.style.backgroundColor = '#01528C';
+          } else if (group.name === "administrators") {
+            group.name = CryptoFR;
+            span.style.backgroundColor = '#434A81';
+          }
+          
+          let url = 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/'+group.name.toLowerCase()+'.svg';
+          let image = new Image();
+          image.src = url;
 
-          groupDiv.appendChild(i)
-          groupDiv.appendChild(span)
+          span.appendChild(image);
+          groupDiv.appendChild(span);
 
           li.querySelector('.badges').appendChild(groupDiv)
         }

@@ -529,6 +529,18 @@ li > ul, li > ol {
   height: 22px;
   width: 22px;
   background: #EDEDED;
+  border-radius: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+#nodebb .group-badge span.website-badge {
+  height: 80px;
+  width: 22px;
+  background: #EDEDED;
+  border-radius: 34px;
+  display: inline-block;
+  text-align: center;
 }
 
 #nodebb .reply-label {
