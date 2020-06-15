@@ -3,7 +3,7 @@ import { gifBoxInit,grab_data } from "./gifs.js";
 import { dragElement } from "../util.js";
 
  
-  function commentEnhancementInit(){ 
+  export function commentEnhancementInit(){ 
   	emojiBoxInit();
   	gifBoxInit(); 
   	dragElement();

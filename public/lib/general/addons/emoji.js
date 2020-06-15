@@ -70,3 +70,17 @@ export function textareaFocusChangeTarget(){
   $(document).on('click','.emoji-wysiwyg-editor',focusHandler);
 
 }
+
+
+
+export function dispatchEmojis(){ 
+  var evt = new CustomEvent('dispatchEmojis', {  });
+  window.dispatchEvent(evt); 
+
+  let emojiBox= document.querySelector('.comments-enhancement-box #emoji-button')
+
+  $(emojiBox).append($('.emoji-menu'));
+
+}
+
+window.dispatchEmojis=dispatchEmojis;

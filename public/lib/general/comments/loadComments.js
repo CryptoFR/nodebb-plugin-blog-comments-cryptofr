@@ -1,10 +1,10 @@
 import { set,reload,page, commentsURL, commentData, activeUserComments, dataRes,XHR, pagination,timestamp, sorting} from "../../settings.js";
 import { addLoader } from "../util.js"; 
 import { getNewerComments } from "../api.js"; 
+
+
   /**
-   * Function that reloads all comments within the DOM
-   *
-   * CHECK TO NOT RELOAD ALWAYS
+   * Function that reloads all comments within the DOM 
    */
   export function reloadComments(pag=0,currentPage=0,showLoader=true) {
     if (currentPage>pag) {
@@ -38,16 +38,13 @@ import { getNewerComments } from "../api.js";
 
   }
 
-  // CHECK IF THERE IS NEW COMMENTS AND RELOAD DOM 
-  export function newCommentsCheck(){
-    // if (document.hasFocus()){
+  // CHECK IF THERE IS NEW COMMENTS AND RELOAD  
+  export function newCommentsCheck(){ 
       setInterval(function() { 
         
         getNewerComments(timestamp,dataRes.tid)
         .then(res => res.json())
-        .then((res) => {
-          // pegar comentario para +1
-
+        .then((res) => { 
           set.commentData(res.postsData)
 
           set.commentData(commentData.filter(p => !activeUserComments.find(z => z.pid === p.pid))) 

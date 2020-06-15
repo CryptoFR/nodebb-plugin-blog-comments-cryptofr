@@ -1,5 +1,5 @@
 import { set,firstTime,reloading,dataRes,page,sorting,postData,pagination,XHR,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,templates,reload } from "../../settings.js";
-import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis,reactElementRelocation, parseLineBreaks, parseCommentQuotes } from "./../util.js"; 
+import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,reactElementRelocation, parseLineBreaks, parseCommentQuotes } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
@@ -11,7 +11,7 @@ import { grecaptchaGrab } from '../login/modal.js';
 import { bindEvents, prepareSignout, loadMoreEvent, newerCommentsDisplayEvent } from './events.js'
 import { commentEnhancementInit } from "../addons/commentEnhancementBox.js";
 import { commentSubmissionsHandler } from "./commentSubmission.js";
-// import { emojiBoxInit } from "../addons/emoji.js";
+import { dispatchEmojis } from "../addons/emoji.js";
 // import $ from 'jquery';
 
   // window.drawComments = drawComments

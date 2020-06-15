@@ -50,7 +50,7 @@ function tenorCallback_search(responsetext){
 }
 
 // function to call the trending and category endpoints
-function grab_data(search_term){
+export function grab_data(search_term){
   // set the apikey and limit
   var apikey = "D68S16GQGKWB";
   var lmt = 30;

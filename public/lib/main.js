@@ -346,7 +346,6 @@ exports.loadScriptHead = loadScriptHead;
 exports.insertAfter = insertAfter;
 exports.changeAttribute = changeAttribute;
 exports.addClassHelper = addClassHelper;
-exports.dispatchEmojis = dispatchEmojis;
 exports.reactElementRelocation = reactElementRelocation;
 exports.getIndexesOf = getIndexesOf;
 exports.parseLineBreaks = parseLineBreaks;
@@ -552,15 +551,6 @@ function addClassHelper(element, value, classTrueValue, classFalseValue) {
 
   element.classList.add(classToAdd);
 }
-
-function dispatchEmojis() {
-  var evt = new CustomEvent('dispatchEmojis', {});
-  window.dispatchEvent(evt);
-  var emojiBox = document.querySelector('.comments-enhancement-box #emoji-button');
-  $(emojiBox).append($('.emoji-menu'));
-}
-
-window.dispatchEmojis = dispatchEmojis;
 
 function reactElementRelocation() {
   $("#buttons-container").prepend($("#root button"));
@@ -1133,30 +1123,36 @@ function collapseExpandCommentEvent() {
   try {
     var _loop = function _loop() {
       var expandableButton = _step2.value;
-      expandableButton.addEventListener('click', function (e) {
-        // collapsing
-        if (expandableButton.classList.contains('expanded')) {
-          var expandedButton = expandableButton;
-          expandedButton.classList.remove("expanded");
-          expandedButton.classList.add("collapsed");
-          var expandedComment = expandedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-          expandedComment.classList.remove("expanded");
-          expandedComment.classList.add("collapsed");
-          expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
-          expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
-        } // expanding
-        else {
-            var collapsedButton = expandableButton;
-            collapsedButton.classList.remove("collapsed");
-            collapsedButton.classList.add("expanded");
-            var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-            collapsedComment.classList.remove("collapsed");
-            collapsedComment.classList.add("expanded");
-            collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
-            expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
-            (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
-          }
-      });
+
+      if (!expandableButton.getAttribute('data-event')) {
+        expandableButton.addEventListener('click', function (e) {
+          // collapsing 
+          console.log(expandableButton);
+
+          if (expandableButton.classList.contains('expanded')) {
+            var expandedButton = expandableButton;
+            expandedButton.classList.remove("expanded");
+            expandedButton.classList.add("collapsed");
+            var expandedComment = expandedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+            expandedComment.classList.remove("expanded");
+            expandedComment.classList.add("collapsed");
+            expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
+            expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
+          } // expanding
+          else {
+              var collapsedButton = expandableButton;
+              collapsedButton.classList.remove("collapsed");
+              collapsedButton.classList.add("expanded");
+              var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+              collapsedComment.classList.remove("collapsed");
+              collapsedComment.classList.add("expanded");
+              collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
+              expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
+              (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+            }
+        });
+        expandableButton.setAttribute('data-event', true);
+      }
     };
 
     for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
@@ -1177,223 +1173,13 @@ function collapseExpandCommentEvent() {
     }
   }
 }
-},{"../util.js":"VGLh"}],"xoe6":[function(require,module,exports) {
+},{"../util.js":"VGLh"}],"XBBC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.commentSubmissionsHandler = commentSubmissionsHandler;
-exports.formSubmitError = formSubmitError;
-
-// FUNCTION FOR COMMENT SUBMISSION
-function commentSubmissionsHandler(form) {
-  if (form.getAttribute('data-event')) return;
-  form.setAttribute('data-event', 'true'); // console.log(form)
-
-  form.addEventListener('submit', function (event) {
-    form.querySelector(".submit-comment").classList.add("loading-button");
-    event.preventDefault();
-    var inputs = {};
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = form.querySelectorAll("input")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var input = _step.value;
-        inputs[input.getAttribute("name")] = input.getAttribute("value");
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = form.querySelectorAll("textarea")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var _input = _step2.value;
-        inputs.content = _input.value; // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-          _iterator2.return();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
-    }
-
-    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
-    console.log('inputs', inputs); // ERROR: Comment too short
-
-    if (inputs["content"].length < 8) {
-      formSubmitError("Message too short", form);
-      form.querySelector(".submit-comment").classList.remove("loading-button");
-    } // ERROR: Comment Too Long
-    else if (inputs["content"].length > 30000) {
-        formSubmitError("Message too Long", form);
-        form.querySelector(".submit-comment").classList.remove("loading-button");
-      } // OK! Sending Reply or Edit POST
-      else {
-          var newLi = null;
-          newFetch(form.getAttribute("action"), inputs).then(function (res) {
-            return res.json();
-          }).then(function (res) {
-            form.querySelector('button').classList.remove('loading-button');
-
-            if (/edit/.test(form.getAttribute('action'))) {
-              editActionHandler(form, inputs);
-              form.classList.add('hidden');
-              $('.editing').removeClass('hidden').removeClass('editing');
-            } else if (form.classList.contains('top-post-form')) {
-              newLi = topReplyHandler(form, res);
-            } else if (/reply/.test(form.getAttribute('action'))) {
-              form.classList.add('hidden');
-              newLi = innerReplyHandler(form, res);
-            }
-
-            if (newLi) {
-              bindEvents(res.user, newLi);
-              addBadges(newLi, res);
-              set.activeUserComments(res);
-            }
-
-            $(newLi).find('.post-body img').each(function () {
-              this.onload = function () {
-                setMaxHeight(document.getElementById('nodebb-comments-list'));
-              };
-            });
-          });
-        }
-
-    return false;
-  });
-}
-
-function editActionHandler(form, inputs) {
-  var $postBody = form.closest('div').querySelector('.post-body');
-  var content = inputs.content;
-  $postBody.innerHTML = content;
-  $postBody.setAttribute('content', content);
-  $postBody.innerHTML = parseCommentQuotes($postBody.innerHTML);
-  singleGifComment($postBody);
-  form.classList.add('hidden');
-  form.querySelector(".submit-comment").classList.remove("loading-button");
-}
-
-function topReplyHandler(form, res) {
-  var $li = document.createElement('li');
-  $li.innerHTML = parseNewComment(res, res.user, dataRes.token, res.tid);
-  $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
-  $li.setAttribute('data-pid', res.pid);
-  $li.querySelector('.post-body').innerHTML = parseCommentQuotes($li.querySelector('.post-body').innerHTML);
-  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
-  var nodebbDiv = document.getElementById("nodebb-comments-list");
-  nodebbDiv.prepend($li);
-  form.querySelector('textarea').value = '';
-  form.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
-  return $li;
-}
-
-function parentCommentSetToDefault($li) {
-  $li.classList.add('expandable');
-  $li.classList.add('expanded');
-  var $topicItem = $li.querySelector('.topic-item');
-  $topicItem.classList.remove('replying');
-  $topicItem.classList.remove('quoting'); // Hide and clear forms 
-
-  var _iteratorNormalCompletion3 = true;
-  var _didIteratorError3 = false;
-  var _iteratorError3 = undefined;
-
-  try {
-    for (var _iterator3 = $li.querySelector('.topic-item').querySelectorAll('form')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var f = _step3.value;
-      f.classList.add('hidden');
-      f.querySelector('textarea').value = '';
-      f.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
-    }
-  } catch (err) {
-    _didIteratorError3 = true;
-    _iteratorError3 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-        _iterator3.return();
-      }
-    } finally {
-      if (_didIteratorError3) {
-        throw _iteratorError3;
-      }
-    }
-  }
-}
-
-function innerReplyHandler(form, res) {
-  var $oldLi = form.closest('li');
-  parentCommentSetToDefault($oldLi);
-  var dataLevel = $oldLi.querySelector('.topic-item').getAttribute('data-level');
-  var $li = document.createElement('li');
-  $li.innerHTML = parseNewComment(res, res.user, dataRes.token, res.tid, dataLevel);
-  $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
-  $li.setAttribute('data-pid', res.pid);
-  $li.querySelector('.post-body').innerHTML = parseCommentQuotes($li.querySelector('.post-body').innerHTML);
-  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
-  singleGifComment($li.querySelector('.post-body'));
-  var parentUl = null; // Setting Parent ul to append the new li 
-
-  if (dataLevel >= '2') {
-    $li.querySelector('.topic-item').setAttribute('data-level', 2);
-    parentUl = $oldLi.parentNode.parentNode.querySelector('ul');
-    $oldLi.classList.remove('expandable');
-    $oldLi.classList.remove('expanded');
-  } else {
-    $li.querySelector('.topic-item').setAttribute('data-level', Number(dataLevel) + 1);
-    parentUl = $oldLi.querySelector('ul');
-  }
-
-  if (!parentUl) {
-    var newUL = document.createElement('ul');
-    $oldLi.append(newUL);
-    parentUl = newUL;
-  }
-
-  parentUl.prepend($li);
-  return $li;
-}
-
-function formSubmitError(message, form) {
-  form.querySelector(".nodebb-error").innerText = message;
-  setTimeout(function () {
-    form.querySelector(".nodebb-error").innerText = "";
-  }, 3000);
-}
-},{}],"XBBC":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.grab_data = grab_data;
 exports.gifBoxInit = gifBoxInit;
 exports.gifContentCheck = gifContentCheck;
 exports.singleGifComment = singleGifComment;
@@ -1601,7 +1387,276 @@ function singleGifComment(comment) {
 
   return comment;
 }
-},{"../../settings.js":"LXja","../util.js":"VGLh"}],"MTTM":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../util.js":"VGLh"}],"OGtT":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseNewComment = parseNewComment;
+
+var _settings = require("../../settings.js");
+
+var _util = require("../util.js");
+
+function parseNewComment(post, user, token, tid, dataLevel) {
+  var timestamp = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "à l'instant";
+  var newComment =
+  /*'<li data-pid="'+post.pid+'">'+*/
+  '<div class="topic-item" data-pid="' + post.pid + '" data-userslug="' + user.userslug + '" data-uid="' + post.uid + '">' + '<div class="topic-body">' + '<div class="topic-profile-pic">' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '">';
+
+  if (user.picture && user.picture.length) {
+    newComment += '<img src="' + user.picture + '" alt="' + user.username + '" class="profile-image" title="' + user.username + '">';
+  } else {
+    newComment += '<div class="profile-image" style="background-color: ' + user['icon:bgColor'] + '" title="' + user.username + '" alt="' + user.username + '">' + user['icon:text'] + '</div>';
+  }
+
+  newComment += '</a>' + '<span class="user-status user-status-comments"></span>' + '</div>' + '<div class="topic-text">' + '<div class="post-content" itemprop="text">' + '<small>' + '<a href="' + _settings.dataRes.relative_path + '/user/' + user.userslug + '" class="username" style="color: inherit; text-decoration: none;"><span data-strong-username="">' + user.username + '</span></a>' + '<div class="badges"></div>' + "<span class='post-time' data-timestamp='' title='" + (0, _util.getCurrentDate)() + "'>" + timestamp + "</span>";
+
+  if (post.isReply) {
+    newComment += '<button data-component="post/parent" class="reply-label no-select" data-topid="' + post.toPid + '">' + '<i class="icon-reply"></i> <span data-parent-username="">@' + post.parentUser.username + '</span>' + '</button>';
+  }
+
+  newComment += '<div class="menuButton-container">' + '<span class="menuButton"><i class="fad fa-caret-down"></i></span>' + '<div class="options-container">' + '<span class="edit-option"><i class="fad fa-edit"></i> Éditer</span>' + '<span class="delete-option"><i class="fad fa-trash"></i> Supprimer</span>' + '</div>' + '</div>' + '</small>' + "<div class='post-body' content=''>" + post.content + "</div>" + '<div class="nodebb-post-tools post-tools no-select">' + '<a class="upvote disabled" data-component="post/upvote" data-pid="' + post.pid + '" data-upvoted="false" data-votes="0" title="Upvote">' + '<i class="i-upvote fad fa-angle-up"></i>' + '<span class="upvote-count" style="display: none;">0</span>' + '</a>' + '<div class="posts-vote">' + '<span class="post-value">0</span>' + '</div>' + '<a class="downvote disabled" data-component="post/downvote" data-pid="' + post.pid + '" data-downvoted="false" data-votes="0" title="Downvote">' + '<i class="i-downvote fad fa-angle-down"></i>' + '</a>' + '<a class="reply" data-component="post/reply" class="reply" title="Reply">' + '<i class="fad fa-reply"></i>' + '<span class="text">Répondre</span>' + '</a>' + '<a class="quote" data-component="post/quote" class="quote" title="Quote">' + '<i class="fad fa-quote-right"></i>' + '<span class="text">Citer</span>' + '</a>' + '<a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none;display: none;" title="Quote">' + 'Effacer' + '</a>' + '<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;display: none;" title="Edit">' + 'Éditer' + '</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<form action="' + _settings.dataRes.relative_path + '/comments/reply" method="post" class="sub-reply-input hidden">' + '<strong class="nodebb-error"></strong>' + '<textarea  class="form-control" name="content" placeholder="Ecrire une réponse" rows="5" data-emojiable="true"></textarea>' + '<div class="comments-toolbar">' + '<div class="special-box">' + '<span class="special-action emojis">' + '<i class="fad fa-smile"></i>' + '</span>' + '<span class="special-action gif">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">' + '</span>' + '</div>' + '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à ' + user.username + '</button>' + '</div>' + '<input type="hidden" name="_csrf" value="' + token + '" />' + '<input type="hidden" name="tid" value="' + tid + '" />';
+
+  if (dataLevel >= 1) {
+    newComment += '<input type="hidden" name="toPid" value="' + post.toPid + '" />';
+  } else {
+    newComment += '<input type="hidden" name="toPid" value="' + post.pid + '" />';
+  }
+
+  newComment += '<input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" />' + '</form>' + '<form action="' + _settings.dataRes.relative_path + '/comments/edit/' + post.pid + '" method="post" class="sub-edit-input hidden" data-pid="' + post.pid + '">' + '<strong class="nodebb-error"></strong>' + '<textarea  class="form-control" name="content" placeholder="Edit" rows="3" data-emojiable="true"></textarea>' + '<div class="comments-toolbar">' + '<div class="special-box">' + '<span class="special-action emojis">' + '<i class="fad fa-smile"></i>' + '</span>' + '<span class="special-action gif">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">' + '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">' + '</span>' + '</div>' + '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">éditer</button>' + '</div>' + '<input type="hidden" name="_csrf" value="' + token + '" />' + '<input type="hidden" name="tid" value="' + tid + '" />' + '<input type="hidden" name="url" value="' + _settings.dataRes.redirect_url + '" />' + '</form>' + '<div data-recursive-replies=""></div>' + '</div>' + '</li>' + '<div data-recursive-replies=""></div>' + '</div>'
+  /*'</li>'*/
+  ;
+  return newComment;
+}
+},{"../../settings.js":"LXja","../util.js":"VGLh"}],"xoe6":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.commentSubmissionsHandler = commentSubmissionsHandler;
+exports.formSubmitError = formSubmitError;
+
+var _settings = require("../../settings.js");
+
+var _api = require("../api.js");
+
+var _drawComments = require("./drawComments.js");
+
+var _events = require("./events.js");
+
+var _util = require("../util.js");
+
+var _gifs = require("../addons/gifs.js");
+
+var _newComment = require("./newComment.js");
+
+// FUNCTION FOR COMMENT SUBMISSION
+function commentSubmissionsHandler(form) {
+  if (form.getAttribute('data-event')) return;
+  form.setAttribute('data-event', 'true'); // console.log(form)
+
+  form.addEventListener('submit', function (event) {
+    form.querySelector(".submit-comment").classList.add("loading-button");
+    event.preventDefault();
+    var inputs = {};
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = form.querySelectorAll("input")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var input = _step.value;
+        inputs[input.getAttribute("name")] = input.getAttribute("value");
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = form.querySelectorAll("textarea")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var _input = _step2.value;
+        inputs.content = _input.value; // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
+    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
+    console.log('inputs', inputs); // ERROR: Comment too short
+
+    if (inputs["content"].length < 8) {
+      formSubmitError("Message too short", form);
+      form.querySelector(".submit-comment").classList.remove("loading-button");
+    } // ERROR: Comment Too Long
+    else if (inputs["content"].length > 30000) {
+        formSubmitError("Message too Long", form);
+        form.querySelector(".submit-comment").classList.remove("loading-button");
+      } // OK! Sending Reply or Edit POST
+      else {
+          var newLi = null;
+          (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
+            return res.json();
+          }).then(function (res) {
+            form.querySelector('button').classList.remove('loading-button');
+
+            if (/edit/.test(form.getAttribute('action'))) {
+              editActionHandler(form, inputs);
+              form.classList.add('hidden');
+              $('.editing').removeClass('hidden').removeClass('editing');
+            } else if (form.classList.contains('top-post-form')) {
+              newLi = topReplyHandler(form, res);
+            } else if (/reply/.test(form.getAttribute('action'))) {
+              form.classList.add('hidden');
+              newLi = innerReplyHandler(form, res);
+            }
+
+            if (newLi) {
+              (0, _events.bindEvents)(res.user, newLi);
+              (0, _drawComments.addBadges)(newLi, res);
+
+              _settings.set.activeUserComments(res);
+            }
+
+            $(newLi).find('.post-body img').each(function () {
+              this.onload = function () {
+                (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+              };
+            });
+          });
+        }
+
+    return false;
+  });
+}
+
+function editActionHandler(form, inputs) {
+  var $postBody = form.closest('div').querySelector('.post-body');
+  var content = inputs.content;
+  $postBody.innerHTML = content;
+  $postBody.setAttribute('content', content);
+  $postBody.innerHTML = (0, _util.parseCommentQuotes)($postBody.innerHTML);
+  (0, _gifs.singleGifComment)($postBody);
+  form.classList.add('hidden');
+  form.querySelector(".submit-comment").classList.remove("loading-button");
+}
+
+function topReplyHandler(form, res) {
+  var $li = document.createElement('li');
+  $li.innerHTML = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid);
+  $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
+  $li.setAttribute('data-pid', res.pid);
+  $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
+  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
+  var nodebbDiv = document.getElementById("nodebb-comments-list");
+  nodebbDiv.prepend($li);
+  form.querySelector('textarea').value = '';
+  form.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+  return $li;
+}
+
+function parentCommentSetToDefault($li) {
+  $li.classList.add('expandable');
+  $li.classList.add('expanded');
+  var $topicItem = $li.querySelector('.topic-item');
+  $topicItem.classList.remove('replying');
+  $topicItem.classList.remove('quoting'); // Hide and clear forms 
+
+  var _iteratorNormalCompletion3 = true;
+  var _didIteratorError3 = false;
+  var _iteratorError3 = undefined;
+
+  try {
+    for (var _iterator3 = $li.querySelector('.topic-item').querySelectorAll('form')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      var f = _step3.value;
+      f.classList.add('hidden');
+      f.querySelector('textarea').value = '';
+      f.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+    }
+  } catch (err) {
+    _didIteratorError3 = true;
+    _iteratorError3 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+        _iterator3.return();
+      }
+    } finally {
+      if (_didIteratorError3) {
+        throw _iteratorError3;
+      }
+    }
+  }
+}
+
+function innerReplyHandler(form, res) {
+  var $oldLi = form.closest('li');
+  parentCommentSetToDefault($oldLi);
+  var dataLevel = $oldLi.querySelector('.topic-item').getAttribute('data-level');
+  var $li = document.createElement('li');
+  $li.innerHTML = (0, _newComment.parseNewComment)(res, res.user, _settings.dataRes.token, res.tid, dataLevel);
+  $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
+  $li.setAttribute('data-pid', res.pid);
+  $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
+  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
+  (0, _gifs.singleGifComment)($li.querySelector('.post-body'));
+  var parentUl = null; // Setting Parent ul to append the new li 
+
+  if (dataLevel >= '2') {
+    $li.querySelector('.topic-item').setAttribute('data-level', 2);
+    parentUl = $oldLi.parentNode.parentNode.querySelector('ul');
+    $oldLi.classList.remove('expandable');
+    $oldLi.classList.remove('expanded');
+  } else {
+    $li.querySelector('.topic-item').setAttribute('data-level', Number(dataLevel) + 1);
+    parentUl = $oldLi.querySelector('ul');
+  }
+
+  if (!parentUl) {
+    var newUL = document.createElement('ul');
+    $oldLi.append(newUL);
+    parentUl = newUL;
+  }
+
+  parentUl.prepend($li);
+  return $li;
+}
+
+function formSubmitError(message, form) {
+  form.querySelector(".nodebb-error").innerText = message;
+  setTimeout(function () {
+    form.querySelector(".nodebb-error").innerText = "";
+  }, 3000);
+}
+},{"../../settings.js":"LXja","../api.js":"gYYA","./drawComments.js":"xsmJ","./events.js":"i572","../util.js":"VGLh","../addons/gifs.js":"XBBC","./newComment.js":"OGtT"}],"MTTM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1609,6 +1664,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.emojiBoxInit = emojiBoxInit;
 exports.textareaFocusChangeTarget = textareaFocusChangeTarget;
+exports.dispatchEmojis = dispatchEmojis;
 
 var _settings = require("../../settings.js");
 
@@ -1663,6 +1719,15 @@ function textareaFocusChangeTarget() {
 
   $(document).on('click', '.emoji-wysiwyg-editor', focusHandler);
 }
+
+function dispatchEmojis() {
+  var evt = new CustomEvent('dispatchEmojis', {});
+  window.dispatchEvent(evt);
+  var emojiBox = document.querySelector('.comments-enhancement-box #emoji-button');
+  $(emojiBox).append($('.emoji-menu'));
+}
+
+window.dispatchEmojis = dispatchEmojis;
 },{"../../settings.js":"LXja","../util.js":"VGLh"}],"i572":[function(require,module,exports) {
 "use strict";
 
@@ -1687,6 +1752,8 @@ var _commentSubmission = require("./commentSubmission.js");
 var _expandComments = require("./expandComments.js");
 
 var _loadComments = require("./loadComments.js");
+
+var _newComment = require("./newComment.js");
 
 var _drawComments = require("./drawComments.js");
 
@@ -1726,7 +1793,9 @@ function bindEvents(user, li) {
     var formClass = /\/edit$/.test(dataComponent) ? ".sub-edit-input" : ".sub-reply-input";
     var elementForm = topicItem.querySelector("form" + formClass);
     var formInput = elementForm.querySelector("textarea");
-    var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
+
+    var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
+
     var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)"); // Hide all other forms
 
     if (visibleForm && visibleForm !== elementForm) {
@@ -1994,7 +2063,8 @@ function commentOptions() {
       if (comment.querySelector(".options-container .edit-option") && !comment.closest('li').getAttribute('data-event')) {
         // Edit Click
         comment.querySelector(".options-container .edit-option").addEventListener("click", function () {
-          var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
+          var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
+
           var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)");
           if (visibleForm) visibleForm.classList.add('hidden');
           $('.editing').removeClass('hidden').removeClass('editing');
@@ -2031,7 +2101,7 @@ function commentOptions() {
             (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {
               _settings.set.reload(true);
 
-              (0, _loadComments.reloadComments)(pagination, 0, false);
+              (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
             }).catch(console.log);
             (0, _util.removeNodes)(div);
           });
@@ -2101,7 +2171,7 @@ function loadMoreEvent() {
   var button = document.querySelector("#nodebb-load-more");
   button.addEventListener("click", function loadMoreClick() {
     if (!$("body").hasClass("hasLoader")) {
-      (0, _loadComments.reloadComments)(pagination + 1);
+      (0, _loadComments.reloadComments)(_settings.pagination + 1);
     }
   });
 }
@@ -2113,7 +2183,7 @@ function newerCommentsDisplayEvent() {
     var _iteratorError4 = undefined;
 
     try {
-      for (var _iterator4 = commentData[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+      for (var _iterator4 = _settings.commentData[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
         var comment = _step4.value;
         // console.log('comment',comment)
         var dataLevel = 0;
@@ -2136,7 +2206,7 @@ function newerCommentsDisplayEvent() {
         var commentTimeStamp = comment.timestamp;
         if (typeof comment.timestamp === 'number') commentTimeStamp = (0, _util.timeAgo)(comment.timestamp);
         var $li = document.createElement('li');
-        $li.innerHTML = parseNewComment(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel, commentTimeStamp);
+        $li.innerHTML = (0, _newComment.parseNewComment)(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel, commentTimeStamp);
         $li.setAttribute('data-pid', comment.pid);
         $li.querySelector('.topic-item').setAttribute('data-level', dataLevel);
 
@@ -2181,12 +2251,13 @@ function newerCommentsDisplayEvent() {
     document.querySelector('.newer-comments').style.display = "none";
   });
 }
-},{"../../settings.js":"LXja","../login/modal.js":"kjEe","../util.js":"VGLh","../api.js":"gYYA","./commentSubmission.js":"xoe6","./expandComments.js":"PCfX","./loadComments.js":"V8ra","./drawComments.js":"xsmJ","../addons/gifs.js":"XBBC","../addons/emoji.js":"MTTM"}],"f33D":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../login/modal.js":"kjEe","../util.js":"VGLh","../api.js":"gYYA","./commentSubmission.js":"xoe6","./expandComments.js":"PCfX","./loadComments.js":"V8ra","./newComment.js":"OGtT","./drawComments.js":"xsmJ","../addons/gifs.js":"XBBC","../addons/emoji.js":"MTTM"}],"f33D":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.commentEnhancementInit = commentEnhancementInit;
 exports.closeBox = closeBox;
 
 var _emoji = require("./emoji.js");
@@ -2277,7 +2348,8 @@ var _commentEnhancementBox = require("../addons/commentEnhancementBox.js");
 
 var _commentSubmission = require("./commentSubmission.js");
 
-// import { emojiBoxInit } from "../addons/emoji.js";
+var _emoji = require("../addons/emoji.js");
+
 // import $ from 'jquery';
 // window.drawComments = drawComments
 function drawComments() {
@@ -2319,7 +2391,7 @@ function drawComments() {
 
     _settings.set.activeUserCommentsReset([]);
 
-    (0, _util.dispatchEmojis)(); // emojiBoxInit();
+    (0, _emoji.dispatchEmojis)(); // emojiBoxInit();
   }
 
   (0, _util.removeLoader)();
@@ -3010,7 +3082,7 @@ function moveLoadMoreDoms() {
   $('.load-more-div').insertAfter('#nodebb-comments-list');
   document.querySelector(".load-more-text").innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
 }
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","./events.js":"i572","../addons/commentEnhancementBox.js":"f33D","./commentSubmission.js":"xoe6"}],"gYYA":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","./events.js":"i572","../addons/commentEnhancementBox.js":"f33D","./commentSubmission.js":"xoe6","../addons/emoji.js":"MTTM"}],"gYYA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3291,9 +3363,7 @@ var _util = require("../util.js");
 var _api = require("../api.js");
 
 /**
- * Function that reloads all comments within the DOM
- *
- * CHECK TO NOT RELOAD ALWAYS
+ * Function that reloads all comments within the DOM 
  */
 function reloadComments() {
   var pag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -3334,16 +3404,14 @@ function reloadComments() {
   _settings.XHR.withCredentials = true;
 
   _settings.XHR.send();
-} // CHECK IF THERE IS NEW COMMENTS AND RELOAD DOM 
+} // CHECK IF THERE IS NEW COMMENTS AND RELOAD  
 
 
 function newCommentsCheck() {
-  // if (document.hasFocus()){
   setInterval(function () {
     (0, _api.getNewerComments)(_settings.timestamp, _settings.dataRes.tid).then(function (res) {
       return res.json();
     }).then(function (res) {
-      // pegar comentario para +1
       _settings.set.commentData(res.postsData);
 
       _settings.set.commentData(_settings.commentData.filter(function (p) {

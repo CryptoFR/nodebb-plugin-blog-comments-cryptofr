@@ -208,17 +208,6 @@ import { pluginURL } from "../settings.js";
   }
  
 
-  export function dispatchEmojis(){ 
-    var evt = new CustomEvent('dispatchEmojis', {  });
-    window.dispatchEvent(evt); 
-
-    let emojiBox= document.querySelector('.comments-enhancement-box #emoji-button')
-
-    $(emojiBox).append($('.emoji-menu'));
-
-  }
-
-  window.dispatchEmojis=dispatchEmojis;
 
   export function reactElementRelocation(){
     $("#buttons-container").prepend($("#root button"));

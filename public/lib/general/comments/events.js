@@ -1,10 +1,11 @@
-import { set, dataRes } from "../../settings.js";
+import { set, dataRes, nodebbDiv, commentData, pagination } from "../../settings.js";
 import { authenticate } from "../login/modal.js"; 
 import { setMaxHeight,removeNodes,timeAgo } from "../util.js"; 
 import { downvotePost,upvotePost,deletePost,logout } from "../api.js"; 
 import { commentSubmissionsHandler } from "./commentSubmission.js"; 
 import { checkExpandableComments } from "./expandComments.js"; 
 import { reloadComments } from "./loadComments.js"; 
+import { parseNewComment } from "./newComment.js"; 
 import { addBadges } from "./drawComments.js"; 
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js"; 
 import { dispatchEmojis } from "../addons/emoji.js"; 

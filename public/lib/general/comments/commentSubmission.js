@@ -1,3 +1,10 @@
+import { set, dataRes } from "../../settings.js";
+import { newFetch } from "../api.js";
+import { addBadges } from "./drawComments.js";
+import { bindEvents } from "./events.js";
+import { setMaxHeight,parseCommentQuotes } from "../util.js";
+import { singleGifComment } from "../addons/gifs.js";
+import { parseNewComment } from "./newComment.js";
 
   // FUNCTION FOR COMMENT SUBMISSION
   export function commentSubmissionsHandler(form){
