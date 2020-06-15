@@ -301,7 +301,8 @@ import { pluginURL } from "../settings.js";
   }
 
   // Drag a window
-  export function dragElement(elmnt) {
+  export function dragElement() {
+    let elmnt=document.querySelector(".comments-enhancement-box")
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (elmnt.querySelector(".header")) {
       // if present, the header is where you move the DIV from:
@@ -369,3 +370,15 @@ import { pluginURL } from "../settings.js";
       var style = window.getComputedStyle(el);
       return (style.display === 'none')
   }
+
+
+  export function setMaxHeight(comments){
+    for (let ul of comments.querySelectorAll('ul')){
+     ul.style.maxHeight='initial';
+     setTimeout(function(){
+      ul.style.maxHeight=getComputedStyle(ul)['height']
+     },1000)
+    }
+  }
+
+  window.setMaxHeight = setMaxHeight;

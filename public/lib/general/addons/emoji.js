@@ -2,6 +2,20 @@ import { set, gifCommentBox } from "../../settings.js";
 import { debounce, isHidden } from "../util.js";
 
 export function emojiBoxInit(){ 
+
+
+    var button = document.querySelector('#emoji-button');
+    var picker = new EmojiButton();
+
+    picker.on('emoji', emoji => {
+      document.querySelector('input').value += emoji;
+    });
+
+    button.addEventListener('click', () => {
+      picker.togglePicker(button);
+    });
+
+    
   	let commentsEnhancementBox=document.querySelector(".comments-enhancement-box");
   	let emojiSelectionBox=commentsEnhancementBox.querySelector(".emoji-selection");
   	let gifSelectionBox=commentsEnhancementBox.querySelector(".gif-selection"); 

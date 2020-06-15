@@ -1,4 +1,4 @@
-import { set,pluginURL,page,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload, dataRes,firstTime } from "../../settings.js";
+import { dataRes } from "../../settings.js";
 import { getCurrentDate } from "../util.js"; 
 
 export function parseNewComment(post,user,token,tid,dataLevel,timestamp="à l'instant"){ 

@@ -1,7 +1,8 @@
-import { set,pluginURL,commentXHR,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
+import { set,XHR,signUpXHR,voteXHR,renderedCaptcha } from "../settings.js";
 import { addLoader, removeLoader } from "./util.js";
 import { grecaptchaGrab,loginError } from "./login/modal.js"; 
-import { reloadComments, createSnackbar } from "./comments/loadComments.js"; 
+import { reloadComments } from "./comments/loadComments.js"; 
+import { createSnackbar } from "./comments/drawComments.js"; 
   /**
    * Creates an XHR request. This function due to the use of the
    * global variable XHR can be a source of bugs
@@ -200,28 +201,8 @@ import { reloadComments, createSnackbar } from "./comments/loadComments.js";
       toPid: pid,
       isDownvote: isDownvote
     });
-  }
-
-  /**
-   * Bookmarks a comment
-   * @param {DOMElement} topicItem DOMElement for the comment
-   * @param {Number} pid post (comment) ID
-   * @param {Boolean} bookmarked Whether the comment has been already bookmarked or not
-   */
-   export function bookmarkPost(topicItem, pid, bookmarked) {
-    if (voteXHR.isBusy) return;
-    var voteXHRaux= voteXHR;
-    voteXHRaux.isBusy = true;
-    voteXHRaux.topicItem = topicItem;
-    voteXHRaux.isBookmark = !bookmarked;
-    set.voteXHR(voteXHRaux)
-    return newFetch(nodeBBURL + "/comments/bookmark", {
-      toPid: pid,
-      isBookmark: !bookmarked
-    });
-  }
-
-
+  } 
+  
   /**
    * Deletes a comment
    * @param {DOMElement} topicItem DOMElement for the comment

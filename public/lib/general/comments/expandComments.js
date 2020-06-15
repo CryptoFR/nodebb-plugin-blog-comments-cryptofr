@@ -4,7 +4,7 @@
 
 ***************************************/
 
-import { setMaxHeight } from "./loadComments";
+import { setMaxHeight } from "../util.js";
 
 export function checkExpandableComments() {
   for (let comment of document.querySelectorAll("#nodebb-comments-list li")) { 

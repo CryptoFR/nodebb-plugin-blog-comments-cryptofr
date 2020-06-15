@@ -1,20 +1,17 @@
-import { set,firstTime,commentData,reloading,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates,reload } from "../../settings.js";
-import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis,reactElementRelocation } from "./../util.js"; 
+import { set,firstTime,reloading,dataRes,page,sorting,postData,pagination,XHR,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,templates,reload } from "../../settings.js";
+import { removeLoader,addTimeAgoRecursive,timeAgo,normalizePost,changeAttribute,addClassHelper,removeNodes,dispatchEmojis,reactElementRelocation, parseLineBreaks, parseCommentQuotes } from "./../util.js"; 
 import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "../login/modal.js"; 
 import { addSocialAuthListeners } from "../login/social.js"; 
 import { addRegisterValidators } from "../login/form.js"; 
-import { reloadComments,commentSubmissionsHandler,loadMoreEvent,showLoadMore,hideLoadMore,addFooterText,setMaxHeight,moveLoadMoreDoms,newerCommentsEvents } from "./loadComments.js"; 
+import { reloadComments } from "./loadComments.js"; 
 import { setActiveSortingLi,setSorting } from "./sortComments.js"; 
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
-import { onLoadFunction } from "../onload.js";
-import { gifBoxInit,gifContentCheck } from "../addons/gifs.js";
-import { emojiBoxInit } from "../addons/emoji.js";
-import { uploadInit } from "../addons/upload.js";
 import { grecaptchaGrab } from '../login/modal.js';
-import { parseLineBreaks, parseCommentQuotes } from '../util.js';
-import { checkIfWpAdmin } from '../../integration/wordpress.js';
-
+import { bindEvents, prepareSignout, loadMoreEvent, newerCommentsDisplayEvent } from './events.js'
+import { commentEnhancementInit } from "../addons/commentEnhancementBox.js";
+import { commentSubmissionsHandler } from "./commentSubmission.js";
+// import { emojiBoxInit } from "../addons/emoji.js";
 // import $ from 'jquery';
 
   // window.drawComments = drawComments
@@ -50,44 +47,33 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       $("body").removeClass("loadmore")
 
       
-      if (reload && !checkIfWpAdmin()){
+      if (reload ){
         reloadComments(pagination,page+1,false)
       }  
       
 
-      prepareSignout(data.token)
-      if (checkIfWpAdmin()){
-        if (res.length<i) drawComments(res,i)
-      }
+      prepareSignout(data.token) 
 
       moveLoadMoreDoms()
 
 
-      newerCommentsEvents();
+      newerCommentsDisplayEvent();
 
       set.activeUserCommentsReset([]);
 
       dispatchEmojis();
 
-      emojiBoxInit();
+      // emojiBoxInit();
  
     } 
     
     removeLoader(); 
 
-    if (checkIfWpAdmin() || XHR.status >= 200 && XHR.status < 400) {
+    if ( XHR.status >= 200 && XHR.status < 400) {
 
       var data = {}, html;
-
-      if (!checkIfWpAdmin()){
-        data = JSON.parse(XHR.responseText)
-      } else{
-        if (!res) res =JSON.parse(XHR.responseText)
-        console.log("WpAdmin")
-        console.log(res)
-        data=res[i]
-        i++;
-      }
+ 
+      data = JSON.parse(XHR.responseText) 
 
       // /!\ DEV /!\ CHECK SORTING (Compare with LOCALSTORAGE)
       setActiveSortingLi(sorting, data.sorting);
@@ -190,8 +176,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
       nodebbDiv.innerHTML = normalizePost(html); 
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
 
-      emojiBoxInit();
-      gifBoxInit();
+      commentEnhancementInit() 
 
 
       // Add Sorts
@@ -247,228 +232,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
 
 
-
-  export function bindEvents(user,li){
-
-    function eventAuth(){
-      if (!user || !user.uid) {
-        authenticate("login");
-        return false;
-      }
-      return true;
-    }
-
-    function initClick(element){
-
-      var dataComponent = element.getAttribute("data-component"); 
-      var topicItem = event.target;
-      var upvoted = JSON.parse(element.getAttribute("data-upvoted"));
-      var downvoted = JSON.parse(element.getAttribute("data-downvoted"));
-      while (topicItem && !topicItem.classList.contains("topic-item")) {
-        topicItem = topicItem.parentElement;
-      }
-      var postBody;
-      if (/\/(quote|edit)$/.test(dataComponent)) {
-        postBody = topicItem.querySelector(".post-content .post-body");
-      }
-      var pid = topicItem.getAttribute("data-pid");
-      var uid = topicItem.getAttribute("data-uid");
-      var level = topicItem.getAttribute("data-level");
-      var formClass = /\/edit$/.test(dataComponent)
-        ? ".sub-edit-input"
-        : ".sub-reply-input"; 
-      var elementForm = topicItem.querySelector("form" + formClass);
-      var formInput = elementForm.querySelector("textarea");
-      var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");      
-      var visibleForm = nodebbCommentsList.querySelector(
-        "li .topic-item form:not(.hidden)"
-      ); 
-
-      // Hide all other forms
-      if (visibleForm && visibleForm !== elementForm) {
-        topicItem.classList.remove("replying");
-        topicItem.classList.remove("quoting");
-
-        visibleForm.classList.add("hidden");
-
-        let cl = visibleForm.closest('.replying') 
-        if (cl) {
-          // console.log('remove replying')
-          cl.classList.remove('replying')
-        }
-
-        cl = visibleForm.closest('.quoting') 
-        if (cl) {
-          // console.log('remove replying')
-          cl.classList.remove('quoting')
-        }
-      } 
-
-      return {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted} 
-    }  
-
-    let flagVote=false;
-
-    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid){
-      commentOptions(); 
-    }else{
-      removeNodes(li.querySelector(".menuButton-container"));  
-    }
-
-    li.setAttribute('data-event','true')
-
-    // Reply CLick
-    li.querySelector('[data-component="post/reply"]').addEventListener('click',function(){
-      if (!eventAuth()) return false;
-
-      $('.editing').removeClass('hidden').removeClass('editing');
-
-      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);      
-
-      
-      // Click to hide
-      if (topicItem.classList.contains("replying")){ 
-        topicItem.classList.remove("replying");
-        elementForm.classList.add("hidden");
-        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-         setMaxHeight(document.querySelector("#nodebb-comments-list"));
-      // click to reply
-      } else { 
-        formInput.value='';
-        elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''
-        topicItem.classList.add("replying");
-        topicItem.classList.remove("quoting");
-        elementForm.classList.remove("hidden");
-
-        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-         setMaxHeight(document.querySelector("#nodebb-comments-list"));
-  
-          if (level >= 2) {
-            var atStr = "@" + topicItem.getAttribute("data-userslug") + ":"; 
-            formInput.value = atStr + " ";
-            elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " "; 
-          }
-      } 
-    }) 
-
-
-    // Quote Click
-    li.querySelector('[data-component="post/quote"]').addEventListener('click',function(){
-      if (!eventAuth()) return false;
-      
-      $('.editing').removeClass('hidden').removeClass('editing');
-
-      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
-      
-      //  Click to hide
-      if (topicItem.classList.contains("quoting")){
-        topicItem.classList.remove("quoting");
-        elementForm.classList.add("hidden");
-        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-         setMaxHeight(document.querySelector("#nodebb-comments-list")); 
-        // Click to quote
-      } else { 
-        formInput.value='';
-        elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML =''; 
-        topicItem.classList.add("quoting");
-        topicItem.classList.remove("replying");
-        var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
-          return line ? "> " + line : line;
-        }).join(" \n ");
-        
-        formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-        elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-        
-        elementForm.classList.remove("hidden");
-        
-        if (!elementForm.parentNode.parentNode.classList.contains('collapsed'))
-         setMaxHeight(document.querySelector("#nodebb-comments-list"));
-      }    
-    }) 
-
-
-    // Upvote click
-    li.querySelector('[data-component="post/upvote"]').addEventListener('click',function(){
-      if (!eventAuth()) return false;
-
-      $('.editing').removeClass('hidden').removeClass('editing');
-      
-      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this); 
-        
-      if (user.uid != uid) {
-        let downvoteElement= this.parentNode.querySelector('.downvote')
-        let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
-        if (!flagVote){
-        flagVote=true;
-        upvotePost(topicItem, pid, upvoted).then(() => {
-          flagVote=false;
-          const postValue$ = this.parentNode.querySelector('span.post-value');
-          this.setAttribute('data-upvoted', !upvoted)
-          downvoteElement.setAttribute('data-downvoted', false)
-          // Removing upvote
-          if (upvoted==true) {
-           postValue$.innerText = Number(postValue$.innerHTML) - 1
-           // Upvoting a downvoted comment
-          } else if (wasDownvoted=='true'){
-             postValue$.innerText = Number(postValue$.innerHTML) + 2
-             // Upvoting a comment without vote
-           } else {
-             postValue$.innerText = Number(postValue$.innerHTML) + 1
-           }
-          }).catch(console.log);
-        }
-       }
-    })
-
-
-    // Downvote click
-    li.querySelector('[data-component="post/downvote"]').addEventListener('click',function(){
-      if (!eventAuth()) return false;
-
-      $('.editing').removeClass('hidden').removeClass('editing');    
-
-      let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this);
-      
-      if (user.uid != uid) {
-       let upvoteElement= this.parentNode.querySelector('.upvote')
-       let wasUpvoted= upvoteElement.getAttribute('data-upvoted')
-
-       if (!flagVote){
-         flagVote=true;
-         downvotePost(topicItem, pid, downvoted).then(() => {
-           flagVote=false;
-           const postValue$ = this.parentNode.querySelector('span.post-value');
-           this.setAttribute('data-downvoted', !downvoted)
-           upvoteElement.setAttribute('data-upvoted', false)
-           // Removing downvote
-           if (downvoted) {
-             postValue$.innerText = Number(postValue$.innerHTML) + 1
-             // Downvoting an upvoted comment
-           } else if (wasUpvoted=='true'){
-             postValue$.innerText = Number(postValue$.innerHTML) - 2
-             // Downvoting a comment without vote
-           } else {
-             postValue$.innerText = Number(postValue$.innerHTML) - 1
-           }
-         }).catch(console.log);
-       }
-      }
-    })
- 
-    
-      
-    for (const form of li.querySelectorAll('form')){
-      commentSubmissionsHandler(form);
-    }
-
-    gifContentCheck();
-    checkExpandableComments(); 
-
-    dispatchEmojis();
-    gifBoxInit();
-
-
-  }
 
   export function addBadges(li,post){   
     let pid=li.getAttribute('data-pid')
@@ -545,14 +308,6 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 
 
 
-
-  function prepareSignout(token){
-    // console.log('calling prepare signout', $(".logout-box"))
-    $(".logout-box").click(function(){
-      logout(token)
-      setTimeout(() => reloadComments(0, 0, false), 1000)		
-    });
-  }
 
   function checkImgProfile(){
     if (document.querySelector(".first-image img")){
@@ -760,7 +515,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
         var existingComments = document.querySelector("#nodebb-comments-list");
 
 
-          if (reloading) loadedComments=checkNewComments(existingComments,loadedComments)
+          if (reloading) loadedComments=drawCommentFromLoadMore(existingComments,loadedComments)
 
           if (div.querySelector("#nodebb-comments-list")){
             
@@ -777,15 +532,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
               // div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
             }
 
-          } 
-
-          if (checkIfWpAdmin()){
-              console.log(document.querySelectorAll("#nodebb-comments-list"))
-              for (let commentUL of document.querySelectorAll("#nodebb-comments-list")){
-                if (commentUL.getAttribute('data-mainpid')!=data.mainPost.pid)
-                  parentNodebbComments.appendChild(commentUL);
-              } 
-          }
+          }  
 
         template = div.innerHTML;
       }
@@ -799,7 +546,7 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
    * <<CORRECT>> @param {Object} data the data to be put on the template
    * @returns {Array} of loaded comments
    */
-  function checkNewComments(existingComments,loadedComments){
+  function drawCommentFromLoadMore(existingComments,loadedComments){
     for (let comment of loadedComments.querySelectorAll("li")) {
       let flag=false;
       for (let oldcomment of existingComments.querySelectorAll("li")) {
@@ -1015,107 +762,46 @@ import { checkIfWpAdmin } from '../../integration/wordpress.js';
 	  return retVal;
   }
 
+
+  export function showLoadMore(){
+    document.querySelector('#nodebb-load-more').style.display='block'  
+  }
+
+  export function hideLoadMore(){
+    document.querySelector('#nodebb-load-more').style.display='none';
+  }
+
+  export function addFooterText(){ 
+    var text = document.querySelector(".load-more-text");  
+    text.innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
+  } 
+
+
+
   /**
-   * DISPLAY OPTIONS
-   * WHY with JS??
+   * Creates a snackbar inside the dom
+   * @param {string} text text of the snackbar
+   * @param {boolean} success whether the snackbar will show a success or error message, this affects the class used by the object
    */
-  function commentOptions (){ 
 
-    $(document).click(function(e) 
-    {
-      var container = $(".menuButton"); 
-      if (!container.is(e.target) && container.has(e.target).length === 0) 
-      {
-        $(".options-container").hide();
-      }
-    });
-
-    $(document).mouseover(function(e) 
-    {
-      var container = $("#nodebb-comments-list .topic-body"); 
-      if (!container.is(e.target) && container.has(e.target).length === 0) 
-      {
-        $(".options-container").hide();
-      }
-    });
-
-    for (let comment of document.querySelectorAll("#nodebb-comments-list .topic-body")) {
-
-      if (comment.querySelector(".options-container .edit-option") && !comment.closest('li').getAttribute('data-event')){
-          
-        // Edit Click
-        comment.querySelector(".options-container .edit-option").addEventListener("click",function(){
-          
-          var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list"); 
-          var visibleForm = nodebbCommentsList.querySelector(
-              "li .topic-item form:not(.hidden)"
-            ); 
-          if (visibleForm) visibleForm.classList.add('hidden');
-
-          $('.editing').removeClass('hidden').removeClass('editing');
-          $('.replying, .quoting').removeClass('replying').removeClass('quoting');
-
-          comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
-          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content"); 
-          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText= comment.parentNode.querySelector(".post-body").getAttribute("content").replace(/<br>|&lt;br&gt;/ig,'\n').replace(/(<([^>]+)>)/ig,"");
-
-          comment.querySelector('.post-body').classList.add('hidden');
-          comment.querySelector('.post-tools').classList.add('hidden');
-          comment.querySelector('.post-body').classList.add('editing');
-          comment.querySelector('.post-tools').classList.add('editing');
-
-          setTimeout(function(){
-            setMaxHeight(document.getElementById('nodebb-comments-list'))
-          },0)          
-        })
+  window.createSnackbar = createSnackbar;
+  export function createSnackbar(text, success) {
+    var div = document.createElement("div");
+    div.classList.add("snackbar");
+    div.classList.add("show-snackbar");
+    div.classList.add(success ? "success" : "error");
+    div.innerText = text;
+    document.querySelector("body").appendChild(div);
+    setTimeout(function removeSnackbar() {
+      removeNodes(div);
+    }, 3000);
+  }
 
 
 
-        // Delete Click
-        comment.querySelector(".options-container .delete-option").addEventListener("click",function(){ 
+  export function moveLoadMoreDoms(){
+    $(".load-more-text").insertAfter('#nodebb-comments-list');
+    $('.load-more-div').insertAfter('#nodebb-comments-list');
+    document.querySelector(".load-more-text").innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + dataRes.relative_path + '/topic/' + dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>'; 
 
-          if (comment.querySelector('.confirm-delete')) return;
-
-          let div=document.createElement('div');
-          div.classList.add('confirm-delete')
-          let buttonYes=document.createElement('button')
-          buttonYes.classList.add('YesDelete')
-          buttonYes.innerText="Yes"
-          let buttonNo=document.createElement('button')
-          buttonNo.classList.add('NoDelete')
-          buttonNo.innerText="No"
-
-          let p=document.createElement('p')
-          p.innerText="Are you sure you want to delete this comment?";
-
-          div.append(p)
-          div.append(buttonYes)
-          div.append(buttonNo)
-
-          comment.append(div)
-
-          buttonYes.addEventListener('click',function(){
-            deletePost(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(() => {
-              set.reload(true)
-              reloadComments(pagination,0,false);
-            }).catch(console.log);
-            removeNodes(div)
-          })
-
-
-          buttonNo.addEventListener('click',function(){
-            removeNodes(div)
-          })
-
-        })
-
-
-      }
-
-      for (let button of comment.querySelectorAll(".menuButton")) {  
-        button.addEventListener("click",function(){ 
-          comment.querySelector(".options-container").style.display = "block";
-        })
-      }
-    }
   }

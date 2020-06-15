@@ -83,38 +83,8 @@ export function gifBoxInit(){
       commentsEnhancementBox.querySelector('.header-box .emoji-tab').classList.remove('selected')
       commentsEnhancementBox.querySelector('.header-box .gif-tab').classList.add('selected')
  
-    });
-
-
+    }); 
   }
-
-  var button = document.querySelector('#emoji-button');
-  var picker = new EmojiButton();
-
-  picker.on('emoji', emoji => {
-    document.querySelector('input').value += emoji;
-  });
-
-  button.addEventListener('click', () => {
-    picker.togglePicker(button);
-  });
-
-  dragElement(document.querySelector(".comments-enhancement-box"));
-
-  if (!document.querySelector(".gif-search").getAttribute('data-event')){
-    
-    //I'm using "click" but it works with any event 
-    // console.log(document.querySelector('.close-gif'))
-    // document.querySelector('.close-gif').addEventListener('click',closeGifBox);
-
-    $('body').on('click', '.close-gif', closeGifBox )
-
-    document.querySelector(".gif-search").addEventListener("keyup", function(event){
-      grab_data(document.querySelector(".gif-search").value)
-    });
-
-    document.querySelector(".gif-search").setAttribute('data-event','true');
-  }  
 }
   
 
@@ -148,15 +118,4 @@ export function singleGifComment(comment) {
     comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)")+5,comment.innerHTML.length);
   }
   return comment
-}
-
-// FIX CLOSE GIF
-// NOT WORKING !!
-export function closeGifBox(){
-  document.querySelector(".gifs-box").style.display="none";
-  document.querySelector(".gifs-box input").value="";
-  
-  for (let img of document.querySelectorAll("#gifs-list img")){
-   img.parentNode.removeChild(img);
-  } 
 }

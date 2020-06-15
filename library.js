@@ -2,7 +2,7 @@
   "use strict";
 
   var Comments = {};
-  const { getNestedChildren, getNestedPosts, getPostsCategory } = require("./public/lib/src/helper");
+  const { getNestedChildren, getNestedPosts, getPostsCategory } = require("./helper");
   var db = require.main.require("./src/database"),
     meta = require.main.require("./src/meta"),
     posts = require.main.require("./src/posts"),

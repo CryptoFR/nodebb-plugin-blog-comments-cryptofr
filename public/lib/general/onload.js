@@ -1,12 +1,7 @@
-import { set,dataRes,page,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../settings.js";
-import { bindOnClick,removeLoader,addTimeAgoRecursive,timeAgo,normalizePost } from "./util.js"; 
-import { prepareModal,onSubmitLogin,onSubmitSignUp,authenticate } from "./login/modal.js"; 
-import { addSocialAuthListeners } from "./login/social.js"; 
-import { addRegisterValidators } from "./login/form.js"; 
-import { reloadComments,createSnackbar } from "./comments/loadComments.js"; 
-import { setActiveSortingLi,setSorting } from "./comments/sortComments.js"; 
-import { upvotePost,downvotePost,xpost } from "./api.js";
-import { drawComments } from "./comments/drawComments.js";
+import { authXHR,signUpXHR,XHR,pagination} from "../settings.js";
+import { removeLoader } from "./util.js"; 
+import { reloadComments } from "./comments/loadComments.js"; 
+import { drawComments,createSnackbar } from "./comments/drawComments.js";
 
   export function onloadXHR(){
 
@@ -59,19 +54,4 @@ import { drawComments } from "./comments/drawComments.js";
      */
     XHR.onload = drawComments;
   }
-
-  /**
-  * Creates an auxiliary function that's used for some XHR request objects as onload callback
-  * @param {XMLHttpRequest} xhr request object
-  * @returns {Function} onload handler
-  */
-  export function onLoadFunction(xhr) {
-    setTimeout(function() {
-      return function onLoadImpl() {
-       xhr.isBusy = false;
-       console.log("reloading because aja")
-
-       reloadComments(pagination,0,false);
-      }
-    }, 500);
-  }
+ 
