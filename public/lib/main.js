@@ -3582,7 +3582,7 @@ _settings.set.templates({
   blocks: {}
 });
 
-(0, _onload.onloadXHR)();
-(0, _modal.tabIsActive)();
+(0, _onload.onloadXHR)(); // tabIsActive(); 
+
 (0, _loadComments.newCommentsCheck)();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["ZSQl"], null)
