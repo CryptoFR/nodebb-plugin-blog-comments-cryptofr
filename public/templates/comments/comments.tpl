@@ -47,7 +47,7 @@
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
 				<!-- IF userHasPicture -->
-				<img data-uid="{user.uid}" src="" class="profile-image" title="{user.username}" />
+				<img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
 				<span class="user-status user-status-main {user.status}"></span>
 				<!-- ENDIF userHasPicture -->
 
@@ -68,7 +68,7 @@
 	<!-- IF isLoggedIn -->
 		<div class="topic-profile-pic user first-image">
 			<!-- IF userHasPicture -->
-			<img data-uid="{user.uid}" src="" class="profile-image" title="{user.username}" />
+			<img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
 			<span class="user-status user-status-main {user.status}"></span>
 			<!-- ENDIF userHasPicture -->
 
@@ -94,8 +94,8 @@
 						<i class="fad fa-smile"></i>
 					</span> 
 					<span class="special-action gif">
-						<img src="" alt="add gif" class="icon inactive">
-						<img src="" alt="add gif" class="icon active">
+						<img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
+						<img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
 					</span>
 					<!-- <span class="special-action img">
 						<i class="fad fa-image"></i>
@@ -127,8 +127,7 @@
 		<button id="nodebb-load-more" class="btn-primary btn">Charger plus de commentaires...</button>
 	</div>
 	<p class="load-more-text"></p>
-
-	<!-- HOLAAAAAAAAA -->
+ 
 	<ul id="nodebb-comments-list" data-mainpid="{mainPost.pid}">
 		<!-- BEGIN posts -->
 		<li class="nodebb-post-fadein" data-pid="{posts.pid}">
@@ -137,7 +136,7 @@
 					<div class="topic-profile-pic">
 						<a href="{relative_path}/user/{user.userslug}">
 							<!-- IF user.picture.length -->
-							<img src="" alt="{user.username}" class="profile-image" title="{user.username}">
+							<img src="" data-src="{user.picture}" alt="{user.username}" class="profile-image" title="{user.username}">
 							<!-- ELSE -->
 							<div class="profile-image" style="background-color: {user.icon:bgColor}" title="{user.username}" alt="{user.username}">{user.icon:text}</div>
 							<!-- ENDIF user.picture -->

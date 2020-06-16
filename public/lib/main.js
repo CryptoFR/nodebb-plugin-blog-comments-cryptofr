@@ -2482,6 +2482,7 @@ function drawComments() {
     html = parse(data, data.template); // Appending to DOM
 
     _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html);
+    postParse(_settings.nodebbDiv);
 
     var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
 
@@ -2557,6 +2558,17 @@ function drawComments() {
   }
 
   afterCommentsDomLoaded(data, res);
+}
+
+function postParse(nodebbDiv) {
+  var inactiveGifElement = nodebbDiv.querySelector('.top-post-form .special-action.gif img.inactive');
+  if (inactiveGifElement) inactiveGifElement.setAttribute('src', inactiveGifElement.getAttribute('data-src'));
+  var activeGifElement = nodebbDiv.querySelector('.top-post-form .special-action.gif img.active');
+  if (activeGifElement) activeGifElement.setAttribute('src', activeGifElement.getAttribute('data-src'));
+  var topProfileElement = nodebbDiv.querySelector('.user-menu  .profile-image');
+  if (topProfileElement) topProfileElement.setAttribute('src', topProfileElement.getAttribute('data-src'));
+  var firstProfileElement = nodebbDiv.querySelector('.first-image .profile-image');
+  if (firstProfileElement) firstProfileElement.setAttribute('src', firstProfileElement.getAttribute('data-src'));
 }
 
 function addBadges(li, post) {

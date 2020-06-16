@@ -67,6 +67,8 @@ import { dispatchEmojis } from "../addons/emoji.js";
  
     } 
     
+
+    
     removeLoader(); 
 
     if ( XHR.status >= 200 && XHR.status < 400) {
@@ -174,6 +176,9 @@ import { dispatchEmojis } from "../addons/emoji.js";
       
       // Appending to DOM
       nodebbDiv.innerHTML = normalizePost(html); 
+
+      postParse(nodebbDiv)
+
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
 
       commentEnhancementInit() 
@@ -227,6 +232,21 @@ import { dispatchEmojis } from "../addons/emoji.js";
     }
 
     afterCommentsDomLoaded(data,res);
+
+  }
+
+
+  function postParse(nodebbDiv){
+    let inactiveGifElement=nodebbDiv.querySelector('.top-post-form .special-action.gif img.inactive')
+    if (inactiveGifElement) inactiveGifElement.setAttribute('src',inactiveGifElement.getAttribute('data-src'))
+    let activeGifElement=nodebbDiv.querySelector('.top-post-form .special-action.gif img.active')
+    if (activeGifElement) activeGifElement.setAttribute('src',activeGifElement.getAttribute('data-src'))
+
+    let topProfileElement=nodebbDiv.querySelector('.user-menu  .profile-image')
+    if (topProfileElement) topProfileElement.setAttribute('src',topProfileElement.getAttribute('data-src'))
+
+    let firstProfileElement=nodebbDiv.querySelector('.first-image .profile-image')
+    if (firstProfileElement) firstProfileElement.setAttribute('src',firstProfileElement.getAttribute('data-src'))
 
   }
 
