@@ -73,8 +73,8 @@ export function parseNewComment(post,user,token,tid,dataLevel,timestamp="à l'in
                               '<i class="fad fa-smile"></i>'+
                             '</span>'+
                             '<span class="special-action gif">'+
-                              '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
-                              '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
+                              '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
+                              '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
                             '</span>'+
                           '</div>'+
                           '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à '+user.username+'</button>'+
@@ -99,8 +99,8 @@ export function parseNewComment(post,user,token,tid,dataLevel,timestamp="à l'in
                               '<i class="fad fa-smile"></i>'+
                             '</span>'+
                             '<span class="special-action gif">'+
-                              '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
-                              '<img src="https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
+                              '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
+                              '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
                             '</span>'+
                           '</div>'+
                           '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">éditer</button>'+

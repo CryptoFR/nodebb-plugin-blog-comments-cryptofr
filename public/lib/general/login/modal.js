@@ -100,12 +100,15 @@ import { login,signUp } from "../api.js";
   export function authenticate(type) {
     // set.savedText(contentDiv.value);
     var modal = openModal(type);
-    var timer = setInterval(function() {
-      if (modal.getAttribute("data-closed") === "1") {
-        clearInterval(timer);
-        // reloadComments();
-      }
-    }, 500);
+    if (modal){
+      var timer = setInterval(function() {
+        if (modal.getAttribute("data-closed") === "1") {
+          clearInterval(timer);
+          // reloadComments();
+        }
+      }, 500); 
+    }
+
   }
 
 
@@ -116,8 +119,12 @@ import { login,signUp } from "../api.js";
    */
   function openModal(type) {
     var modalSelector = type === "login" ? "#login-modal" : "#register-modal";
+
     var modalElement = document.querySelector(modalSelector);
-    if (modalElement.getAttribute("data-closed") === "0") {
+    
+    if (!modalElement) return null;
+    
+    if ( modalElement.getAttribute("data-closed") === "0") {
       return modalElement;
     }
     modalElement.style.display = "block";

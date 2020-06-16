@@ -63,5 +63,5 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
   
   onloadXHR();
 
-  // tabIsActive(); 
+  tabIsActive(); 
   newCommentsCheck();

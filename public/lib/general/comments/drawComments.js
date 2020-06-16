@@ -177,7 +177,7 @@ import { dispatchEmojis } from "../addons/emoji.js";
       // Appending to DOM
       nodebbDiv.innerHTML = normalizePost(html); 
 
-      postParse(nodebbDiv)
+      afterParse()
 
       var nodebbCommentsList = nodebbDiv.querySelector("#nodebb-comments-list");
 
@@ -236,19 +236,18 @@ import { dispatchEmojis } from "../addons/emoji.js";
   }
 
 
-  function postParse(nodebbDiv){
-    let inactiveGifElement=nodebbDiv.querySelector('.top-post-form .special-action.gif img.inactive')
-    if (inactiveGifElement) inactiveGifElement.setAttribute('src',inactiveGifElement.getAttribute('data-src'))
-    let activeGifElement=nodebbDiv.querySelector('.top-post-form .special-action.gif img.active')
-    if (activeGifElement) activeGifElement.setAttribute('src',activeGifElement.getAttribute('data-src'))
+  function afterParse(){ 
+    for (let element of nodebbDiv.querySelectorAll('.special-action.gif img, .user-menu  .profile-image, .first-image .profile-image,.first-image .profile-image')){
+      element.setAttribute('src',element.getAttribute('data-src').replace('{relative_path}',nodeBBURL))
+    } 
 
-    let topProfileElement=nodebbDiv.querySelector('.user-menu  .profile-image')
-    if (topProfileElement) topProfileElement.setAttribute('src',topProfileElement.getAttribute('data-src'))
-
-    let firstProfileElement=nodebbDiv.querySelector('.first-image .profile-image')
-    if (firstProfileElement) firstProfileElement.setAttribute('src',firstProfileElement.getAttribute('data-src'))
+    for (let element of nodebbDiv.querySelectorAll('.alt-logins a')){
+      element.setAttribute('data-link',element.getAttribute('data-link').replace('{relative_path}',nodeBBURL))
+    } 
 
   }
+
+  window.afterParse= afterParse
 
 
 
@@ -269,7 +268,7 @@ import { dispatchEmojis } from "../addons/emoji.js";
           span.innerText = " ";
           span.classList.add('crypto-badge');
 
-          let url = 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/'+group.name.toLowerCase()+'.svg';
+          let url = nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/'+group.name.toLowerCase()+'.svg';
           let image = new Image();
           image.src = url;
 
@@ -299,7 +298,7 @@ import { dispatchEmojis } from "../addons/emoji.js";
             span.style.backgroundColor = '#1678c1';
           }
           
-          let url = 'https://testforum.cryptofr.com/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/'+group.name.toLowerCase()+'.svg';
+          let url = nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/'+group.name.toLowerCase()+'.svg';
           let image = new Image();
           image.src = url;
 
