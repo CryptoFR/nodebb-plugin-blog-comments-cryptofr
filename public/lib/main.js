@@ -1394,6 +1394,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.parseNewComment = parseNewComment;
+exports.enableVoting = enableVoting;
 
 var _settings = require("../../settings.js");
 
@@ -1429,6 +1430,11 @@ function parseNewComment(post, user, token, tid, dataLevel) {
   /*'</li>'*/
   ;
   return newComment;
+}
+
+function enableVoting(li) {
+  li.querySelector('.nodebb-post-tools .upvote').classList.remove('disabled');
+  li.querySelector('.nodebb-post-tools .downvote').classList.remove('disabled');
 }
 },{"../../settings.js":"LXja","../util.js":"VGLh"}],"xoe6":[function(require,module,exports) {
 "use strict";
@@ -2206,7 +2212,10 @@ function newerCommentsDisplayEvent() {
         var commentTimeStamp = comment.timestamp;
         if (typeof comment.timestamp === 'number') commentTimeStamp = (0, _util.timeAgo)(comment.timestamp);
         var $li = document.createElement('li');
+        console.log('comment.user', comment.user);
+        console.log('dataRes.user', _settings.dataRes.user);
         $li.innerHTML = (0, _newComment.parseNewComment)(comment, comment.user, _settings.dataRes.token, comment.tid, dataLevel, commentTimeStamp);
+        if (comment.user.uid != _settings.dataRes.user.uid) (0, _newComment.enableVoting)($li);
         $li.setAttribute('data-pid', comment.pid);
         $li.querySelector('.topic-item').setAttribute('data-level', dataLevel);
 
@@ -2227,7 +2236,7 @@ function newerCommentsDisplayEvent() {
         }
 
         $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
-        bindEvents(comment.user, $li);
+        bindEvents(_settings.dataRes.user, $li);
         (0, _drawComments.addBadges)($li, comment);
       }
     } catch (err) {

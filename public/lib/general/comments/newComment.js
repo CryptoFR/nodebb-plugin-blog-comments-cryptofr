@@ -119,3 +119,8 @@ export function parseNewComment(post,user,token,tid,dataLevel,timestamp="à l'in
               return newComment;
 
 }
+
+export function enableVoting(li){
+    li.querySelector('.nodebb-post-tools .upvote').classList.remove('disabled')
+    li.querySelector('.nodebb-post-tools .downvote').classList.remove('disabled')
+}

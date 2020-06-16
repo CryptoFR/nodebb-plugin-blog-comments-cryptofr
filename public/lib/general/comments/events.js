@@ -5,7 +5,7 @@ import { downvotePost,upvotePost,deletePost,logout } from "../api.js";
 import { commentSubmissionsHandler } from "./commentSubmission.js"; 
 import { checkExpandableComments } from "./expandComments.js"; 
 import { reloadComments } from "./loadComments.js"; 
-import { parseNewComment } from "./newComment.js"; 
+import { parseNewComment,enableVoting } from "./newComment.js"; 
 import { addBadges } from "./drawComments.js"; 
 import { gifBoxInit,gifContentCheck } from "../addons/gifs.js"; 
 import { dispatchEmojis } from "../addons/emoji.js"; 
@@ -157,7 +157,7 @@ import { dispatchEmojis } from "../addons/emoji.js";
       $('.editing').removeClass('hidden').removeClass('editing');
       
       let {topicItem,pid,uid,level,elementForm,formInput,dataComponent,postBody,upvoted,downvoted}= initClick(this); 
-        
+
       if (user.uid != uid) {
         let downvoteElement= this.parentNode.querySelector('.downvote')
         let wasDownvoted= downvoteElement.getAttribute('data-downvoted')
@@ -385,7 +385,11 @@ import { dispatchEmojis } from "../addons/emoji.js";
         if (typeof comment.timestamp === 'number') commentTimeStamp=timeAgo(comment.timestamp) 
 
         let $li = document.createElement('li') 
+        console.log('comment.user',comment.user)
+        console.log('dataRes.user',dataRes.user)
         $li.innerHTML= parseNewComment(comment,comment.user,dataRes.token,comment.tid,dataLevel,commentTimeStamp); 
+
+        if (comment.user.uid!= dataRes.user.uid) enableVoting($li);
 
         $li.setAttribute('data-pid',comment.pid)
         $li.querySelector('.topic-item').setAttribute('data-level',dataLevel)
@@ -408,7 +412,7 @@ import { dispatchEmojis } from "../addons/emoji.js";
 
         $li.querySelector('.post-body').setAttribute('content',$li.querySelector('.post-body').innerHTML)
 
-        bindEvents(comment.user,$li)
+        bindEvents(dataRes.user,$li)
         addBadges($li,comment) 
       } 
   
