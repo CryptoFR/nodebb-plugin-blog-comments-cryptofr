@@ -74,15 +74,15 @@
       callback(err, tid);
     });
   };
-  Comments.getPostCount = function(req, res) {
+  Comments.getPostCount = async function(req, res) {
     const { id, blogger } = req.query;
     const elements = Array.isArray(id) ? id : [id];
-    const t = await Promise.all(elements.map((articleID) => {
+    const t = await Promise.all(elements.map(async (articleID) => {
       const tid = await db.getObjectField(`blog-comments:${blogger}`, articleID)
       const count = await topics.getTopicField(tid, "postcount");
       return { articleID, tid, count }
     }));
-
+    return res.json(t)
   }
   Comments.getCommentData = function(req, res) {
     var commentID = req.params.id,
