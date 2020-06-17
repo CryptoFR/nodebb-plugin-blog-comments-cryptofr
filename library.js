@@ -74,6 +74,16 @@
       callback(err, tid);
     });
   };
+  Comments.getPostCount = function(req, res) {
+    const { id, blogger } = req.query;
+    const elements = Array.isArray(id) ? id : [id];
+    const t = await Promise.all(elements.map((articleID) => {
+      const tid = await db.getObjectField(`blog-comments:${blogger}`, articleID)
+      const count = await topics.getTopicField(tid, "postcount");
+      return { articleID, tid, count }
+    }));
+
+  }
   Comments.getCommentData = function(req, res) {
     var commentID = req.params.id,
       blogger = req.params.blogger || "default",
@@ -711,6 +721,7 @@
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
+    app.get('/comments/post-count', Comments.getPostCount)
     callback();
   };
 })(module);
