@@ -75,14 +75,18 @@
     });
   };
   Comments.getPostCount = async function(req, res) {
-    const { id, blogger } = req.query;
-    const elements = Array.isArray(id) ? id : [id];
-    const t = await Promise.all(elements.map(async (articleID) => {
-      const tid = await db.getObjectField(`blog-comments:${blogger}`, articleID)
+    const { query } = req.query;
+    const t = await Promise.all(query.map(async ({ blogger, id }) => {
+      const tid = await db.getObjectField(`blog-comments:${blogger}`, id)
       const count = await topics.getTopicField(tid, "postcount");
-      return { articleID, tid, count }
+      return { articleID: id, tid, count }
     }));
     return res.json(t)
+  }
+  Comments.test = function (req, res) {
+    return res.json({
+      query: req.query
+    })
   }
   Comments.getCommentData = function(req, res) {
     var commentID = req.params.id,
@@ -711,10 +715,7 @@
     app.post("/comments/edit/:pid", Comments.editPost);
     app.get("/comments/plugin/email", emailExists);
     app.get("/comments/plugin/username", userExists);
-    app.get("/comments/tids/:blogger", (req) => {
-      Comments.getCommentIdByTopicID(19014, req.params.blogger)
-    })
-
+    app.get("/comments/test", Comments.test)
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
     app.post("/comments/delete/:pid", Comments.deletePost);
