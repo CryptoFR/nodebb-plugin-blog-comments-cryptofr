@@ -15,6 +15,8 @@
     async = require.main.require("async"),
     winston = require.main.require("winston");
   var simpleRecaptcha = require.main.require("simple-recaptcha-new");
+  var TurndownService = require.main.require('turndown');
+  var turndownService = new TurndownService();
 
   module.exports = Comments;
   function CORSSafeReq(req) {
@@ -451,7 +453,7 @@
           {
             uid: uid,
             title: title,
-            content: markdown,
+            content: turndownService.turndown(markdown),
             tags: tags ? JSON.parse(tags) : [],
             req: req,
             externalLink: url, // save externalLink and externalComment to topic, only v2mm theme can do this.
