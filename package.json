@@ -37,7 +37,8 @@
     "emojione": "^4.5.0",
     "jquery": "^3.4.1",
     "rm-emoji-picker": "^0.4.0",
-    "simple-recaptcha-new": "^1.1.1"
+    "simple-recaptcha-new": "^1.1.1",
+    "turndown": "^6.0.0"
   },
   "devDependencies": {
     "parcel": "^1.12.4"
