@@ -84,6 +84,9 @@
           <span class="special-action gif">
             <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
             <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
+          </span> 
+          <span class="special-action img">
+            <i class="fad fa-image"></i>
           </span>
         </div>
         <button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à XXX</button>
@@ -104,6 +107,9 @@
           <span class="special-action gif">
             <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
             <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
+          </span> 
+          <span class="special-action img">
+            <i class="fad fa-image"></i>
           </span>
         </div>
         <button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Éditer</button>

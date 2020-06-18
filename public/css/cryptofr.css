@@ -676,6 +676,10 @@ i.i-downvote {
   display: none;
 }
 
+.nodebb-comment-counter{
+  display: none!important;
+}
+
 /***********
 
   USER CSS

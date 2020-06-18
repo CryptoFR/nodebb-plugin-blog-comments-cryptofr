@@ -12,6 +12,7 @@ import { bindEvents, prepareSignout, loadMoreEvent, newerCommentsDisplayEvent } 
 import { commentEnhancementInit } from "../addons/commentEnhancementBox.js";
 import { commentSubmissionsHandler } from "./commentSubmission.js";
 import { dispatchEmojis } from "../addons/emoji.js";
+import { uploadInit } from "../addons/upload.js";
 // import $ from 'jquery';
 
   // window.drawComments = drawComments
@@ -64,6 +65,8 @@ import { dispatchEmojis } from "../addons/emoji.js";
       dispatchEmojis();
 
       // emojiBoxInit();
+
+      uploadInit();
  
     } 
     
