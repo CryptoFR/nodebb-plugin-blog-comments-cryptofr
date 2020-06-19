@@ -14,9 +14,13 @@
     path = require.main.require("path"),
     async = require.main.require("async"),
     winston = require.main.require("winston");
+  var uploadsController = require.main.require('./src/controllers/uploads')
+  console.log('uploads controller', uploadsController)
   var simpleRecaptcha = require.main.require("simple-recaptcha-new");
   var TurndownService = require.main.require('turndown');
   var turndownService = new TurndownService();
+  var multipart = require.main.require('connect-multiparty');
+	var multipartMiddleware = multipart();
 
   module.exports = Comments;
   function CORSSafeReq(req) {
@@ -86,9 +90,8 @@
     return res.json(t)
   }
   Comments.test = function (req, res) {
-    return res.json({
-      query: req.query
-    })
+    console.log(req.files)
+    
   }
   Comments.getCommentData = function(req, res) {
     var commentID = req.params.id,
@@ -689,6 +692,7 @@
     var app = params.router,
       middleware = params.middleware,
       controllers = params.controllers;
+    console.log('middleware', middleware)
 
     const registerTemplate = (fileName, folder, key) =>
       fs.readFile(
@@ -725,6 +729,7 @@
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
     app.get('/comments/post-count', Comments.getPostCount)
+    app.post('/comments/image-upload', multipartMiddleware, middleware.validateFiles, middleware.applyCSRF, uploadsController.uploadPost);
     callback();
   };
 })(module);
