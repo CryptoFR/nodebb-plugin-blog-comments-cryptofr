@@ -117,7 +117,8 @@ import { createSnackbar } from "./comments/drawComments.js";
         headers: {
           'x-csrf-token':token
         },
-        body: formData 
+        body: formData,
+        credentials: 'include'
       })
   }
 

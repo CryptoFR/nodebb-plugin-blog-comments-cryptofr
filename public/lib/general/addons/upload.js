@@ -12,11 +12,13 @@ export function uploadInit(){
     var formData = new FormData(document.querySelector("#formupload"));
     formData.append('files[0]', $(this)[0].files[0]);
     formData.append('cid', dataRes.category.cid);
+    formData.append('_csrf', dataRes.token)
 
     console.log("formData");
     console.log(formData.get('files'))
 
     fetchFile(nodeBBURL + "/api/post/upload",dataRes.token,formData)
+      .then(res => res.json())
       .then(function(res){
         console.log('res',res);
       }).catch(function (error){

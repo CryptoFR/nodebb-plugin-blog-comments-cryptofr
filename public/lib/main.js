@@ -2345,9 +2345,12 @@ function uploadInit() {
     var formData = new FormData(document.querySelector("#formupload"));
     formData.append('files[0]', $(this)[0].files[0]);
     formData.append('cid', _settings.dataRes.category.cid);
+    formData.append('_csrf', _settings.dataRes.token);
     console.log("formData");
     console.log(formData.get('files'));
     (0, _api.fetchFile)(nodeBBURL + "/api/post/upload", _settings.dataRes.token, formData).then(function (res) {
+      return res.json();
+    }).then(function (res) {
       console.log('res', res);
     }).catch(function (error) {
       console.log('error', error);
@@ -3342,7 +3345,8 @@ function fetchFile(path, token, formData) {
     headers: {
       'x-csrf-token': token
     },
-    body: formData
+    body: formData,
+    credentials: 'include'
   });
 }
 
