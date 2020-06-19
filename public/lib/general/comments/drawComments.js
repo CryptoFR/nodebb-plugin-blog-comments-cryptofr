@@ -241,11 +241,13 @@ import { uploadInit } from "../addons/upload.js";
 
   function afterParse(){ 
     for (let element of nodebbDiv.querySelectorAll('.special-action.gif img, .user-menu  .profile-image, .first-image .profile-image,.first-image .profile-image')){
-      element.setAttribute('src',element.getAttribute('data-src').replace('{relative_path}',nodeBBURL))
+      if (element.getAttribute('data-src'))
+        element.setAttribute('src',element.getAttribute('data-src').replace('{relative_path}',nodeBBURL))
     } 
 
     for (let element of nodebbDiv.querySelectorAll('.alt-logins a')){
-      element.setAttribute('data-link',element.getAttribute('data-link').replace('{relative_path}',nodeBBURL))
+      if (element.getAttribute('data-link'))
+        element.setAttribute('data-link',element.getAttribute('data-link').replace('{relative_path}',nodeBBURL))
     } 
 
   }

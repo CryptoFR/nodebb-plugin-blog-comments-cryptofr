@@ -2602,7 +2602,7 @@ function afterParse() {
   try {
     for (var _iterator2 = _settings.nodebbDiv.querySelectorAll('.special-action.gif img, .user-menu  .profile-image, .first-image .profile-image,.first-image .profile-image')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       var element = _step2.value;
-      element.setAttribute('src', element.getAttribute('data-src').replace('{relative_path}', nodeBBURL));
+      if (element.getAttribute('data-src')) element.setAttribute('src', element.getAttribute('data-src').replace('{relative_path}', nodeBBURL));
     }
   } catch (err) {
     _didIteratorError2 = true;
@@ -2626,8 +2626,7 @@ function afterParse() {
   try {
     for (var _iterator3 = _settings.nodebbDiv.querySelectorAll('.alt-logins a')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
       var _element = _step3.value;
-
-      _element.setAttribute('data-link', _element.getAttribute('data-link').replace('{relative_path}', nodeBBURL));
+      if (_element.getAttribute('data-link')) _element.setAttribute('data-link', _element.getAttribute('data-link').replace('{relative_path}', nodeBBURL));
     }
   } catch (err) {
     _didIteratorError3 = true;
@@ -3510,6 +3509,8 @@ function newCommentsCheck() {
       return res.json();
     }).then(function (res) {
       _settings.set.commentData(res.postsData);
+
+      console.log(res);
 
       _settings.set.commentData(_settings.commentData.filter(function (p) {
         return !_settings.activeUserComments.find(function (z) {
