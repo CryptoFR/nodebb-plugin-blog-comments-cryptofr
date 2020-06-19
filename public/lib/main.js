@@ -355,6 +355,7 @@ exports.dragElement = dragElement;
 exports.debounce = debounce;
 exports.isHidden = isHidden;
 exports.setMaxHeight = setMaxHeight;
+exports.reIndexOf = reIndexOf;
 exports.bindOnClick = void 0;
 
 var _settings = require("../settings.js");
@@ -751,6 +752,16 @@ function setMaxHeight(comments) {
 }
 
 window.setMaxHeight = setMaxHeight;
+
+function reIndexOf(reIn, str, startIndex) {
+  var re = new RegExp(reIn.source, 'g' + (reIn.ignoreCase ? 'i' : '') + (reIn.multiLine ? 'm' : ''));
+  re.lastIndex = startIndex || 0;
+  var res = re.exec(str);
+  if (!res) return -1;
+  return re.lastIndex - res[0].length;
+}
+
+;
 },{"../settings.js":"LXja"}],"kjEe":[function(require,module,exports) {
 "use strict";
 
@@ -1346,14 +1357,14 @@ function gifContentCheck() {
       var comment = _step4.value;
 
       while (comment.innerText.indexOf("![") >= 0) {
-        var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, comment.innerHTML.indexOf(".gif)") + 4);
+        var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, (0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 4);
         var imgTag = "<img class='gif-post' src='" + src + "'></br>";
 
         if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]") - 6, comment.innerHTML.indexOf("![]")) != "&gt;  " && comment.innerHTML.indexOf("![]") > 1) {
           imgTag = "</br>" + imgTag;
         }
 
-        comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)") + 5, comment.innerHTML.length);
+        comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring((0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 5, comment.innerHTML.length);
       }
     }
   } catch (err) {
@@ -1379,14 +1390,14 @@ function gifContentCheck() {
 
 function singleGifComment(comment) {
   while (comment.innerText.indexOf("![") >= 0) {
-    var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, comment.innerHTML.indexOf(".gif)") + 4);
+    var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, (0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 4);
     var imgTag = "<img class='gif-post' src='" + src + "'></br>";
 
     if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]") - 6, comment.innerHTML.indexOf("![]")) != "&gt;  " && comment.innerHTML.indexOf("![]") > 1) {
       imgTag = "</br>" + imgTag;
     }
 
-    comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)") + 5, comment.innerHTML.length);
+    comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring((0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 5, comment.innerHTML.length);
   }
 
   return comment;
@@ -2329,7 +2340,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.uploadInit = uploadInit;
-exports.uploadContentCheck = uploadContentCheck;
 
 var _settings = require("../../settings.js");
 
@@ -2339,26 +2349,36 @@ var _api = require("../api.js");
 function uploadInit() {
   $(document).on('click', '.special-action.img', function () {
     $("#formupload #file").trigger("click");
+
+    _settings.set.gifCommentBox(this.closest('form').querySelector("textarea"));
   });
   $("#formupload #file").on("change", function (e) {
     e.preventDefault();
     var formData = new FormData(document.querySelector("#formupload"));
     formData.append('files[0]', $(this)[0].files[0]);
     formData.append('cid', _settings.dataRes.category.cid);
-    formData.append('_csrf', _settings.dataRes.token);
-    console.log("formData");
-    console.log(formData.get('files'));
+    formData.append('_csrf', _settings.dataRes.token); // console.log("formData");
+    // console.log(formData.get('files'))
+
+    var wysiwig = _settings.gifCommentBox.closest('form').querySelector('.emoji-wysiwyg-editor');
+
+    wysiwig.innerText += " (-Loading File-)";
+    _settings.gifCommentBox.value += " (-Loading File-)";
     (0, _api.fetchFile)(nodeBBURL + "/api/post/upload", _settings.dataRes.token, formData).then(function (res) {
       return res.json();
     }).then(function (res) {
       console.log('res', res);
+      var fileName = res[0].url.split('/')[res[0].url.split('/').length - 1];
+      var imagePath = "![" + fileName + "](" + nodeBBURL + res[0].url + ")";
+      wysiwig.innerText = wysiwig.innerText.replace('(-Loading File-)', imagePath);
+      _settings.gifCommentBox.value = _settings.gifCommentBox.value.replace('(-Loading File-)', imagePath);
+      console.log('gifCommentBox', _settings.gifCommentBox);
+      console.log('wysiwig', wysiwig);
     }).catch(function (error) {
       console.log('error', error);
     });
   });
 }
-
-function uploadContentCheck() {}
 },{"../../settings.js":"LXja","../api.js":"gYYA"}],"xsmJ":[function(require,module,exports) {
 "use strict";
 
@@ -3532,9 +3552,8 @@ function newCommentsCheck() {
     (0, _api.getNewerComments)(_settings.timestamp, _settings.dataRes.tid).then(function (res) {
       return res.json();
     }).then(function (res) {
-      _settings.set.commentData(res.postsData);
+      _settings.set.commentData(res.postsData); // console.log(res)
 
-      console.log(res);
 
       _settings.set.commentData(_settings.commentData.filter(function (p) {
         return !_settings.activeUserComments.find(function (z) {

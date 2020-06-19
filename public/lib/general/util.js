@@ -371,3 +371,12 @@ import { pluginURL } from "../settings.js";
   }
 
   window.setMaxHeight = setMaxHeight;
+
+
+  export function reIndexOf(reIn, str, startIndex) {
+      var re = new RegExp(reIn.source, 'g' + (reIn.ignoreCase ? 'i' : '') + (reIn.multiLine ? 'm' : ''));
+      re.lastIndex = startIndex || 0;
+      var res = re.exec(str);
+      if(!res) return -1;
+      return re.lastIndex - res[0].length;
+  };

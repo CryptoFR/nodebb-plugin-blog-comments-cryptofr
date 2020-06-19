@@ -1,5 +1,5 @@
 import { set, gifCommentBox } from "../../settings.js";
-import { dragElement,debounce } from '../util.js';
+import { dragElement,debounce,reIndexOf } from '../util.js';
 
 // url Async requesting function
 function httpGetAsync(theUrl, callback){
@@ -92,13 +92,14 @@ export function gifBoxInit(){
 export function gifContentCheck(){
   for (let comment of document.querySelectorAll(".post-body")){
     while (comment.innerText.indexOf("![")>=0){
-      let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,comment.innerHTML.indexOf(".gif)")+4)
+
+      let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+4)
       let imgTag="<img class='gif-post' src='"+src+"'></br>";
 
       if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]")-6,comment.innerHTML.indexOf("![]"))!="&gt;  " && comment.innerHTML.indexOf("![]") > 1){
         imgTag="</br>"+imgTag;
       }
-      comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)")+5,comment.innerHTML.length);
+      comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+5,comment.innerHTML.length);
     }
   }
 }
@@ -109,13 +110,13 @@ export function gifContentCheck(){
  */
 export function singleGifComment(comment) {
   while (comment.innerText.indexOf("![")>=0){
-    let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,comment.innerHTML.indexOf(".gif)")+4)
+    let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+4)
     let imgTag="<img class='gif-post' src='"+src+"'></br>";
 
     if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]")-6,comment.innerHTML.indexOf("![]"))!="&gt;  " && comment.innerHTML.indexOf("![]") > 1){
       imgTag="</br>"+imgTag;
     }
-    comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(comment.innerHTML.indexOf(".gif)")+5,comment.innerHTML.length);
+    comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+5,comment.innerHTML.length);
   }
   return comment
 }
