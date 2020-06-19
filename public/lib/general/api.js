@@ -111,6 +111,16 @@ import { createSnackbar } from "./comments/drawComments.js";
     })
   }
 
+  export function fetchFile(path, token,formData){
+    return fetch(path, { // Your POST endpoint
+        method: 'POST',
+        headers: {
+          'x-csrf-token':token
+        },
+        body: formData 
+      })
+  }
+
 
   export function getNewerComments(timestamp,tid){
     return newFetchGet(nodeBBURL + "/comments/new/" + tid + "/" + timestamp); 
