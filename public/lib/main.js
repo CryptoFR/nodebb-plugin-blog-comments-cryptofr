@@ -2340,16 +2340,15 @@ function uploadInit() {
   $(document).on('click', '.special-action.img', function () {
     $("#formupload #file").trigger("click");
   });
+  console.log('formupload', $("#formupload #file"));
   $("#formupload #file").on("change", function (e) {
     e.preventDefault();
     var formData = new FormData(document.querySelector("#formupload"));
-    formData.append('files', $(this)[0].files[0]);
+    formData.append('files[0]', $(this)[0].files[0]);
     formData.append('cid', _settings.dataRes.category.cid);
     console.log("formData");
     console.log(formData.get('files'));
     (0, _api.fetchFile)(nodeBBURL + "/api/post/upload", _settings.dataRes.token, formData).then(function (res) {
-      return res.json();
-    }).then(function (res) {
       console.log('res', res);
     }).catch(function (error) {
       console.log('error', error);
