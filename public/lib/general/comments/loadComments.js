@@ -47,6 +47,8 @@ import { getNewerComments } from "../api.js";
         .then((res) => { 
           set.commentData(res.postsData)
 
+          console.log(res)
+
           set.commentData(commentData.filter(p => !activeUserComments.find(z => z.pid === p.pid))) 
 
           if (commentData.length>0){

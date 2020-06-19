@@ -76,6 +76,9 @@ export function parseNewComment(post,user,token,tid,dataLevel,timestamp="à l'in
                               '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
                               '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
                             '</span>'+
+                            '<span class="special-action img">'+
+                              '<i class="fad fa-image"></i>'+
+                            '</span>'+
                           '</div>'+
                           '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">Répondre à '+user.username+'</button>'+
                         '</div>'+
@@ -101,6 +104,9 @@ export function parseNewComment(post,user,token,tid,dataLevel,timestamp="à l'in
                             '<span class="special-action gif">'+
                               '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">'+
                               '<img src="'+nodeBBURL+'/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">'+
+                            '</span>'+
+                            '<span class="special-action img">'+
+                              '<i class="fad fa-image"></i>'+
                             '</span>'+
                           '</div>'+
                           '<button data-reply-button="" class="submit-comment btn btn-primary" type="submit">éditer</button>'+

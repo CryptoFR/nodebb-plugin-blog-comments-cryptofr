@@ -12,6 +12,7 @@ import { bindEvents, prepareSignout, loadMoreEvent, newerCommentsDisplayEvent } 
 import { commentEnhancementInit } from "../addons/commentEnhancementBox.js";
 import { commentSubmissionsHandler } from "./commentSubmission.js";
 import { dispatchEmojis } from "../addons/emoji.js";
+import { uploadInit } from "../addons/upload.js";
 // import $ from 'jquery';
 
   // window.drawComments = drawComments
@@ -64,6 +65,8 @@ import { dispatchEmojis } from "../addons/emoji.js";
       dispatchEmojis();
 
       // emojiBoxInit();
+
+      uploadInit();
  
     } 
     
@@ -238,11 +241,13 @@ import { dispatchEmojis } from "../addons/emoji.js";
 
   function afterParse(){ 
     for (let element of nodebbDiv.querySelectorAll('.special-action.gif img, .user-menu  .profile-image, .first-image .profile-image,.first-image .profile-image')){
-      element.setAttribute('src',element.getAttribute('data-src').replace('{relative_path}',nodeBBURL))
+      if (element.getAttribute('data-src'))
+        element.setAttribute('src',element.getAttribute('data-src').replace('{relative_path}',nodeBBURL))
     } 
 
     for (let element of nodebbDiv.querySelectorAll('.alt-logins a')){
-      element.setAttribute('data-link',element.getAttribute('data-link').replace('{relative_path}',nodeBBURL))
+      if (element.getAttribute('data-link'))
+        element.setAttribute('data-link',element.getAttribute('data-link').replace('{relative_path}',nodeBBURL))
     } 
 
   }
