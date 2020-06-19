@@ -2331,6 +2331,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.uploadInit = uploadInit;
 exports.uploadContentCheck = uploadContentCheck;
 
+var _settings = require("../../settings.js");
+
+var _api = require("../api.js");
+
 /******* UPLOAD FILES *******/
 function uploadInit() {
   $(document).on('click', '.special-action.img', function () {
@@ -2339,16 +2343,22 @@ function uploadInit() {
   $("#formupload #file").on("change", function (e) {
     e.preventDefault();
     var formData = new FormData(document.querySelector("#formupload"));
-    formData.append('img', $(this)[0].files[0]);
+    formData.append('files', $(this)[0].files[0]);
+    formData.append('cid', _settings.dataRes.category.cid);
     console.log("formData");
-    console.log(formData.get('file')); // api to post image
-    // return path string ![] and write it on the textarea/wysiwig
-    // uploadContentCheck()
+    console.log(formData.get('files'));
+    (0, _api.fetchFile)(nodeBBURL + "/api/post/upload", _settings.dataRes.token, formData).then(function (res) {
+      return res.json();
+    }).then(function (res) {
+      console.log('res', res);
+    }).catch(function (error) {
+      console.log('error', error);
+    });
   });
 }
 
 function uploadContentCheck() {}
-},{}],"xsmJ":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../api.js":"gYYA"}],"xsmJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3190,6 +3200,7 @@ exports.xget = xget;
 exports.xpost = xpost;
 exports.newFetch = newFetch;
 exports.newFetchGet = newFetchGet;
+exports.fetchFile = fetchFile;
 exports.getNewerComments = getNewerComments;
 exports.upvotePost = upvotePost;
 exports.login = login;
@@ -3323,6 +3334,17 @@ function newFetchGet(path) {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     credentials: 'include'
+  });
+}
+
+function fetchFile(path, token, formData) {
+  return fetch(path, {
+    // Your POST endpoint
+    method: 'POST',
+    headers: {
+      'x-csrf-token': token
+    },
+    body: formData
   });
 }
 

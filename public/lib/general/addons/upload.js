@@ -1,3 +1,6 @@
+import { dataRes } from "../../settings.js";
+import { fetchFile } from "../api.js";
+
 /******* UPLOAD FILES *******/
 
 export function uploadInit(){
@@ -8,16 +11,19 @@ export function uploadInit(){
 	$("#formupload #file").on("change", function (e) {
     e.preventDefault();
     var formData = new FormData(document.querySelector("#formupload"));
-    formData.append('img', $(this)[0].files[0]);
+    formData.append('files', $(this)[0].files[0]);
+    formData.append('cid', dataRes.category.cid);
 
     console.log("formData");
-    console.log(formData.get('file'))
+    console.log(formData.get('files'))
 
-    // api to post image
-
-      // return path string ![] and write it on the textarea/wysiwig
-
-      // uploadContentCheck()
+    fetchFile(nodeBBURL + "/api/post/upload",dataRes.token,formData)
+      .then(res => res.json())
+      .then(function(res){
+        console.log('res',res);
+      }).catch(function (error){
+        console.log('error',error);
+      });  
   });        
 
 }
