@@ -2340,7 +2340,6 @@ function uploadInit() {
   $(document).on('click', '.special-action.img', function () {
     $("#formupload #file").trigger("click");
   });
-  console.log('formupload', $("#formupload #file"));
   $("#formupload #file").on("change", function (e) {
     e.preventDefault();
     var formData = new FormData(document.querySelector("#formupload"));
