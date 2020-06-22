@@ -91,16 +91,7 @@ export function gifBoxInit(){
 // CHECK CONTENT
 export function gifContentCheck(){
   for (let comment of document.querySelectorAll(".post-body")){
-    while (comment.innerText.indexOf("![")>=0){
-
-      let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+4)
-      let imgTag="<img class='gif-post' src='"+src+"'></br>";
-
-      if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]")-6,comment.innerHTML.indexOf("![]"))!="&gt;  " && comment.innerHTML.indexOf("![]") > 1){
-        imgTag="</br>"+imgTag;
-      }
-      comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+5,comment.innerHTML.length);
-    }
+    singleGifComment(comment);
   }
 }
 
@@ -109,6 +100,7 @@ export function gifContentCheck(){
  * @param {HTMLDivElement} comment comment div
  */
 export function singleGifComment(comment) {
+  var converter = new window.showdown.Converter();
   while (comment.innerText.indexOf("![")>=0){
     let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+4)
     let imgTag="<img class='gif-post' src='"+src+"'></br>";
@@ -118,5 +110,6 @@ export function singleGifComment(comment) {
     }
     comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+5,comment.innerHTML.length);
   }
+  comment.innerHTML=converter.makeHtml(comment.innerHTML);
   return comment
 }

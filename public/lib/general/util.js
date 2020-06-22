@@ -271,6 +271,8 @@ import { pluginURL } from "../settings.js";
     return comment;
   }
 
+  window.parseCommentQuotes=parseCommentQuotes;
+
   export function getCoords(elem) { // crossbrowser version
     var box = elem.getBoundingClientRect();
 

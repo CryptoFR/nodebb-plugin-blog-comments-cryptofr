@@ -625,6 +625,8 @@ function parseCommentQuotes(comment) {
   return comment;
 }
 
+window.parseCommentQuotes = parseCommentQuotes;
+
 function getCoords(elem) {
   // crossbrowser version
   var box = elem.getBoundingClientRect();
@@ -1355,17 +1357,7 @@ function gifContentCheck() {
   try {
     for (var _iterator4 = document.querySelectorAll(".post-body")[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
       var comment = _step4.value;
-
-      while (comment.innerText.indexOf("![") >= 0) {
-        var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, (0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 4);
-        var imgTag = "<img class='gif-post' src='" + src + "'></br>";
-
-        if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]") - 6, comment.innerHTML.indexOf("![]")) != "&gt;  " && comment.innerHTML.indexOf("![]") > 1) {
-          imgTag = "</br>" + imgTag;
-        }
-
-        comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring((0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 5, comment.innerHTML.length);
-      }
+      singleGifComment(comment);
     }
   } catch (err) {
     _didIteratorError4 = true;
@@ -1389,6 +1381,8 @@ function gifContentCheck() {
 
 
 function singleGifComment(comment) {
+  var converter = new window.showdown.Converter();
+
   while (comment.innerText.indexOf("![") >= 0) {
     var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, (0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 4);
     var imgTag = "<img class='gif-post' src='" + src + "'></br>";
@@ -1400,6 +1394,7 @@ function singleGifComment(comment) {
     comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring((0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 5, comment.innerHTML.length);
   }
 
+  comment.innerHTML = converter.makeHtml(comment.innerHTML);
   return comment;
 }
 },{"../../settings.js":"LXja","../util.js":"VGLh"}],"OGtT":[function(require,module,exports) {
@@ -3095,7 +3090,8 @@ function createNestedComments(comments, template, otherData) {
     (0, _util.addClassHelper)(clone.querySelector("i.i-bookmark"), comment.bookmarked, "icon-bookmark", "icon-bookmark-empty");
     (0, _util.addClassHelper)(clone.querySelector("i.i-downvote"), comment.downvoted, "icon-thumbs-down-alt", "icon-thumbs-down");
     clone.querySelector("div.post-body").setAttribute("content", comment.content);
-    clone.querySelector("div.post-body").innerHTML = (0, _util.parseCommentQuotes)(comment.content);
+    clone.querySelector("div.post-body").innerHTML = comment.content;
+    clone.querySelector("div.post-body").innerHTML = (0, _util.parseCommentQuotes)(clone.querySelector("div.post-body").innerHTML);
     clone.querySelector("div.post-body").innerHTML = (0, _util.parseLineBreaks)(clone.querySelector("div.post-body").innerHTML);
     var img = clone.querySelector("img.profile-image");
     var divImgText = clone.querySelector("div.profile-image");
@@ -3666,6 +3662,7 @@ document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<d
 _settings.set.nodebbDiv(document.getElementById("nodebb"));
 
 (0, _util.loadScript)("https://www.google.com/recaptcha/api.js");
+(0, _util.loadScript)("https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js");
 setTimeout(_modal.grecaptchaGrab, 1000);
 
 _settings.set.pagination(0);

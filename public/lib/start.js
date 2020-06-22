@@ -22,6 +22,7 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
   set.nodebbDiv(document.getElementById("nodebb"));
 
   loadScript("https://www.google.com/recaptcha/api.js"); 
+  loadScript("https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"); 
 
 
   setTimeout(grecaptchaGrab, 1000);

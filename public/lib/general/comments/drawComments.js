@@ -714,7 +714,8 @@ import { uploadInit } from "../addons/upload.js";
 	      "icon-thumbs-down"
 	    );
 	    clone.querySelector("div.post-body").setAttribute("content",comment.content)
-	    clone.querySelector("div.post-body").innerHTML = parseCommentQuotes(comment.content)
+      clone.querySelector("div.post-body").innerHTML = comment.content;
+	    clone.querySelector("div.post-body").innerHTML = parseCommentQuotes(clone.querySelector("div.post-body").innerHTML)
       clone.querySelector("div.post-body").innerHTML = parseLineBreaks(clone.querySelector("div.post-body").innerHTML);
 
 
