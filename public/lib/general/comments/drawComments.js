@@ -222,7 +222,6 @@ import { uploadInit } from "../addons/upload.js";
 
       for (let li of nodebbCommentsList.querySelectorAll('li') ){
         if (!li.getAttribute('data-event')){
-          li.querySelector('.post-body').innerHTML=li.querySelector('.post-body').innerHTML.replace('\n','<br>')
           bindEvents(data.user,li)
           let post= data.posts.find(p => p.pid == li.getAttribute('data-pid'))
           if (post && li.closest('ul').getAttribute('id')=='nodebb-comments-list'){
@@ -716,7 +715,14 @@ import { uploadInit } from "../addons/upload.js";
 	    clone.querySelector("div.post-body").setAttribute("content",comment.content)
       clone.querySelector("div.post-body").innerHTML = comment.content;
 	    clone.querySelector("div.post-body").innerHTML = parseCommentQuotes(clone.querySelector("div.post-body").innerHTML)
+
+      console.log(clone.querySelector("div.post-body").innerHTML)
+
+
       clone.querySelector("div.post-body").innerHTML = parseLineBreaks(clone.querySelector("div.post-body").innerHTML);
+
+      console.log(clone.querySelector("div.post-body").innerHTML)
+
 
 
 	    var img = clone.querySelector("img.profile-image");

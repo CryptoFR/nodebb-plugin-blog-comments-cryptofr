@@ -584,9 +584,12 @@ function getIndexesOf(searchStr, str, caseSensitive) {
 
 function parseLineBreaks(comment) {
   var comment = comment.split("\n").join("<br>");
+  comment = comment.replace(/(\<\s*br\s*\>\s*){2,}/gm, "<br>");
+  comment = comment.replace(/^(\<br\>)+/m, "");
   return comment;
-} // PARSE QUOTES (FAIL)
+}
 
+window.parseLineBreaks = parseLineBreaks; // PARSE QUOTES (FAIL)
 
 function parseCommentQuotes(comment) {
   var quotesChar = comment.split(/^\>|&gt;/gm); // Matches to first > character in each line
@@ -1264,7 +1267,12 @@ function tenorCallback_search(responsetext) {
       element.src = img["media"][0]["nanogif"]["url"];
       element.classList.add("gifs-result");
       element.addEventListener("click", function (event) {
-        _settings.gifCommentBox.value = _settings.gifCommentBox.value + "\n ![](" + img["media"][0]["nanogif"]["url"] + ")";
+        _settings.gifCommentBox.value = _settings.gifCommentBox.value + " ![](" + img["media"][0]["nanogif"]["url"] + ")";
+
+        if (_settings.gifCommentBox.value.startsWith('\n')) {
+          _settings.gifCommentBox.value = _settings.gifCommentBox.value.substring(2);
+        }
+
         _settings.gifCommentBox.parentNode.querySelector(".emoji-wysiwyg-editor").innerText = _settings.gifCommentBox.value;
       });
       document.querySelector("#gifs-list").appendChild(element);
@@ -1580,6 +1588,7 @@ function editActionHandler(form, inputs) {
   $postBody.innerHTML = content;
   $postBody.setAttribute('content', content);
   $postBody.innerHTML = (0, _util.parseCommentQuotes)($postBody.innerHTML);
+  $postBody.innerHTML = (0, _util.parseLineBreaks)($postBody.innerHTML);
   (0, _gifs.singleGifComment)($postBody);
   form.classList.add('hidden');
   form.querySelector(".submit-comment").classList.remove("loading-button");
@@ -1591,7 +1600,7 @@ function topReplyHandler(form, res) {
   $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
   $li.setAttribute('data-pid', res.pid);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
-  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
+  $li.querySelector('.post-body').innerHTML = (0, _util.parseLineBreaks)($li.querySelector('.post-body').innerHTML);
   var nodebbDiv = document.getElementById("nodebb-comments-list");
   nodebbDiv.prepend($li);
   form.querySelector('textarea').value = '';
@@ -1642,7 +1651,7 @@ function innerReplyHandler(form, res) {
   $li.querySelector('.post-body').setAttribute('content', $li.querySelector('.post-body').innerHTML);
   $li.setAttribute('data-pid', res.pid);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
-  $li.querySelector('.post-body').innerHTML = $li.querySelector('.post-body').innerHTML.replace(/\n/gim, '<br>');
+  $li.querySelector('.post-body').innerHTML = (0, _util.parseLineBreaks)($li.querySelector('.post-body').innerHTML);
   (0, _gifs.singleGifComment)($li.querySelector('.post-body'));
   var parentUl = null; // Setting Parent ul to append the new li 
 
@@ -2585,7 +2594,6 @@ function drawComments() {
         var li = _step.value;
 
         if (!li.getAttribute('data-event')) {
-          li.querySelector('.post-body').innerHTML = li.querySelector('.post-body').innerHTML.replace('\n', '<br>');
           (0, _events.bindEvents)(data.user, li);
 
           var _post = data.posts.find(function (p) {
@@ -3092,7 +3100,9 @@ function createNestedComments(comments, template, otherData) {
     clone.querySelector("div.post-body").setAttribute("content", comment.content);
     clone.querySelector("div.post-body").innerHTML = comment.content;
     clone.querySelector("div.post-body").innerHTML = (0, _util.parseCommentQuotes)(clone.querySelector("div.post-body").innerHTML);
+    console.log(clone.querySelector("div.post-body").innerHTML);
     clone.querySelector("div.post-body").innerHTML = (0, _util.parseLineBreaks)(clone.querySelector("div.post-body").innerHTML);
+    console.log(clone.querySelector("div.post-body").innerHTML);
     var img = clone.querySelector("img.profile-image");
     var divImgText = clone.querySelector("div.profile-image");
 
@@ -3662,7 +3672,6 @@ document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<d
 _settings.set.nodebbDiv(document.getElementById("nodebb"));
 
 (0, _util.loadScript)("https://www.google.com/recaptcha/api.js");
-(0, _util.loadScript)("https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js");
 setTimeout(_modal.grecaptchaGrab, 1000);
 
 _settings.set.pagination(0);

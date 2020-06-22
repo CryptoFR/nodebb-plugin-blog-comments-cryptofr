@@ -2,7 +2,7 @@ import { set, dataRes } from "../../settings.js";
 import { newFetch } from "../api.js";
 import { addBadges } from "./drawComments.js";
 import { bindEvents } from "./events.js";
-import { setMaxHeight,parseCommentQuotes } from "../util.js";
+import { setMaxHeight,parseCommentQuotes,parseLineBreaks } from "../util.js";
 import { singleGifComment } from "../addons/gifs.js";
 import { parseNewComment } from "./newComment.js";
 
@@ -80,6 +80,7 @@ import { parseNewComment } from "./newComment.js";
     $postBody.innerHTML = content;
     $postBody.setAttribute('content',content)
     $postBody.innerHTML=parseCommentQuotes($postBody.innerHTML)
+    $postBody.innerHTML=parseLineBreaks($postBody.innerHTML)
 
     singleGifComment($postBody) 
 
@@ -94,7 +95,7 @@ import { parseNewComment } from "./newComment.js";
     $li.setAttribute('data-pid',res.pid)
     
     $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
-    $li.querySelector('.post-body').innerHTML=$li.querySelector('.post-body').innerHTML.replace(/\n/gim,'<br>')
+    $li.querySelector('.post-body').innerHTML=parseLineBreaks($li.querySelector('.post-body').innerHTML)
 
     const nodebbDiv= document.getElementById("nodebb-comments-list")
     nodebbDiv.prepend($li)
@@ -137,7 +138,7 @@ import { parseNewComment } from "./newComment.js";
 
     $li.setAttribute('data-pid',res.pid) 
     $li.querySelector('.post-body').innerHTML=parseCommentQuotes($li.querySelector('.post-body').innerHTML)
-    $li.querySelector('.post-body').innerHTML=$li.querySelector('.post-body').innerHTML.replace(/\n/gim,'<br>')
+    $li.querySelector('.post-body').innerHTML=parseLineBreaks($li.querySelector('.post-body').innerHTML)
 
     singleGifComment($li.querySelector('.post-body')) 
     
