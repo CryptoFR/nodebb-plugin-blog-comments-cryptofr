@@ -14,8 +14,6 @@
     path = require.main.require("path"),
     async = require.main.require("async"),
     winston = require.main.require("winston");
-  var uploadsController = require.main.require('./src/controllers/uploads')
-  console.log('uploads controller', uploadsController)
   var simpleRecaptcha = require.main.require("simple-recaptcha-new");
   var TurndownService = require.main.require('turndown');
   var turndownService = new TurndownService();
@@ -729,7 +727,6 @@
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
     app.get('/comments/post-count', Comments.getPostCount)
-    app.post('/comments/image-upload', multipartMiddleware, middleware.validateFiles, middleware.applyCSRF, uploadsController.uploadPost);
     callback();
   };
 })(module);
