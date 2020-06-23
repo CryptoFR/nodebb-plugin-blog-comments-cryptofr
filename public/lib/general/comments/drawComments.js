@@ -716,14 +716,7 @@ import { uploadInit } from "../addons/upload.js";
       clone.querySelector("div.post-body").innerHTML = comment.content;
 	    clone.querySelector("div.post-body").innerHTML = parseCommentQuotes(clone.querySelector("div.post-body").innerHTML)
 
-      console.log(clone.querySelector("div.post-body").innerHTML)
-
-
       clone.querySelector("div.post-body").innerHTML = parseLineBreaks(clone.querySelector("div.post-body").innerHTML);
-
-      console.log(clone.querySelector("div.post-body").innerHTML)
-
-
 
 	    var img = clone.querySelector("img.profile-image");
 	    var divImgText = clone.querySelector("div.profile-image");

@@ -41,7 +41,7 @@ function tenorCallback_search(responsetext){
     element.src=img["media"][0]["nanogif"]["url"];
     element.classList.add("gifs-result");
     element.addEventListener("click", function(event){
-      gifCommentBox.value= gifCommentBox.value + " ![]("+img["media"][0]["nanogif"]["url"]+")";
+      gifCommentBox.value= gifCommentBox.value + "\n ![]("+img["media"][0]["nanogif"]["url"]+")";
       if (gifCommentBox.value.startsWith('\n')) { gifCommentBox.value=gifCommentBox.value.substring(2) }
       gifCommentBox.parentNode.querySelector(".emoji-wysiwyg-editor").innerText= gifCommentBox.value;
     });
@@ -104,10 +104,10 @@ export function singleGifComment(comment) {
   var converter = new window.showdown.Converter();
   while (comment.innerText.indexOf("![")>=0){
     let src=comment.innerHTML.substring(comment.innerHTML.indexOf("](")+2,reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+4)
-    let imgTag="<img class='gif-post' src='"+src+"'></br>";
+    let imgTag="<img class='gif-post' src='"+src+"'>";
 
     if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]")-6,comment.innerHTML.indexOf("![]"))!="&gt;  " && comment.innerHTML.indexOf("![]") > 1){
-      imgTag="</br>"+imgTag;
+      imgTag=imgTag;
     }
     comment.innerHTML=comment.innerHTML.substring(0,comment.innerHTML.indexOf("!["))+" "+imgTag+" "+comment.innerHTML.substring(reIndexOf(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML)+5,comment.innerHTML.length);
   }

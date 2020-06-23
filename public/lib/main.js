@@ -1267,7 +1267,7 @@ function tenorCallback_search(responsetext) {
       element.src = img["media"][0]["nanogif"]["url"];
       element.classList.add("gifs-result");
       element.addEventListener("click", function (event) {
-        _settings.gifCommentBox.value = _settings.gifCommentBox.value + " ![](" + img["media"][0]["nanogif"]["url"] + ")";
+        _settings.gifCommentBox.value = _settings.gifCommentBox.value + "\n ![](" + img["media"][0]["nanogif"]["url"] + ")";
 
         if (_settings.gifCommentBox.value.startsWith('\n')) {
           _settings.gifCommentBox.value = _settings.gifCommentBox.value.substring(2);
@@ -1393,10 +1393,10 @@ function singleGifComment(comment) {
 
   while (comment.innerText.indexOf("![") >= 0) {
     var src = comment.innerHTML.substring(comment.innerHTML.indexOf("](") + 2, (0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 4);
-    var imgTag = "<img class='gif-post' src='" + src + "'></br>";
+    var imgTag = "<img class='gif-post' src='" + src + "'>";
 
     if (comment.innerHTML.substring(comment.innerHTML.indexOf("![]") - 6, comment.innerHTML.indexOf("![]")) != "&gt;  " && comment.innerHTML.indexOf("![]") > 1) {
-      imgTag = "</br>" + imgTag;
+      imgTag = imgTag;
     }
 
     comment.innerHTML = comment.innerHTML.substring(0, comment.innerHTML.indexOf("![")) + " " + imgTag + " " + comment.innerHTML.substring((0, _util.reIndexOf)(/\.(gif|png|jpe?g)\)/gi, comment.innerHTML) + 5, comment.innerHTML.length);
@@ -3100,9 +3100,7 @@ function createNestedComments(comments, template, otherData) {
     clone.querySelector("div.post-body").setAttribute("content", comment.content);
     clone.querySelector("div.post-body").innerHTML = comment.content;
     clone.querySelector("div.post-body").innerHTML = (0, _util.parseCommentQuotes)(clone.querySelector("div.post-body").innerHTML);
-    console.log(clone.querySelector("div.post-body").innerHTML);
     clone.querySelector("div.post-body").innerHTML = (0, _util.parseLineBreaks)(clone.querySelector("div.post-body").innerHTML);
-    console.log(clone.querySelector("div.post-body").innerHTML);
     var img = clone.querySelector("img.profile-image");
     var divImgText = clone.querySelector("div.profile-image");
 

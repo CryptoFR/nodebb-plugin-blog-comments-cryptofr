@@ -173,6 +173,7 @@ small.logged-as {
   color: #434A81;
 }
 
+
 /***********
 
   SORT BAR
@@ -352,6 +353,7 @@ small.logged-as {
 #nodebb .sortbar .user-menu .user-options .logout-box span {
   font-size: 10px;
 }
+
 
 /***********
 
@@ -564,6 +566,10 @@ li > ul, li > ol {
   font-size: 15px;
   font-weight: normal;
   color: #2d2d2d;
+}
+
+.post-body br{
+  font-size: 8px;
 }
 
 #nodebb .post-tools a {

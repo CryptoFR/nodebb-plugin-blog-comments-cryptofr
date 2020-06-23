@@ -234,7 +234,7 @@ import { pluginURL } from "../settings.js";
   export function parseLineBreaks(comment){
     var comment = comment.split("\n").join("<br>");
     comment= comment.replace(/(\<\s*br\s*\>\s*){2,}/gm, "<br>");
-    comment= comment.replace(/^(\<br\>)+/m, "");
+    comment= comment.replace(/^(\<br\>)+/m, "");  
     return comment;
   }
   window.parseLineBreaks=parseLineBreaks;

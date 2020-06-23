@@ -75,9 +75,12 @@
 	margin-left: 10px;
 }
 
+
 #nodebb .topic-text img {
-	display: inline-block;
+	display: block;
     vertical-align: middle;
+    margin-top: 3px;
+    margin-bottom:3px;
 }
 
 #nodebb .topic-text p {
