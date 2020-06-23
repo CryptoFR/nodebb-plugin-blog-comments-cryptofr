@@ -17,10 +17,8 @@
   var simpleRecaptcha = require.main.require("simple-recaptcha-new");
   var TurndownService = require.main.require('turndown');
   var turndownService = new TurndownService();
-  var multipart = require.main.require('connect-multiparty');
-	var multipartMiddleware = multipart();
-
   module.exports = Comments;
+
   function CORSSafeReq(req) {
     var hostUrls = (meta.config["blog-comments:url"] || "").split(","),
       url;
@@ -690,7 +688,6 @@
     var app = params.router,
       middleware = params.middleware,
       controllers = params.controllers;
-    console.log('middleware', middleware)
 
     const registerTemplate = (fileName, folder, key) =>
       fs.readFile(
