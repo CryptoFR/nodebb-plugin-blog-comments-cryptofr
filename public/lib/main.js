@@ -3570,8 +3570,10 @@ function newCommentsCheck() {
         document.querySelector('.newer-comments').style.display = "block";
         document.querySelector('.newer-comments').setAttribute('data-timestamp', res.timestamp);
       }
+
+      document.querySelector('.posts-count').innerText = res.count - 1 <= 0 ? 0 : res.count - 1;
     });
-  }, 10000);
+  }, 5000);
 }
 },{"../../settings.js":"LXja","../util.js":"VGLh","../api.js":"gYYA"}],"sutU":[function(require,module,exports) {
 "use strict";

@@ -57,10 +57,12 @@ import { getNewerComments } from "../api.js";
             document.querySelector('.newer-comments').setAttribute('data-timestamp',res.timestamp) 
           } 
 
+          document.querySelector('.posts-count').innerText= res.count-1 <=0 ?0 : res.count-1 ;
+
         })
 
 
-      }, 10000); 
+      }, 5000); 
   }
 
 
