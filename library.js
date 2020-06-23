@@ -538,19 +538,16 @@
     
   }
 
-  Comments.getNewComments = function(req, res) {
+  Comments.getNewComments = async function(req, res) {
     const timestamp = parseInt(req.params.timestamp, 10);
     const tid = req.params.tid
     const uid = req.user ? req.user.uid : 0;
     const serverTimestamp = Date.now();
-    return db.getSortedSetRangeByScoreWithScores(`tid:${tid}:posts`, 0, -1, timestamp, '+inf', function(err, unfilteredPids) {
-      const pids = unfilteredPids.map(r => r.value);
-      posts.getPostsData(pids, function (err, postsData) {
-        topics.addPostData(postsData, uid, function (err, postsData) {
-          return res.json({postsData,timestamp: serverTimestamp}) 
-        })
-      })
-    })
+    const unfilteredPids = await  db.getSortedSetRangeByScoreWithScores(`tid:${tid}:posts`, 0, -1, timestamp, '+inf')
+    const pids = unfilteredPids.map(r => r.value);
+    const postsData = await posts.getPostsData(pids)
+    const topicAddedPostData = await topics.addPostData(postsData, uid)
+    return res.json({postsData: topicAddedPostData,timestamp: serverTimestamp})
   }
 
   Comments.addLinkbackToArticle = function(post, callback) {
