@@ -547,7 +547,8 @@
     const pids = unfilteredPids.map(r => r.value);
     const postsData = await posts.getPostsData(pids)
     const topicAddedPostData = await topics.addPostData(postsData, uid)
-    return res.json({postsData: topicAddedPostData,timestamp: serverTimestamp})
+    const count = await topics.getTopicField(tid, "postcount");
+    return res.json({postsData: topicAddedPostData,timestamp: serverTimestamp, count })
   }
 
   Comments.addLinkbackToArticle = function(post, callback) {
