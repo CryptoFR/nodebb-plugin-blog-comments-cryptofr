@@ -439,7 +439,7 @@
               "Only Administrators or moderators or members of the publishers group can publish articles"
           });
         }
-        const promises = req.body.posts.map(async ({title, markdown, tags, url, id}) => {
+        const promises = req.body.posts.map(async ({title, markdown, tags, url, id, blogger}) => {
           const data = await topics.post({
             uid,
             title,
