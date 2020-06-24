@@ -1,4 +1,5 @@
 (function(module) {
+  
   "use strict";
 
   var Comments = {};
@@ -439,6 +440,7 @@
               "Only Administrators or moderators or members of the publishers group can publish articles"
           });
         }
+        console.log('req.body.posts', req.body.posts)
         const promises = req.body.posts.map(async ({title, markdown, tags, url, id, blogger}) => {
           const data = await topics.post({
             uid,
