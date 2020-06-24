@@ -396,6 +396,87 @@
       }
     );
   };
+  Comments.publishBatchArticles = function (req, res) {
+    var uid = req.user ? req.user.uid : 0,
+    cid = JSON.parse(req.body.cid);
+    if (cid === -1) {
+      var hostUrls = (meta.config["blog-comments:url"] || "").split(","),
+        position = 0;
+
+      hostUrls.forEach(function(hostUrl, i) {
+        hostUrl = hostUrl.trim();
+        if (hostUrl[hostUrl.length - 1] === "/") {
+          hostUrl = hostUrl.substring(0, hostUrl.length - 1);
+        }
+
+        if (hostUrl === req.get("origin")) {
+          position = i;
+        }
+      });
+
+      cid = meta.config["blog-comments:cid"].toString() || "";
+      cid =
+        parseInt(cid.split(",")[position], 10) ||
+        parseInt(cid.split(",")[0], 10) ||
+        1;
+    }
+    async.parallel(
+      {
+        isAdministrator: function(next) {
+          user.isAdministrator(uid, next);
+        },
+        isPublisher: function(next) {
+          groups.isMember(uid, "publishers", next);
+        },
+        isModerator: function (next) {
+          user.isModerator(uid, [cid], next)
+        },
+      },
+      async function(err, userStatus) {
+        if (!userStatus.isAdministrator && !userStatus.isPublisher && !userStatus.isModerator[0]) {
+          return res.status(403).json({
+            error:
+              "Only Administrators or moderators or members of the publishers group can publish articles"
+          });
+        }
+        const promises = req.body.posts.map(async ({title, markdown, tags, url, id}) => {
+          const data = await topics.post({
+            uid,
+            title,
+            content: turndownService.turndown(markdown),
+            tags: tags ? JSON.parse(tags) : [],
+            cid,
+            externalComment: markdown,
+            externalLink: url
+          })
+          posts.setPostField(
+            data.postData.pid,
+            "blog-comments:url",
+            url
+          )
+          db.setObjectField(
+            `topic:${data.postData.tid}`,
+            'externalLink',
+            url
+          );
+          db.setObjectField(
+            "blog-comments:" + blogger,
+            id,
+            data.postData.tid
+          );
+        });
+        try {
+          await Promise.all(promises)
+          return res.json({ ok: true })
+        } catch (err) {
+          return res.status(500).json({
+            error: true,
+            message: err.message
+          })
+        }
+      }
+    );
+  }
   Comments.publishArticle = function(req, res, callback) {
     var markdown = req.body.markdown,
       title = req.body.title,
@@ -708,6 +789,7 @@
     app.post("/comments/plugin/register", captchaMiddleware, register);
     app.post("/comments/reply", Comments.replyToComment);
     app.post("/comments/publish", Comments.publishArticle);
+    app.post("/comments/publish-batch", Comments.publishBatchArticles);
     app.post("/comments/vote", Comments.votePost);
     app.post("/comments/downvote", Comments.downvotePost);
     app.post("/comments/bookmark", Comments.bookmarkPost);
