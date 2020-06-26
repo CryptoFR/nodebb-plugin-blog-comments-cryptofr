@@ -1,5 +1,5 @@
 (function(module) {
-  
+
   "use strict";
 
   var Comments = {};
@@ -440,7 +440,7 @@
               "Only Administrators or moderators or members of the publishers group can publish articles"
           });
         }
-        console.log('req.body.posts', req.body.posts)
+        const ids = []
         const promises = req.body.posts.map(async ({title, markdown, tags, url, id, blogger}) => {
           const data = await topics.post({
             uid,
@@ -451,25 +451,26 @@
             externalComment: markdown,
             externalLink: url
           })
-          posts.setPostField(
+          await posts.setPostField(
             data.postData.pid,
             "blog-comments:url",
             url
           )
-          db.setObjectField(
+          await db.setObjectField(
             `topic:${data.postData.tid}`,
             'externalLink',
             url
           );
-          db.setObjectField(
+          await db.setObjectField(
             "blog-comments:" + blogger,
             id,
             data.postData.tid
           );
+          ids.push(id)
         });
         try {
           await Promise.all(promises)
-          return res.json({ ok: true })
+          return res.json({ ok: true, ids })
         } catch (err) {
           return res.status(500).json({
             error: true,
