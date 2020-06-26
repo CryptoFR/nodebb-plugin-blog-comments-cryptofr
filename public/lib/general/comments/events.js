@@ -1,6 +1,6 @@
 import { set, dataRes, nodebbDiv, commentData, pagination } from "../../settings.js";
 import { authenticate } from "../login/modal.js"; 
-import { setMaxHeight,removeNodes,timeAgo } from "../util.js"; 
+import { setMaxHeight,removeNodes,timeAgo,createSelection } from "../util.js"; 
 import { downvotePost,upvotePost,deletePost,logout } from "../api.js"; 
 import { commentSubmissionsHandler } from "./commentSubmission.js"; 
 import { checkExpandableComments } from "./expandComments.js"; 
@@ -422,3 +422,17 @@ import { dispatchEmojis } from "../addons/emoji.js";
     })
   }
   
+
+  export function markdownSpecialActions(){
+    $(document).on('click','.special-action.bold',function(){
+      let wysiwyg=this.closest('form').querySelector(".emoji-wysiwyg-editor");
+      wysiwyg.innerText=wysiwyg.innerText+"**texte en gras**";
+      createSelection(wysiwyg,wysiwyg.innerText.length-15,13)
+
+    })
+    $(document).on('click','.special-action.italic',function(){
+      let wysiwyg=this.closest('form').querySelector(".emoji-wysiwyg-editor");
+      wysiwyg.innerText=wysiwyg.innerText+"*texte en italique*";
+      createSelection(wysiwyg,wysiwyg.innerText.length-18,17)
+    })
+  }

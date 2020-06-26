@@ -8,7 +8,7 @@ import { setActiveSortingLi,setSorting } from "./sortComments.js";
 import { upvotePost,downvotePost,xpost,logout, deletePost } from "../api.js";
 import { checkExpandableComments } from "./expandComments.js";
 import { grecaptchaGrab } from '../login/modal.js';
-import { bindEvents, prepareSignout, loadMoreEvent, newerCommentsDisplayEvent } from './events.js'
+import { bindEvents, prepareSignout, loadMoreEvent, newerCommentsDisplayEvent,markdownSpecialActions } from './events.js'
 import { commentEnhancementInit } from "../addons/commentEnhancementBox.js";
 import { commentSubmissionsHandler } from "./commentSubmission.js";
 import { dispatchEmojis } from "../addons/emoji.js";
@@ -67,6 +67,7 @@ import { uploadInit } from "../addons/upload.js";
       // emojiBoxInit();
 
       uploadInit();
+      markdownSpecialActions();
  
     } 
     

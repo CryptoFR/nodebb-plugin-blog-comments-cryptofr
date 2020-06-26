@@ -84,12 +84,12 @@
 			<textarea  class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
 				<div class="special-box actions">
-					<!-- <span class="special-action bold">
+					<span class="special-action bold">
 						<i class="fad fa-bold"></i>
 					</span>
 					<span class="special-action italic">
 						<i class="fad fa-italic"></i>
-					</span> -->
+					</span>
 					<span class="special-action emojis">
 						<i class="fad fa-smile"></i>
 					</span> 
