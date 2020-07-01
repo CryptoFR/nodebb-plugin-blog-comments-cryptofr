@@ -384,4 +384,17 @@ import { pluginURL } from "../settings.js";
       var res = re.exec(str);
       if(!res) return -1;
       return re.lastIndex - res[0].length;
-  };
+  }
+
+
+  export function setCaret(el) {
+      var range = document.createRange();
+      var sel = window.getSelection();
+      range.setStart(el.childNodes[2], 5);
+      
+      range.setEnd(el.childNodes[2], 8);
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
+      el.focus();
+  }
