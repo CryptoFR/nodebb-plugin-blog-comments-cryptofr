@@ -768,6 +768,11 @@
     }
   }
 
+  Comments.onLoggedIn = function (params) {
+    console.log('params',params, arguments)
+    params.req.session.cookie.sameSite = "lax";
+  }
+
   Comments.init = function(params, callback) {
     var app = params.router,
       middleware = params.middleware,
