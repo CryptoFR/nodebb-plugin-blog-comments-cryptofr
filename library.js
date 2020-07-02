@@ -770,7 +770,7 @@
 
   Comments.onLoggedIn = function (params) {
     console.log('params',params, arguments)
-    params.req.session.cookie.sameSite = "lax";
+    params.req.session.cookie.sameSite = "none";
   }
 
   Comments.init = function(params, callback) {
