@@ -812,6 +812,14 @@
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
+    app.post('/ulogout', middleware.applyCSRF, function (req, res) {
+      if (req.user && parseInt(req.user.uid, 10) > 0) {
+          var ws = require.main.require('./src/socket.io');
+          ws.logoutUser(req.user.uid);
+          req.logout();
+      }
+      res.redirect('/');
+  });
     app.get('/comments/post-count', Comments.getPostCount)
     callback();
   };
