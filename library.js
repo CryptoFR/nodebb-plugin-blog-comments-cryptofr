@@ -769,7 +769,6 @@
   }
 
   Comments.onLoggedIn = function (params) {
-    console.log('params',params, arguments)
     params.req.session.cookie.sameSite = "none";
   }
 
@@ -797,19 +796,19 @@
     );
     app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
-    app.post("/comments/reply", Comments.replyToComment);
-    app.post("/comments/publish", Comments.publishArticle);
-    app.post("/comments/publish-batch", Comments.publishBatchArticles);
-    app.post("/comments/vote", Comments.votePost);
-    app.post("/comments/downvote", Comments.downvotePost);
-    app.post("/comments/bookmark", Comments.bookmarkPost);
-    app.post("/comments/edit/:pid", Comments.editPost);
-    app.get("/comments/plugin/email", emailExists);
-    app.get("/comments/plugin/username", userExists);
-    app.get("/comments/test", Comments.test)
+    app.post("/comments/reply",middleware.applyCSRF, Comments.replyToComment);
+    app.post("/comments/publish",middleware.applyCSRF, Comments.publishArticle);
+    app.post("/comments/publish-batch",middleware.applyCSRF, Comments.publishBatchArticles);
+    app.post("/comments/vote",middleware.applyCSRF, Comments.votePost);
+    app.post("/comments/downvote",middleware.applyCSRF, Comments.downvotePost);
+    app.post("/comments/bookmark",middleware.applyCSRF, Comments.bookmarkPost);
+    app.post("/comments/edit/:pid",middleware.applyCSRF, Comments.editPost);
+    app.get("/comments/plugin/email",middleware.applyCSRF, emailExists);
+    app.get("/comments/plugin/username",middleware.applyCSRF, userExists);
+    app.get("/comments/test",middleware.applyCSRF, Comments.test)
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
-    app.post("/comments/delete/:pid", Comments.deletePost);
+    app.post("/comments/delete/:pid",middleware.applyCSRF, Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
