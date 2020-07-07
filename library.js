@@ -815,8 +815,6 @@
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
     app.post('/ulogout',  function (req, res) {
       if (req.user && parseInt(req.user.uid, 10) > 0) {
-          var ws = require.main.require('./src/socket.io');
-          ws.logoutUser(req.user.uid);
           req.logout();
           res.json({ ok: true });
       } else {
