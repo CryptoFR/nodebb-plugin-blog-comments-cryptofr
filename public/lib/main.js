@@ -357,6 +357,7 @@ exports.isHidden = isHidden;
 exports.setMaxHeight = setMaxHeight;
 exports.reIndexOf = reIndexOf;
 exports.setCaret = setCaret;
+exports.selectText = selectText;
 exports.bindOnClick = void 0;
 
 var _settings = require("../settings.js");
@@ -776,6 +777,29 @@ function setCaret(el) {
   sel.removeAllRanges();
   sel.addRange(range);
   el.focus();
+}
+
+function selectText(element, text) {
+  if (!element) return false;
+  var sel, range;
+  element.normalize();
+  var elementTextNode = element.firstChild;
+  sel = window.getSelection();
+
+  if (sel.toString() == '') {
+    //no text selection
+    window.setTimeout(function () {
+      range = document.createRange(); //range object
+
+      range.selectNodeContents(element); //sets Range
+
+      range.setStart(elementTextNode, elementTextNode.textContent.lastIndexOf(text));
+      range.setEnd(elementTextNode, elementTextNode.textContent.lastIndexOf(text) + text.length);
+      sel.removeAllRanges(); //remove all ranges from selection
+
+      sel.addRange(range); //add Range to a Selection.
+    }, 1);
+  }
 }
 },{"../settings.js":"LXja"}],"kjEe":[function(require,module,exports) {
 "use strict";
@@ -2295,12 +2319,12 @@ function markdownSpecialActions() {
   $(document).on('click', '.special-action.bold', function () {
     var wysiwyg = this.closest('form').querySelector(".emoji-wysiwyg-editor");
     wysiwyg.innerText = wysiwyg.innerText + "**texte en gras**";
-    (0, _util.createSelection)(wysiwyg, wysiwyg.innerText.length - 15, 13);
+    (0, _util.selectText)(wysiwyg, "texte en gras");
   });
   $(document).on('click', '.special-action.italic', function () {
     var wysiwyg = this.closest('form').querySelector(".emoji-wysiwyg-editor");
     wysiwyg.innerText = wysiwyg.innerText + "*texte en italique*";
-    (0, _util.createSelection)(wysiwyg, wysiwyg.innerText.length - 18, 17);
+    (0, _util.selectText)(wysiwyg, "texte en italique");
   });
 }
 },{"../../settings.js":"LXja","../login/modal.js":"kjEe","../util.js":"VGLh","../api.js":"gYYA","./commentSubmission.js":"xoe6","./expandComments.js":"PCfX","./loadComments.js":"V8ra","./newComment.js":"OGtT","./drawComments.js":"xsmJ","../addons/gifs.js":"XBBC","../addons/emoji.js":"MTTM"}],"f33D":[function(require,module,exports) {

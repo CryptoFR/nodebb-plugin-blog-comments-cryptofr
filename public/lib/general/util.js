@@ -398,3 +398,27 @@ import { pluginURL } from "../settings.js";
       sel.addRange(range);
       el.focus();
   }
+
+
+export function selectText(element,text){
+    if (!element) return false;
+    var sel, range;
+
+    element.normalize();
+    
+    const elementTextNode = element.firstChild;
+
+    sel = window.getSelection();
+    
+    if(sel.toString() == ''){ //no text selection
+      window.setTimeout(function(){
+        range = document.createRange(); //range object
+        range.selectNodeContents(element); //sets Range
+        range.setStart(elementTextNode, elementTextNode.textContent.lastIndexOf(text))
+        range.setEnd(elementTextNode, elementTextNode.textContent.lastIndexOf(text)+text.length)
+        sel.removeAllRanges(); //remove all ranges from selection
+        sel.addRange(range);//add Range to a Selection.
+      },1);
+    }
+
+  }
