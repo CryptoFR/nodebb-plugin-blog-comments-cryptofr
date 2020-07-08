@@ -97,6 +97,10 @@ small.logged-as {
   display: none;
 }
 
+.comments-toolbar .special-action .inactive{
+  display: inline-block;
+}
+
 .comments-toolbar .special-action:hover .active {
   display: inline-block;
   cursor: pointer;
@@ -2063,4 +2067,21 @@ small.logged-as {
     left: 15px;
   }
 
+}
+
+@media only screen and (min-width: 768px){
+  .comments-area {
+      margin: calc(3 * 1rem) calc(10% + 60px);
+  }
+}
+@media only screen and (min-width: 1168px){
+  .comments-area {
+      max-width: calc(6 * (100vw / 12) - 28px);
+  }
+
+}
+@media only screen and (min-width: 768px){
+  .comments-area {
+      max-width: calc(8 * (100vw / 12) - 28px);
+  }
 }
