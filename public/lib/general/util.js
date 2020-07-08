@@ -400,7 +400,7 @@ import { pluginURL } from "../settings.js";
   }
 
 
-export function selectText(element,text){
+export function selectText(element,text,chars=0){
     if (!element) return false;
     var sel, range;
 
@@ -409,16 +409,21 @@ export function selectText(element,text){
     const elementTextNode = element.firstChild;
 
     sel = window.getSelection();
-    
-    if(sel.toString() == ''){ //no text selection
-      window.setTimeout(function(){
-        range = document.createRange(); //range object
-        range.selectNodeContents(element); //sets Range
+     
+    window.setTimeout(function(){
+      range = document.createRange(); //range object
+      range.selectNodeContents(element); //sets Range
+      if (text){
         range.setStart(elementTextNode, elementTextNode.textContent.lastIndexOf(text))
         range.setEnd(elementTextNode, elementTextNode.textContent.lastIndexOf(text)+text.length)
-        sel.removeAllRanges(); //remove all ranges from selection
-        sel.addRange(range);//add Range to a Selection.
-      },1);
-    }
+      }else{
+        range.setStart(elementTextNode,window.getSelection().baseOffset+chars)
+        range.setEnd(elementTextNode,window.getSelection().extentOffset)
+      }
+      sel.removeAllRanges(); //remove all ranges from selection
+      sel.addRange(range);//add Range to a Selection.
+    },1); 
 
   }
+
+  window.selectText=selectText;

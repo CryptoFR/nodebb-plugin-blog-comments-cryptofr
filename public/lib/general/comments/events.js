@@ -424,16 +424,60 @@ import { dispatchEmojis } from "../addons/emoji.js";
   
 
   export function markdownSpecialActions(){
-    $(document).on('click','.special-action.bold',function(){
+    $(document).on('mousedown','.special-action.bold,.special-action.italic',function(e){
+      e.preventDefault();
+    });
+
+    $(document).on('click','.special-action.bold',function(e){ 
       let wysiwyg=this.closest('form').querySelector(".emoji-wysiwyg-editor");
-      wysiwyg.innerText=wysiwyg.innerText+"**texte en gras**"; 
-      selectText(wysiwyg,"texte en gras");
+ 
+      if (window.getSelection().isCollapsed || !window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')){
+        wysiwyg.innerText=wysiwyg.innerText+"**texte en gras**"; 
+        selectText(wysiwyg,"texte en gras");
+      }else if (window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')){
+        let wysiwygTextNode=wysiwyg.firstChild;
+        
+        let textSplitted = wysiwygTextNode.splitText(window.getSelection().baseOffset); 
+
+        wysiwyg.insertBefore(document.createTextNode('**'), textSplitted);
+
+        wysiwyg.normalize();
+        
+        textSplitted = wysiwygTextNode.splitText(window.getSelection().extentOffset); 
+        
+        wysiwyg.insertBefore(document.createTextNode('**'), textSplitted);
+
+        wysiwyg.normalize();
+
+        selectText(wysiwyg,null,2);
+      }
+      
 
     })
-    $(document).on('click','.special-action.italic',function(){
+    $(document).on('click','.special-action.italic',function(e){
+      e.preventDefault();
       let wysiwyg=this.closest('form').querySelector(".emoji-wysiwyg-editor");
-      wysiwyg.innerText=wysiwyg.innerText+"*texte en italique*"; 
-      selectText(wysiwyg,"texte en italique");
+      if (window.getSelection().isCollapsed || !window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')){
+        wysiwyg.innerText=wysiwyg.innerText+"*texte en italique*"; 
+        selectText(wysiwyg,"texte en italique");
+      }else if (window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')){
+        let wysiwygTextNode=wysiwyg.firstChild;
+        
+        let textSplitted = wysiwygTextNode.splitText(window.getSelection().baseOffset); 
+
+        wysiwyg.insertBefore(document.createTextNode('*'), textSplitted);
+
+        wysiwyg.normalize();
+        
+        textSplitted = wysiwygTextNode.splitText(window.getSelection().extentOffset); 
+        
+        wysiwyg.insertBefore(document.createTextNode('*'), textSplitted);
+
+        wysiwyg.normalize();
+
+        selectText(wysiwyg,null,1);
+      }
+      
 
     })
   }

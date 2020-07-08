@@ -780,27 +780,32 @@ function setCaret(el) {
 }
 
 function selectText(element, text) {
+  var chars = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
   if (!element) return false;
   var sel, range;
   element.normalize();
   var elementTextNode = element.firstChild;
   sel = window.getSelection();
+  window.setTimeout(function () {
+    range = document.createRange(); //range object
 
-  if (sel.toString() == '') {
-    //no text selection
-    window.setTimeout(function () {
-      range = document.createRange(); //range object
+    range.selectNodeContents(element); //sets Range
 
-      range.selectNodeContents(element); //sets Range
-
+    if (text) {
       range.setStart(elementTextNode, elementTextNode.textContent.lastIndexOf(text));
       range.setEnd(elementTextNode, elementTextNode.textContent.lastIndexOf(text) + text.length);
-      sel.removeAllRanges(); //remove all ranges from selection
+    } else {
+      range.setStart(elementTextNode, window.getSelection().baseOffset + chars);
+      range.setEnd(elementTextNode, window.getSelection().extentOffset);
+    }
 
-      sel.addRange(range); //add Range to a Selection.
-    }, 1);
-  }
+    sel.removeAllRanges(); //remove all ranges from selection
+
+    sel.addRange(range); //add Range to a Selection.
+  }, 1);
 }
+
+window.selectText = selectText;
 },{"../settings.js":"LXja"}],"kjEe":[function(require,module,exports) {
 "use strict";
 
@@ -2316,15 +2321,43 @@ function newerCommentsDisplayEvent() {
 }
 
 function markdownSpecialActions() {
-  $(document).on('click', '.special-action.bold', function () {
-    var wysiwyg = this.closest('form').querySelector(".emoji-wysiwyg-editor");
-    wysiwyg.innerText = wysiwyg.innerText + "**texte en gras**";
-    (0, _util.selectText)(wysiwyg, "texte en gras");
+  $(document).on('mousedown', '.special-action.bold,.special-action.italic', function (e) {
+    e.preventDefault();
   });
-  $(document).on('click', '.special-action.italic', function () {
+  $(document).on('click', '.special-action.bold', function (e) {
     var wysiwyg = this.closest('form').querySelector(".emoji-wysiwyg-editor");
-    wysiwyg.innerText = wysiwyg.innerText + "*texte en italique*";
-    (0, _util.selectText)(wysiwyg, "texte en italique");
+
+    if (window.getSelection().isCollapsed || !window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
+      wysiwyg.innerText = wysiwyg.innerText + "**texte en gras**";
+      (0, _util.selectText)(wysiwyg, "texte en gras");
+    } else if (window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
+      var wysiwygTextNode = wysiwyg.firstChild;
+      var textSplitted = wysiwygTextNode.splitText(window.getSelection().baseOffset);
+      wysiwyg.insertBefore(document.createTextNode('**'), textSplitted);
+      wysiwyg.normalize();
+      textSplitted = wysiwygTextNode.splitText(window.getSelection().extentOffset);
+      wysiwyg.insertBefore(document.createTextNode('**'), textSplitted);
+      wysiwyg.normalize();
+      (0, _util.selectText)(wysiwyg, null, 2);
+    }
+  });
+  $(document).on('click', '.special-action.italic', function (e) {
+    e.preventDefault();
+    var wysiwyg = this.closest('form').querySelector(".emoji-wysiwyg-editor");
+
+    if (window.getSelection().isCollapsed || !window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
+      wysiwyg.innerText = wysiwyg.innerText + "*texte en italique*";
+      (0, _util.selectText)(wysiwyg, "texte en italique");
+    } else if (window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
+      var wysiwygTextNode = wysiwyg.firstChild;
+      var textSplitted = wysiwygTextNode.splitText(window.getSelection().baseOffset);
+      wysiwyg.insertBefore(document.createTextNode('*'), textSplitted);
+      wysiwyg.normalize();
+      textSplitted = wysiwygTextNode.splitText(window.getSelection().extentOffset);
+      wysiwyg.insertBefore(document.createTextNode('*'), textSplitted);
+      wysiwyg.normalize();
+      (0, _util.selectText)(wysiwyg, null, 1);
+    }
   });
 }
 },{"../../settings.js":"LXja","../login/modal.js":"kjEe","../util.js":"VGLh","../api.js":"gYYA","./commentSubmission.js":"xoe6","./expandComments.js":"PCfX","./loadComments.js":"V8ra","./newComment.js":"OGtT","./drawComments.js":"xsmJ","../addons/gifs.js":"XBBC","../addons/emoji.js":"MTTM"}],"f33D":[function(require,module,exports) {
