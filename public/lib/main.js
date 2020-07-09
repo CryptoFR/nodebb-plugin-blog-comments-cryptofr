@@ -1828,11 +1828,10 @@ var _emoji = require("../addons/emoji.js");
 
 function bindEvents(user, li) {
   function eventAuth() {
-    if (!user || !user.uid) {
-      (0, _modal.authenticate)("login");
+    /*if (!user || !user.uid) {
+      authenticate("login");
       return false;
-    }
-
+    }*/
     return true;
   }
 

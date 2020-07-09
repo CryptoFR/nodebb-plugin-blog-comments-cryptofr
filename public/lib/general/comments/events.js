@@ -14,10 +14,10 @@ import { dispatchEmojis } from "../addons/emoji.js";
   export function bindEvents(user,li){
 
     function eventAuth(){
-      if (!user || !user.uid) {
+      /*if (!user || !user.uid) {
         authenticate("login");
         return false;
-      }
+      }*/
       return true;
     }
 
