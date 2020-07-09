@@ -14,10 +14,10 @@ import { dispatchEmojis } from "../addons/emoji.js";
   export function bindEvents(user,li){
 
     function eventAuth(){
-      if (!user || !user.uid) {
+      /*if (!user || !user.uid) {
         authenticate("login");
         return false;
-      }
+      }*/
       return true;
     }
 
@@ -72,7 +72,7 @@ import { dispatchEmojis } from "../addons/emoji.js";
 
     let flagVote=false;
 
-    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid){
+    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid && dataRes.user.uid!=0){
       commentOptions(); 
     }else{
       removeNodes(li.querySelector(".menuButton-container"));  
