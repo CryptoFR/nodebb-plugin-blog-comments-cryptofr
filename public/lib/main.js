@@ -1897,7 +1897,7 @@ function bindEvents(user, li) {
 
   var flagVote = false;
 
-  if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid) {
+  if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid && _settings.dataRes.user.uid != 0) {
     commentOptions();
   } else {
     (0, _util.removeNodes)(li.querySelector(".menuButton-container"));

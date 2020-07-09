@@ -72,7 +72,7 @@ import { dispatchEmojis } from "../addons/emoji.js";
 
     let flagVote=false;
 
-    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid){
+    if (dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid')==dataRes.user.uid && dataRes.user.uid!=0){
       commentOptions(); 
     }else{
       removeNodes(li.querySelector(".menuButton-container"));  
