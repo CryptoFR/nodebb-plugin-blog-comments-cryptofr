@@ -1532,7 +1532,7 @@ function commentSubmissionsHandler(form) {
     try {
       for (var _iterator = form.querySelectorAll("input")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var input = _step.value;
-        inputs[input.getAttribute("name")] = input.getAttribute("value");
+        if (input.getAttribute("value")) inputs[input.getAttribute("name")] = input.getAttribute("value");else inputs[input.getAttribute("name")] = input.value;
       }
     } catch (err) {
       _didIteratorError = true;
@@ -1573,6 +1573,7 @@ function commentSubmissionsHandler(form) {
       }
     }
 
+    console.log('inputs', inputs);
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
     console.log('inputs', inputs); // ERROR: Comment too short
 

@@ -19,13 +19,17 @@ import { parseNewComment } from "./newComment.js";
       event.preventDefault();        
 
       let inputs={};
-      for (let input of form.querySelectorAll("input")) {
-        inputs[input.getAttribute("name")]=input.getAttribute("value");
+      for (let input of form.querySelectorAll("input")) { 
+        if (input.getAttribute("value"))
+          inputs[input.getAttribute("name")]=input.getAttribute("value");
+        else inputs[input.getAttribute("name")]=input.value;
       }
       for (let input of form.querySelectorAll("textarea")) {
         inputs.content=input.value;
         // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
+
+      console.log('inputs',inputs)
       
       inputs.content=inputs.content.replace(/<br>|&lt;br&gt;/ig,'\n').replace(/(<([^>]+)>)/ig,"")
       console.log('inputs', inputs)
