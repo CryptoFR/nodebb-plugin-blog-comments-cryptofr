@@ -41,9 +41,7 @@
 	    </ul>
 		</div>
 		<div class="user-menu">
-			<!-- IF !isLoggedIn -->
-				<form action="{relative_path}/comments/reply" class="top-post-form clearfix" method="post">
-				</form>
+			<!-- IF !isLoggedIn --> 
 				<a class="login-link" id="nodebb-login">Se connecter</a>
 			<!-- ELSE -->
 				<!-- IF userHasPicture -->
@@ -108,11 +106,30 @@
 			<input type="hidden" name="url" value="{redirect_url}" />
 		</form>
 	<!-- ELSE -->
-		<form action="{relative_path}/comments/reply" class="logged-out logged-in top-post-form clearfix" method="post">
-			<strong class="nodebb-error"></strong>
-			<textarea  class="form-control comment-box" name="content" placeholder="Connectez vous pour rejoindre la discussion" rows="3" data-emojiable="false" contenteditable="false" disabled></textarea>
+		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
+			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>.</small> --> 
+			<small><strong class="nodebb-error"></strong></small>
+			<textarea  class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
-				<button class="btn btn-primary" disabled>Répondre</button>
+				<div class="special-box actions">
+					<span class="special-action bold">
+						<i class="fad fa-bold"></i>
+					</span>
+					<span class="special-action italic">
+						<i class="fad fa-italic"></i>
+					</span>
+					<span class="special-action emojis">
+						<i class="fad fa-smile"></i>
+					</span> 
+					<span class="special-action gif">
+						<img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive">
+						<img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active">
+					</span>
+					<span class="special-action img">
+						<i class="fad fa-image"></i>
+					</span>
+				</div>
+				<button class="submit-comment btn btn-primary"><span>Répondre</span><i class="fad fa-circle-notch fa-spin"></i></button>
 			</div>
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
