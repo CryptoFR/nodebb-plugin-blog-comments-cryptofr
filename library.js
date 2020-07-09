@@ -324,15 +324,18 @@
     });
   };
 
-  const replyTopic = (tid, uid, toPid, content) => new Promise((resolve, reject) => {
+  const replyTopic = (tid, uid, toPid, content, name = undefined) => new Promise((resolve, reject) => {
     console.log('content',content)
-    topics.reply(
-      {
-        tid: tid,
-        uid: uid,
-        toPid: toPid,
-        content: content
-      }, function cb(err, postData) {
+    const replyObject = {
+      tid: tid,
+      uid: uid,
+      toPid: toPid,
+      content: content
+    }
+    if (name) {
+      replyObject.handle = name
+    }
+    topics.reply(replyObject, function cb(err, postData) {
         if (err) {
           reject(err)
         } else {
@@ -364,7 +367,11 @@
       url = req.body.url,
       toPid = req.body.toPid,
       uid = req.user ? req.user.uid : 0;
-    const postData = await replyTopic(tid, uid, toPid, content)
+    var name = undefined
+    if (uid === 0) {
+      name = req.body.name
+    }
+    const postData = await replyTopic(tid, uid, toPid, content, name)
     return res.json({
       tid,
       uid,
