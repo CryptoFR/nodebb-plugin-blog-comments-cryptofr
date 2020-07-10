@@ -108,7 +108,7 @@ import { parseNewComment } from "./newComment.js";
   }
 
   function topReplyHandler(form,res){
-    let $li= document.createElement('li') 
+    let $li= document.createElement('li')  
     $li.innerHTML= parseNewComment(res,res.user,dataRes.token,res.tid)
     $li.querySelector('.post-body').setAttribute('content',$li.querySelector('.post-body').innerHTML)
     $li.setAttribute('data-pid',res.pid)
