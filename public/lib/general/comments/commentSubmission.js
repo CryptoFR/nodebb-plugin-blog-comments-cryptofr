@@ -47,36 +47,48 @@ import { parseNewComment } from "./newComment.js";
       } // OK! Sending Reply or Edit POST
       else { 
         let newLi=null;
+        let status=null;
+
         newFetch(form.getAttribute("action"), inputs)
-          .then(res => res.json())
-          .then((res) => {
-          form.querySelector('button').classList.remove('loading-button');
-          if(/edit/.test(form.getAttribute('action'))) {              
-            editActionHandler(form,inputs);
-            form.classList.add('hidden');
-            $('.editing').removeClass('hidden').removeClass('editing');
-
-          } else if (form.classList.contains('top-post-form')) {
-            newLi=topReplyHandler(form,res)
-
-          }else if (/reply/.test(form.getAttribute('action'))) {
-            form.classList.add('hidden');
-            newLi=innerReplyHandler(form,res);
-          }  
-
-          if (newLi) {
-            bindEvents(res.user,newLi);
-            addBadges(newLi,res);
-            set.activeUserComments(res);
-          }
-
-          $(newLi).find('.post-body img').each(function(){
-            this.onload=function(){
-              setMaxHeight(document.getElementById('nodebb-comments-list')) 
+          .then(res => {  
+            status=res.status;
+            res.json()  
+          })
+          .then((res) => { 
+ 
+            if (status!=200) {
+              formSubmitError("Error submiting the form",form);
+              form.querySelector(".submit-comment").classList.remove("loading-button");
+              return false;
             }
-          })       
-        });
-      }
+
+            form.querySelector('button').classList.remove('loading-button');
+            if(/edit/.test(form.getAttribute('action'))) {              
+              editActionHandler(form,inputs);
+              form.classList.add('hidden');
+              $('.editing').removeClass('hidden').removeClass('editing');
+
+            } else if (form.classList.contains('top-post-form')) {
+              newLi=topReplyHandler(form,res)
+
+            }else if (/reply/.test(form.getAttribute('action'))) {
+              form.classList.add('hidden');
+              newLi=innerReplyHandler(form,res);
+            }  
+
+            if (newLi) {
+              bindEvents(res.user,newLi);
+              addBadges(newLi,res);
+              set.activeUserComments(res);
+            }
+
+            $(newLi).find('.post-body img').each(function(){
+              this.onload=function(){
+                setMaxHeight(document.getElementById('nodebb-comments-list')) 
+              }
+            })       
+          });
+        }
       return false;
     });
   }

@@ -1589,9 +1589,17 @@ function commentSubmissionsHandler(form) {
         } // OK! Sending Reply or Edit POST
         else {
             var newLi = null;
+            var status = null;
             (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
-              return res.json();
+              status = res.status;
+              res.json();
             }).then(function (res) {
+              if (status != 200) {
+                formSubmitError("Error submiting the form", form);
+                form.querySelector(".submit-comment").classList.remove("loading-button");
+                return false;
+              }
+
               form.querySelector('button').classList.remove('loading-button');
 
               if (/edit/.test(form.getAttribute('action'))) {

@@ -370,6 +370,11 @@
     var name = undefined
     if (uid === 0) {
       name = req.body.name
+      if (name.length<2)
+        return res.status(403).json({
+          error: true,
+          message: 'Guest must have a Valid Username'
+        }); 
     }
     const postData = await replyTopic(tid, uid, toPid, content, name)
     return res.json({
@@ -385,8 +390,14 @@
   Comments.editPost = function(req, res) {
     const { pid } = req.params;
     const content = req.body.content,
-      url = req.body.url,
-      uid = req.user ? req.user.uid : 0;
+    url = req.body.url,
+    uid = req.user ? req.user.uid : 0;
+    if (uid===0)
+      return res.status(403).json({
+        error: true,
+        message: "Only Administrators or owner of comments may Edit Comments"
+      });
+
     posts.edit(
       {
         uid,
@@ -443,8 +454,8 @@
       async function(err, userStatus) {
         if (!userStatus.isAdministrator && !userStatus.isPublisher && !userStatus.isModerator[0]) {
           return res.status(403).json({
-            error:
-              "Only Administrators or moderators or members of the publishers group can publish articles"
+            error: true,
+            message: "Only Administrators or moderators or members of the publishers group can publish articles"
           });
         }
         const ids = []
@@ -677,6 +688,13 @@
 
   Comments.deletePost = async function (req, res) {
     const uid = req.user ? req.user.uid : 0;
+
+    if (uid===0)
+      return res.status(403).json({
+        error:
+          "Only Administrators, moderators or owner of comments may Delete Comments"
+      });
+
     const pid = req.params.pid;
     await posts.delete(pid, uid)
     return res.json({deleted: true, uid, pid})
