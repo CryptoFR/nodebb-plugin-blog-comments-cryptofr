@@ -29,17 +29,20 @@ import { parseNewComment } from "./newComment.js";
         // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
 
-      console.log('inputs',inputs)
-      
       inputs.content=inputs.content.replace(/<br>|&lt;br&gt;/ig,'\n').replace(/(<([^>]+)>)/ig,"")
-      console.log('inputs', inputs)
-      // ERROR: Comment too short
+ 
+
+      //-- ERROR: Comment too short
       if (inputs["content"].length<8){
       	formSubmitError("Message too short",form);
         form.querySelector(".submit-comment").classList.remove("loading-button");
-      } // ERROR: Comment Too Long
+      } //-- ERROR: Comment Too Long
       else if (inputs["content"].length>30000){
         formSubmitError("Message too Long",form);
+        form.querySelector(".submit-comment").classList.remove("loading-button");
+      } //-- ERROR: Guest user must have a Name
+      else if (('name' in inputs) && inputs.name.length<2){
+        formSubmitError("Must have a Valid Name",form);
         form.querySelector(".submit-comment").classList.remove("loading-button");
       } // OK! Sending Reply or Edit POST
       else { 

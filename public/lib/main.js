@@ -1573,50 +1573,52 @@ function commentSubmissionsHandler(form) {
       }
     }
 
-    console.log('inputs', inputs);
-    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
-    console.log('inputs', inputs); // ERROR: Comment too short
+    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, ""); //-- ERROR: Comment too short
 
     if (inputs["content"].length < 8) {
       formSubmitError("Message too short", form);
       form.querySelector(".submit-comment").classList.remove("loading-button");
-    } // ERROR: Comment Too Long
+    } //-- ERROR: Comment Too Long
     else if (inputs["content"].length > 30000) {
         formSubmitError("Message too Long", form);
         form.querySelector(".submit-comment").classList.remove("loading-button");
-      } // OK! Sending Reply or Edit POST
-      else {
-          var newLi = null;
-          (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
-            return res.json();
-          }).then(function (res) {
-            form.querySelector('button').classList.remove('loading-button');
+      } //-- ERROR: Guest user must have a Name
+      else if ('name' in inputs && inputs.name.length < 2) {
+          formSubmitError("Must have a Valid Name", form);
+          form.querySelector(".submit-comment").classList.remove("loading-button");
+        } // OK! Sending Reply or Edit POST
+        else {
+            var newLi = null;
+            (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
+              return res.json();
+            }).then(function (res) {
+              form.querySelector('button').classList.remove('loading-button');
 
-            if (/edit/.test(form.getAttribute('action'))) {
-              editActionHandler(form, inputs);
-              form.classList.add('hidden');
-              $('.editing').removeClass('hidden').removeClass('editing');
-            } else if (form.classList.contains('top-post-form')) {
-              newLi = topReplyHandler(form, res);
-            } else if (/reply/.test(form.getAttribute('action'))) {
-              form.classList.add('hidden');
-              newLi = innerReplyHandler(form, res);
-            }
+              if (/edit/.test(form.getAttribute('action'))) {
+                editActionHandler(form, inputs);
+                form.classList.add('hidden');
+                $('.editing').removeClass('hidden').removeClass('editing');
+              } else if (form.classList.contains('top-post-form')) {
+                newLi = topReplyHandler(form, res);
+              } else if (/reply/.test(form.getAttribute('action'))) {
+                form.classList.add('hidden');
+                newLi = innerReplyHandler(form, res);
+              }
 
-            if (newLi) {
-              (0, _events.bindEvents)(res.user, newLi);
-              (0, _drawComments.addBadges)(newLi, res);
+              if (newLi) {
+                (0, _events.bindEvents)(res.user, newLi);
+                (0, _drawComments.addBadges)(newLi, res);
 
-              _settings.set.activeUserComments(res);
-            }
+                _settings.set.activeUserComments(res);
+              }
 
-            $(newLi).find('.post-body img').each(function () {
-              this.onload = function () {
-                (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
-              };
+              $(newLi).find('.post-body img').each(function () {
+                this.onload = function () {
+                  (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+                };
+              });
             });
-          });
-        }
+          }
 
     return false;
   });
