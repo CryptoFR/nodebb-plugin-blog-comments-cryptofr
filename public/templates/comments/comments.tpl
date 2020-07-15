@@ -108,7 +108,8 @@
 	<!-- ELSE -->
 		<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
 			<!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>.</small> --> 
-			<label class="guest-name">Guest Name</label><input name="name" placeholder="Name"/>
+			<label class="guest-name">Guest Name</label><input name="name" class="guest-name-value" placeholder="Name"/>
+			
 			<small><strong class="nodebb-error"></strong></small>
 			<textarea  class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
 			<div class="comments-toolbar">
@@ -132,6 +133,7 @@
 				</div>
 				<button class="submit-comment btn btn-primary"><span>Répondre</span><i class="fad fa-circle-notch fa-spin"></i></button>
 			</div>
+			<div id="google-callback"></div>
 			<input type="hidden" name="_csrf" value="{token}" />
 			<input type="hidden" name="tid" value="{tid}" />
 			<input type="hidden" name="url" value="{redirect_url}" />

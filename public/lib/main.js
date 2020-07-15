@@ -1522,7 +1522,7 @@ function commentSubmissionsHandler(form) {
   form.setAttribute('data-event', 'true'); // console.log(form)
 
   form.addEventListener('submit', function (event) {
-    form.querySelector(".submit-comment").classList.add("loading-button");
+    form.querySelector('.submit-comment').classList.add('loading-button');
     event.preventDefault();
     var inputs = {};
     var _iteratorNormalCompletion = true;
@@ -1530,9 +1530,9 @@ function commentSubmissionsHandler(form) {
     var _iteratorError = undefined;
 
     try {
-      for (var _iterator = form.querySelectorAll("input")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (var _iterator = form.querySelectorAll('input')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var input = _step.value;
-        if (input.getAttribute("value")) inputs[input.getAttribute("name")] = input.getAttribute("value");else inputs[input.getAttribute("name")] = input.value;
+        inputs[input.getAttribute('name')] = input.value;
       }
     } catch (err) {
       _didIteratorError = true;
@@ -1554,9 +1554,9 @@ function commentSubmissionsHandler(form) {
     var _iteratorError2 = undefined;
 
     try {
-      for (var _iterator2 = form.querySelectorAll("textarea")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var _input = _step2.value;
-        inputs.content = _input.value; // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
+      for (var _iterator2 = form.querySelectorAll('textarea')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var textarea = _step2.value;
+        inputs.content = textarea.value; // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
     } catch (err) {
       _didIteratorError2 = true;
@@ -1573,33 +1573,41 @@ function commentSubmissionsHandler(form) {
       }
     }
 
-    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, ""); //-- ERROR: Comment too short
+    if ('name' in inputs) {
+      inputs.captcha = event.target[1].value;
+    }
 
-    if (inputs["content"].length < 8) {
-      formSubmitError("Message too short", form);
-      form.querySelector(".submit-comment").classList.remove("loading-button");
+    console.log('inputs');
+    console.log(inputs);
+    inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, ''); //-- ERROR: Comment too short
+
+    if (inputs['content'].length < 8) {
+      formSubmitError('Message too short', form);
+      form.querySelector('.submit-comment').classList.remove('loading-button');
     } //-- ERROR: Comment Too Long
-    else if (inputs["content"].length > 30000) {
-        formSubmitError("Message too Long", form);
-        form.querySelector(".submit-comment").classList.remove("loading-button");
+    else if (inputs['content'].length > 30000) {
+        formSubmitError('Message too Long', form);
+        form.querySelector('.submit-comment').classList.remove('loading-button');
       } //-- ERROR: Guest user must have a Name
       else if ('name' in inputs && inputs.name.length < 2) {
-          formSubmitError("Must have a Valid Name", form);
-          form.querySelector(".submit-comment").classList.remove("loading-button");
+          formSubmitError('Must have a Valid Name', form);
+          form.querySelector('.submit-comment').classList.remove('loading-button');
         } // OK! Sending Reply or Edit POST
         else {
             var newLi = null;
             var status = null;
-            (0, _api.newFetch)(form.getAttribute("action"), inputs).then(function (res) {
+            (0, _api.newFetch)(form.getAttribute('action'), inputs).then(function (res) {
+              console.log('res1', res);
               status = res.status;
-              res.json();
+              return res.json();
             }).then(function (res) {
               if (status != 200) {
-                formSubmitError("Error submiting the form", form);
-                form.querySelector(".submit-comment").classList.remove("loading-button");
+                formSubmitError('Error submiting the form', form);
+                form.querySelector('.submit-comment').classList.remove('loading-button');
                 return false;
               }
 
+              console.log('res2', res);
               form.querySelector('button').classList.remove('loading-button');
 
               if (/edit/.test(form.getAttribute('action'))) {
@@ -1641,7 +1649,7 @@ function editActionHandler(form, inputs) {
   $postBody.innerHTML = (0, _util.parseLineBreaks)($postBody.innerHTML);
   (0, _gifs.singleGifComment)($postBody);
   form.classList.add('hidden');
-  form.querySelector(".submit-comment").classList.remove("loading-button");
+  form.querySelector('.submit-comment').classList.remove('loading-button');
 }
 
 function topReplyHandler(form, res) {
@@ -1651,7 +1659,7 @@ function topReplyHandler(form, res) {
   $li.setAttribute('data-pid', res.pid);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseLineBreaks)($li.querySelector('.post-body').innerHTML);
-  var nodebbDiv = document.getElementById("nodebb-comments-list");
+  var nodebbDiv = document.getElementById('nodebb-comments-list');
   nodebbDiv.prepend($li);
   form.querySelector('textarea').value = '';
   form.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
@@ -1663,7 +1671,7 @@ function parentCommentSetToDefault($li) {
   $li.classList.add('expanded');
   var $topicItem = $li.querySelector('.topic-item');
   $topicItem.classList.remove('replying');
-  $topicItem.classList.remove('quoting'); // Hide and clear forms 
+  $topicItem.classList.remove('quoting'); // Hide and clear forms
 
   var _iteratorNormalCompletion3 = true;
   var _didIteratorError3 = false;
@@ -1703,7 +1711,7 @@ function innerReplyHandler(form, res) {
   $li.querySelector('.post-body').innerHTML = (0, _util.parseCommentQuotes)($li.querySelector('.post-body').innerHTML);
   $li.querySelector('.post-body').innerHTML = (0, _util.parseLineBreaks)($li.querySelector('.post-body').innerHTML);
   (0, _gifs.singleGifComment)($li.querySelector('.post-body'));
-  var parentUl = null; // Setting Parent ul to append the new li 
+  var parentUl = null; // Setting Parent ul to append the new li
 
   if (dataLevel >= '2') {
     $li.querySelector('.topic-item').setAttribute('data-level', 2);
@@ -1726,9 +1734,9 @@ function innerReplyHandler(form, res) {
 }
 
 function formSubmitError(message, form) {
-  form.querySelector(".nodebb-error").innerText = message;
+  form.querySelector('.nodebb-error').innerText = message;
   setTimeout(function () {
-    form.querySelector(".nodebb-error").innerText = "";
+    form.querySelector('.nodebb-error').innerText = '';
   }, 3000);
 }
 },{"../../settings.js":"LXja","../api.js":"gYYA","./drawComments.js":"xsmJ","./events.js":"i572","../util.js":"VGLh","../addons/gifs.js":"XBBC","./newComment.js":"OGtT"}],"MTTM":[function(require,module,exports) {
