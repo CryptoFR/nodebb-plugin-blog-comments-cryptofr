@@ -714,6 +714,15 @@
     res.render("admin/admin", {});
   }
 
+  function wrapperCaptchaMiddleware(req, res, next) {
+    const uid = req.user ? req.user.uid : 0,
+    if (uid === 0) {
+      return captchaMiddleware(req, res, next)
+    } else {
+      return next();
+    }
+  }
+
 
   function captchaMiddleware(req, res, next) {
     const privateKey = meta.config["blog-comments:captcha-api-key"]; // your private key here
@@ -822,7 +831,7 @@
     );
     app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
-    app.post("/comments/reply", Comments.replyToComment);
+    app.post("/comments/reply", wrapperCaptchaMiddleware, Comments.replyToComment);
     app.post("/comments/publish", Comments.publishArticle);
     app.post("/comments/publish-batch", Comments.publishBatchArticles);
     app.post("/comments/vote", Comments.votePost);
