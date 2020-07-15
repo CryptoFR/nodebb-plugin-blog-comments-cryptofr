@@ -1532,7 +1532,6 @@ function commentSubmissionsHandler(form) {
     try {
       for (var _iterator = form.querySelectorAll('input')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var input = _step.value;
-        console.log(input.value);
         inputs[input.getAttribute('name')] = input.value;
       }
     } catch (err) {
@@ -1574,6 +1573,10 @@ function commentSubmissionsHandler(form) {
       }
     }
 
+    if ('name' in inputs) {
+      inputs.captcha = event.target[1].value;
+    }
+
     console.log('inputs');
     console.log(inputs);
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, ''); //-- ERROR: Comment too short
@@ -1586,13 +1589,9 @@ function commentSubmissionsHandler(form) {
         formSubmitError('Message too Long', form);
         form.querySelector('.submit-comment').classList.remove('loading-button');
       } //-- ERROR: Guest user must have a Name
-      else if ('name' in inputs) {
-          inputs.captcha = event.target[1].value;
-
-          if (inputs.name.length < 2) {
-            formSubmitError('Must have a Valid Name', form);
-            form.querySelector('.submit-comment').classList.remove('loading-button');
-          }
+      else if ('name' in inputs && inputs.name.length < 2) {
+          formSubmitError('Must have a Valid Name', form);
+          form.querySelector('.submit-comment').classList.remove('loading-button');
         } // OK! Sending Reply or Edit POST
         else {
             var newLi = null;
