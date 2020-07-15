@@ -20,6 +20,8 @@
   var turndownService = new TurndownService();
   module.exports = Comments;
 
+  const isLoggedIn = req => req.user && parseInt(req.user.uid, 10) > 0;
+
   function CORSSafeReq(req) {
     var hostUrls = (meta.config["blog-comments:url"] || "").split(","),
       url;
@@ -723,6 +725,36 @@
     }
   }
 
+  function checkGuestUsername(req, res, next) {
+    const { name } = req.body;
+    if (isLoggedIn(req)) {
+      return next();
+    } else if (typeof name !== 'string' || name.trim() === '') {
+      return res.status(422).json({
+        error: 'Invalid name',
+        results: {}
+      });
+    } else {
+      return user.existsBySlug(name, function cb(err, exists) {
+        if (err) {
+          winston.warn('There was an error checking guest username', err);
+          return res.status(500).json({
+            error: err.message,
+            results: {}
+          });
+        }
+        if (exists) {
+          return res.status(422).json({
+            error: 'Duplicated name',
+            results: {}
+          });
+        } else {
+          return next();
+        }
+      })
+    }
+  }
+
 
   function captchaMiddleware(req, res, next) {
     const privateKey = meta.config["blog-comments:captcha-api-key"]; // your private key here
@@ -802,8 +834,9 @@
     }
   }
 
+
   function loggedInMiddleware(req, res, next) {
-    if (req.user && parseInt(req.user.uid, 10) > 0) {
+    if (isLoggedIn(req)) {
       return next();
     } else {
       return res.status(403).json({
@@ -842,7 +875,7 @@
     );
     app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
-    app.post("/comments/reply", wrapperCaptchaMiddleware, Comments.replyToComment);
+    app.post("/comments/reply", checkGuestUsername, wrapperCaptchaMiddleware, Comments.replyToComment);
     app.post("/comments/publish", Comments.publishArticle);
     app.post("/comments/publish-batch", Comments.publishBatchArticles);
     app.post("/comments/vote", Comments.votePost);
@@ -859,7 +892,7 @@
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments)
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
     app.post('/ulogout',  function (req, res) {
-      if (req.user && parseInt(req.user.uid, 10) > 0) {
+      if (isLoggedIn(req)) {
           req.logout();
           res.json({ ok: true });
       } else {
