@@ -802,6 +802,17 @@
     }
   }
 
+  function loggedInMiddleware(req, res, next) {
+    if (req.user && parseInt(req.user.uid, 10) > 0) {
+      return next();
+    } else {
+      return res.status(403).json({
+        error: 'Not logged in',
+        results: {}
+      });
+    }
+  }
+
   Comments.onLoggedIn = function (params) {
     console.log('params',params, arguments)
     params.req.session.cookie.sameSite = "none";
@@ -837,7 +848,7 @@
     app.post("/comments/vote", Comments.votePost);
     app.post("/comments/downvote", Comments.downvotePost);
     app.post("/comments/bookmark", Comments.bookmarkPost);
-    app.post("/comments/edit/:pid", Comments.editPost);
+    app.post("/comments/edit/:pid", loggedInMiddleware, Comments.editPost);
     app.get("/comments/plugin/email", emailExists);
     app.get("/comments/plugin/username", userExists);
     app.get("/comments/test", Comments.test)
