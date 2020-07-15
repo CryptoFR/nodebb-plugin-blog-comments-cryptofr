@@ -641,7 +641,16 @@
   };
 
   function renderAdmin(req, res, callback) {
-    res.render('admin/admin', {});
+    res.render("admin/admin", {});
+  }
+
+  function wrapperCaptchaMiddleware(req, res, next) {
+    const uid = req.user ? req.user.uid : 0;
+    if (uid === 0) {
+      return captchaMiddleware(req, res, next)
+    } else {
+      return next();
+    }
   }
 
   function captchaMiddleware(req, res, next) {
@@ -650,7 +659,7 @@
     const response = req.body.captcha;
     simpleRecaptcha(privateKey, ip, response, function (err) {
       if (err)
-        return res.status(500).send({
+        return res.status(403).send({
           error: err.message,
           results: {},
         });
