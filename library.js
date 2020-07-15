@@ -715,7 +715,7 @@
   }
 
   function wrapperCaptchaMiddleware(req, res, next) {
-    const uid = req.user ? req.user.uid : 0,
+    const uid = req.user ? req.user.uid : 0;
     if (uid === 0) {
       return captchaMiddleware(req, res, next)
     } else {
