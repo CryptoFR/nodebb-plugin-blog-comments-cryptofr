@@ -730,7 +730,7 @@
     const response = req.body.captcha;
     simpleRecaptcha(privateKey, ip, response, function(err) {
       if (err)
-        return res.status(500).send({
+        return res.status(403).send({
           error: err.message,
           results: {}
         });
