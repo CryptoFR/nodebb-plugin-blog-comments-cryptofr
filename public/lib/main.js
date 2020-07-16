@@ -390,7 +390,7 @@ function addTimeAgoRecursive(posts) {
 
 
 function timeAgo(time) {
-  var time_formats = [[60, "secondes", 1], [120, "il y a une minute"], [3600, "minutes", 60], [7200, "il y a une heure"], [86400, "heures", 3600], [172800, "hier"], [604800, "jours", 86400], [1209600, "la semaine dernière"], [2419200, "semaines", 604800], [4838400, "le mois dernier"], [29030400, "mois", 2419200], [58060800, "il y a un an"], [2903040000, "ans", 29030400]];
+  var time_formats = [[60, 'secondes', 1], [120, 'il y a une minute'], [3600, 'minutes', 60], [7200, 'il y a une heure'], [86400, 'heures', 3600], [172800, 'hier'], [604800, 'jours', 86400], [1209600, 'la semaine dernière'], [2419200, 'semaines', 604800], [4838400, 'le mois dernier'], [29030400, 'mois', 2419200], [58060800, 'il y a un an'], [2903040000, 'ans', 29030400]];
   var seconds = (+new Date() - time) / 1000;
 
   if (seconds < 10) {
@@ -405,7 +405,7 @@ function timeAgo(time) {
       if (!format[2]) {
         return format[1];
       } else {
-        return "il y a " + Math.floor(seconds / format[2]) + " " + format[1];
+        return 'il y a ' + Math.floor(seconds / format[2]) + ' ' + format[1];
       }
     }
   }
@@ -416,13 +416,13 @@ function timeAgo(time) {
 function getCurrentDate() {
   var date_ob = new Date(); // adjust 0 before single digit date
 
-  var date = ("0" + date_ob.getDate()).slice(-2); // current month
+  var date = ('0' + date_ob.getDate()).slice(-2); // current month
 
-  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2); // current year
+  var month = ('0' + (date_ob.getMonth() + 1)).slice(-2); // current year
 
   var year = date_ob.getFullYear(); // prints date & time in YYYY-MM-DD format
 
-  return year + "-" + month + "-" + date;
+  return year + '-' + month + '-' + date;
 }
 
 function removeNodes(nodes) {
@@ -439,15 +439,15 @@ function removeNodes(nodes) {
 
 
 function addLoader() {
-  if (document.querySelector("div.loading")) {
+  if (document.querySelector('div.loading')) {
     return;
   }
 
-  var div = document.createElement("div");
-  div.classList.add("loading");
+  var div = document.createElement('div');
+  div.classList.add('loading');
   div.innerHTML = "<img src='" + nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/img/loader.gif'>";
-  if (document.querySelector(".load-more-div")) document.querySelector(".load-more-div").appendChild(div);else document.querySelector("#nodebb").appendChild(div);
-  document.querySelector("body").classList.add("hasLoader");
+  if (document.querySelector('.load-more-div')) document.querySelector('.load-more-div').appendChild(div);else document.querySelector('#nodebb').appendChild(div);
+  document.querySelector('body').classList.add('hasLoader');
 }
 /**
  * Removes the loading div from the DOM
@@ -455,9 +455,9 @@ function addLoader() {
 
 
 function removeLoader() {
-  var div = document.querySelector("#nodebb-comments-list div.loading");
+  var div = document.querySelector('#nodebb-comments-list div.loading');
   if (div) removeNodes(div);
-  document.querySelector("body").classList.remove("hasLoader");
+  document.querySelector('body').classList.remove('hasLoader');
 }
 /**
  * Adds the URL of the NodeBB forum to the post's html
@@ -467,15 +467,15 @@ function removeLoader() {
 
 
 function normalizePost(post) {
-  return post.replace(/href="\/(?=\w)/g, 'href="' + nodeBBURL + "/").replace(/src="\/(?=\w)/g, 'src="' + nodeBBURL + "/");
+  return post.replace(/href="\/(?=\w)/g, 'href="' + nodeBBURL + '/').replace(/src="\/(?=\w)/g, 'src="' + nodeBBURL + '/');
 }
 
 function loadCSS(url) {
-  var stylesheet = document.createElement("link");
-  stylesheet.setAttribute("rel", "stylesheet");
-  stylesheet.setAttribute("type", "text/css");
-  stylesheet.setAttribute("href", url);
-  document.getElementsByTagName("head")[0].appendChild(stylesheet);
+  var stylesheet = document.createElement('link');
+  stylesheet.setAttribute('rel', 'stylesheet');
+  stylesheet.setAttribute('type', 'text/css');
+  stylesheet.setAttribute('href', url);
+  document.getElementsByTagName('head')[0].appendChild(stylesheet);
 }
 
 function loadScript(url) {
@@ -512,11 +512,11 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 /**
-* Function that changes a single attribute to a group of DOM Elements
-* @param {Array<DOMElement> | DOMElement} elements the group of elements
-* @param {String} attribute the attribute to change
-* @param {String} value the value we are going to assign to these elements
-*/
+ * Function that changes a single attribute to a group of DOM Elements
+ * @param {Array<DOMElement> | DOMElement} elements the group of elements
+ * @param {String} attribute the attribute to change
+ * @param {String} value the value we are going to assign to these elements
+ */
 
 
 function changeAttribute(elements, attribute, value) {
@@ -531,13 +531,13 @@ function changeAttribute(elements, attribute, value) {
   }
 }
 /**
-* Toggle class helper. It tests "value" and if true, the helper adds the "classTrueValue" string to the element
-* otherwise it adds the "classFalseValue"
-* @param {DOMElement} element
-* @param {any} value this value will be coerced to Boolean
-* @param {String} classTrueValue
-* @param {String} classFalseValue
-*/
+ * Toggle class helper. It tests "value" and if true, the helper adds the "classTrueValue" string to the element
+ * otherwise it adds the "classFalseValue"
+ * @param {DOMElement} element
+ * @param {any} value this value will be coerced to Boolean
+ * @param {String} classTrueValue
+ * @param {String} classFalseValue
+ */
 
 
 function addClassHelper(element, value, classTrueValue, classFalseValue) {
@@ -556,7 +556,7 @@ function addClassHelper(element, value, classTrueValue, classFalseValue) {
 }
 
 function reactElementRelocation() {
-  $("#buttons-container").prepend($("#root button"));
+  $('#buttons-container').prepend($('#root button'));
 }
 
 function getIndexesOf(searchStr, str, caseSensitive) {
@@ -585,9 +585,9 @@ function getIndexesOf(searchStr, str, caseSensitive) {
 
 
 function parseLineBreaks(comment) {
-  var comment = comment.split("\n").join("<br>");
-  comment = comment.replace(/(\<\s*br\s*\>\s*){2,}/gm, "<br>");
-  comment = comment.replace(/^(\<br\>)+/m, "");
+  var comment = comment.split('\n').join('<br>');
+  comment = comment.replace(/(\<\s*br\s*\>\s*){2,}/gm, '<br>');
+  comment = comment.replace(/^(\<br\>)+/m, '');
   return comment;
 }
 
@@ -599,7 +599,7 @@ function parseCommentQuotes(comment) {
   var quoting = false;
 
   if (quotesChar.length > 1) {
-    var newcomment = "";
+    var newcomment = '';
 
     for (var i = 0; i < quotesChar.length; i++) {
       if (quotesChar[i].length > 1) {
@@ -608,12 +608,12 @@ function parseCommentQuotes(comment) {
           quotesChar[i] = "<span class='quote-marks'>" + quotesChar[i];
         }
 
-        if (quotesChar[i].split("\n").length > 1) {
-          var quotesParsed = quotesChar[i].split("\n");
-          var newQuote = quotesParsed[0] + "</span>";
+        if (quotesChar[i].split('\n').length > 1) {
+          var quotesParsed = quotesChar[i].split('\n');
+          var newQuote = quotesParsed[0] + '</span>';
 
           for (var j = 1; j < quotesParsed.length; j++) {
-            newQuote = newQuote + "<br>" + quotesParsed[j];
+            newQuote = newQuote + '<br>' + quotesParsed[j];
           }
 
           quoting = false;
@@ -651,15 +651,15 @@ function getCoords(elem) {
 
 
 function dragElement() {
-  var elmnt = document.querySelector(".comments-enhancement-box");
+  var elmnt = document.querySelector('.comments-enhancement-box');
   var pos1 = 0,
       pos2 = 0,
       pos3 = 0,
       pos4 = 0;
 
-  if (elmnt.querySelector(".header")) {
+  if (elmnt.querySelector('.header')) {
     // if present, the header is where you move the DIV from:
-    elmnt.querySelector(".header").onmousedown = dragMouseDown;
+    elmnt.querySelector('.header').onmousedown = dragMouseDown;
   } else {
     // otherwise, move the DIV from anywhere inside the DIV:
     elmnt.onmousedown = dragMouseDown;
@@ -685,8 +685,8 @@ function dragElement() {
     pos3 = e.clientX;
     pos4 = e.clientY; // set the element's new position:
 
-    elmnt.style.top = elmnt.offsetTop - pos2 + "px";
-    elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
+    elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+    elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
   }
 
   function closeDragElement() {
@@ -717,8 +717,6 @@ function debounce(func, wait, immediate) {
     if (callNow) func.apply(context, args);
   };
 }
-
-;
 
 function isHidden(el) {
   var style = window.getComputedStyle(el);
@@ -827,6 +825,8 @@ var _loadComments = require("../comments/loadComments.js");
 
 var _api = require("../api.js");
 
+var _util = require("../util");
+
 /**
  * Function called to set up values on the modal
  * @param {string} modalTemplate HTML code for the modal
@@ -835,24 +835,24 @@ var _api = require("../api.js");
  * @returns {DOMElement} Modal's div element
  */
 function prepareModal(modalTemplate, token, onSubmit) {
-  var div = document.createElement("div");
+  var div = document.createElement('div');
   div.innerHTML = modalTemplate;
-  div.querySelector("span.modal-close").onclick = closeModal;
-  var form = div.querySelector("form");
+  div.querySelector('span.modal-close').onclick = closeModal;
+  var form = div.querySelector('form');
   form.onsubmit = onSubmit;
-  form.setAttribute("action", nodeBBURL + "/login");
-  form.querySelector("input[name='_csrf']").setAttribute("value", token);
-  var registerModal$ = div.querySelector(".register-modal-open");
+  form.setAttribute('action', nodeBBURL + '/login');
+  form.querySelector("input[name='_csrf']").setAttribute('value', token);
+  var registerModal$ = div.querySelector('.register-modal-open');
 
   if (registerModal$) {
-    registerModal$.setAttribute("href", nodeBBURL + "/register");
+    registerModal$.setAttribute('href', nodeBBURL + '/register');
   }
 
-  if (div.querySelector(".google a")) div.querySelector(".google a").setAttribute("data-link", nodeBBURL + "/auth/google");
-  if (div.querySelector(".facebook a")) div.querySelector(".facebook a").setAttribute("data-link", nodeBBURL + "/auth/facebook");
-  if (div.querySelector(".twitter a")) div.querySelector(".twitter a").setAttribute("data-link", nodeBBURL + "/auth/twitter");
-  if (div.querySelector(".github a")) div.querySelector(".github a").setAttribute("data-link", nodeBBURL + "/auth/github");
-  if (div.querySelector("img.icon")) div.querySelector("img.icon").setAttribute("src", nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg");
+  if (div.querySelector('.google a')) div.querySelector('.google a').setAttribute('data-link', nodeBBURL + '/auth/google');
+  if (div.querySelector('.facebook a')) div.querySelector('.facebook a').setAttribute('data-link', nodeBBURL + '/auth/facebook');
+  if (div.querySelector('.twitter a')) div.querySelector('.twitter a').setAttribute('data-link', nodeBBURL + '/auth/twitter');
+  if (div.querySelector('.github a')) div.querySelector('.github a').setAttribute('data-link', nodeBBURL + '/auth/github');
+  if (div.querySelector('img.icon')) div.querySelector('img.icon').setAttribute('src', nodeBBURL + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg');
   return div;
 }
 /**
@@ -884,7 +884,7 @@ function onSubmitLogin(e) {
   var t = e.target;
   var modalElement = document.querySelector("div.modal[data-closed='0']");
   var loginButton = document.querySelectorAll('button.login-button')[0];
-  loginButton.classList.add("loading-button");
+  loginButton.classList.add('loading-button');
   (0, _api.login)(t.querySelector("input[name='email']").value, t.querySelector("input[name='password']").value, t.querySelector("input[name='_csrf']").value); // setTimeout(closeModal, 100);
 }
 /**
@@ -897,8 +897,8 @@ function closeModal() {
   var modalElement = document.querySelector("div.modal[data-closed='0']");
 
   if (modalElement) {
-    modalElement.setAttribute("data-closed", "1");
-    modalElement.style.display = "none"; // set.reload(true) 
+    modalElement.setAttribute('data-closed', '1');
+    modalElement.style.display = 'none'; // set.reload(true)
 
     (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
   }
@@ -923,7 +923,7 @@ function authenticate(type) {
 
   if (modal) {
     var timer = setInterval(function () {
-      if (modal.getAttribute("data-closed") === "1") {
+      if (modal.getAttribute('data-closed') === '1') {
         clearInterval(timer); // reloadComments();
       }
     }, 500);
@@ -937,35 +937,35 @@ function authenticate(type) {
 
 
 function openModal(type) {
-  var modalSelector = type === "login" ? "#login-modal" : "#register-modal";
+  var modalSelector = type === 'login' ? '#login-modal' : '#register-modal';
   var modalElement = document.querySelector(modalSelector);
   if (!modalElement) return null;
 
-  if (modalElement.getAttribute("data-closed") === "0") {
+  if (modalElement.getAttribute('data-closed') === '0') {
     return modalElement;
   }
 
-  modalElement.style.display = "block";
-  modalElement.setAttribute("data-closed", "0");
+  modalElement.style.display = 'block';
+  modalElement.setAttribute('data-closed', '0');
   return modalElement;
 } // Google Captcha
 
 
 function grecaptchaGrab() {
-  if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
+  if (window.grecaptcha && typeof window.grecaptcha.ready === 'function') {
     window.grecaptcha.ready(function () {
       var interval = setInterval(renderCallback, 1000);
 
       function renderCallback() {
-        var container = document.getElementById("google-callback");
+        var container = document.getElementById('google-callback');
 
-        if (container && !container.querySelector("iframe")) {
-          $("#google-callback").click(function (e) {
+        if (container && !container.querySelector('iframe')) {
+          $('#google-callback').click(function (e) {
             return e.preventDefault();
           });
 
           _settings.set.renderedCaptcha(window.grecaptcha.render(container, {
-            sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
+            sitekey: '6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y'
           }));
 
           clearInterval(interval);
@@ -981,15 +981,15 @@ function grecaptchaGrab() {
 
 
 function loginError(message) {
-  var modal = document.querySelector("#login-modal");
-  modal.querySelector(".nodebb-error").innerText = message;
-  modal.querySelector(".nodebb-error").classList.add("display");
+  var modal = document.querySelector('#login-modal');
+  modal.querySelector('.nodebb-error').innerText = message;
+  modal.querySelector('.nodebb-error').classList.add('display');
   setTimeout(function () {
-    modal.querySelector(".nodebb-error").innerText = "";
-    modal.querySelector(".nodebb-error").classList.remove("display");
+    modal.querySelector('.nodebb-error').innerText = '';
+    modal.querySelector('.nodebb-error').classList.remove('display');
   }, 6000);
 }
-},{"../../settings.js":"LXja","../comments/loadComments.js":"V8ra","../api.js":"gYYA"}],"Ca7Q":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../comments/loadComments.js":"V8ra","../api.js":"gYYA","../util":"VGLh"}],"Ca7Q":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1122,117 +1122,7 @@ function setActiveSortingLi(sorting) {
     element.parentNode.classList.add("active");
   }
 }
-},{"../../settings.js":"LXja","./loadComments.js":"V8ra"}],"PCfX":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.checkExpandableComments = checkExpandableComments;
-
-var _util = require("../util.js");
-
-/**************************************
-
-   Expand/Collapse comments functions
-
-***************************************/
-function checkExpandableComments() {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = document.querySelectorAll("#nodebb-comments-list li")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var comment = _step.value;
-
-      if (comment.querySelector("ul") && !comment.querySelector(".expandable-button")) {
-        var expandableButton = document.createElement("span");
-        expandableButton.classList.add("expandable-button");
-        expandableButton.classList.add("expanded");
-        expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
-        comment.classList.add("expandable");
-        comment.classList.add("expanded");
-        comment.querySelector(".topic-item > .topic-body > .topic-text > .post-content >small ").appendChild(expandableButton);
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  collapseExpandCommentEvent();
-}
-
-function collapseExpandCommentEvent() {
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    var _loop = function _loop() {
-      var expandableButton = _step2.value;
-
-      if (!expandableButton.getAttribute('data-event')) {
-        expandableButton.addEventListener('click', function (e) {
-          // collapsing 
-          console.log(expandableButton);
-
-          if (expandableButton.classList.contains('expanded')) {
-            var expandedButton = expandableButton;
-            expandedButton.classList.remove("expanded");
-            expandedButton.classList.add("collapsed");
-            var expandedComment = expandedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-            expandedComment.classList.remove("expanded");
-            expandedComment.classList.add("collapsed");
-            expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
-            expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
-          } // expanding
-          else {
-              var collapsedButton = expandableButton;
-              collapsedButton.classList.remove("collapsed");
-              collapsedButton.classList.add("expanded");
-              var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-              collapsedComment.classList.remove("collapsed");
-              collapsedComment.classList.add("expanded");
-              collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
-              expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
-              (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
-            }
-        });
-        expandableButton.setAttribute('data-event', true);
-      }
-    };
-
-    for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      _loop();
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-}
-},{"../util.js":"VGLh"}],"XBBC":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./loadComments.js":"V8ra"}],"XBBC":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1574,7 +1464,7 @@ function commentSubmissionsHandler(form) {
     }
 
     if ('name' in inputs) {
-      inputs.captcha = event.target[3].value;
+      inputs.captcha = event.target[6].value;
     }
 
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, ''); //-- ERROR: Comment too short
@@ -1737,7 +1627,117 @@ function formSubmitError(message, form) {
     form.querySelector('.nodebb-error').innerText = '';
   }, 3000);
 }
-},{"../../settings.js":"LXja","../api.js":"gYYA","./drawComments.js":"xsmJ","./events.js":"i572","../util.js":"VGLh","../addons/gifs.js":"XBBC","./newComment.js":"OGtT"}],"MTTM":[function(require,module,exports) {
+},{"../../settings.js":"LXja","../api.js":"gYYA","./drawComments.js":"xsmJ","./events.js":"i572","../util.js":"VGLh","../addons/gifs.js":"XBBC","./newComment.js":"OGtT"}],"PCfX":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.checkExpandableComments = checkExpandableComments;
+
+var _util = require("../util.js");
+
+/**************************************
+
+   Expand/Collapse comments functions
+
+***************************************/
+function checkExpandableComments() {
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = document.querySelectorAll("#nodebb-comments-list li")[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var comment = _step.value;
+
+      if (comment.querySelector("ul") && !comment.querySelector(".expandable-button")) {
+        var expandableButton = document.createElement("span");
+        expandableButton.classList.add("expandable-button");
+        expandableButton.classList.add("expanded");
+        expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
+        comment.classList.add("expandable");
+        comment.classList.add("expanded");
+        comment.querySelector(".topic-item > .topic-body > .topic-text > .post-content >small ").appendChild(expandableButton);
+      }
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  collapseExpandCommentEvent();
+}
+
+function collapseExpandCommentEvent() {
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    var _loop = function _loop() {
+      var expandableButton = _step2.value;
+
+      if (!expandableButton.getAttribute('data-event')) {
+        expandableButton.addEventListener('click', function (e) {
+          // collapsing 
+          console.log(expandableButton);
+
+          if (expandableButton.classList.contains('expanded')) {
+            var expandedButton = expandableButton;
+            expandedButton.classList.remove("expanded");
+            expandedButton.classList.add("collapsed");
+            var expandedComment = expandedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+            expandedComment.classList.remove("expanded");
+            expandedComment.classList.add("collapsed");
+            expandedComment.querySelector("ul:first-of-type").classList.add("collapsed-comments");
+            expandableButton.innerHTML = '<i class="fad fa-comment-alt-plus"></i>';
+          } // expanding
+          else {
+              var collapsedButton = expandableButton;
+              collapsedButton.classList.remove("collapsed");
+              collapsedButton.classList.add("expanded");
+              var collapsedComment = collapsedButton.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+              collapsedComment.classList.remove("collapsed");
+              collapsedComment.classList.add("expanded");
+              collapsedComment.querySelector("ul:first-of-type").classList.remove("collapsed-comments");
+              expandableButton.innerHTML = '<i class="fad fa-comment-alt-minus"></i>';
+              (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+            }
+        });
+        expandableButton.setAttribute('data-event', true);
+      }
+    };
+
+    for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list li.expandable .expandable-button")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      _loop();
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+}
+},{"../util.js":"VGLh"}],"MTTM":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1820,6 +1820,7 @@ exports.prepareSignout = prepareSignout;
 exports.loadMoreEvent = loadMoreEvent;
 exports.newerCommentsDisplayEvent = newerCommentsDisplayEvent;
 exports.markdownSpecialActions = markdownSpecialActions;
+exports.moveCaptchaBox = moveCaptchaBox;
 
 var _settings = require("../../settings.js");
 
@@ -1846,43 +1847,43 @@ var _emoji = require("../addons/emoji.js");
 function bindEvents(user, li) {
   function eventAuth() {
     /*if (!user || !user.uid) {
-      authenticate("login");
-      return false;
-    }*/
+        authenticate("login");
+        return false;
+      }*/
     return true;
   }
 
   function initClick(element) {
-    var dataComponent = element.getAttribute("data-component");
+    var dataComponent = element.getAttribute('data-component');
     var topicItem = event.target;
-    var upvoted = JSON.parse(element.getAttribute("data-upvoted"));
-    var downvoted = JSON.parse(element.getAttribute("data-downvoted"));
+    var upvoted = JSON.parse(element.getAttribute('data-upvoted'));
+    var downvoted = JSON.parse(element.getAttribute('data-downvoted'));
 
-    while (topicItem && !topicItem.classList.contains("topic-item")) {
+    while (topicItem && !topicItem.classList.contains('topic-item')) {
       topicItem = topicItem.parentElement;
     }
 
     var postBody;
 
     if (/\/(quote|edit)$/.test(dataComponent)) {
-      postBody = topicItem.querySelector(".post-content .post-body");
+      postBody = topicItem.querySelector('.post-content .post-body');
     }
 
-    var pid = topicItem.getAttribute("data-pid");
-    var uid = topicItem.getAttribute("data-uid");
-    var level = topicItem.getAttribute("data-level");
-    var formClass = /\/edit$/.test(dataComponent) ? ".sub-edit-input" : ".sub-reply-input";
-    var elementForm = topicItem.querySelector("form" + formClass);
-    var formInput = elementForm.querySelector("textarea");
+    var pid = topicItem.getAttribute('data-pid');
+    var uid = topicItem.getAttribute('data-uid');
+    var level = topicItem.getAttribute('data-level');
+    var formClass = /\/edit$/.test(dataComponent) ? '.sub-edit-input' : '.sub-reply-input';
+    var elementForm = topicItem.querySelector('form' + formClass);
+    var formInput = elementForm.querySelector('textarea');
 
-    var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
+    var nodebbCommentsList = _settings.nodebbDiv.querySelector('#nodebb-comments-list');
 
-    var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)"); // Hide all other forms
+    var visibleForm = nodebbCommentsList.querySelector('li .topic-item form:not(.hidden)'); // Hide all other forms
 
     if (visibleForm && visibleForm !== elementForm) {
-      topicItem.classList.remove("replying");
-      topicItem.classList.remove("quoting");
-      visibleForm.classList.add("hidden");
+      topicItem.classList.remove('replying');
+      topicItem.classList.remove('quoting');
+      visibleForm.classList.add('hidden');
       var cl = visibleForm.closest('.replying');
 
       if (cl) {
@@ -1917,7 +1918,7 @@ function bindEvents(user, li) {
   if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid && _settings.dataRes.user.uid != 0) {
     commentOptions();
   } else {
-    (0, _util.removeNodes)(li.querySelector(".menuButton-container"));
+    (0, _util.removeNodes)(li.querySelector('.menuButton-container'));
   }
 
   li.setAttribute('data-event', 'true'); // Reply CLick
@@ -1939,22 +1940,22 @@ function bindEvents(user, li) {
         downvoted = _initClick.downvoted; // Click to hide
 
 
-    if (topicItem.classList.contains("replying")) {
-      topicItem.classList.remove("replying");
-      elementForm.classList.add("hidden");
-      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // click to reply
+    if (topicItem.classList.contains('replying')) {
+      topicItem.classList.remove('replying');
+      elementForm.classList.add('hidden');
+      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector('#nodebb-comments-list')); // click to reply
     } else {
       formInput.value = '';
-      elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
-      topicItem.classList.add("replying");
-      topicItem.classList.remove("quoting");
-      elementForm.classList.remove("hidden");
-      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
+      elementForm.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+      topicItem.classList.add('replying');
+      topicItem.classList.remove('quoting');
+      elementForm.classList.remove('hidden');
+      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector('#nodebb-comments-list'));
 
       if (level >= 2) {
-        var atStr = "@" + topicItem.getAttribute("data-userslug") + ":";
-        formInput.value = atStr + " ";
-        elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = atStr + " ";
+        var atStr = '@' + topicItem.getAttribute('data-userslug') + ':';
+        formInput.value = atStr + ' ';
+        elementForm.querySelector('.emoji-wysiwyg-editor').innerHTML = atStr + ' ';
       }
     }
   }); // Quote Click
@@ -1976,22 +1977,22 @@ function bindEvents(user, li) {
         downvoted = _initClick2.downvoted; //  Click to hide
 
 
-    if (topicItem.classList.contains("quoting")) {
-      topicItem.classList.remove("quoting");
-      elementForm.classList.add("hidden");
-      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector("#nodebb-comments-list")); // Click to quote
+    if (topicItem.classList.contains('quoting')) {
+      topicItem.classList.remove('quoting');
+      elementForm.classList.add('hidden');
+      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector('#nodebb-comments-list')); // Click to quote
     } else {
       formInput.value = '';
-      elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = '';
-      topicItem.classList.add("quoting");
-      topicItem.classList.remove("replying");
-      var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split("\n").map(function (line) {
-        return line ? "> " + line : line;
-      }).join(" \n ");
-      formInput.value = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-      elementForm.querySelector(".emoji-wysiwyg-editor").innerHTML = "@" + topicItem.getAttribute("data-userslug") + " said:\n" + quote;
-      elementForm.classList.remove("hidden");
-      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector("#nodebb-comments-list"));
+      elementForm.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+      topicItem.classList.add('quoting');
+      topicItem.classList.remove('replying');
+      var quote = (postBody.getAttribute('content') ? postBody.getAttribute('content') : postBody.textContent).split('\n').map(function (line) {
+        return line ? '> ' + line : line;
+      }).join(' \n ');
+      formInput.value = '@' + topicItem.getAttribute('data-userslug') + ' said:\n' + quote;
+      elementForm.querySelector('.emoji-wysiwyg-editor').innerHTML = '@' + topicItem.getAttribute('data-userslug') + ' said:\n' + quote;
+      elementForm.classList.remove('hidden');
+      if (!elementForm.parentNode.parentNode.classList.contains('collapsed')) (0, _util.setMaxHeight)(document.querySelector('#nodebb-comments-list'));
     }
   }); // Upvote click
 
@@ -2114,23 +2115,23 @@ function bindEvents(user, li) {
   (0, _gifs.gifBoxInit)();
 }
 /**
- * DISPLAY OPTIONS 
+ * DISPLAY OPTIONS
  */
 
 
 function commentOptions() {
   $(document).click(function (e) {
-    var container = $(".menuButton");
+    var container = $('.menuButton');
 
     if (!container.is(e.target) && container.has(e.target).length === 0) {
-      $(".options-container").hide();
+      $('.options-container').hide();
     }
   });
   $(document).mouseover(function (e) {
-    var container = $("#nodebb-comments-list .topic-body");
+    var container = $('#nodebb-comments-list .topic-body');
 
     if (!container.is(e.target) && container.has(e.target).length === 0) {
-      $(".options-container").hide();
+      $('.options-container').hide();
     }
   });
   var _iteratorNormalCompletion2 = true;
@@ -2141,18 +2142,18 @@ function commentOptions() {
     var _loop = function _loop() {
       var comment = _step2.value;
 
-      if (comment.querySelector(".options-container .edit-option") && !comment.closest('li').getAttribute('data-event')) {
+      if (comment.querySelector('.options-container .edit-option') && !comment.closest('li').getAttribute('data-event')) {
         // Edit Click
-        comment.querySelector(".options-container .edit-option").addEventListener("click", function () {
-          var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
+        comment.querySelector('.options-container .edit-option').addEventListener('click', function () {
+          var nodebbCommentsList = _settings.nodebbDiv.querySelector('#nodebb-comments-list');
 
-          var visibleForm = nodebbCommentsList.querySelector("li .topic-item form:not(.hidden)");
+          var visibleForm = nodebbCommentsList.querySelector('li .topic-item form:not(.hidden)');
           if (visibleForm) visibleForm.classList.add('hidden');
           $('.editing').removeClass('hidden').removeClass('editing');
           $('.replying, .quoting').removeClass('replying').removeClass('quoting');
-          comment.parentNode.querySelector(".sub-edit-input").classList.remove("hidden");
-          comment.parentNode.querySelector(".sub-edit-input textarea").value = comment.parentNode.querySelector(".post-body").getAttribute("content");
-          comment.parentNode.querySelector(".sub-edit-input .emoji-wysiwyg-editor").innerText = comment.parentNode.querySelector(".post-body").getAttribute("content").replace(/<br>|&lt;br&gt;/ig, '\n').replace(/(<([^>]+)>)/ig, "");
+          comment.parentNode.querySelector('.sub-edit-input').classList.remove('hidden');
+          comment.parentNode.querySelector('.sub-edit-input textarea').value = comment.parentNode.querySelector('.post-body').getAttribute('content');
+          comment.parentNode.querySelector('.sub-edit-input .emoji-wysiwyg-editor').innerText = comment.parentNode.querySelector('.post-body').getAttribute('content').replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, '');
           comment.querySelector('.post-body').classList.add('hidden');
           comment.querySelector('.post-tools').classList.add('hidden');
           comment.querySelector('.post-body').classList.add('editing');
@@ -2162,24 +2163,24 @@ function commentOptions() {
           }, 0);
         }); // Delete Click
 
-        comment.querySelector(".options-container .delete-option").addEventListener("click", function () {
+        comment.querySelector('.options-container .delete-option').addEventListener('click', function () {
           if (comment.querySelector('.confirm-delete')) return;
           var div = document.createElement('div');
           div.classList.add('confirm-delete');
           var buttonYes = document.createElement('button');
           buttonYes.classList.add('YesDelete');
-          buttonYes.innerText = "Yes";
+          buttonYes.innerText = 'Yes';
           var buttonNo = document.createElement('button');
           buttonNo.classList.add('NoDelete');
-          buttonNo.innerText = "No";
+          buttonNo.innerText = 'No';
           var p = document.createElement('p');
-          p.innerText = "Are you sure you want to delete this comment?";
+          p.innerText = 'Are you sure you want to delete this comment?';
           div.append(p);
           div.append(buttonYes);
           div.append(buttonNo);
           comment.append(div);
           buttonYes.addEventListener('click', function () {
-            (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute("data-pid")).then(function () {
+            (0, _api.deletePost)(comment.parentNode, comment.parentNode.getAttribute('data-pid')).then(function () {
               _settings.set.reload(true);
 
               (0, _loadComments.reloadComments)(_settings.pagination, 0, false);
@@ -2197,10 +2198,10 @@ function commentOptions() {
       var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator3 = comment.querySelectorAll(".menuButton")[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        for (var _iterator3 = comment.querySelectorAll('.menuButton')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
           var button = _step3.value;
-          button.addEventListener("click", function () {
-            comment.querySelector(".options-container").style.display = "block";
+          button.addEventListener('click', function () {
+            comment.querySelector('.options-container').style.display = 'block';
           });
         }
       } catch (err) {
@@ -2219,7 +2220,7 @@ function commentOptions() {
       }
     };
 
-    for (var _iterator2 = document.querySelectorAll("#nodebb-comments-list .topic-body")[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+    for (var _iterator2 = document.querySelectorAll('#nodebb-comments-list .topic-body')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       _loop();
     }
   } catch (err) {
@@ -2240,7 +2241,7 @@ function commentOptions() {
 
 function prepareSignout(token) {
   // console.log('calling prepare signout', $(".logout-box"))
-  $(".logout-box").click(function () {
+  $('.logout-box').click(function () {
     (0, _api.logout)(token);
     setTimeout(function () {
       return (0, _loadComments.reloadComments)(0, 0, false);
@@ -2249,9 +2250,9 @@ function prepareSignout(token) {
 }
 
 function loadMoreEvent() {
-  var button = document.querySelector("#nodebb-load-more");
-  button.addEventListener("click", function loadMoreClick() {
-    if (!$("body").hasClass("hasLoader")) {
+  var button = document.querySelector('#nodebb-load-more');
+  button.addEventListener('click', function loadMoreClick() {
+    if (!$('body').hasClass('hasLoader')) {
       (0, _loadComments.reloadComments)(_settings.pagination + 1);
     }
   });
@@ -2332,7 +2333,7 @@ function newerCommentsDisplayEvent() {
     _settings.set.timestamp(this.getAttribute('data-timestamp'));
 
     (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
-    document.querySelector('.newer-comments').style.display = "none";
+    document.querySelector('.newer-comments').style.display = 'none';
   });
 }
 
@@ -2341,11 +2342,11 @@ function markdownSpecialActions() {
     e.preventDefault();
   });
   $(document).on('click', '.special-action.bold', function (e) {
-    var wysiwyg = this.closest('form').querySelector(".emoji-wysiwyg-editor");
+    var wysiwyg = this.closest('form').querySelector('.emoji-wysiwyg-editor');
 
     if (window.getSelection().isCollapsed || !window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
-      wysiwyg.innerText = wysiwyg.innerText + "**texte en gras**";
-      (0, _util.selectText)(wysiwyg, "texte en gras");
+      wysiwyg.innerText = wysiwyg.innerText + '**texte en gras**';
+      (0, _util.selectText)(wysiwyg, 'texte en gras');
     } else if (window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
       var wysiwygTextNode = wysiwyg.firstChild;
       var textSplitted = wysiwygTextNode.splitText(window.getSelection().baseOffset);
@@ -2359,11 +2360,11 @@ function markdownSpecialActions() {
   });
   $(document).on('click', '.special-action.italic', function (e) {
     e.preventDefault();
-    var wysiwyg = this.closest('form').querySelector(".emoji-wysiwyg-editor");
+    var wysiwyg = this.closest('form').querySelector('.emoji-wysiwyg-editor');
 
     if (window.getSelection().isCollapsed || !window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
-      wysiwyg.innerText = wysiwyg.innerText + "*texte en italique*";
-      (0, _util.selectText)(wysiwyg, "texte en italique");
+      wysiwyg.innerText = wysiwyg.innerText + '*texte en italique*';
+      (0, _util.selectText)(wysiwyg, 'texte en italique');
     } else if (window.getSelection().anchorNode.parentNode.classList.contains('emoji-wysiwyg-editor')) {
       var wysiwygTextNode = wysiwyg.firstChild;
       var textSplitted = wysiwygTextNode.splitText(window.getSelection().baseOffset);
@@ -2374,6 +2375,13 @@ function markdownSpecialActions() {
       wysiwyg.normalize();
       (0, _util.selectText)(wysiwyg, null, 1);
     }
+  });
+}
+
+function moveCaptchaBox() {
+  $('.topic-item').addClass('guest-comment');
+  $(document).on('focus', '.emoji-wysiwyg-editor', function () {
+    $(this).parent().append($('#google-callback'));
   });
 }
 },{"../../settings.js":"LXja","../login/modal.js":"kjEe","../util.js":"VGLh","../api.js":"gYYA","./commentSubmission.js":"xoe6","./expandComments.js":"PCfX","./loadComments.js":"V8ra","./newComment.js":"OGtT","./drawComments.js":"xsmJ","../addons/gifs.js":"XBBC","../addons/emoji.js":"MTTM"}],"f33D":[function(require,module,exports) {
@@ -2509,10 +2517,6 @@ var _loadComments = require("./loadComments.js");
 
 var _sortComments = require("./sortComments.js");
 
-var _api = require("../api.js");
-
-var _expandComments = require("./expandComments.js");
-
 var _events = require("./events.js");
 
 var _commentEnhancementBox = require("../addons/commentEnhancementBox.js");
@@ -2547,12 +2551,12 @@ function drawComments() {
     }
 
     if (_settings.pagination == 0 && !_settings.reload) {
-      $("#nodebb-comments-list").css('min-height', 0);
+      $('#nodebb-comments-list').css('min-height', 0);
     } else {
-      $("#nodebb-comments-list").css('min-height', $("#nodebb-comments-list").height());
+      $('#nodebb-comments-list').css('min-height', $('#nodebb-comments-list').height());
     }
 
-    $("body").removeClass("loadmore");
+    $('body').removeClass('loadmore');
 
     if (_settings.reload) {
       (0, _loadComments.reloadComments)(_settings.pagination, _settings.page + 1, false);
@@ -2568,6 +2572,12 @@ function drawComments() {
 
     (0, _upload.uploadInit)();
     (0, _events.markdownSpecialActions)();
+    console.log('datauser');
+    console.log(data);
+
+    if (!data.user.uid) {
+      (0, _events.moveCaptchaBox)();
+    }
   }
 
   (0, _util.removeLoader)();
@@ -2579,13 +2589,13 @@ function drawComments() {
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting, data.sorting);
 
-    _settings.set.commentsDiv(document.getElementById("nodebb-comments-list"));
+    _settings.set.commentsDiv(document.getElementById('nodebb-comments-list'));
 
-    _settings.set.commentsCounter(document.getElementById("nodebb-comments-count"));
+    _settings.set.commentsCounter(document.getElementById('nodebb-comments-count'));
 
-    _settings.set.commentsAuthor(document.getElementById("nodebb-comments-author"));
+    _settings.set.commentsAuthor(document.getElementById('nodebb-comments-author'));
 
-    _settings.set.commentsCategory(document.getElementById("nodebb-comments-category"));
+    _settings.set.commentsCategory(document.getElementById('nodebb-comments-category'));
 
     _settings.set.timestamp(data.timestamp);
 
@@ -2608,21 +2618,21 @@ function drawComments() {
     console.log(data);
     setTimeout(function () {
       (0, _modal.grecaptchaGrab)();
-      var body = document.querySelector("body");
+      var body = document.querySelector('body');
       var loginModal = (0, _modal.prepareModal)(data.loginModalTemplate, data.token, _modal.onSubmitLogin);
       (0, _social.addSocialAuthListeners)(loginModal); // body.appendChild(loginModal);
 
-      document.querySelector("#nodebb").appendChild(loginModal);
+      document.querySelector('#nodebb').appendChild(loginModal);
       var registerModal = (0, _modal.prepareModal)(data.registerModalTemplate, data.token, _modal.onSubmitSignUp);
       (0, _form.addRegisterValidators)(registerModal);
       (0, _social.addSocialAuthListeners)(registerModal); // body.appendChild(registerModal);
 
-      document.querySelector("#nodebb").appendChild(registerModal);
+      document.querySelector('#nodebb').appendChild(registerModal);
     }, 0);
 
     for (var post in data.posts) {
       if (data.posts.hasOwnProperty(post)) {
-        if (data.posts[post]["blog-comments:url"]) {
+        if (data.posts[post]['blog-comments:url']) {
           delete data.posts[post];
         }
       }
@@ -2638,11 +2648,11 @@ function drawComments() {
     }
 
     if (_settings.commentsCategory) {
-      _settings.commentsCategory.innerHTML = '<a href="' + nodeBBURL + "/category/" + data.category.slug + '">' + data.category.name + "</a>";
+      _settings.commentsCategory.innerHTML = '<a href="' + nodeBBURL + '/category/' + data.category.slug + '">' + data.category.name + '</a>';
     }
 
     if (_settings.commentsAuthor) {
-      _settings.commentsAuthor.innerHTML = '<span class="nodebb-author"><img src="' + data.mainPost.user.picture + '" /> <a href="' + nodeBBURL + "/user/" + data.mainPost.user.userslug + '">' + data.mainPost.user.username + "</a></span>";
+      _settings.commentsAuthor.innerHTML = '<span class="nodebb-author"><img src="' + data.mainPost.user.picture + '" /> <a href="' + nodeBBURL + '/user/' + data.mainPost.user.userslug + '">' + data.mainPost.user.username + '</a></span>';
     } // ------ PARSE of Comments
 
 
@@ -2651,26 +2661,26 @@ function drawComments() {
     _settings.nodebbDiv.innerHTML = (0, _util.normalizePost)(html);
     afterParse();
 
-    var nodebbCommentsList = _settings.nodebbDiv.querySelector("#nodebb-comments-list");
+    var nodebbCommentsList = _settings.nodebbDiv.querySelector('#nodebb-comments-list');
 
     (0, _commentEnhancementBox.commentEnhancementInit)(); // Add Sorts
 
     (0, _sortComments.setActiveSortingLi)(_settings.sorting); // SORTING COMPONENT
 
-    _settings.nodebbDiv.querySelector("a[data-component='sort/best']").addEventListener("click", function () {
-      return (0, _sortComments.setSorting)("best");
+    _settings.nodebbDiv.querySelector("a[data-component='sort/best']").addEventListener('click', function () {
+      return (0, _sortComments.setSorting)('best');
     });
 
-    _settings.nodebbDiv.querySelector("a[data-component='sort/newest']").addEventListener("click", function () {
-      return (0, _sortComments.setSorting)("newest");
+    _settings.nodebbDiv.querySelector("a[data-component='sort/newest']").addEventListener('click', function () {
+      return (0, _sortComments.setSorting)('newest');
     });
 
-    _settings.nodebbDiv.querySelector("a[data-component='sort/oldest']").addEventListener("click", function () {
-      return (0, _sortComments.setSorting)("oldest");
+    _settings.nodebbDiv.querySelector("a[data-component='sort/oldest']").addEventListener('click', function () {
+      return (0, _sortComments.setSorting)('oldest');
     }); // Dont know this
 
 
-    _settings.set.contentDiv(document.getElementById("nodebb-content"));
+    _settings.set.contentDiv(document.getElementById('nodebb-content'));
 
     if (_settings.savedText) {
       _settings.contentDiv.value = _settings.savedText;
@@ -2678,7 +2688,7 @@ function drawComments() {
 
     if (_settings.nodebbDiv.querySelector('#nodebb-login')) {
       _settings.nodebbDiv.querySelector('#nodebb-login').addEventListener('click', function () {
-        (0, _modal.authenticate)("login");
+        (0, _modal.authenticate)('login');
       });
     }
 
@@ -2793,11 +2803,11 @@ function addBadges(li, post) {
       for (var _iterator4 = selectedGroups[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
         var group = _step4.value;
 
-        if ((group.name === "Bitcoin" || group.name === "Ethereum") && maxCrypto < 2) {
+        if ((group.name === 'Bitcoin' || group.name === 'Ethereum') && maxCrypto < 2) {
           var groupDiv = document.createElement('div');
           groupDiv.classList.add('group-badge');
           var span = document.createElement('span');
-          span.innerText = " ";
+          span.innerText = ' ';
           span.classList.add('crypto-badge');
           var url = nodeBBURL + '/plugins/nodebb-plugin-blog-comments-cryptofr/img/badges/' + group.name.toLowerCase() + '.svg';
           var image = new Image();
@@ -2806,27 +2816,27 @@ function addBadges(li, post) {
           groupDiv.appendChild(span);
           maxCrypto = maxCrypto + 1;
           li.querySelector('.badges').appendChild(groupDiv);
-        } else if ((group.name === "bitcoin.fr" || group.name === "Journalducoin" || group.name === "TheCoinTribune" || group.name === "administrators") && maxWebsites < 1) {
+        } else if ((group.name === 'bitcoin.fr' || group.name === 'Journalducoin' || group.name === 'TheCoinTribune' || group.name === 'administrators') && maxWebsites < 1) {
           var _groupDiv = document.createElement('div');
 
           _groupDiv.classList.add('group-badge');
 
           var _span = document.createElement('span');
 
-          _span.innerText = " ";
+          _span.innerText = ' ';
 
           _span.classList.add('website-badge');
 
-          if (group.name === "bitcoin.fr") {
+          if (group.name === 'bitcoin.fr') {
             _span.style.backgroundColor = '#318CE7';
-          } else if (group.name === "Journalducoin") {
+          } else if (group.name === 'Journalducoin') {
             _span.style.backgroundColor = '#01528C';
 
             _span.classList.add('journalducoin');
-          } else if (group.name === "administrators") {
-            group.name = "CryptoFR";
+          } else if (group.name === 'administrators') {
+            group.name = 'CryptoFR';
             _span.style.backgroundColor = '#434A81';
-          } else if (group.name === "TheCoinTribune") {
+          } else if (group.name === 'TheCoinTribune') {
             _span.style.backgroundColor = '#1678c1';
           }
 
@@ -2894,8 +2904,8 @@ function addBadges(li, post) {
 }
 
 function checkImgProfile() {
-  if (document.querySelector(".first-image img")) {
-    if (document.querySelector(".first-image img").getAttribute("src") == "") $(".first-image img.profile-image").remove();else $(".first-image div.profile-image").remove();
+  if (document.querySelector('.first-image img')) {
+    if (document.querySelector('.first-image img').getAttribute('src') == '') $('.first-image img.profile-image').remove();else $('.first-image div.profile-image').remove();
   }
 }
 /**
@@ -2907,25 +2917,25 @@ function checkImgProfile() {
 
 function parse(data, template) {
   function replace(key, value, template) {
-    var searchRegex = new RegExp("{" + key + "}", "g");
+    var searchRegex = new RegExp('{' + key + '}', 'g');
     return template.replace(searchRegex, value);
   }
 
   function makeRegex(block) {
-    return new RegExp("<!--[\\s]*BEGIN " + block + "[\\s]*-->[\\s\\S]*<!--[\\s]*END " + block + "[\\s]*-->", "g");
+    return new RegExp('<!--[\\s]*BEGIN ' + block + '[\\s]*-->[\\s\\S]*<!--[\\s]*END ' + block + '[\\s]*-->', 'g');
   }
 
   function makeConditionalRegex(block) {
-    return new RegExp("<!--[\\s]*IF " + block + "[\\s]*-->([\\s\\S]*?)<!--[\\s]*ENDIF " + block + "[\\s]*-->", "g");
+    return new RegExp('<!--[\\s]*IF ' + block + '[\\s]*-->([\\s\\S]*?)<!--[\\s]*ENDIF ' + block + '[\\s]*-->', 'g');
   }
 
   function getBlock(regex, block, template) {
     data = template.match(regex);
     if (data == null) return;
     if (block !== undefined) _settings.templates.blocks[block] = data[0];
-    var begin = new RegExp("(\r\n)*<!-- BEGIN " + block + " -->(\r\n)*", "g"),
-        end = new RegExp("(\r\n)*<!-- END " + block + " -->(\r\n)*", "g"),
-        data = data[0].replace(begin, "").replace(end, "");
+    var begin = new RegExp('(\r\n)*<!-- BEGIN ' + block + ' -->(\r\n)*', 'g'),
+        end = new RegExp('(\r\n)*<!-- END ' + block + ' -->(\r\n)*', 'g'),
+        data = data[0].replace(begin, '').replace(end, '');
     return data;
   }
 
@@ -2936,11 +2946,11 @@ function parse(data, template) {
   var regex, block;
   return function parse(data, namespace, template, blockInfo) {
     if (!template) {
-      return "";
+      return '';
     }
 
     if (!data || data.length == 0) {
-      template = "";
+      template = '';
     }
 
     function checkConditional(key, value) {
@@ -2950,21 +2960,21 @@ function parse(data, template) {
       if (matches !== null) {
         for (var i = 0, ii = matches.length; i < ii; i++) {
           var conditionalBlock = matches[i].split(/<!-- ELSE -->/);
-          var statement = new RegExp("(<!--[\\s]*IF " + key + "[\\s]*-->)|(<!--[\\s]*ENDIF " + key + "[\\s]*-->)", "gi");
+          var statement = new RegExp('(<!--[\\s]*IF ' + key + '[\\s]*-->)|(<!--[\\s]*ENDIF ' + key + '[\\s]*-->)', 'gi');
 
           if (conditionalBlock[1]) {
             // there is an else statement
             if (!value) {
-              template = template.replace(matches[i], conditionalBlock[1].replace(statement, ""));
+              template = template.replace(matches[i], conditionalBlock[1].replace(statement, ''));
             } else {
-              template = template.replace(matches[i], conditionalBlock[0].replace(statement, ""));
+              template = template.replace(matches[i], conditionalBlock[0].replace(statement, ''));
             }
           } else {
             // regular if statement
             if (!value) {
-              template = template.replace(matches[i], "");
+              template = template.replace(matches[i], '');
             } else {
-              template = template.replace(matches[i], matches[i].replace(statement, ""));
+              template = template.replace(matches[i], matches[i].replace(statement, ''));
             }
           }
         }
@@ -2973,25 +2983,25 @@ function parse(data, template) {
 
     for (var d in data) {
       if (data.hasOwnProperty(d)) {
-        if (typeof data[d] === "undefined") {
+        if (typeof data[d] === 'undefined') {
           continue;
         } else if (data[d] === null) {
-          template = replace(namespace + d, "", template);
+          template = replace(namespace + d, '', template);
         } else if (data[d].constructor == Array) {
-          checkConditional(namespace + d + ".length", data[d].length);
-          checkConditional("!" + namespace + d + ".length", !data[d].length);
-          namespace += d + ".";
+          checkConditional(namespace + d + '.length', data[d].length);
+          checkConditional('!' + namespace + d + '.length', !data[d].length);
+          namespace += d + '.';
           var regex = makeRegex(d),
               block = getBlock(regex, namespace.substring(0, namespace.length - 1), template);
 
           if (block == null) {
-            namespace = namespace.replace(d + ".", "");
+            namespace = namespace.replace(d + '.', '');
             continue;
           }
 
           var numblocks = data[d].length - 1,
               i = 0,
-              result = "";
+              result = '';
 
           do {
             result += parse(data[d][i], namespace, block, {
@@ -3000,21 +3010,21 @@ function parse(data, template) {
             });
           } while (i++ < numblocks);
 
-          namespace = namespace.replace(d + ".", "");
+          namespace = namespace.replace(d + '.', '');
           template = setBlock(regex, result, template);
         } else if (data[d] instanceof Object) {
-          template = parse(data[d], d + ".", template);
+          template = parse(data[d], d + '.', template);
         } else {
           var key = namespace + d,
-              value = typeof data[d] === "string" ? data[d].replace(/^\s+|\s+$/g, "") : data[d];
+              value = typeof data[d] === 'string' ? data[d].replace(/^\s+|\s+$/g, '') : data[d];
           checkConditional(key, value);
-          checkConditional("!" + key, !value);
+          checkConditional('!' + key, !value);
 
           if (blockInfo && blockInfo.iterator) {
-            checkConditional("@first", blockInfo.iterator === 0);
-            checkConditional("!@first", blockInfo.iterator !== 0);
-            checkConditional("@last", blockInfo.iterator === blockInfo.total);
-            checkConditional("!@last", blockInfo.iterator !== blockInfo.total);
+            checkConditional('@first', blockInfo.iterator === 0);
+            checkConditional('!@first', blockInfo.iterator !== 0);
+            checkConditional('@last', blockInfo.iterator === blockInfo.total);
+            checkConditional('!@last', blockInfo.iterator !== blockInfo.total);
           }
 
           template = replace(key, value, template);
@@ -3023,36 +3033,36 @@ function parse(data, template) {
     }
 
     if (namespace) {
-      var regex = new RegExp("{" + namespace + "[\\s\\S]*?}", "g");
-      template = template.replace(regex, "");
-      namespace = "";
+      var regex = new RegExp('{' + namespace + '[\\s\\S]*?}', 'g');
+      template = template.replace(regex, '');
+      namespace = '';
     } else {
       // clean up all undefined conditionals
-      template = template.replace(/<!-- ELSE -->/gi, "ENDIF -->").replace(/<!-- IF([^@]*?)ENDIF([^@]*?)-->/gi, "");
+      template = template.replace(/<!-- ELSE -->/gi, 'ENDIF -->').replace(/<!-- IF([^@]*?)ENDIF([^@]*?)-->/gi, '');
     }
 
-    var divPost = document.createElement("div");
+    var divPost = document.createElement('div');
     divPost.innerHTML = _settings.postTemplate;
-    var div = document.createElement("div");
+    var div = document.createElement('div');
     div.innerHTML = template; // console.log(div)
 
-    if (data && data.hasOwnProperty("posts")) {
+    if (data && data.hasOwnProperty('posts')) {
       // TODO try to use parse function again
-      var nested = createNestedComments(data.posts, divPost.querySelector("li"), data);
+      var nested = createNestedComments(data.posts, divPost.querySelector('li'), data);
       var loadedComments = document.createElement('div');
       loadedComments.innerHTML = nested.innerHTML;
-      var existingComments = document.querySelector("#nodebb-comments-list");
+      var existingComments = document.querySelector('#nodebb-comments-list');
       if (_settings.reloading) loadedComments = drawCommentFromLoadMore(existingComments, loadedComments);
 
-      if (div.querySelector("#nodebb-comments-list")) {
+      if (div.querySelector('#nodebb-comments-list')) {
         if (_settings.pagination == 0 || _settings.page == 0 && _settings.reload) {
-          div.querySelector("#nodebb-comments-list").innerHTML = loadedComments.innerHTML;
+          div.querySelector('#nodebb-comments-list').innerHTML = loadedComments.innerHTML;
         } else {
           // old comments
-          div.querySelector("#nodebb-comments-list").innerHTML = document.querySelector("#nodebb-comments-list").innerHTML;
-          $($(div).find("#nodebb-comments-list li,#nodebb-comments-list li form")).removeAttr('data-event'); // new comments
+          div.querySelector('#nodebb-comments-list').innerHTML = document.querySelector('#nodebb-comments-list').innerHTML;
+          $($(div).find('#nodebb-comments-list li,#nodebb-comments-list li form')).removeAttr('data-event'); // new comments
 
-          div.querySelector("#nodebb-comments-list").appendChild(loadedComments); // div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
+          div.querySelector('#nodebb-comments-list').appendChild(loadedComments); // div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
         }
       }
 
@@ -3060,7 +3070,7 @@ function parse(data, template) {
     }
 
     return template;
-  }(data, "", template);
+  }(data, '', template);
 }
 /**
  * Check new comments
@@ -3075,7 +3085,7 @@ function drawCommentFromLoadMore(existingComments, loadedComments) {
   var _iteratorError6 = undefined;
 
   try {
-    for (var _iterator6 = loadedComments.querySelectorAll("li")[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+    for (var _iterator6 = loadedComments.querySelectorAll('li')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
       var comment = _step6.value;
       var flag = false;
       var _iteratorNormalCompletion7 = true;
@@ -3083,9 +3093,9 @@ function drawCommentFromLoadMore(existingComments, loadedComments) {
       var _iteratorError7 = undefined;
 
       try {
-        for (var _iterator7 = existingComments.querySelectorAll("li")[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+        for (var _iterator7 = existingComments.querySelectorAll('li')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
           var oldcomment = _step7.value;
-          if (comment.getAttribute("data-pid") == oldcomment.getAttribute("data-pid") && !oldcomment.classList.contains('new-comment')) flag = true;
+          if (comment.getAttribute('data-pid') == oldcomment.getAttribute('data-pid') && !oldcomment.classList.contains('new-comment')) flag = true;
         }
       } catch (err) {
         _didIteratorError7 = true;
@@ -3103,7 +3113,7 @@ function drawCommentFromLoadMore(existingComments, loadedComments) {
       }
 
       if (!flag) {
-        comment.classList.add("new-comment");
+        comment.classList.add('new-comment');
       }
     }
   } catch (err) {
@@ -3142,17 +3152,17 @@ function createNestedComments(comments, template, otherData) {
   var uid = otherData.user.uid;
 
   function changeFormValue(comment, form, level, url) {
-    if (form.classList.contains("sub-reply-input")) {
-      form.setAttribute("action", relativePath + "/comments/reply");
+    if (form.classList.contains('sub-reply-input')) {
+      form.setAttribute('action', relativePath + '/comments/reply');
     } else {
-      form.setAttribute("action", relativePath + "/comments/edit/" + form.getAttribute("data-pid"));
+      form.setAttribute('action', relativePath + '/comments/edit/' + form.getAttribute('data-pid'));
     }
 
-    (0, _util.changeAttribute)(form.querySelectorAll('input[name="_csrf"]'), "value", token);
-    (0, _util.changeAttribute)(form.querySelectorAll('input[name="tid"]'), "value", tid);
-    (0, _util.changeAttribute)(form.querySelectorAll('input[name="url"]'), "value", redirectURL);
+    (0, _util.changeAttribute)(form.querySelectorAll('input[name="_csrf"]'), 'value', token);
+    (0, _util.changeAttribute)(form.querySelectorAll('input[name="tid"]'), 'value', tid);
+    (0, _util.changeAttribute)(form.querySelectorAll('input[name="url"]'), 'value', redirectURL);
     var toPid = level >= 2 ? comment.toPid : comment.pid;
-    (0, _util.changeAttribute)(form.querySelectorAll('input[name="toPid"]'), "value", toPid);
+    (0, _util.changeAttribute)(form.querySelectorAll('input[name="toPid"]'), 'value', toPid);
   }
   /**
    * Function that actually creates the comment, we use this as helper
@@ -3167,91 +3177,91 @@ function createNestedComments(comments, template, otherData) {
   function createNestedCommentsInternal(comment, level) {
     var clone = template.cloneNode(true); // Here we should manipulate the node
 
-    clone.setAttribute("data-pid", comment.pid);
-    clone.querySelector("div.topic-item").setAttribute("data-level", level);
-    clone.querySelector("span.user-status").classList.add(comment.user.status);
-    (0, _util.changeAttribute)(clone.querySelectorAll("[data-pid]"), "data-pid", comment.pid);
-    (0, _util.changeAttribute)(clone.querySelectorAll("[data-uid]"), "data-uid", comment.uid);
-    (0, _util.changeAttribute)(clone.querySelectorAll("[data-userslug]"), "data-userslug", comment.user.userslug);
-    (0, _util.changeAttribute)(clone.querySelectorAll("[data-bookmarked]"), "data-bookmarked", comment.bookmarked);
-    (0, _util.changeAttribute)(clone.querySelectorAll("[data-upvoted]"), "data-upvoted", comment.upvoted);
-    (0, _util.changeAttribute)(clone.querySelectorAll("[data-downvoted]"), "data-downvoted", comment.downvoted);
-    (0, _util.changeAttribute)(clone.querySelectorAll("[data-votes]"), "data-votes", comment.votes);
-    var forms = clone.querySelectorAll("form");
+    clone.setAttribute('data-pid', comment.pid);
+    clone.querySelector('div.topic-item').setAttribute('data-level', level);
+    clone.querySelector('span.user-status').classList.add(comment.user.status);
+    (0, _util.changeAttribute)(clone.querySelectorAll('[data-pid]'), 'data-pid', comment.pid);
+    (0, _util.changeAttribute)(clone.querySelectorAll('[data-uid]'), 'data-uid', comment.uid);
+    (0, _util.changeAttribute)(clone.querySelectorAll('[data-userslug]'), 'data-userslug', comment.user.userslug);
+    (0, _util.changeAttribute)(clone.querySelectorAll('[data-bookmarked]'), 'data-bookmarked', comment.bookmarked);
+    (0, _util.changeAttribute)(clone.querySelectorAll('[data-upvoted]'), 'data-upvoted', comment.upvoted);
+    (0, _util.changeAttribute)(clone.querySelectorAll('[data-downvoted]'), 'data-downvoted', comment.downvoted);
+    (0, _util.changeAttribute)(clone.querySelectorAll('[data-votes]'), 'data-votes', comment.votes);
+    var forms = clone.querySelectorAll('form');
     forms.forEach(function (f) {
       return changeFormValue(comment, f, level);
     });
-    var upvoteCountEl = clone.querySelector("span.upvote-count");
+    var upvoteCountEl = clone.querySelector('span.upvote-count');
 
     if (comment.votes) {
-      upvoteCountEl.classList.remove("hidden");
+      upvoteCountEl.classList.remove('hidden');
       upvoteCountEl.innerText = comment.votes;
     } else {
-      upvoteCountEl.classList.add("hidden");
+      upvoteCountEl.classList.add('hidden');
     }
 
-    clone.querySelector("span.post-value").innerText = "" + comment.votes;
-    clone.querySelector("button[data-reply-button]").innerHTML = "<span>Répondre à " + comment.user.username + '</span><i class="fad fa-circle-notch fa-spin"></i>';
-    (0, _util.addClassHelper)(clone.querySelector("i.i-upvote"), comment.upvoted, "icon-thumbs-up-alt", "icon-thumbs-up");
-    (0, _util.addClassHelper)(clone.querySelector("i.i-bookmark"), comment.bookmarked, "icon-bookmark", "icon-bookmark-empty");
-    (0, _util.addClassHelper)(clone.querySelector("i.i-downvote"), comment.downvoted, "icon-thumbs-down-alt", "icon-thumbs-down");
-    clone.querySelector("div.post-body").setAttribute("content", comment.content);
-    clone.querySelector("div.post-body").innerHTML = comment.content;
-    clone.querySelector("div.post-body").innerHTML = (0, _util.parseCommentQuotes)(clone.querySelector("div.post-body").innerHTML);
-    clone.querySelector("div.post-body").innerHTML = (0, _util.parseLineBreaks)(clone.querySelector("div.post-body").innerHTML);
-    var img = clone.querySelector("img.profile-image");
-    var divImgText = clone.querySelector("div.profile-image");
+    clone.querySelector('span.post-value').innerText = '' + comment.votes;
+    clone.querySelector('button[data-reply-button]').innerHTML = '<span>Répondre à ' + comment.user.username + '</span><i class="fad fa-circle-notch fa-spin"></i>';
+    (0, _util.addClassHelper)(clone.querySelector('i.i-upvote'), comment.upvoted, 'icon-thumbs-up-alt', 'icon-thumbs-up');
+    (0, _util.addClassHelper)(clone.querySelector('i.i-bookmark'), comment.bookmarked, 'icon-bookmark', 'icon-bookmark-empty');
+    (0, _util.addClassHelper)(clone.querySelector('i.i-downvote'), comment.downvoted, 'icon-thumbs-down-alt', 'icon-thumbs-down');
+    clone.querySelector('div.post-body').setAttribute('content', comment.content);
+    clone.querySelector('div.post-body').innerHTML = comment.content;
+    clone.querySelector('div.post-body').innerHTML = (0, _util.parseCommentQuotes)(clone.querySelector('div.post-body').innerHTML);
+    clone.querySelector('div.post-body').innerHTML = (0, _util.parseLineBreaks)(clone.querySelector('div.post-body').innerHTML);
+    var img = clone.querySelector('img.profile-image');
+    var divImgText = clone.querySelector('div.profile-image');
 
     if (comment.user.picture) {
-      (0, _util.changeAttribute)(img, "src", comment.user.picture);
-      (0, _util.changeAttribute)(img, "alt", comment.user.username);
-      (0, _util.changeAttribute)(img, "title", comment.user.username);
-      divImgText.style.display = "none";
+      (0, _util.changeAttribute)(img, 'src', comment.user.picture);
+      (0, _util.changeAttribute)(img, 'alt', comment.user.username);
+      (0, _util.changeAttribute)(img, 'title', comment.user.username);
+      divImgText.style.display = 'none';
       (0, _util.removeNodes)(divImgText);
     } else {
-      (0, _util.changeAttribute)(divImgText, "title", comment.user.username);
-      (0, _util.changeAttribute)(divImgText, "alt", comment.user.username);
-      divImgText.innerText = comment.user["icon:text"];
-      divImgText.style.backgroundColor = comment.user["icon:bgColor"];
-      img.style.display = "none";
+      (0, _util.changeAttribute)(divImgText, 'title', comment.user.username);
+      (0, _util.changeAttribute)(divImgText, 'alt', comment.user.username);
+      divImgText.innerText = comment.user['icon:text'];
+      divImgText.style.backgroundColor = comment.user['icon:bgColor'];
+      img.style.display = 'none';
       (0, _util.removeNodes)(img);
     }
 
-    clone.querySelector(".topic-profile-pic").querySelector('a').setAttribute('href', relativePath + "/user/" + comment.user.userslug);
-    clone.querySelector("a.username").setAttribute('href', relativePath + "/user/" + comment.user.userslug);
-    clone.querySelector("span[data-strong-username]").innerText = comment.user.username;
+    clone.querySelector('.topic-profile-pic').querySelector('a').setAttribute('href', relativePath + '/user/' + comment.user.userslug);
+    clone.querySelector('a.username').setAttribute('href', relativePath + '/user/' + comment.user.userslug);
+    clone.querySelector('span[data-strong-username]').innerText = comment.user.username;
 
     if (comment.parent && comment.parent.username) {
-      clone.querySelector("span[data-parent-username]").innerText = "@" + comment.parent.username; // We update here because in another method timestamps are updated for parent comments
+      clone.querySelector('span[data-parent-username]').innerText = '@' + comment.parent.username; // We update here because in another method timestamps are updated for parent comments
 
-      if (typeof comment.timestamp === "number") {
+      if (typeof comment.timestamp === 'number') {
         comment.timestamp = (0, _util.timeAgo)(parseInt(comment.timestamp, 10));
       }
     } else {
-      (0, _util.removeNodes)(clone.querySelector("button.reply-label"));
+      (0, _util.removeNodes)(clone.querySelector('button.reply-label'));
     } // If connected user is owner of comment
 
 
     if (comment.uid !== uid && !_settings.dataRes.isAdmin) {
-      (0, _util.removeNodes)(clone.querySelector("a.edit"));
-      (0, _util.removeNodes)(clone.querySelector("a.delete"));
-      (0, _util.removeNodes)(clone.querySelector(".menuButton-container"));
+      (0, _util.removeNodes)(clone.querySelector('a.edit'));
+      (0, _util.removeNodes)(clone.querySelector('a.delete'));
+      (0, _util.removeNodes)(clone.querySelector('.menuButton-container'));
     }
 
-    clone.querySelector("span[data-timestamp]").setAttribute("title", comment.timestampISO.split("T")[0]);
-    clone.querySelector("span[data-timestamp]").innerText = comment.timestamp;
+    clone.querySelector('span[data-timestamp]').setAttribute('title', comment.timestampISO.split('T')[0]);
+    clone.querySelector('span[data-timestamp]').innerText = comment.timestamp;
 
     if (uid === comment.user.uid) {
       var todisableAnchors = clone.querySelectorAll('a[data-component="post/upvote"], a[data-component="post/downvote"]');
 
       for (var i = 0; i < todisableAnchors.length; i++) {
-        todisableAnchors[i].classList.add("disabled");
+        todisableAnchors[i].classList.add('disabled');
       }
     } // Finish manipulation
 
 
     if (comment.children && level <= 2) {
-      var ul = document.createElement("ul");
+      var ul = document.createElement('ul');
 
       for (var i = 0; i < comment.children.length; i++) {
         var el = comment.children[i];
@@ -3264,7 +3274,7 @@ function createNestedComments(comments, template, otherData) {
     return clone;
   }
 
-  var retVal = document.createElement("div");
+  var retVal = document.createElement('div');
 
   for (var i = 0; i < comments.length; i++) {
     retVal.appendChild(createNestedCommentsInternal(comments[i], 0));
@@ -3282,7 +3292,7 @@ function hideLoadMore() {
 }
 
 function addFooterText() {
-  var text = document.querySelector(".load-more-text");
+  var text = document.querySelector('.load-more-text');
   text.innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
 }
 /**
@@ -3295,23 +3305,23 @@ function addFooterText() {
 window.createSnackbar = createSnackbar;
 
 function createSnackbar(text, success) {
-  var div = document.createElement("div");
-  div.classList.add("snackbar");
-  div.classList.add("show-snackbar");
-  div.classList.add(success ? "success" : "error");
+  var div = document.createElement('div');
+  div.classList.add('snackbar');
+  div.classList.add('show-snackbar');
+  div.classList.add(success ? 'success' : 'error');
   div.innerText = text;
-  document.querySelector("body").appendChild(div);
+  document.querySelector('body').appendChild(div);
   setTimeout(function removeSnackbar() {
     (0, _util.removeNodes)(div);
   }, 3000);
 }
 
 function moveLoadMoreDoms() {
-  $(".load-more-text").insertAfter('#nodebb-comments-list');
+  $('.load-more-text').insertAfter('#nodebb-comments-list');
   $('.load-more-div').insertAfter('#nodebb-comments-list');
-  document.querySelector(".load-more-text").innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
+  document.querySelector('.load-more-text').innerHTML = '<span class="nodebb-copyright">Propulsé par <a href="' + _settings.dataRes.relative_path + '" class="comment-logo" target="_blank"><img src="' + _settings.dataRes.relative_path + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg" alt="add emojis" class="icon"></a> <span class="hide-mobile">&bull;</span> <a href="' + _settings.dataRes.relative_path + '/topic/' + _settings.dataRes.tid + '" class="see-topic" target="_blank">Voir le sujet sur le forum</a></span>';
 }
-},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","../api.js":"gYYA","./expandComments.js":"PCfX","./events.js":"i572","../addons/commentEnhancementBox.js":"f33D","./commentSubmission.js":"xoe6","../addons/emoji.js":"MTTM","../addons/upload.js":"w7Fc"}],"gYYA":[function(require,module,exports) {
+},{"../../settings.js":"LXja","./../util.js":"VGLh","../login/modal.js":"kjEe","../login/social.js":"Ca7Q","../login/form.js":"QP4Q","./loadComments.js":"V8ra","./sortComments.js":"JONd","./events.js":"i572","../addons/commentEnhancementBox.js":"f33D","./commentSubmission.js":"xoe6","../addons/emoji.js":"MTTM","../addons/upload.js":"w7Fc"}],"gYYA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

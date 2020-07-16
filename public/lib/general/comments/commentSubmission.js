@@ -29,7 +29,7 @@ export function commentSubmissionsHandler(form) {
     }
 
     if ('name' in inputs) {
-      inputs.captcha = event.target[3].value;
+      inputs.captcha = event.target[6].value;
     }
 
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, '');

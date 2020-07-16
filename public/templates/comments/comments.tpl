@@ -17,6 +17,7 @@
   </div>
 </div>
 <div class="upload-form">
+  <div id="google-callback"></div>
   <form enctype="multipart/form-data" id="formupload" method="post" action="/api/post/upload">
     <input type="file" id="file" name="file" />
   </form>
@@ -152,7 +153,6 @@
     </div>
     <button class="submit-comment btn btn-primary"><span>Répondre</span><i class="fad fa-circle-notch fa-spin"></i></button>
   </div>
-  <div id="google-callback"></div>
   <input type="hidden" name="_csrf" value="{token}" />
   <input type="hidden" name="tid" value="{tid}" />
   <input type="hidden" name="url" value="{redirect_url}" />
