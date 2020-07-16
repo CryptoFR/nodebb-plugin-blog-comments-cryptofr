@@ -1577,8 +1577,6 @@ function commentSubmissionsHandler(form) {
       inputs.captcha = event.target[3].value;
     }
 
-    console.log('inputs');
-    console.log(inputs);
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, ''); //-- ERROR: Comment too short
 
     if (inputs['content'].length < 8) {
@@ -1589,52 +1587,52 @@ function commentSubmissionsHandler(form) {
         formSubmitError('Message too Long', form);
         form.querySelector('.submit-comment').classList.remove('loading-button');
       } //-- ERROR: Guest user must have a Name
-      else if ('name' in inputs && inputs.name.length < 2) {
-          formSubmitError('Must have a Valid Name', form);
-          form.querySelector('.submit-comment').classList.remove('loading-button');
-        } // OK! Sending Reply or Edit POST
-        else {
-            var newLi = null;
-            var status = null;
-            (0, _api.newFetch)(form.getAttribute('action'), inputs).then(function (res) {
-              console.log('res1', res);
-              status = res.status;
-              return res.json();
-            }).then(function (res) {
-              if (status != 200) {
-                formSubmitError('Error submiting the form', form);
-                form.querySelector('.submit-comment').classList.remove('loading-button');
-                return false;
-              }
+      // else if ('name' in inputs && inputs.name.length < 2) {
+      //   formSubmitError('Must have a Valid Name', form);
+      //   form.querySelector('.submit-comment').classList.remove('loading-button');
+      // } // OK! Sending Reply or Edit POST
+      else {
+          var newLi = null;
+          var status = null;
+          (0, _api.newFetch)(form.getAttribute('action'), inputs).then(function (res) {
+            console.log('res1', res);
+            status = res.status;
+            return res.json();
+          }).then(function (res) {
+            if (status != 200) {
+              formSubmitError(res.message, form);
+              form.querySelector('.submit-comment').classList.remove('loading-button');
+              return false;
+            }
 
-              console.log('res2', res);
-              form.querySelector('button').classList.remove('loading-button');
+            console.log('res2', res);
+            form.querySelector('button').classList.remove('loading-button');
 
-              if (/edit/.test(form.getAttribute('action'))) {
-                editActionHandler(form, inputs);
-                form.classList.add('hidden');
-                $('.editing').removeClass('hidden').removeClass('editing');
-              } else if (form.classList.contains('top-post-form')) {
-                newLi = topReplyHandler(form, res);
-              } else if (/reply/.test(form.getAttribute('action'))) {
-                form.classList.add('hidden');
-                newLi = innerReplyHandler(form, res);
-              }
+            if (/edit/.test(form.getAttribute('action'))) {
+              editActionHandler(form, inputs);
+              form.classList.add('hidden');
+              $('.editing').removeClass('hidden').removeClass('editing');
+            } else if (form.classList.contains('top-post-form')) {
+              newLi = topReplyHandler(form, res);
+            } else if (/reply/.test(form.getAttribute('action'))) {
+              form.classList.add('hidden');
+              newLi = innerReplyHandler(form, res);
+            }
 
-              if (newLi) {
-                (0, _events.bindEvents)(res.user, newLi);
-                (0, _drawComments.addBadges)(newLi, res);
+            if (newLi) {
+              (0, _events.bindEvents)(res.user, newLi);
+              (0, _drawComments.addBadges)(newLi, res);
 
-                _settings.set.activeUserComments(res);
-              }
+              _settings.set.activeUserComments(res);
+            }
 
-              $(newLi).find('.post-body img').each(function () {
-                this.onload = function () {
-                  (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
-                };
-              });
+            $(newLi).find('.post-body img').each(function () {
+              this.onload = function () {
+                (0, _util.setMaxHeight)(document.getElementById('nodebb-comments-list'));
+              };
             });
-          }
+          });
+        }
 
     return false;
   });

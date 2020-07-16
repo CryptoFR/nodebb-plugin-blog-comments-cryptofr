@@ -32,8 +32,6 @@ export function commentSubmissionsHandler(form) {
       inputs.captcha = event.target[3].value;
     }
 
-    console.log('inputs');
-    console.log(inputs);
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, '');
 
     //-- ERROR: Comment too short
@@ -45,10 +43,10 @@ export function commentSubmissionsHandler(form) {
       formSubmitError('Message too Long', form);
       form.querySelector('.submit-comment').classList.remove('loading-button');
     } //-- ERROR: Guest user must have a Name
-    else if ('name' in inputs && inputs.name.length < 2) {
-      formSubmitError('Must have a Valid Name', form);
-      form.querySelector('.submit-comment').classList.remove('loading-button');
-    } // OK! Sending Reply or Edit POST
+    // else if ('name' in inputs && inputs.name.length < 2) {
+    //   formSubmitError('Must have a Valid Name', form);
+    //   form.querySelector('.submit-comment').classList.remove('loading-button');
+    // } // OK! Sending Reply or Edit POST
     else {
       let newLi = null;
       let status = null;
@@ -61,7 +59,7 @@ export function commentSubmissionsHandler(form) {
         })
         .then(res => {
           if (status != 200) {
-            formSubmitError('Error submiting the form', form);
+            formSubmitError(res.message, form);
             form.querySelector('.submit-comment').classList.remove('loading-button');
             return false;
           }
