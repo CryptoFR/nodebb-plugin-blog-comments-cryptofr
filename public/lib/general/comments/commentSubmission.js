@@ -23,13 +23,13 @@ export function commentSubmissionsHandler(form) {
     for (let input of form.querySelectorAll('input')) {
       inputs[input.getAttribute('name')] = input.value;
     }
-    for (let textarea of form.querySelectorAll('textarea')) {
+    for (let textarea of form.querySelectorAll('textarea.comment-box')) {
       inputs.content = textarea.value;
       // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
     }
 
     if ('name' in inputs) {
-      inputs.captcha = event.target[1].value;
+      inputs.captcha = event.target[3].value;
     }
 
     console.log('inputs');

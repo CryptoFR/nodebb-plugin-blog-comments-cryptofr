@@ -1554,7 +1554,7 @@ function commentSubmissionsHandler(form) {
     var _iteratorError2 = undefined;
 
     try {
-      for (var _iterator2 = form.querySelectorAll('textarea')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      for (var _iterator2 = form.querySelectorAll('textarea.comment-box')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
         var textarea = _step2.value;
         inputs.content = textarea.value; // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
       }
@@ -1574,7 +1574,7 @@ function commentSubmissionsHandler(form) {
     }
 
     if ('name' in inputs) {
-      inputs.captcha = event.target[1].value;
+      inputs.captcha = event.target[3].value;
     }
 
     console.log('inputs');
