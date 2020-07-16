@@ -23,13 +23,15 @@ export function commentSubmissionsHandler(form) {
     for (let input of form.querySelectorAll('input')) {
       inputs[input.getAttribute('name')] = input.value;
     }
-    for (let textarea of form.querySelectorAll('textarea.comment-box')) {
+    for (let textarea of form.querySelectorAll('textarea.form-control')) {
       inputs.content = textarea.value;
       // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
     }
 
+    console.log('event->', event);
+    console.log('inputs', inputs);
     if ('name' in inputs) {
-      inputs.captcha = event.target[6].value;
+      inputs.captcha = event.target[event.target.length - 1].value;
     }
 
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, '');
@@ -43,10 +45,10 @@ export function commentSubmissionsHandler(form) {
       formSubmitError('Message too Long', form);
       form.querySelector('.submit-comment').classList.remove('loading-button');
     } //-- ERROR: Guest user must have a Name
-    // else if ('name' in inputs && inputs.name.length < 2) {
-    //   formSubmitError('Must have a Valid Name', form);
-    //   form.querySelector('.submit-comment').classList.remove('loading-button');
-    // } // OK! Sending Reply or Edit POST
+    else if ('name' in inputs && inputs.name.length < 2) {
+      formSubmitError('Must have a Valid Name', form);
+      form.querySelector('.submit-comment').classList.remove('loading-button');
+    } // OK! Sending Reply or Edit POST
     else {
       let newLi = null;
       let status = null;

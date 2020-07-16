@@ -452,5 +452,6 @@ export function moveCaptchaBox() {
   $('.topic-item').addClass('guest-comment');
   $(document).on('focus', '.emoji-wysiwyg-editor', function () {
     $(this).parent().append($('#google-callback'));
+    $(this).parent().prepend($('.guest-name-container'));
   });
 }
