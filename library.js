@@ -2,7 +2,7 @@
   'use strict';
 
   var Comments = {};
-  const { getNestedChildren, getNestedPosts, getPostsCategory } = require('./helper');
+  const { getNestedChildren, getNestedPosts, getPostsCategory, getObjectTopic } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
     posts = require.main.require('./src/posts'),
@@ -827,6 +827,9 @@
       }
     });
     app.get('/comments/post-count', Comments.getPostCount);
+    app.get('/object-topic/:tid/:uid', async function(req, res) {
+      return res.json(await getObjectTopic(req.params.tid, req.params.uid))
+    })
     callback();
   };
 })(module);

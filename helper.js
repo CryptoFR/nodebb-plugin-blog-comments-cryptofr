@@ -205,9 +205,64 @@ const addAllPostsWithChildren = posts => {
   return comments
 }
 
+const getDate = (date) => {
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+const getKey = (date, title) => `${date}/${title}`
+
+// How to get all topics of category?
+// We can use zrange cid:{cid}:tids and then for each tid get the topic
+
+const getObjectTopic = async (cid, uid) => {
+  const tids = await db.getSortedSetRange(`cid:${cid}:tids`, 0, -1);
+  const topicsByTids = await topics.getTopicsByTids(tids, uid);
+  const mappedTopics = topicsByTids.map(t => {
+    return {
+      tid: t.tid,
+      title: t.title,
+      date: getDate(new Date(Date.parse(t.timestampISO))),
+    }
+  })
+  const obj = {}
+  for (const t of mappedTopics) {
+    obj[getKey(t.date, t.title)] = t
+  }
+  return obj
+}
+
+
+/*
+Primero findTopics en el forum 
+
+data {[{... title,date,ArticleId,Blogger}],cid}
+
+
+
+
+Endpoint
+function attachTopicWithArticle(title, date, ArticleId, blogger, cid)
+busca en el forum en el cid los topics que hagan match con title & date = $topic
+
+
+db.setObjectField('blog-comments:' + blogger, ArticleId, $topic.tid); 
+
+
+https://testforum.cryptofr.com/comments/get/blogger/ArticleId/0/newest
+
+ @param obj Object with tid
+
+const attachTopicWithArticle = async (obj, title, date, articleId, blogger, cid) => {
+  await db.setO
+}
+*/
 
 module.exports = {
   getNestedPosts,
   getNestedChildren,
-  getPostsCategory
+  getPostsCategory,
+  getObjectTopic,
 };
