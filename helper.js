@@ -212,7 +212,7 @@ const getDate = (date) => {
   return `${day}-${month}-${year}`;
 }
 
-const getKey = (date, title) => `${date}/${title}`
+const getKey = (date, title) => `${date}/${title}`;
 
 // How to get all topics of category?
 // We can use zrange cid:{cid}:tids and then for each tid get the topic
@@ -254,11 +254,32 @@ db.setObjectField('blog-comments:' + blogger, ArticleId, $topic.tid);
 https://testforum.cryptofr.com/comments/get/blogger/ArticleId/0/newest
 
  @param obj Object with tid
-
-const attachTopicWithArticle = async (obj, title, date, articleId, blogger, cid) => {
-  await db.setO
-}
 */
+const attachTopicWithArticle = async (obj, title, date, articleId, blogger) => {
+  // Note: We might need to make sure date is object Date
+  const key = getKey(new Date(date), title);
+  if (obj.hasOwnProperty(key)) {
+    const val = obj[key];
+    await db.setObjectField(`blog-comments:${blogger}`, articleId, val.tid);
+    return true;
+  }
+  return false;
+}
+
+const attachTopics = async (list, cid, uid) => {
+  const obj = await getObjectTopic(cid, uid);
+  const promises = [];
+  for (const { title, date, articleId, blogger } of list) {
+    const p = attachTopicWithArticle(
+      obj,
+      title, getDate(new Date(Date.parse(date))),
+      articleId,
+      blogger
+    );
+    promises.push(p)
+  }
+  return Promise.all(promises)
+}
 
 module.exports = {
   getNestedPosts,

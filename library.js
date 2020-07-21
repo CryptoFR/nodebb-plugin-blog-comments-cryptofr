@@ -2,7 +2,7 @@
   'use strict';
 
   var Comments = {};
-  const { getNestedChildren, getNestedPosts, getPostsCategory, getObjectTopic } = require('./helper');
+  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
     posts = require.main.require('./src/posts'),
@@ -826,6 +826,24 @@
         res.json({ ok: false });
       }
     });
+    app.post('/attach-topic/:cid', loggedInMiddleware, async function(req, res) {
+      const uid = req.user.uid;
+      const { cid } = req.params;
+      const { list } = req.body;
+      try {
+        await attachTopics(list, cid, uid)
+        return res.status(200).json({
+          ok: true,
+          message: 'Topics attached'
+        });
+      } catch (err) {
+        winston.warn('There was an error',err);
+        return res.status(500).json({
+          ok: true,
+          message: err.message
+        });
+      }
+    })
     app.get('/comments/post-count', Comments.getPostCount);
     app.get('/object-topic/:tid/:uid', async function(req, res) {
       return res.json(await getObjectTopic(req.params.tid, req.params.uid))
