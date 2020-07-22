@@ -1,166 +1,160 @@
-import { set,pluginURL,voteXHR,authXHR,bookmarkXHR,signUpXHR,sorting,postData,pagination,XHR,commentsURL,savedText,nodebbDiv,contentDiv,commentsDiv,commentsCounter,commentsAuthor,commentsCategory,articlePath,postTemplate, wholeTemplate,renderedCaptcha,templates } from "../../settings.js";
-import { reloadComments } from "../comments/loadComments.js"; 
-import { login,signUp } from "../api.js"; 
+import { set, pluginURL, voteXHR, authXHR, bookmarkXHR, signUpXHR, sorting, postData, pagination, XHR, commentsURL, savedText, nodebbDiv, contentDiv, commentsDiv, commentsCounter, commentsAuthor, commentsCategory, articlePath, postTemplate, wholeTemplate, renderedCaptcha, templates } from '../../settings.js';
+import { reloadComments } from '../comments/loadComments.js';
+import { login, signUp } from '../api.js';
+import { setMaxHeight } from '../util';
 
-  /**
-   * Function called to set up values on the modal
-   * @param {string} modalTemplate HTML code for the modal
-   * @param {string} token CSRF token
-   * @param {function} onSubmit function to be called when a submit event occurs
-   * @returns {DOMElement} Modal's div element
-   */
-   
-  export function prepareModal(modalTemplate, token, onSubmit) {
-    var div = document.createElement("div");
-    div.innerHTML = modalTemplate;
-    div.querySelector("span.modal-close").onclick = closeModal;
-    var form = div.querySelector("form");
-    form.onsubmit = onSubmit;
-    form.setAttribute("action", nodeBBURL + "/login");
-    form.querySelector("input[name='_csrf']").setAttribute("value", token);
-    const registerModal$ = div.querySelector(".register-modal-open");
-    if (registerModal$) {
-      registerModal$.setAttribute("href", nodeBBURL + "/register");
-    }
-    if (div.querySelector(".google a")) div.querySelector(".google a").setAttribute("data-link", nodeBBURL + "/auth/google");
-    if (div.querySelector(".facebook a")) div.querySelector(".facebook a").setAttribute("data-link", nodeBBURL + "/auth/facebook");
-    if (div.querySelector(".twitter a")) div.querySelector(".twitter a").setAttribute("data-link", nodeBBURL + "/auth/twitter");
-    if (div.querySelector(".github a")) div.querySelector(".github a").setAttribute("data-link", nodeBBURL + "/auth/github");
-    if (div.querySelector("img.icon")) div.querySelector("img.icon").setAttribute("src", nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg");
-    return div;
+/**
+ * Function called to set up values on the modal
+ * @param {string} modalTemplate HTML code for the modal
+ * @param {string} token CSRF token
+ * @param {function} onSubmit function to be called when a submit event occurs
+ * @returns {DOMElement} Modal's div element
+ */
+
+export function prepareModal(modalTemplate, token, onSubmit) {
+  var div = document.createElement('div');
+  div.innerHTML = modalTemplate;
+  div.querySelector('span.modal-close').onclick = closeModal;
+  var form = div.querySelector('form');
+  form.onsubmit = onSubmit;
+  form.setAttribute('action', nodeBBURL + '/login');
+  form.querySelector("input[name='_csrf']").setAttribute('value', token);
+  const registerModal$ = div.querySelector('.register-modal-open');
+  if (registerModal$) {
+    registerModal$.setAttribute('href', nodeBBURL + '/register');
   }
+  if (div.querySelector('.google a')) div.querySelector('.google a').setAttribute('data-link', nodeBBURL + '/auth/google');
+  if (div.querySelector('.facebook a')) div.querySelector('.facebook a').setAttribute('data-link', nodeBBURL + '/auth/facebook');
+  if (div.querySelector('.twitter a')) div.querySelector('.twitter a').setAttribute('data-link', nodeBBURL + '/auth/twitter');
+  if (div.querySelector('.github a')) div.querySelector('.github a').setAttribute('data-link', nodeBBURL + '/auth/github');
+  if (div.querySelector('img.icon')) div.querySelector('img.icon').setAttribute('src', nodeBBURL + '/plugins/nodebb-plugin-blog-comments-cryptofr/icons/cryptofr-comments.svg');
+  return div;
+}
 
+/**
+ * Function called when the sign up form is submitted
+ * @param {HTMLInputElement} e event information
+ */
+export function onSubmitSignUp(e) {
+  e.preventDefault();
+  var t = e.target;
+  var username = t.querySelector("input[name='username']").value;
+  var email = t.querySelector("input[name='email']").value;
+  var password = t.querySelector("input[name='password']").value;
+  var passwordConfirm = t.querySelector("input[name='password-confirm']").value;
+  var checkedTerms = t.querySelector("input[name='terms']").checked;
+  var token = t.querySelector("input[name='_csrf']").value;
+  signUp(username, email, password, passwordConfirm, token, checkedTerms);
+  setTimeout(closeModal, 500);
+}
 
-  /**
-   * Function called when the sign up form is submitted
-   * @param {HTMLInputElement} e event information
-   */
-  export function onSubmitSignUp(e) {
-    e.preventDefault();
-    var t = e.target;
-    var username = t.querySelector("input[name='username']").value;
-    var email = t.querySelector("input[name='email']").value;
-    var password = t.querySelector("input[name='password']").value;
-    var passwordConfirm = t.querySelector("input[name='password-confirm']")
-      .value;
-    var checkedTerms = t.querySelector("input[name='terms']").checked;
-    var token = t.querySelector("input[name='_csrf']").value;
-    signUp(username, email, password, passwordConfirm, token, checkedTerms);
-    setTimeout(closeModal, 500);
+/**
+ * Function called when the login form is submitted
+ * @param {HTMLInputElement} e event information
+ */
+
+export function onSubmitLogin(e) {
+  e.preventDefault();
+  var t = e.target;
+  var modalElement = document.querySelector("div.modal[data-closed='0']");
+  var loginButton = document.querySelectorAll('button.login-button')[0];
+  loginButton.classList.add('loading-button');
+  login(t.querySelector("input[name='email']").value, t.querySelector("input[name='password']").value, t.querySelector("input[name='_csrf']").value);
+  // setTimeout(closeModal, 100);
+}
+
+/**
+ * Closes whatever modal is opened within the plugin
+ */
+
+// /!\ MOdals closing weirdly /!\
+export function closeModal() {
+  var modalElement = document.querySelector("div.modal[data-closed='0']");
+  if (modalElement) {
+    modalElement.setAttribute('data-closed', '1');
+    modalElement.style.display = 'none';
+    // set.reload(true)
+    reloadComments(pagination, 0, false);
   }
+}
 
-  /**
-   * Function called when the login form is submitted
-   * @param {HTMLInputElement} e event information
-   */
+export function tabIsActive() {
+  window.onfocus = closeModal;
+}
 
-  export function onSubmitLogin(e) {
-    e.preventDefault();
-    var t = e.target;
-    var modalElement = document.querySelector("div.modal[data-closed='0']");
-    var loginButton = document.querySelectorAll('button.login-button')[0];
-    loginButton.classList.add("loading-button");
-    login(
-      t.querySelector("input[name='email']").value,
-      t.querySelector("input[name='password']").value,
-      t.querySelector("input[name='_csrf']").value
-    );
-    // setTimeout(closeModal, 100);
+/**
+ * Function that starts the authentication process
+ * this process is finished whenever any of the two modals
+ * that can be opened with it (login or register) are closed
+ * either by a login completion or another action of the user
+ * when this happens, comments are reloaded
+ * @param {("login"|"register")} type the type of the authentication
+ */
+
+export function authenticate(type) {
+  // set.savedText(contentDiv.value);
+  var modal = openModal(type);
+  if (modal) {
+    var timer = setInterval(function () {
+      if (modal.getAttribute('data-closed') === '1') {
+        clearInterval(timer);
+        // reloadComments();
+      }
+    }, 500);
   }
+}
 
+/**
+ * Opens a modal within the plugin
+ * @param {("login"|"register")} type whether the modal is login or register
+ * @returns {DOMElement} The modal element
+ */
+function openModal(type) {
+  var modalSelector = type === 'login' ? '#login-modal' : '#register-modal';
 
-  /**
-   * Closes whatever modal is opened within the plugin
-   */
+  var modalElement = document.querySelector(modalSelector);
 
-  // /!\ MOdals closing weirdly /!\
-  export function closeModal() {
-    var modalElement = document.querySelector("div.modal[data-closed='0']");
-    if (modalElement) {
-      modalElement.setAttribute("data-closed", "1");
-      modalElement.style.display = "none";
-      // set.reload(true) 
-      reloadComments(pagination,0,false);
-    }
-  }
+  if (!modalElement) return null;
 
-  export function tabIsActive(){
-    window.onfocus = closeModal;
-  }
-
-  /**
-   * Function that starts the authentication process
-   * this process is finished whenever any of the two modals
-   * that can be opened with it (login or register) are closed
-   * either by a login completion or another action of the user
-   * when this happens, comments are reloaded
-   * @param {("login"|"register")} type the type of the authentication
-   */
-
-  export function authenticate(type) {
-    // set.savedText(contentDiv.value);
-    var modal = openModal(type);
-    if (modal){
-      var timer = setInterval(function() {
-        if (modal.getAttribute("data-closed") === "1") {
-          clearInterval(timer);
-          // reloadComments();
-        }
-      }, 500); 
-    }
-
-  }
-
-
-  /**
-   * Opens a modal within the plugin
-   * @param {("login"|"register")} type whether the modal is login or register
-   * @returns {DOMElement} The modal element
-   */
-  function openModal(type) {
-    var modalSelector = type === "login" ? "#login-modal" : "#register-modal";
-
-    var modalElement = document.querySelector(modalSelector);
-    
-    if (!modalElement) return null;
-    
-    if ( modalElement.getAttribute("data-closed") === "0") {
-      return modalElement;
-    }
-    modalElement.style.display = "block";
-    modalElement.setAttribute("data-closed", "0");
+  if (modalElement.getAttribute('data-closed') === '0') {
     return modalElement;
   }
+  modalElement.style.display = 'block';
+  modalElement.setAttribute('data-closed', '0');
+  return modalElement;
+}
 
-  // Google Captcha
-  export function grecaptchaGrab() {
-    if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
-      window.grecaptcha.ready(function() {
-        var interval = setInterval(renderCallback, 1000);
-        function renderCallback() {
-          var container = document.getElementById("google-callback");
-          if (container && !container.querySelector("iframe")) {
-            $("#google-callback").click(e => e.preventDefault());
-            set.renderedCaptcha(window.grecaptcha.render(container, {
-              sitekey: "6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y"
-            }));
-            clearInterval(interval);
-          }
+// Google Captcha
+export function grecaptchaGrab() {
+  if (window.grecaptcha && typeof window.grecaptcha.ready === 'function') {
+    window.grecaptcha.ready(function () {
+      var interval = setInterval(renderCallback, 1000);
+      function renderCallback() {
+        var container = document.getElementById('google-callback');
+        if (container && !container.querySelector('iframe')) {
+          $('#google-callback').click(e => e.preventDefault());
+          set.renderedCaptcha(
+            window.grecaptcha.render(container, {
+              sitekey: '6LcL2LEUAAAAANP2M8PsNoMotoiFBlFApE5pIX0y',
+            })
+          );
+          clearInterval(interval);
         }
-        renderCallback();
-      });
-    } else {
-      setTimeout(grecaptchaGrab, 1000);
-    }
+      }
+      renderCallback();
+    });
+  } else {
+    setTimeout(grecaptchaGrab, 1000);
   }
+}
 
-  // Login error handle
-  export function loginError(message){
-  var modal = document.querySelector("#login-modal");
-    modal.querySelector(".nodebb-error").innerText=message;
-    modal.querySelector(".nodebb-error").classList.add("display");
-    setTimeout(function(){
-      modal.querySelector(".nodebb-error").innerText="";
-      modal.querySelector(".nodebb-error").classList.remove("display");
-    },6000)
-  }
+// Login error handle
+export function loginError(message) {
+  var modal = document.querySelector('#login-modal');
+  modal.querySelector('.nodebb-error').innerText = message;
+  modal.querySelector('.nodebb-error').classList.add('display');
+  setTimeout(function () {
+    modal.querySelector('.nodebb-error').innerText = '';
+    modal.querySelector('.nodebb-error').classList.remove('display');
+  }, 6000);
+}

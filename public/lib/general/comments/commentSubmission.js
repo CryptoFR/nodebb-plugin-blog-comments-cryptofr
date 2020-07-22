@@ -23,17 +23,17 @@ export function commentSubmissionsHandler(form) {
     for (let input of form.querySelectorAll('input')) {
       inputs[input.getAttribute('name')] = input.value;
     }
-    for (let textarea of form.querySelectorAll('textarea')) {
+    for (let textarea of form.querySelectorAll('textarea.form-control')) {
       inputs.content = textarea.value;
       // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
     }
 
+    console.log('event->', event);
+    console.log('inputs', inputs);
     if ('name' in inputs) {
-      inputs.captcha = event.target[1].value;
+      inputs.captcha = event.target[event.target.length - 1].value;
     }
 
-    console.log('inputs');
-    console.log(inputs);
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, '');
 
     //-- ERROR: Comment too short
@@ -61,7 +61,7 @@ export function commentSubmissionsHandler(form) {
         })
         .then(res => {
           if (status != 200) {
-            formSubmitError('Error submiting the form', form);
+            formSubmitError(res.message, form);
             form.querySelector('.submit-comment').classList.remove('loading-button');
             return false;
           }
