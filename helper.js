@@ -286,4 +286,5 @@ module.exports = {
   getNestedChildren,
   getPostsCategory,
   getObjectTopic,
+  attachTopics
 };
