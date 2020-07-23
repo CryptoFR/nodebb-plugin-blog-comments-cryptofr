@@ -798,7 +798,7 @@
     app.get(
       "/comments/get/:blogger/:id/:pagination(\\d+)?/:sorting(oldest|newest|best)?",
       middleware.applyCSRF,
-      Comments.getCommentData
+      Comments.getCommentData,
     );
     app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
@@ -827,11 +827,12 @@
       }
     });
     app.post('/attach-topic/:cid', loggedInMiddleware, async function(req, res) {
+      CORSFilter(req, res);
       const uid = req.user.uid;
       const { cid } = req.params;
       const { list } = req.body;
       try {
-        await attachTopics(list, cid, uid)
+        // await attachTopics(list, cid, uid);
         return res.status(200).json({
           ok: true,
           message: 'Topics attached'
