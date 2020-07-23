@@ -831,6 +831,7 @@
       const uid = req.user.uid;
       const { cid } = req.params;
       const { list } = req.body;
+      console.log('attach topic', list, {cid, uid});
       try {
         // await attachTopics(list, cid, uid);
         return res.status(200).json({
