@@ -833,7 +833,7 @@
       const { list } = req.body;
       console.log('attach topic', list, {cid, uid});
       try {
-        // await attachTopics(list, cid, uid);
+        await attachTopics(list, cid, uid);
         return res.status(200).json({
           ok: true,
           message: 'Topics attached'
