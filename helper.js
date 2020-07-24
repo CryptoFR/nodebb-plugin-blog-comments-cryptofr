@@ -258,7 +258,7 @@ https://testforum.cryptofr.com/comments/get/blogger/ArticleId/0/newest
 */
 const attachTopicWithArticle = async (obj, title, date, articleId, blogger) => {
   // Note: We might need to make sure date is object Date
-  const key = getKey(new Date(date), title);
+  const key = getKey(date, title);
   if (obj.hasOwnProperty(key)) {
     const val = obj[key];
     await db.setObjectField(`blog-comments:${blogger}`, articleId, val.tid);
@@ -273,7 +273,8 @@ const attachTopics = async (list, cid, uid) => {
   for (const { title, date, id, blogger } of list) {
     const p = attachTopicWithArticle(
       obj,
-      title, getDate(new Date(Date.parse(date))),
+      title, 
+      getDate(new Date(Date.parse(date))),
       id,
       blogger
     );
