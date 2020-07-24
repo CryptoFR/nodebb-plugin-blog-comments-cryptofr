@@ -225,6 +225,7 @@ const getObjectTopic = async (cid, uid) => {
       tid: t.tid,
       title: t.title,
       date: getDate(new Date(Date.parse(t.timestampISO))),
+      url: t.url,
     }
   })
   const obj = {}
@@ -269,11 +270,11 @@ const attachTopicWithArticle = async (obj, title, date, articleId, blogger) => {
 const attachTopics = async (list, cid, uid) => {
   const obj = await getObjectTopic(cid, uid);
   const promises = [];
-  for (const { title, date, articleId, blogger } of list) {
+  for (const { title, date, id, blogger } of list) {
     const p = attachTopicWithArticle(
       obj,
       title, getDate(new Date(Date.parse(date))),
-      articleId,
+      id,
       blogger
     );
     promises.push(p)
