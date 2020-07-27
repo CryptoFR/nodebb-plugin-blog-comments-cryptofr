@@ -230,7 +230,12 @@ const getObjectTopic = async (cid, uid) => {
   })
   const obj = {}
   for (const t of mappedTopics) {
-    obj[getKey(t.date, t.title)] = t
+    const key = getKey(t.date, t.title);
+    if (obj.hasOwnProperty(key)) {
+      obj[key].push(t);
+    } else {
+      obj[key] = [t];
+    }
   }
   return obj
 }
@@ -260,11 +265,31 @@ const attachTopicWithArticle = async (obj, title, date, articleId, blogger) => {
   // Note: We might need to make sure date is object Date
   const key = getKey(date, title);
   if (obj.hasOwnProperty(key)) {
-    const val = obj[key];
-    await db.setObjectField(`blog-comments:${blogger}`, articleId, val.tid);
-    return true;
+    if (obj[key].length === 1) {
+      const val = obj[key][0];
+      await db.setObjectField(`blog-comments:${blogger}`, articleId, val.tid);
+      return { 
+        ok: true,
+        articleId,
+        tids: [val.tid],
+        message: 'Topic attached'
+      };
+    } else {
+      return {
+        ok: false,
+        articleId,
+        message: 'Article with two possible resolutions found, manual resolution is needed',
+        tids: obj[key].map(t => t.tid)
+      }
+    }
+    
   }
-  return false;
+  return {
+    ok: false,
+    articleId,
+    tids: [],
+    message: 'Topic not found'
+  };
 }
 
 const attachTopics = async (list, cid, uid) => {

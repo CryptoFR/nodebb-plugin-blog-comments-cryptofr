@@ -833,10 +833,11 @@
       const { list } = req.body;
       console.log('attach topic', list, {cid, uid});
       try {
-        await attachTopics(list, cid, uid);
+        const response = await attachTopics(list, cid, uid);
         return res.status(200).json({
           ok: true,
-          message: 'Topics attached'
+          message: 'Topics attached',
+          response,
         });
       } catch (err) {
         winston.warn('There was an error',err);
