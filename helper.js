@@ -269,14 +269,14 @@ const attachTopicWithArticle = async (obj, title, date, articleId, blogger) => {
       const val = obj[key][0];
       await db.setObjectField(`blog-comments:${blogger}`, articleId, val.tid);
       return { 
-        ok: true,
+        code: 0,
         articleId,
         tids: [val.tid],
         message: 'Topic attached'
       };
     } else {
       return {
-        ok: false,
+        code: 1,
         articleId,
         message: 'Article with two possible resolutions found, manual resolution is needed',
         tids: obj[key].map(t => t.tid)
@@ -285,7 +285,7 @@ const attachTopicWithArticle = async (obj, title, date, articleId, blogger) => {
     
   }
   return {
-    ok: false,
+    code: 2,
     articleId,
     tids: [],
     message: 'Topic not found'
