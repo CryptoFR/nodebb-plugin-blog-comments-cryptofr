@@ -775,6 +775,29 @@
       });
     }
   }
+  function categoryZeroMiddleware(req, res, next) {
+    const { cid } = req.params;
+    if (!cid || cid <= 0) {
+      return res.status(422).json({
+        ok: false,
+        message: 'Invalid category'
+      });
+    }
+    return next();
+  }
+
+  async function moderatorCategoryMiddleware(req, res, next) {
+    const { cid } = req.params;
+    const uid = req.user ? req.user.uid : 0;
+    const isModerator = await user.isModerator(uid, [cid]);
+    if (!isModerator) {
+      return res.status(422).json({
+        ok: false,
+        message: 'You are not a moderator'
+      })
+    }
+    return next();
+  }
 
   Comments.onLoggedIn = function (params) {
     console.log('params', params, arguments);
@@ -826,7 +849,11 @@
         res.json({ ok: false });
       }
     });
-    app.post('/attach-topic/:cid', loggedInMiddleware, async function(req, res) {
+    app.post('/attach-topic/:cid', 
+    loggedInMiddleware,
+    categoryZeroMiddleware,
+    moderatorCategoryMiddleware,
+    async function(req, res) {
       CORSFilter(req, res);
       const uid = req.user.uid;
       const { cid } = req.params;
