@@ -10,7 +10,7 @@ fs = require.main.require('fs'),
 path = require.main.require('path'),
 async = require.main.require('async'),
 winston = require.main.require('winston')
-jsonwebtoken = require.main.require('jsonwebtoken');
+jwt = require.main.require('jsonwebtoken');
 
 const makeErrorObj = (error) => ({
     ok: false,
