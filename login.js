@@ -50,8 +50,7 @@ const localLogin = async function (req, res) {
 		}
 
 		if (banned) {
-			const banMesage = await getBanInfo(uid);
-			return makeError(res, new Error(banMesage));
+			return makeError(res, new Error('[[error:banned]]'));
 		}
 
 		const passwordMatch = await user.isPasswordCorrect(uid, password, req.ip);
