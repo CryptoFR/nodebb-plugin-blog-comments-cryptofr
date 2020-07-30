@@ -9,7 +9,8 @@ utils = require.main.require('./src/utils'),
 fs = require.main.require('fs'),
 path = require.main.require('path'),
 async = require.main.require('async'),
-winston = require.main.require('winston');
+winston = require.main.require('winston')
+jsonwebtoken = require.main.require('jsonwebtoken');
 
 const makeErrorObj = (error) => ({
     ok: false,
@@ -57,11 +58,17 @@ const localLogin = async function (req, res) {
 		const passwordMatch = await user.isPasswordCorrect(uid, password, req.ip);
 		if (!passwordMatch) {
 			return makeError(res, new Error('[[error:invalid-login-credentials]]'));
-		}
-        return res.status(200).json({
-            ok : true, 
-            message : 'Login successful'
-        })
+        }
+        jwt.sign({ uid }, meta.config['blog-comments:jwt-secret-key'], { algorithm: 'RS256' }, function(err, token) {
+            if (err) {
+                return makeError(res, new Error('[[error:invalid-token]]'));
+            }
+            return res.status(200).json({
+                ok : true, 
+                message : 'Login successful',
+                token
+            })
+        });
 	} catch (err) {
 		makeError(res, err);
     }
