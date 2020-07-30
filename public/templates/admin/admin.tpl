@@ -17,6 +17,8 @@
 			</select>
 			<label>Captcha Secret API key for register form</label> <br/>
 			<input type="text" data-field="blog-comments:captcha-api-key" title="Captcha API Key" class="form-control" placeholder="Captcha API Key"><br />
+			<label>JWT Secret for API</label>
+			<input type="text" data-field="blog-comments:jwt-secret-key" title="JWT Secret for API" class="form-control" placeholder="JWT Secret for API"><br />
 		</form>
 	</div>
 </div>
