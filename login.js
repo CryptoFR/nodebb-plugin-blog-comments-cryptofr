@@ -61,6 +61,7 @@ const localLogin = async function (req, res) {
         }
         jwt.sign({ uid }, meta.config['blog-comments:jwt-secret-key'], { algorithm: 'RS256' }, function(err, token) {
             if (err) {
+				winston.warn(err);
                 return makeError(res, new Error('[[error:invalid-token]]'));
             }
             return res.status(200).json({
