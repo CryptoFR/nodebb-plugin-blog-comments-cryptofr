@@ -18,6 +18,7 @@
   var TurndownService = require.main.require('turndown');
   var turndownService = new TurndownService();
   module.exports = Comments;
+  const {localLogin} = require('./login');
 
   const isLoggedIn = req => req.user && parseInt(req.user.uid, 10) > 0;
 
@@ -849,6 +850,7 @@
         res.json({ ok: false });
       }
     });
+    app.post('/comments/login', localLogin);
     app.post('/attach-topic/:cid', 
     loggedInMiddleware,
     categoryZeroMiddleware,
