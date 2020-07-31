@@ -98,7 +98,7 @@ const localLogin = async function (req, res) {
     }
 }
 
-const loggedOrGuestMiddlware = function(req, res, next) {
+const loggedOrGuestMiddleware = function(req, res, next) {
 	if (req.headers.hasOwnProperty('Authorization')) {
 		return myPass.authenticate('jwt')(req, res, next);
 	} else {
@@ -109,5 +109,5 @@ const loggedOrGuestMiddlware = function(req, res, next) {
 module.exports = {
 	localLogin,
 	passport: myPass,
-	loggedOrGuestMiddlware
+	loggedOrGuestMiddleware
 }

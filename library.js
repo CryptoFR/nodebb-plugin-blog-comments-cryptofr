@@ -18,7 +18,7 @@
   var TurndownService = require.main.require('turndown');
   var turndownService = new TurndownService();
   module.exports = Comments;
-  const {localLogin, passport, loggedOrGuestMiddlware} = require('./login');
+  const {localLogin, passport, loggedOrGuestMiddleware} = require('./login');
   const passportMiddleware = passport.authenticate(['jwt']);
 
   const isLoggedIn = req => req.user && parseInt(req.user.uid, 10) > 0;
