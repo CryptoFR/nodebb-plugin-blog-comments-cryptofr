@@ -98,7 +98,16 @@ const localLogin = async function (req, res) {
     }
 }
 
+const loggedOrGuestMiddlware = function(req, res, next) {
+	if (req.headers.hasOwnProperty('Authorization')) {
+		return myPass.authenticate('jwt')(req, res, next);
+	} else {
+		return next();
+	}
+}
+
 module.exports = {
 	localLogin,
-	passport: myPass
+	passport: myPass,
+	loggedOrGuestMiddlware
 }

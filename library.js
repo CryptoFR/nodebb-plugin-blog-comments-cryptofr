@@ -18,7 +18,8 @@
   var TurndownService = require.main.require('turndown');
   var turndownService = new TurndownService();
   module.exports = Comments;
-  const {localLogin, passport} = require('./login');
+  const {localLogin, passport, loggedOrGuestMiddlware} = require('./login');
+  const passportMiddleware = passport.authenticate(['jwt']);
 
   const isLoggedIn = req => req.user && parseInt(req.user.uid, 10) > 0;
 
@@ -826,19 +827,19 @@
     );
     app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
-    app.post("/comments/reply", checkGuestUsername, wrapperCaptchaMiddleware, Comments.replyToComment);
-    app.post("/comments/publish", Comments.publishArticle);
-    app.post("/comments/publish-batch", Comments.publishBatchArticles);
-    app.post("/comments/vote", Comments.votePost);
-    app.post("/comments/downvote", Comments.downvotePost);
+    app.post("/comments/reply", loggedOrGuestMiddlware, checkGuestUsername, wrapperCaptchaMiddleware, Comments.replyToComment);
+    app.post("/comments/publish", passportMiddleware, Comments.publishArticle);
+    app.post("/comments/publish-batch", passportMiddleware , Comments.publishBatchArticles);
+    app.post("/comments/vote", passportMiddleware, Comments.votePost);
+    app.post("/comments/downvote", passportMiddleware, Comments.downvotePost);
     app.post("/comments/bookmark", Comments.bookmarkPost);
-    app.post("/comments/edit/:pid", loggedInMiddleware, Comments.editPost);
+    app.post("/comments/edit/:pid", passportMiddleware, Comments.editPost);
     app.get("/comments/plugin/email", emailExists);
     app.get("/comments/plugin/username", userExists);
     app.get("/comments/test", Comments.test)
     app.get("/admin/blog-comments", middleware.admin.buildHeader, renderAdmin);
     app.get("/api/admin/blog-comments", renderAdmin);
-    app.post("/comments/delete/:pid", Comments.deletePost);
+    app.post("/comments/delete/:pid", passportMiddleware, Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments);
     app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', middleware.applyCSRF, Comments.getAllArticlesCategory);
@@ -852,7 +853,7 @@
     });
     app.post('/comments/login', localLogin);
     app.post('/attach-topic/:cid', 
-    loggedInMiddleware,
+    passportMiddleware,
     categoryZeroMiddleware,
     moderatorCategoryMiddleware,
     async function(req, res) {
@@ -880,7 +881,7 @@
     app.get('/object-topic/:tid/:uid', async function(req, res) {
       return res.json(await getObjectTopic(req.params.tid, req.params.uid))
     });
-    app.get('/comments/test-endpoint', passport.authenticate(['jwt']), async function(req, res) {
+    app.get('/comments/test-endpoint', passportMiddleware, async function(req, res) {
       res.json({
         ok: true, 
         message: 'It works',
