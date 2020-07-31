@@ -827,7 +827,7 @@
     );
     app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
-    app.post("/comments/reply", loggedOrGuestMiddlware, checkGuestUsername, wrapperCaptchaMiddleware, Comments.replyToComment);
+    app.post("/comments/reply", loggedOrGuestMiddleware, checkGuestUsername, wrapperCaptchaMiddleware, Comments.replyToComment);
     app.post("/comments/publish", passportMiddleware, Comments.publishArticle);
     app.post("/comments/publish-batch", passportMiddleware , Comments.publishBatchArticles);
     app.post("/comments/vote", passportMiddleware, Comments.votePost);
