@@ -18,7 +18,7 @@
   var TurndownService = require.main.require('turndown');
   var turndownService = new TurndownService();
   module.exports = Comments;
-  const {localLogin} = require('./login');
+  const {localLogin, passport} = require('./login');
 
   const isLoggedIn = req => req.user && parseInt(req.user.uid, 10) > 0;
 
@@ -879,6 +879,13 @@
     app.get('/comments/post-count', Comments.getPostCount);
     app.get('/object-topic/:tid/:uid', async function(req, res) {
       return res.json(await getObjectTopic(req.params.tid, req.params.uid))
+    });
+    app.get('/comments/test-endpoint', passport.authenticate(['jwt']), async function(req, res) {
+      res.json({
+        ok: true, 
+        message: 'It works',
+        user: req.user
+      })
     })
     callback();
   };

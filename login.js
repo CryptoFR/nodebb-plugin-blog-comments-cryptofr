@@ -12,6 +12,29 @@ async = require.main.require('async'),
 winston = require.main.require('winston')
 jwt = require.main.require('jsonwebtoken');
 
+var JwtStrategy = require.main.require('passport-jwt').Strategy,
+    ExtractJwt = require.main.require('passport-jwt').ExtractJwt;
+var opts = {}
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = meta.config['blog-comments:jwt-secret-key'];
+
+const Passport = require.main.require('passport').Passport;
+
+const myPass = new Passport();
+
+myPass.use(new JwtStrategy(opts, function(jwt_payload, done) {
+    user.getUserData(jwt_payload.uid, function(err, user) {
+        if (err) {
+            return done(err, false);
+        }
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+        }
+    });
+}));
+
 const makeErrorObj = (error) => ({
     ok: false,
     error: error.message
@@ -76,5 +99,6 @@ const localLogin = async function (req, res) {
 }
 
 module.exports = {
-    localLogin,
+	localLogin,
+	passport: myPass
 }
