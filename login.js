@@ -82,7 +82,7 @@ const localLogin = async function (req, res) {
 		if (!passwordMatch) {
 			return makeError(res, new Error('[[error:invalid-login-credentials]]'));
         }
-        jwt.sign({ uid }, meta.config['blog-comments:jwt-secret-key'], function(err, token) {
+        jwt.sign({ uid }, meta.config['blog-comments:jwt-secret-key'], async function(err, token) {
             if (err) {
 				winston.warn(err);
                 return makeError(res, new Error('[[error:invalid-token]]'));
@@ -90,7 +90,8 @@ const localLogin = async function (req, res) {
             return res.status(200).json({
                 ok : true, 
                 message : 'Login successful',
-                token
+				token,
+				user: await user.getUserData(uid)
             })
         });
 	} catch (err) {
