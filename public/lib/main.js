@@ -840,7 +840,7 @@ function prepareModal(modalTemplate, token, onSubmit) {
   div.querySelector('span.modal-close').onclick = closeModal;
   var form = div.querySelector('form');
   form.onsubmit = onSubmit;
-  form.setAttribute('action', nodeBBURL + '/login');
+  form.setAttribute('action', nodeBBURL + '/comments/login');
   form.querySelector("input[name='_csrf']").setAttribute('value', token);
   var registerModal$ = div.querySelector('.register-modal-open');
 
@@ -3369,11 +3369,11 @@ function newXHR() {
     return _settings.XHR;
   } catch (e) {
     try {
-      _settings.set.XHR(new ActiveXObject("Microsoft.XMLHTTP"));
+      _settings.set.XHR(new ActiveXObject('Microsoft.XMLHTTP'));
 
       return _settings.XHR;
     } catch (e) {
-      _settings.set.XHR(new ActiveXObject("Msxml2.XMLHTTP"));
+      _settings.set.XHR(new ActiveXObject('Msxml2.XMLHTTP'));
 
       return _settings.XHR;
     }
@@ -3391,9 +3391,9 @@ function newXHRFixed() {
     return new XMLHttpRequest();
   } catch (e) {
     try {
-      return new ActiveXObject("Microsoft.XMLHTTP");
+      return new ActiveXObject('Microsoft.XMLHTTP');
     } catch (e) {
-      return new ActiveXObject("Msxml2.XMLHTTP");
+      return new ActiveXObject('Msxml2.XMLHTTP');
     }
   }
 }
@@ -3406,7 +3406,7 @@ function newXHRFixed() {
 
 
 function xget(xhr, path) {
-  xhr.open("GET", path, true);
+  xhr.open('GET', path, true);
   xhr.withCredentials = true;
   xhr.send();
   return xhr;
@@ -3421,36 +3421,36 @@ function xget(xhr, path) {
 
 
 function xpost(xhr, path, data) {
-  var encodedString = "";
+  var encodedString = '';
 
   for (var prop in data) {
     if (data.hasOwnProperty(prop)) {
       if (encodedString.length > 0) {
-        encodedString += "&";
+        encodedString += '&';
       }
 
-      encodedString += encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
+      encodedString += encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop]);
     }
   }
 
-  xhr.open("POST", path, true);
+  xhr.open('POST', path, true);
   xhr.withCredentials = true;
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.send(encodedString);
   return xhr;
 }
 
 function newFetch(path) {
   var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var encodedString = "";
+  var encodedString = '';
 
   for (var prop in data) {
     if (data.hasOwnProperty(prop)) {
       if (encodedString.length > 0) {
-        encodedString += "&";
+        encodedString += '&';
       }
 
-      encodedString += encodeURIComponent(prop) + "=" + encodeURIComponent(data[prop]);
+      encodedString += encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop]);
     }
   }
 
@@ -3487,7 +3487,7 @@ function fetchFile(path, token, formData) {
 }
 
 function getNewerComments(timestamp, tid) {
-  return newFetchGet(nodeBBURL + "/comments/new/" + tid + "/" + timestamp);
+  return newFetchGet(nodeBBURL + '/comments/new/' + tid + '/' + timestamp);
 }
 /**
  * Upvotes a comment
@@ -3499,7 +3499,7 @@ function getNewerComments(timestamp, tid) {
 
 function upvotePost(topicItem, pid, upvoted) {
   var isUpvote = !upvoted;
-  return newFetch(nodeBBURL + "/comments/vote", {
+  return newFetch(nodeBBURL + '/comments/vote', {
     toPid: pid,
     isUpvote: isUpvote
   });
@@ -3513,11 +3513,11 @@ function upvotePost(topicItem, pid, upvoted) {
 
 
 function login(username, password, token) {
-  return newFetch(nodeBBURL + "/login", {
+  return newFetch(nodeBBURL + '/comments/login', {
     username: username,
     password: password,
     _csrf: token,
-    remember: "on",
+    remember: 'on',
     noscript: false
   }).then(function (res) {
     var loginSuccess = res.status === 200;
@@ -3525,7 +3525,7 @@ function login(username, password, token) {
     if (!loginSuccess) {
       (0, _modal.loginError)("L'identifiant et/ou le mot de passe sont erronés");
       var loginButton = document.querySelectorAll('button.login-button')[0];
-      loginButton.classList.remove("loading-button");
+      loginButton.classList.remove('loading-button');
     } else (0, _loadComments.reloadComments)(0, 0, false);
   });
 }
@@ -3547,15 +3547,15 @@ function signUp(username, email, password, passwordConfirm, token, checkedTerms)
 
   _settings.set.signUpXHR(signUpXHRaux);
 
-  xpost(_settings.signUpXHR, nodeBBURL + "/comments/plugin/register", {
+  xpost(_settings.signUpXHR, nodeBBURL + '/comments/plugin/register', {
     username: username,
     password: password,
     email: email,
-    "password-confirm": passwordConfirm,
+    'password-confirm': passwordConfirm,
     _csrf: token,
-    userLang: "fr",
-    referrer: "",
-    token: "",
+    userLang: 'fr',
+    referrer: '',
+    token: '',
     noscript: false,
     terms: checkedTerms,
     captcha: window.grecaptcha.getResponse(_settings.renderedCaptcha)
@@ -3572,7 +3572,7 @@ function signUp(username, email, password, passwordConfirm, token, checkedTerms)
 
 function downvotePost(topicItem, pid, downvoted) {
   var isDownvote = !downvoted;
-  return newFetch(nodeBBURL + "/comments/downvote", {
+  return newFetch(nodeBBURL + '/comments/downvote', {
     toPid: pid,
     isDownvote: isDownvote
   });
@@ -3591,12 +3591,12 @@ function deletePost(topicItem, pid) {
 
   _settings.set.voteXHR(voteXHRaux);
 
-  return newFetch(nodeBBURL + "/comments/delete/" + pid, {});
+  return newFetch(nodeBBURL + '/comments/delete/' + pid, {});
 }
 
 function logout(token) {
   (0, _util.addLoader)();
-  return newFetch(nodeBBURL + "/logout", {
+  return newFetch(nodeBBURL + '/logout', {
     _csrf: token,
     noscript: false
   }).then(_util.removeLoader).then(function () {

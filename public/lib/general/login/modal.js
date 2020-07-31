@@ -17,7 +17,7 @@ export function prepareModal(modalTemplate, token, onSubmit) {
   div.querySelector('span.modal-close').onclick = closeModal;
   var form = div.querySelector('form');
   form.onsubmit = onSubmit;
-  form.setAttribute('action', nodeBBURL + '/login');
+  form.setAttribute('action', nodeBBURL + '/comments/login');
   form.querySelector("input[name='_csrf']").setAttribute('value', token);
   const registerModal$ = div.querySelector('.register-modal-open');
   if (registerModal$) {
