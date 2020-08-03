@@ -573,7 +573,7 @@
         });
       }
       const posts = await getPostsCategory(categoryId, uid, sorting);
-      return res.json({ user: u, isAdministrator, posts, token: req.csrfToken() });
+      return res.json({ user: u, isAdministrator, posts });
     } catch (err) {
       console.log(err);
       return res.status(500).json({
