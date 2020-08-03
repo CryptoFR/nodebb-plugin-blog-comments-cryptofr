@@ -64,6 +64,7 @@
     });
   };
 
+
   Comments.getTopicIDByCommentID = function (commentID, blogger, callback) {
     db.getObjectField('blog-comments:' + blogger, commentID, function (err, tid) {
       callback(err, tid);
@@ -553,7 +554,6 @@
       return res.status(401).json({
         error: true,
         message: 'Not connected',
-        token: req.csrfToken(),
       });
     }
     const { categoryId } = req.params;
@@ -569,7 +569,6 @@
         return res.status(403).json({
           error: true,
           message: 'Not authorized',
-          token: req.csrfToken(),
           user: u,
         });
       }
