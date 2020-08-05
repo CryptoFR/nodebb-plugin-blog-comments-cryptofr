@@ -4,6 +4,7 @@ const topics = require.main.require("./src/topics");
 const db = require.main.require("./src/database");
 const groups = require.main.require("./src/groups");
 const async = require.main.require("async");
+const winston = require.main.require("winston");
 const _ = require('lodash')
 
 const getCacheKey = tid => `cache:nested_tid:${tid}`;
@@ -308,10 +309,23 @@ const attachTopics = async (list, cid, uid) => {
   return Promise.all(promises)
 }
 
+const attachSingleTopic = async (cid, tid, articleId, blogger) => {
+  const tids = await db.getSortedSetRange(`cid:${cid}:tids`, 0, -1);
+  if (tids.some(t => String(t) === String(tid))) {
+    winston.info('Attached tid: ' + tid)
+    await db.setObjectField(`blog-comments:${blogger}`, articleId, tid);
+    return true;
+  } else {
+    winston.info('Topic tid: ' + tid + ' not found');
+    return false;
+  }
+}
+
 module.exports = {
   getNestedPosts,
   getNestedChildren,
   getPostsCategory,
   getObjectTopic,
-  attachTopics
+  attachTopics,
+  attachSingleTopic
 };

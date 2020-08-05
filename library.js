@@ -2,7 +2,7 @@
   'use strict';
 
   var Comments = {};
-  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics } = require('./helper');
+  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
     posts = require.main.require('./src/posts'),
@@ -875,7 +875,16 @@
           message: err.message
         });
       }
-    })
+    });
+    app.post('/attach-single-topic/:cid/:tid/:articleId', passportMiddleware, categoryZeroMiddleware, moderatorCategoryMiddleware, async function (req, res) {
+      const { cid, tid, articleId } = req.params;
+      const { blogger } = req.body;
+      const isAttached = await attachSingleTopic(cid, tid, articleId, blogger);
+      return res.status(200).json({
+        ok: isAttached,
+        message: isAttached ? 'Topic attached' : 'Topic not attached'
+      });
+    });
     app.get('/comments/post-count', Comments.getPostCount);
     app.get('/object-topic/:tid/:uid', async function(req, res) {
       return res.json(await getObjectTopic(req.params.tid, req.params.uid))
