@@ -149,17 +149,28 @@ export function login(username, password, token) {
   return newFetch(nodeBBURL + '/comments/login', {
     username: username,
     password: password,
-    _csrf: token,
-    remember: 'on',
-    noscript: false,
-  }).then(res => {
-    const loginSuccess = res.status === 200;
-    if (!loginSuccess) {
-      loginError("L'identifiant et/ou le mot de passe sont erronés");
-      var loginButton = document.querySelectorAll('button.login-button')[0];
-      loginButton.classList.remove('loading-button');
-    } else reloadComments(0, 0, false);
-  });
+  })
+    .then(res => res.json())
+    .then(res => {
+      // console.log('LOGIN RES', res);
+      if (res.ok) {
+        localStorage.clear();
+        localStorage.token = res.token;
+        localStorage.status = 200;
+        localStorage.uid = res.user.uid;
+        localStorage.username = res.user.username;
+        if (res.user.picture) localStorage.picture = res.user.picture;
+        else {
+          localStorage.innerText = res.user['icon:text'];
+          localStorage.backgroundColor = res.user['icon:bgColor'];
+        }
+        reloadComments(0, 0, false);
+      } else {
+        loginError("L'identifiant et/ou le mot de passe sont erronés");
+        var loginButton = document.querySelectorAll('button.login-button')[0];
+        loginButton.classList.remove('loading-button');
+      }
+    });
 }
 
 /**
