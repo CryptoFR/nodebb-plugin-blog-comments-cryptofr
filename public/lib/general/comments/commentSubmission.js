@@ -27,9 +27,6 @@ export function commentSubmissionsHandler(form) {
       inputs.content = textarea.value;
       // inputs.content=form.querySelector('.emoji-wysiwyg-editor').innerHTML;
     }
-
-    console.log('event->', event);
-    console.log('inputs', inputs);
     if ('name' in inputs) {
       inputs.captcha = event.target[event.target.length - 1].value;
     }
@@ -52,8 +49,10 @@ export function commentSubmissionsHandler(form) {
     else {
       let newLi = null;
       let status = null;
-
-      newFetch(form.getAttribute('action'), inputs)
+      console.log('form submit');
+      console.log(inputs);
+      console.log(form.getAttribute('action'));
+      newFetch(form.getAttribute('action'), inputs, localStorage.token)
         .then(res => {
           console.log('res1', res);
           status = res.status;

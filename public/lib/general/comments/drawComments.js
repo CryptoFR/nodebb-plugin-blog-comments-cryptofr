@@ -203,6 +203,25 @@ function afterParse() {
   for (let element of nodebbDiv.querySelectorAll('.alt-logins a')) {
     if (element.getAttribute('data-link')) element.setAttribute('data-link', element.getAttribute('data-link').replace('{relative_path}', nodeBBURL));
   }
+
+  if ('token' in localStorage && localStorage.status === '200') {
+    for (let element of nodebbDiv.querySelectorAll('.loggedin-false')) {
+      removeNodes(element);
+    }
+    if (localStorage.picture) {
+      for (let element of nodebbDiv.querySelectorAll('.notUserHasPicture')) {
+        removeNodes(element);
+      }
+    } else {
+      for (let element of nodebbDiv.querySelectorAll('.userHasPicture')) {
+        removeNodes(element);
+      }
+    }
+  } else {
+    for (let element of nodebbDiv.querySelectorAll('.loggedin-true')) {
+      removeNodes(element);
+    }
+  }
 }
 
 window.afterParse = afterParse;

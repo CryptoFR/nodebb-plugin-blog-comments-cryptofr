@@ -1463,9 +1463,6 @@ function commentSubmissionsHandler(form) {
       }
     }
 
-    console.log('event->', event);
-    console.log('inputs', inputs);
-
     if ('name' in inputs) {
       inputs.captcha = event.target[event.target.length - 1].value;
     }
@@ -1487,7 +1484,10 @@ function commentSubmissionsHandler(form) {
         else {
             var newLi = null;
             var status = null;
-            (0, _api.newFetch)(form.getAttribute('action'), inputs).then(function (res) {
+            console.log('form submit');
+            console.log(inputs);
+            console.log(form.getAttribute('action'));
+            (0, _api.newFetch)(form.getAttribute('action'), inputs, localStorage.token).then(function (res) {
               console.log('res1', res);
               status = res.status;
               return res.json();
@@ -2758,8 +2758,8 @@ function afterParse() {
 
   try {
     for (var _iterator2 = _settings.nodebbDiv.querySelectorAll('.special-action.gif img, .user-menu  .profile-image, .first-image .profile-image,.first-image .profile-image')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var element = _step2.value;
-      if (element.getAttribute('data-src')) element.setAttribute('src', element.getAttribute('data-src').replace('{relative_path}', nodeBBURL));
+      var _element4 = _step2.value;
+      if (_element4.getAttribute('data-src')) _element4.setAttribute('src', _element4.getAttribute('data-src').replace('{relative_path}', nodeBBURL));
     }
   } catch (err) {
     _didIteratorError2 = true;
@@ -2782,8 +2782,8 @@ function afterParse() {
 
   try {
     for (var _iterator3 = _settings.nodebbDiv.querySelectorAll('.alt-logins a')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-      var _element = _step3.value;
-      if (_element.getAttribute('data-link')) _element.setAttribute('data-link', _element.getAttribute('data-link').replace('{relative_path}', nodeBBURL));
+      var _element5 = _step3.value;
+      if (_element5.getAttribute('data-link')) _element5.setAttribute('data-link', _element5.getAttribute('data-link').replace('{relative_path}', nodeBBURL));
     }
   } catch (err) {
     _didIteratorError3 = true;
@@ -2799,6 +2799,106 @@ function afterParse() {
       }
     }
   }
+
+  if ('token' in localStorage && localStorage.status === '200') {
+    var _iteratorNormalCompletion4 = true;
+    var _didIteratorError4 = false;
+    var _iteratorError4 = undefined;
+
+    try {
+      for (var _iterator4 = _settings.nodebbDiv.querySelectorAll('.loggedin-false')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+        var _element2 = _step4.value;
+        (0, _util.removeNodes)(_element2);
+      }
+    } catch (err) {
+      _didIteratorError4 = true;
+      _iteratorError4 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+          _iterator4.return();
+        }
+      } finally {
+        if (_didIteratorError4) {
+          throw _iteratorError4;
+        }
+      }
+    }
+
+    if (localStorage.picture) {
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
+
+      try {
+        for (var _iterator5 = _settings.nodebbDiv.querySelectorAll('.notUserHasPicture')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var element = _step5.value;
+          (0, _util.removeNodes)(element);
+        }
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
+          }
+        }
+      }
+    } else {
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = _settings.nodebbDiv.querySelectorAll('.userHasPicture')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var _element = _step6.value;
+          (0, _util.removeNodes)(_element);
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+    }
+  } else {
+    var _iteratorNormalCompletion7 = true;
+    var _didIteratorError7 = false;
+    var _iteratorError7 = undefined;
+
+    try {
+      for (var _iterator7 = _settings.nodebbDiv.querySelectorAll('.loggedin-true')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+        var _element3 = _step7.value;
+        (0, _util.removeNodes)(_element3);
+      }
+    } catch (err) {
+      _didIteratorError7 = true;
+      _iteratorError7 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
+          _iterator7.return();
+        }
+      } finally {
+        if (_didIteratorError7) {
+          throw _iteratorError7;
+        }
+      }
+    }
+  }
 }
 
 window.afterParse = afterParse;
@@ -2810,13 +2910,13 @@ function addBadges(li, post) {
   if (selectedGroups) {
     var maxCrypto = 0;
     var maxWebsites = 0;
-    var _iteratorNormalCompletion4 = true;
-    var _didIteratorError4 = false;
-    var _iteratorError4 = undefined;
+    var _iteratorNormalCompletion8 = true;
+    var _didIteratorError8 = false;
+    var _iteratorError8 = undefined;
 
     try {
-      for (var _iterator4 = selectedGroups[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-        var group = _step4.value;
+      for (var _iterator8 = selectedGroups[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+        var group = _step8.value;
 
         if ((group.name === 'Bitcoin' || group.name === 'Ethereum') && maxCrypto < 2) {
           var groupDiv = document.createElement('div');
@@ -2870,29 +2970,29 @@ function addBadges(li, post) {
         }
       }
     } catch (err) {
-      _didIteratorError4 = true;
-      _iteratorError4 = err;
+      _didIteratorError8 = true;
+      _iteratorError8 = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-          _iterator4.return();
+        if (!_iteratorNormalCompletion8 && _iterator8.return != null) {
+          _iterator8.return();
         }
       } finally {
-        if (_didIteratorError4) {
-          throw _iteratorError4;
+        if (_didIteratorError8) {
+          throw _iteratorError8;
         }
       }
     }
   }
 
   if (post.hasOwnProperty('children')) {
-    var _iteratorNormalCompletion5 = true;
-    var _didIteratorError5 = false;
-    var _iteratorError5 = undefined;
+    var _iteratorNormalCompletion9 = true;
+    var _didIteratorError9 = false;
+    var _iteratorError9 = undefined;
 
     try {
-      for (var _iterator5 = post.children[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-        var childPost = _step5.value;
+      for (var _iterator9 = post.children[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+        var childPost = _step9.value;
         var childLi = li.querySelector('li[data-pid="' + childPost.pid + '"]');
 
         if (!childLi) {
@@ -2902,16 +3002,16 @@ function addBadges(li, post) {
         }
       }
     } catch (err) {
-      _didIteratorError5 = true;
-      _iteratorError5 = err;
+      _didIteratorError9 = true;
+      _iteratorError9 = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-          _iterator5.return();
+        if (!_iteratorNormalCompletion9 && _iterator9.return != null) {
+          _iterator9.return();
         }
       } finally {
-        if (_didIteratorError5) {
-          throw _iteratorError5;
+        if (_didIteratorError9) {
+          throw _iteratorError9;
         }
       }
     }
@@ -3095,34 +3195,34 @@ function parse(data, template) {
 
 
 function drawCommentFromLoadMore(existingComments, loadedComments) {
-  var _iteratorNormalCompletion6 = true;
-  var _didIteratorError6 = false;
-  var _iteratorError6 = undefined;
+  var _iteratorNormalCompletion10 = true;
+  var _didIteratorError10 = false;
+  var _iteratorError10 = undefined;
 
   try {
-    for (var _iterator6 = loadedComments.querySelectorAll('li')[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-      var comment = _step6.value;
+    for (var _iterator10 = loadedComments.querySelectorAll('li')[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+      var comment = _step10.value;
       var flag = false;
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
+      var _iteratorNormalCompletion11 = true;
+      var _didIteratorError11 = false;
+      var _iteratorError11 = undefined;
 
       try {
-        for (var _iterator7 = existingComments.querySelectorAll('li')[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var oldcomment = _step7.value;
+        for (var _iterator11 = existingComments.querySelectorAll('li')[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+          var oldcomment = _step11.value;
           if (comment.getAttribute('data-pid') == oldcomment.getAttribute('data-pid') && !oldcomment.classList.contains('new-comment')) flag = true;
         }
       } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
+        _didIteratorError11 = true;
+        _iteratorError11 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion7 && _iterator7.return != null) {
-            _iterator7.return();
+          if (!_iteratorNormalCompletion11 && _iterator11.return != null) {
+            _iterator11.return();
           }
         } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
+          if (_didIteratorError11) {
+            throw _iteratorError11;
           }
         }
       }
@@ -3132,16 +3232,16 @@ function drawCommentFromLoadMore(existingComments, loadedComments) {
       }
     }
   } catch (err) {
-    _didIteratorError6 = true;
-    _iteratorError6 = err;
+    _didIteratorError10 = true;
+    _iteratorError10 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
-        _iterator6.return();
+      if (!_iteratorNormalCompletion10 && _iterator10.return != null) {
+        _iterator10.return();
       }
     } finally {
-      if (_didIteratorError6) {
-        throw _iteratorError6;
+      if (_didIteratorError10) {
+        throw _iteratorError10;
       }
     }
   }
@@ -3347,7 +3447,6 @@ exports.newXHRFixed = newXHRFixed;
 exports.xget = xget;
 exports.xpost = xpost;
 exports.newFetch = newFetch;
-exports.newFetchGet = newFetchGet;
 exports.fetchFile = fetchFile;
 exports.getNewerComments = getNewerComments;
 exports.upvotePost = upvotePost;
@@ -3453,6 +3552,7 @@ function xpost(xhr, path, data) {
 
 function newFetch(path) {
   var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var token = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   var encodedString = '';
 
   for (var prop in data) {
@@ -3465,24 +3565,30 @@ function newFetch(path) {
     }
   }
 
-  return fetch(path, {
+  var fetchData = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     credentials: 'include',
     body: encodedString
-  });
-}
+  };
+  if (token) fetchData.headers.Authorization = 'Bearer ' + token;
+  return fetch(path, fetchData);
+} // GET REQUEST
+
 
 function newFetchGet(path) {
-  return fetch(path, {
+  var token = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var fetchData = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     credentials: 'include'
-  });
+  };
+  if (token) fetchData.headers.Authorization = 'Bearer ' + token;
+  return fetch(path, fetchData);
 }
 
 function fetchFile(path, token, formData) {
@@ -3513,7 +3619,7 @@ function upvotePost(topicItem, pid, upvoted) {
   return newFetch(nodeBBURL + '/comments/vote', {
     toPid: pid,
     isUpvote: isUpvote
-  });
+  }, localStorage.token);
 }
 /**
  * Creates a login request
@@ -3599,7 +3705,7 @@ function downvotePost(topicItem, pid, downvoted) {
   return newFetch(nodeBBURL + '/comments/downvote', {
     toPid: pid,
     isDownvote: isDownvote
-  });
+  }, localStorage.token);
 }
 /**
  * Deletes a comment
@@ -3615,17 +3721,12 @@ function deletePost(topicItem, pid) {
 
   _settings.set.voteXHR(voteXHRaux);
 
-  return newFetch(nodeBBURL + '/comments/delete/' + pid, {});
+  return newFetch(nodeBBURL + '/comments/delete/' + pid, {}, localStorage.token);
 }
 
 function logout(token) {
-  (0, _util.addLoader)();
-  return newFetch(nodeBBURL + '/logout', {
-    _csrf: token,
-    noscript: false
-  }).then(_util.removeLoader).then(function () {
-    return (0, _loadComments.reloadComments)(0, 0, false);
-  });
+  localStorage.clear();
+  (0, _loadComments.reloadComments)(0, 0, false);
 }
 },{"../settings.js":"LXja","./util.js":"VGLh","./login/modal.js":"kjEe","./comments/loadComments.js":"V8ra","./comments/drawComments.js":"xsmJ"}],"V8ra":[function(require,module,exports) {
 "use strict";

@@ -78,7 +78,7 @@ export function xpost(xhr, path, data) {
   return xhr;
 }
 
-export function newFetch(path, data = {}) {
+export function newFetch(path, data = {}, token = null) {
   var encodedString = '';
   for (var prop in data) {
     if (data.hasOwnProperty(prop)) {
@@ -88,24 +88,31 @@ export function newFetch(path, data = {}) {
       encodedString += encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop]);
     }
   }
-  return fetch(path, {
+
+  let fetchData = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     credentials: 'include',
     body: encodedString,
-  });
+  };
+  if (token) fetchData.headers.Authorization = 'Bearer ' + token;
+
+  return fetch(path, fetchData);
 }
 
-export function newFetchGet(path) {
-  return fetch(path, {
+// GET REQUEST
+function newFetchGet(path, token = null) {
+  let fetchData = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     credentials: 'include',
-  });
+  };
+  if (token) fetchData.headers.Authorization = 'Bearer ' + token;
+  return fetch(path, fetchData);
 }
 
 export function fetchFile(path, token, formData) {
@@ -132,10 +139,14 @@ export function getNewerComments(timestamp, tid) {
  */
 export function upvotePost(topicItem, pid, upvoted) {
   var isUpvote = !upvoted;
-  return newFetch(nodeBBURL + '/comments/vote', {
-    toPid: pid,
-    isUpvote: isUpvote,
-  });
+  return newFetch(
+    nodeBBURL + '/comments/vote',
+    {
+      toPid: pid,
+      isUpvote: isUpvote,
+    },
+    localStorage.token
+  );
 }
 
 /**
@@ -214,10 +225,14 @@ export function signUp(username, email, password, passwordConfirm, token, checke
  */
 export function downvotePost(topicItem, pid, downvoted) {
   var isDownvote = !downvoted;
-  return newFetch(nodeBBURL + '/comments/downvote', {
-    toPid: pid,
-    isDownvote: isDownvote,
-  });
+  return newFetch(
+    nodeBBURL + '/comments/downvote',
+    {
+      toPid: pid,
+      isDownvote: isDownvote,
+    },
+    localStorage.token
+  );
 }
 
 /**
@@ -230,15 +245,10 @@ export function deletePost(topicItem, pid) {
   voteXHRaux.isBusy = true;
   voteXHRaux.topicItem = topicItem;
   set.voteXHR(voteXHRaux);
-  return newFetch(nodeBBURL + '/comments/delete/' + pid, {});
+  return newFetch(nodeBBURL + '/comments/delete/' + pid, {}, localStorage.token);
 }
 
 export function logout(token) {
-  addLoader();
-  return newFetch(nodeBBURL + '/logout', {
-    _csrf: token,
-    noscript: false,
-  })
-    .then(removeLoader)
-    .then(() => reloadComments(0, 0, false));
+  localStorage.clear();
+  reloadComments(0, 0, false);
 }
