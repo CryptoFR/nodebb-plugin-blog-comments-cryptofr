@@ -101,7 +101,7 @@ const localLogin = async function (req, res) {
 
 const loggedOrGuestMiddleware = function(req, res, next) {
 	if (req.headers.hasOwnProperty('authorization')) {
-		winston.log('Using authorization header');
+		winston.warn('Using authorization header');
 		return myPass.authenticate('jwt')(req, res, next);
 	} else {
 		winston.warn('No authorization header');
