@@ -2576,8 +2576,6 @@ function drawComments() {
 
     (0, _upload.uploadInit)();
     (0, _events.markdownSpecialActions)();
-    console.log('datauser');
-    console.log(data);
 
     if (!data.user.uid) {
       (0, _events.moveCaptchaBox)();
@@ -2615,11 +2613,24 @@ function drawComments() {
     data.blogger = blogger;
     data.category_id = categoryID;
     data.postCount = parseInt(data.postCount, 10);
-    var flagVote = false;
+    var flagVote = false; // CHECK IF YOU ARE AUTHORIZED
+
+    if ('token' in localStorage && localStorage.status === '200') {
+      data.user.uid = localStorage.uid;
+      data.user.username = localStorage.username;
+      data.user.userslug = localStorage.userslug;
+      data.user.email = localStorage.email;
+      data.user['email:confirmed'] = localStorage.emailConfirmed;
+      if (localStorage.picture) data.user.picture = localStorage.picture;else {
+        data.user['icon:text'] = localStorage.innerText;
+        data.user['icon:bgColor'] = localStorage.backgroundColor;
+      }
+    }
+
+    console.log('data->', data);
 
     _settings.set.dataRes(data);
 
-    console.log(data);
     setTimeout(function () {
       (0, _modal.grecaptchaGrab)();
       var body = document.querySelector('body');
@@ -3515,18 +3526,31 @@ function upvotePost(topicItem, pid, upvoted) {
 function login(username, password, token) {
   return newFetch(nodeBBURL + '/comments/login', {
     username: username,
-    password: password,
-    _csrf: token,
-    remember: 'on',
-    noscript: false
+    password: password
   }).then(function (res) {
-    var loginSuccess = res.status === 200;
+    return res.json();
+  }).then(function (res) {
+    console.log('LOGIN RES', res);
 
-    if (!loginSuccess) {
+    if (res.ok) {
+      localStorage.clear();
+      localStorage.token = res.token;
+      localStorage.status = 200;
+      localStorage.uid = res.user.uid;
+      localStorage.username = res.user.username;
+      localStorage.userslug = res.user.userslug;
+      localStorage.email = res.user.email;
+      localStorage.emailConfirmed = res.user['email:confirmed'];
+      if (res.user.picture) localStorage.picture = res.user.picture;else {
+        localStorage.innerText = res.user['icon:text'];
+        localStorage.backgroundColor = res.user['icon:bgColor'];
+      }
+      (0, _loadComments.reloadComments)(0, 0, false);
+    } else {
       (0, _modal.loginError)("L'identifiant et/ou le mot de passe sont erronés");
       var loginButton = document.querySelectorAll('button.login-button')[0];
       loginButton.classList.remove('loading-button');
-    } else (0, _loadComments.reloadComments)(0, 0, false);
+    }
   });
 }
 /**

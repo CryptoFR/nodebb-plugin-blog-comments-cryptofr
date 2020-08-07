@@ -42,125 +42,125 @@
     </ul>
   </div>
   <div class="user-menu">
-    <!-- IF !isLoggedIn -->
-    <a class="login-link" id="nodebb-login">Se connecter</a>
-    <!-- ELSE -->
-    <!-- IF userHasPicture -->
-    <img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
-    <span class="user-status user-status-main {user.status}"></span>
-    <!-- ENDIF userHasPicture -->
-
-    <!-- IF !userHasPicture -->
-    <div
-      class="profile-image"
-      style="
-        background-color: {
-          user.icon: bgColor;
-        }
-      "
-      title="{user.username}"
-    >
-      {user.icon:text}
+    <div class="loggedin-false">
+      <a class="login-link" id="nodebb-login">Se connecter</a>
     </div>
-    <span class="user-status user-status-main {user.status}"></span>
-    <!-- ENDIF !userHasPicture -->
-
-    <ul class="user-options">
-      <li class="sort-group-link logout-box"><i class="fad fa-sign-out"></i> Déconnexion</li>
-    </ul>
-    <!-- ENDIF !isLoggedIn -->
+    <div class="loggedin-true">
+      <div class="userHasPicture">
+        <img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
+        <span class="user-status user-status-main {user.status}"></span>
+      </div>
+      <div class="notUserHasPicture">
+        <div
+          class="profile-image"
+          style="
+            background-color: {
+              user.icon: bgColor;
+            }
+          "
+          title="{user.username}"
+        >
+          {user.icon:text}
+        </div>
+        <span class="user-status user-status-main {user.status}"></span>
+      </div>
+      <ul class="user-options">
+        <li class="sort-group-link logout-box"><i class="fad fa-sign-out"></i> Déconnexion</li>
+      </ul>
+    </div>
   </div>
 </div>
 <!-- TOP BAR END -->
 
 <!-- COMMENT BOX -- To FIX: image next to box, emojis, ... -->
-<!-- IF isLoggedIn -->
-<div class="topic-profile-pic user first-image">
-  <!-- IF userHasPicture -->
-  <img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
-  <span class="user-status user-status-main {user.status}"></span>
-  <!-- ENDIF userHasPicture -->
+<div class="loggedin-true">
+  <div class="topic-profile-pic user first-image">
+    <div class="userHasPicture">
+      <img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
+      <span class="user-status user-status-main {user.status}"></span>
+    </div>
 
-  <!-- IF !userHasPicture -->
-  <div
-    class="profile-image"
-    style="
-      background-color: {
-        user.icon: bgColor;
-      }
-    "
-    title="{user.username}"
-  >
-    {user.icon:text}
+    <div class="notUserHasPicture">
+      <div
+        class="profile-image"
+        style="
+          background-color: {
+            user.icon: bgColor;
+          }
+        "
+        title="{user.username}"
+      >
+        {user.icon:text}
+      </div>
+      <span class="user-status user-status-main letter-avatar {user.status}"></span>
+    </div>
   </div>
-  <span class="user-status user-status-main letter-avatar {user.status}"></span>
-  <!-- ENDIF !userHasPicture -->
+  <form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
+    <!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>.</small> -->
+    <small><strong class="nodebb-error"></strong></small>
+    <textarea class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
+    <div class="comments-toolbar">
+      <div class="special-box actions">
+        <span class="special-action bold">
+          <i class="fad fa-bold"></i>
+        </span>
+        <span class="special-action italic">
+          <i class="fad fa-italic"></i>
+        </span>
+        <span class="special-action emojis">
+          <i class="fad fa-smile"></i>
+        </span>
+        <span class="special-action gif">
+          <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive" />
+          <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active" />
+        </span>
+        <span class="special-action img">
+          <i class="fad fa-image"></i>
+        </span>
+      </div>
+      <button class="submit-comment btn btn-primary"><span>Répondre</span><i class="fad fa-circle-notch fa-spin"></i></button>
+    </div>
+    <input type="hidden" name="_csrf" value="{token}" />
+    <input type="hidden" name="tid" value="{tid}" />
+    <input type="hidden" name="url" value="{redirect_url}" />
+  </form>
 </div>
-<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
-  <!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>.</small> -->
-  <small><strong class="nodebb-error"></strong></small>
-  <textarea class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
-  <div class="comments-toolbar">
-    <div class="special-box actions">
-      <span class="special-action bold">
-        <i class="fad fa-bold"></i>
-      </span>
-      <span class="special-action italic">
-        <i class="fad fa-italic"></i>
-      </span>
-      <span class="special-action emojis">
-        <i class="fad fa-smile"></i>
-      </span>
-      <span class="special-action gif">
-        <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive" />
-        <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active" />
-      </span>
-      <span class="special-action img">
-        <i class="fad fa-image"></i>
-      </span>
+<div class="loggedin-false">
+  <form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
+    <!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>.</small> -->
+    <div class="guest-name-container">
+      <label class="guest-name">Guest Name</label>
+      <input name="name" class="guest-name-value" placeholder="Name" />
     </div>
-    <button class="submit-comment btn btn-primary"><span>Répondre</span><i class="fad fa-circle-notch fa-spin"></i></button>
-  </div>
-  <input type="hidden" name="_csrf" value="{token}" />
-  <input type="hidden" name="tid" value="{tid}" />
-  <input type="hidden" name="url" value="{redirect_url}" />
-</form>
-<!-- ELSE -->
-<form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
-  <!-- <small class="logged-as">Connecté en tant que <strong>{user.username}</strong>.</small> -->
-  <div class="guest-name-container">
-    <label class="guest-name">Guest Name</label>
-    <input name="name" class="guest-name-value" placeholder="Name" />
-  </div>
 
-  <small><strong class="nodebb-error"></strong></small>
-  <textarea class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
-  <div class="comments-toolbar">
-    <div class="special-box actions">
-      <span class="special-action bold">
-        <i class="fad fa-bold"></i>
-      </span>
-      <span class="special-action italic">
-        <i class="fad fa-italic"></i>
-      </span>
-      <span class="special-action emojis">
-        <i class="fad fa-smile"></i>
-      </span>
-      <span class="special-action gif">
-        <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive" />
-        <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active" />
-      </span>
-      <span class="special-action img">
-        <i class="fad fa-image"></i>
-      </span>
+    <small><strong class="nodebb-error"></strong></small>
+    <textarea class="form-control comment-box" name="content" placeholder="Rejoignez la discussion" rows="3" data-emojiable="true"></textarea>
+    <div class="comments-toolbar">
+      <div class="special-box actions">
+        <span class="special-action bold">
+          <i class="fad fa-bold"></i>
+        </span>
+        <span class="special-action italic">
+          <i class="fad fa-italic"></i>
+        </span>
+        <span class="special-action emojis">
+          <i class="fad fa-smile"></i>
+        </span>
+        <span class="special-action gif">
+          <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif.svg" alt="add gif" class="icon inactive" />
+          <img src="" data-src="{relative_path}/plugins/nodebb-plugin-blog-comments-cryptofr/icons/gif-active.svg" alt="add gif" class="icon active" />
+        </span>
+        <span class="special-action img">
+          <i class="fad fa-image"></i>
+        </span>
+      </div>
+      <button class="submit-comment btn btn-primary"><span>Répondre</span><i class="fad fa-circle-notch fa-spin"></i></button>
     </div>
-    <button class="submit-comment btn btn-primary"><span>Répondre</span><i class="fad fa-circle-notch fa-spin"></i></button>
-  </div>
-  <input type="hidden" name="_csrf" value="{token}" />
-  <input type="hidden" name="tid" value="{tid}" />
-  <input type="hidden" name="url" value="{redirect_url}" />
-</form>
-<!-- ENDIF isLoggedIn -->
+    <input type="hidden" name="_csrf" value="{token}" />
+    <input type="hidden" name="tid" value="{tid}" />
+    <input type="hidden" name="url" value="{redirect_url}" />
+  </form>
+</div>
 <!-- COMMENT BOX END -->
 
 <div class="newer-comments" data-timestamp="">+<span class="new-comments-counter"></span></div>
