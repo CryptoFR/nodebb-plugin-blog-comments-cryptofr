@@ -152,13 +152,16 @@ export function login(username, password, token) {
   })
     .then(res => res.json())
     .then(res => {
-      // console.log('LOGIN RES', res);
+      console.log('LOGIN RES', res);
       if (res.ok) {
         localStorage.clear();
         localStorage.token = res.token;
         localStorage.status = 200;
         localStorage.uid = res.user.uid;
         localStorage.username = res.user.username;
+        localStorage.userslug = res.user.userslug;
+        localStorage.email = res.user.email;
+        localStorage.emailConfirmed = res.user['email:confirmed'];
         if (res.user.picture) localStorage.picture = res.user.picture;
         else {
           localStorage.innerText = res.user['icon:text'];
