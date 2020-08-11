@@ -7,8 +7,10 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 
 
   set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
-  
-  set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+  if (!window.nodeBBURL) {
+    console.log('WARNING NODEBB URL NOT SET')
+  }
+  set.pluginURL((window.nodeBBURL || "") + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
   loadCSS(pluginURL + "/css/comments.css");
   loadCSS(pluginURL + "/css/cryptofr.css");
@@ -32,8 +34,7 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 
   set.postData([]);
   set.sorting("newest");
-
-  set.commentsURL(nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
+  set.commentsURL((window.nodeBBURL || "") + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
   
   var XHRaux = newXHR();
   set.XHR(XHRaux);
