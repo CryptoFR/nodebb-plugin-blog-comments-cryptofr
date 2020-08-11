@@ -5,12 +5,13 @@ import { loadCSS,removeLoader,loadScript,windowOnload,loadScriptHead } from "./g
 import { grecaptchaGrab,tabIsActive } from "./general/login/modal.js";
 import { reloadComments,newCommentsCheck } from "./general/comments/loadComments.js";
 
-
-  set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
+(function () {
   if (!window.nodeBBURL) {
     console.log('WARNING NODEBB URL NOT SET')
+    return;
   }
-  set.pluginURL((window.nodeBBURL || "") + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+  set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
+  set.pluginURL(window.nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
   loadCSS(pluginURL + "/css/comments.css");
   loadCSS(pluginURL + "/css/cryptofr.css");
@@ -34,7 +35,7 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 
   set.postData([]);
   set.sorting("newest");
-  set.commentsURL((window.nodeBBURL || "") + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
+  set.commentsURL(window.nodeBBURL + "/comments/get/" +(window.blogger || "default") + "/" + articleID +   "/" +  pagination + "/" + sorting);
   
   var XHRaux = newXHR();
   set.XHR(XHRaux);
@@ -65,3 +66,5 @@ import { reloadComments,newCommentsCheck } from "./general/comments/loadComments
 
   tabIsActive(); 
   newCommentsCheck();
+})();
+  

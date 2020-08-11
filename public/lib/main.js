@@ -3894,70 +3894,77 @@ var _modal = require("./general/login/modal.js");
 
 var _loadComments = require("./general/comments/loadComments.js");
 
-_settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
+(function () {
+  if (!window.nodeBBURL) {
+    console.log('WARNING NODEBB URL NOT SET');
+    return;
+  }
 
-_settings.set.pluginURL(nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
+  _settings.set.articlePath(window.location.protocol + "//" + window.location.host + window.location.pathname);
 
-(0, _util.loadCSS)(_settings.pluginURL + "/css/comments.css");
-(0, _util.loadCSS)(_settings.pluginURL + "/css/cryptofr.css");
-(0, _util.loadCSS)(_settings.pluginURL + "/css/emoji.css");
-(0, _util.loadCSS)(_settings.pluginURL + "/css/icons.css");
-(0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
-(0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap");
-document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<div class="comments-area" id="nodebb"></div>');
+  _settings.set.pluginURL(window.nodeBBURL + "/plugins/nodebb-plugin-blog-comments-cryptofr");
 
-_settings.set.nodebbDiv(document.getElementById("nodebb"));
+  (0, _util.loadCSS)(_settings.pluginURL + "/css/comments.css");
+  (0, _util.loadCSS)(_settings.pluginURL + "/css/cryptofr.css");
+  (0, _util.loadCSS)(_settings.pluginURL + "/css/emoji.css");
+  (0, _util.loadCSS)(_settings.pluginURL + "/css/icons.css");
+  (0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap");
+  (0, _util.loadCSS)("https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap");
+  document.getElementById("nodebb-comments").insertAdjacentHTML("beforebegin", '<div class="comments-area" id="nodebb"></div>');
 
-(0, _util.loadScript)("https://www.google.com/recaptcha/api.js");
-setTimeout(_modal.grecaptchaGrab, 1000);
+  _settings.set.nodebbDiv(document.getElementById("nodebb"));
 
-_settings.set.pagination(0);
+  (0, _util.loadScript)("https://www.google.com/recaptcha/api.js");
+  setTimeout(_modal.grecaptchaGrab, 1000);
 
-_settings.set.reload(false);
+  _settings.set.pagination(0);
 
-_settings.set.reloading(0);
+  _settings.set.reload(false);
 
-_settings.set.firstTime(true);
+  _settings.set.reloading(0);
 
-_settings.set.postData([]);
+  _settings.set.firstTime(true);
 
-_settings.set.sorting("newest");
+  _settings.set.postData([]);
 
-_settings.set.commentsURL(nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + _settings.pagination + "/" + _settings.sorting);
+  _settings.set.sorting("newest");
 
-var XHRaux = (0, _api.newXHR)();
+  _settings.set.commentsURL(window.nodeBBURL + "/comments/get/" + (window.blogger || "default") + "/" + articleID + "/" + _settings.pagination + "/" + _settings.sorting);
 
-_settings.set.XHR(XHRaux);
+  var XHRaux = (0, _api.newXHR)();
 
-var voteXHRaux = (0, _api.newXHR)();
+  _settings.set.XHR(XHRaux);
 
-_settings.set.voteXHR(voteXHRaux);
+  var voteXHRaux = (0, _api.newXHR)();
 
-var commentXHRaux = (0, _api.newXHR)();
+  _settings.set.voteXHR(voteXHRaux);
 
-_settings.set.commentXHR(commentXHRaux);
+  var commentXHRaux = (0, _api.newXHR)();
 
-var authXHRaux = (0, _api.newXHR)();
-authXHRaux.onerror = _util.removeLoader;
+  _settings.set.commentXHR(commentXHRaux);
 
-_settings.set.authXHR(authXHRaux);
+  var authXHRaux = (0, _api.newXHR)();
+  authXHRaux.onerror = _util.removeLoader;
 
-var bookmarkXHRaux = (0, _api.newXHR)();
+  _settings.set.authXHR(authXHRaux);
 
-_settings.set.bookmarkXHR(bookmarkXHRaux);
+  var bookmarkXHRaux = (0, _api.newXHR)();
 
-var signUpXHRaux = (0, _api.newXHRFixed)();
-signUpXHRaux.onerror = _util.removeLoader;
+  _settings.set.bookmarkXHR(bookmarkXHRaux);
 
-_settings.set.signUpXHR(signUpXHRaux);
+  var signUpXHRaux = (0, _api.newXHRFixed)();
+  signUpXHRaux.onerror = _util.removeLoader;
 
-(0, _loadComments.reloadComments)();
+  _settings.set.signUpXHR(signUpXHRaux);
 
-_settings.set.templates({
-  blocks: {}
-});
+  (0, _loadComments.reloadComments)();
 
-(0, _onload.onloadXHR)();
-(0, _modal.tabIsActive)();
-(0, _loadComments.newCommentsCheck)();
+  _settings.set.templates({
+    blocks: {}
+  });
+
+  (0, _onload.onloadXHR)();
+  (0, _modal.tabIsActive)();
+  (0, _loadComments.newCommentsCheck)();
+})();
 },{"./settings.js":"LXja","./general/onload.js":"sutU","./general/api.js":"gYYA","./general/util.js":"VGLh","./general/login/modal.js":"kjEe","./general/comments/loadComments.js":"V8ra"}]},{},["ZSQl"], null)
