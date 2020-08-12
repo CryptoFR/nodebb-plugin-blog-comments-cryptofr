@@ -16,7 +16,7 @@ var JwtStrategy = require.main.require('passport-jwt').Strategy,
     ExtractJwt = require.main.require('passport-jwt').ExtractJwt;
 var opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = meta.config['blog-comments:jwt-secret-key'];
+opts.secretOrKey = meta.config['blog-comments:jwt-secret-key'] || 'secret';
 
 const Passport = require.main.require('passport').Passport;
 
