@@ -18,9 +18,7 @@
 			"hook": "action:user.loggedIn", "method": "onLoggedIn"
 		}
 	],
-	"scripts": [
-        "public/lib/main.js"
-    ],
+	"scripts": [],
 	"staticDirs": {
 		"templates": "public/templates",
 		"css": "public/css",
