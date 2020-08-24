@@ -5,6 +5,7 @@ const db = require.main.require("./src/database");
 const groups = require.main.require("./src/groups");
 const async = require.main.require("async");
 const winston = require.main.require("winston");
+const moment = require.main.require("moment");
 const _ = require('lodash')
 
 const getCacheKey = tid => `cache:nested_tid:${tid}`;
@@ -207,10 +208,7 @@ const addAllPostsWithChildren = posts => {
 }
 
 const getDate = (date) => {
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
-  return `${day}-${month}-${year}`;
+  return date.format('YYYY-MM-DD');
 }
 
 const getKey = (date, title) => `${date}/${title}`;
@@ -225,7 +223,7 @@ const getObjectTopic = async (cid, uid) => {
     return {
       tid: t.tid,
       title: t.title,
-      date: getDate(new Date(Date.parse(t.timestampISO))),
+      date: getDate(moment(t.timestampISO)),
       url: t.url,
     }
   })
