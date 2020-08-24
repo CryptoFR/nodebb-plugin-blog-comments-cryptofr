@@ -216,6 +216,20 @@ const getKey = (date, title) => `${date}/${title}`;
 // How to get all topics of category?
 // We can use zrange cid:{cid}:tids and then for each tid get the topic
 
+const addKey = (obj, date, title, t) => {
+  const time = moment(date)
+  const key = getKey(time.format('YYYY-MM-DD'), title);
+  const keyDown = getKey(time.clone().subtract(1, 'days').format('YYYY-MM-DD'), title)
+  const keyUp = getKey(time.clone().add(1, 'days').format('YYYY-MM-DD'), title)
+  for (const k of [key, keyDown, keyUp]) {
+    if (obj.hasOwnProperty(k)) {
+      obj[k].push(t);
+    } else {
+      obj[k] = [t];
+    }
+  }
+}
+
 const getObjectTopic = async (cid, uid) => {
   const tids = await db.getSortedSetRange(`cid:${cid}:tids`, 0, -1);
   const topicsByTids = await topics.getTopicsByTids(tids, uid);
@@ -229,12 +243,8 @@ const getObjectTopic = async (cid, uid) => {
   })
   const obj = {}
   for (const t of mappedTopics) {
-    const key = getKey(moment(t.date).format('YYYY-MM-DD'), t.title);
-    if (obj.hasOwnProperty(key)) {
-      obj[key].push(t);
-    } else {
-      obj[key] = [t];
-    }
+    // This mutates obj
+    addKey(obj, t.date, t.title, t)
   }
   return obj
 }
