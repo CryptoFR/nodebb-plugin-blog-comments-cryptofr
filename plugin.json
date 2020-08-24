@@ -13,9 +13,6 @@
 		},
 		{
 			"hook": "static:app.load", "method": "init"
-		},
-		{
-			"hook": "action:user.loggedIn", "method": "onLoggedIn"
 		}
 	],
 	"scripts": [],

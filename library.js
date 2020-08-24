@@ -800,11 +800,6 @@
     return next();
   }
 
-  Comments.onLoggedIn = function (params) {
-    console.log('params', params, arguments);
-    params.req.session.cookie.sameSite = 'none';
-  };
-
   Comments.init = function (params, callback) {
     var app = params.router,
       middleware = params.middleware,
