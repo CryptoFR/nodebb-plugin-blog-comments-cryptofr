@@ -319,7 +319,7 @@ const attachTopics = async (list, cid, uid) => {
     const p = attachTopicWithArticle(
       obj,
       title, 
-      getDate(new Date(Date.parse(date))),
+      getDate(moment(date)),
       id,
       blogger,
       cid,
