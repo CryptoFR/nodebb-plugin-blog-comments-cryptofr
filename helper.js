@@ -241,6 +241,27 @@ const getObjectTopic = async (cid, uid) => {
   return obj
 }
 
+const attachArticleInternal = async (blogger, articleId, tid, cid, uid) => {
+  // TODO remove this
+  winston.info('Attaching tid: ' + tid)
+  await db.setObjectField(`blog-comments:${blogger}`, articleId, tid);
+  const oldUid = await db.getObjectField(`topic:${tid}`, 'uid');
+  await db.setObjectField(`topic:${tid}`,'uid', uid);
+  const mainPid = await db.getObjectField(`topic:${tid}`, 'mainPid');
+  await db.setObjectField(`post:${mainPid}`,'uid', uid);
+  const timestampPost = await db.sortedSetScore(`uid:${oldUid}:posts`, mainPid)
+  await db.sortedSetRemove(`uid:${oldUid}:posts`, mainPid)
+  await db.sortedSetAdd(`uid:${uid}:posts`, mainPid, timestampPost);
+  await db.sortedSetRemove(`cid:${cid}:uid:${oldUid}:pids`, mainPid);
+  await db.sortedSetAdd(`cid:${cid}:uid:${uid}:pids`, mainPid, timestampPost);
+  const oldUidPostCount = parseInt(await db.sortedSetScore('users:postcount', oldUid));
+  await db.sortedSetAdd('users:postcount', oldUid, oldUidPostCount - 1);
+  const newUidPostCount = parseInt(await db.sortedSetScore('users:postcount', uid));
+  await db.sortedSetAdd('users:postcount', uid, newUidPostCount + 1);
+  // TODO remove this
+  winston.info('Finished attaching tid: ' + tid)
+}
+
 
 /*
 Primero findTopics en el forum 
@@ -262,13 +283,13 @@ https://testforum.cryptofr.com/comments/get/blogger/ArticleId/0/newest
 
  @param obj Object with tid
 */
-const attachTopicWithArticle = async (obj, title, date, articleId, blogger) => {
+const attachTopicWithArticle = async (obj, title, date, articleId, blogger, cid, uid) => {
   // Note: We might need to make sure date is object Date
   const key = getKey(date, title);
   if (obj.hasOwnProperty(key)) {
     if (obj[key].length === 1) {
       const val = obj[key][0];
-      await db.setObjectField(`blog-comments:${blogger}`, articleId, val.tid);
+      await attachArticleInternal(blogger, articleId, val.tid, cid, uid);
       return { 
         code: 0,
         articleId,
@@ -302,18 +323,20 @@ const attachTopics = async (list, cid, uid) => {
       title, 
       getDate(new Date(Date.parse(date))),
       id,
-      blogger
+      blogger,
+      cid,
+      uid
     );
     promises.push(p)
   }
   return Promise.all(promises)
 }
 
-const attachSingleTopic = async (cid, tid, articleId, blogger) => {
+const attachSingleTopic = async (cid, tid, articleId, blogger, uid) => {
   const tids = await db.getSortedSetRange(`cid:${cid}:tids`, 0, -1);
   if (tids.some(t => String(t) === String(tid))) {
     winston.info('Attached tid: ' + tid)
-    await db.setObjectField(`blog-comments:${blogger}`, articleId, tid);
+    await attachArticleInternal(blogger, articleId, tid, cid, uid);
     return true;
   } else {
     winston.info('Topic tid: ' + tid + ' not found');

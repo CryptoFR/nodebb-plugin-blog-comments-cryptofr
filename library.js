@@ -873,8 +873,9 @@
     });
     app.post('/attach-single-topic/:cid/:tid/:articleId', passportMiddleware, categoryZeroMiddleware, moderatorCategoryMiddleware, async function (req, res) {
       const { cid, tid, articleId } = req.params;
+      const { uid } = req.user;
       const { blogger } = req.body;
-      const isAttached = await attachSingleTopic(cid, tid, articleId, blogger);
+      const isAttached = await attachSingleTopic(cid, tid, articleId, blogger, uid);
       return res.status(200).json({
         ok: isAttached,
         message: isAttached ? 'Topic attached' : 'Topic not attached'
