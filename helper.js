@@ -223,13 +223,13 @@ const getObjectTopic = async (cid, uid) => {
     return {
       tid: t.tid,
       title: t.title,
-      date: getDate(moment(t.timestampISO)),
+      date: t.timestampISO,
       url: t.url,
     }
   })
   const obj = {}
   for (const t of mappedTopics) {
-    const key = getKey(t.date, t.title);
+    const key = getKey(moment(t.date).format('YYYY-MM-DD'), t.title);
     if (obj.hasOwnProperty(key)) {
       obj[key].push(t);
     } else {
