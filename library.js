@@ -21,6 +21,21 @@
   const {localLogin, passport, loggedOrGuestMiddleware} = require('./login');
   const passportMiddleware = passport.authenticate(['jwt']);
 
+  const moveTopic = async function(req, res) {
+    const { tid, newCid } = req.body;
+    const { uid } = req.user;
+    try {
+      const currentCid = await db.getObjectField(`topic:${tid}`, 'cid');
+      await topics.tools.move(tid, { cid: newCid, uid, tids: [tid], currentCid });
+      return res.status(200).json({
+        ok: true,
+        message: 'Topic moved'
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.message, ok: false });
+    }
+  }
+
   const isLoggedIn = req => req.user && parseInt(req.user.uid, 10) > 0;
 
   function CORSSafeReq(req) {
@@ -892,6 +907,7 @@
         user: req.user
       })
     })
+    app.post('/comments/move', passportMiddleware, moveTopic);
     callback();
   };
 })(module);
