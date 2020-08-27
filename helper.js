@@ -352,11 +352,33 @@ const attachSingleTopic = async (cid, tid, articleId, blogger, uid) => {
   }
 }
 
+const replyTopic = (tid, uid, toPid, content, name = undefined) =>
+    new Promise((resolve, reject) => {
+      console.log('content', content);
+      const replyObject = {
+        tid: tid,
+        uid: uid,
+        toPid: toPid,
+        content: content,
+      };
+      if (name) {
+        replyObject.handle = name;
+      }
+      topics.reply(replyObject, function cb(err, postData) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(postData);
+        }
+      });
+    });
+
 module.exports = {
   getNestedPosts,
   getNestedChildren,
   getPostsCategory,
   getObjectTopic,
   attachTopics,
-  attachSingleTopic
+  attachSingleTopic,
+  replyTopic
 };

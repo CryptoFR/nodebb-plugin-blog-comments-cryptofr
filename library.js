@@ -2,7 +2,7 @@
   'use strict';
 
   var Comments = {};
-  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic } = require('./helper');
+  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic, replyTopic } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
     posts = require.main.require('./src/posts'),
@@ -19,6 +19,7 @@
   var turndownService = new TurndownService();
   module.exports = Comments;
   const {localLogin, passport, loggedOrGuestMiddleware} = require('./login');
+  const {importData} = require('./comment_importer');
   const passportMiddleware = passport.authenticate(['jwt']);
 
   const moveTopic = async function(req, res) {
@@ -314,27 +315,6 @@
       res.json({ error: err && err.message, result: result });
     });
   };
-
-  const replyTopic = (tid, uid, toPid, content, name = undefined) =>
-    new Promise((resolve, reject) => {
-      console.log('content', content);
-      const replyObject = {
-        tid: tid,
-        uid: uid,
-        toPid: toPid,
-        content: content,
-      };
-      if (name) {
-        replyObject.handle = name;
-      }
-      topics.reply(replyObject, function cb(err, postData) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(postData);
-        }
-      });
-    });
 
   const getUserOfPid = toPid =>
     new Promise((resolve, reject) => {
@@ -908,6 +888,17 @@
       })
     })
     app.post('/comments/move', passportMiddleware, moveTopic);
+    app.post('/comments/import', passportMiddleware, async function(req, res) {
+      try {
+        const responses = await importData(req.body);
+        return res.json({
+          ok: true,
+          responses,
+        });
+      } catch (err) {
+        res.json({ok: false, message: err.message})
+      }
+    });
     callback();
   };
 })(module);
