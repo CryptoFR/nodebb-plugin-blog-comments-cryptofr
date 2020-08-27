@@ -1,5 +1,4 @@
 const db = require.main.require('./src/database');
-const topic = require.main.require('./src/topic');
 const winston = require.main.require('winston');
 const _ = require('lodash')
 const { replyTopic } = require('./helper');
