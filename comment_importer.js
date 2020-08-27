@@ -1,6 +1,7 @@
 const db = require.main.require('./src/database');
 const winston = require.main.require('winston');
-const _ = require('lodash')
+const _ = require('lodash');
+const user = require.main.require('./src/user');
 const { replyTopic } = require('./helper');
 
 const getUidByEmail = email => db.sortedSetScore('email:uid', email);
@@ -8,13 +9,30 @@ const getUidByEmail = email => db.sortedSetScore('email:uid', email);
 const getTidFromArticleId = (blogger, articleId) => 
     db.getObjectField(`blog-comments:${blogger}`, articleId);
 
+const getHandle = async (comment) => {
+    const firstHandleTry = comment.user.slice(0, 16).trim(); // Gets first 12 characters
+    if (await user.existsBySlug(firstHandleTry)) {
+        const handleBase = comment.user.slice(0, 13).trim();
+        let i = 0;
+        while (true) {
+            const newHandle = `${handleBase}${i}`;
+            if (!await user.existsBySlug(newHandle)) {
+                return newHandle;
+            }
+            i++;
+        }
+    } else {
+        return firstHandleTry
+    }
+}
+
 const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => {
     let uid = await getUidByEmail(comment.email);
     winston.warn(`Getting uid ${uid} from email ${comment.email}`);
     let handle = undefined;
     if (_.isNull(uid)) {
         uid = 0;
-        handle = comment.user;
+        handle = await getHandle(comment);
     }
     winston.warn(`Replying to topic ${tid}, ${uid}, ${parentId}, ${comment.content}, ${handle}`)
     const data = await replyTopic(tid, uid, parentId, comment.content, handle);
@@ -45,7 +63,15 @@ const importData = (commentData) => {
                 responses: []
             }
         }
-        return postSinglePost(tid, item);
+        const responses = []
+        for(const comment of item.comments) {
+            responses.push(await postSinglePost(tid, comment));
+        }
+        return {
+            ok: true,
+            articleId: item.articleId,
+            responses
+        }
     });
     return promises;
 }
