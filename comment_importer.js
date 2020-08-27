@@ -37,7 +37,7 @@ const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => 
 
 const importData = (commentData) => {
     const promises = commentData.map(async item => {
-        const tid = await getTidFromArticleId(item.articleId);
+        const tid = await getTidFromArticleId('admin', item.articleId);
         winston.warn(`Getting tid ${tid} from article ${item.articleId}`);
         if(_.isNull(tid))  {
             return {
