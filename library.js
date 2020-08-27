@@ -888,7 +888,7 @@
       })
     })
     app.post('/comments/move', passportMiddleware, moveTopic);
-    app.post('/comments/import', passportMiddleware, async function(req, res) {
+    app.post('/comments/import', /*passportMiddleware,*/ async function(req, res) {
       try {
         const responses = await importData(req.body);
         return res.json({
