@@ -15,8 +15,7 @@
     async = require.main.require('async'),
     winston = require.main.require('winston');
   var simpleRecaptcha = require.main.require('simple-recaptcha-new');
-  var TurndownService = require.main.require('turndown');
-  var turndownService = new TurndownService();
+  const {turndownService} = require("./turndown");
   module.exports = Comments;
   const {localLogin, passport, loggedOrGuestMiddleware} = require('./login');
   const {importData} = require('./comment_importer');

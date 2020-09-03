@@ -354,7 +354,6 @@ const attachSingleTopic = async (cid, tid, articleId, blogger, uid) => {
 
 const replyTopic = (tid, uid, toPid, content, name = undefined) =>
     new Promise((resolve, reject) => {
-      console.log('content', content);
       const replyObject = {
         tid: tid,
         uid: uid,

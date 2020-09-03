@@ -3,6 +3,7 @@ const winston = require.main.require('winston');
 const _ = require('lodash');
 const user = require.main.require('./src/user');
 const { replyTopic } = require('./helper');
+const {turndownService} = require('./turndown');
 
 const getUidByEmail = email => db.sortedSetScore('email:uid', email);
 
@@ -27,15 +28,17 @@ const getHandle = async (comment) => {
 }
 
 const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => {
-    let uid = await getUidByEmail(comment.email);
-    winston.warn(`Getting uid ${uid} from email ${comment.email}`);
+    let uid = await getUidByEmail(comment.userEmail);
     let handle = undefined;
     if (_.isNull(uid)) {
         uid = 0;
         handle = await getHandle(comment);
     }
-    winston.warn(`Replying to topic ${tid}, ${uid}, ${parentId}, ${comment.content}, ${handle}`)
-    const data = await replyTopic(tid, uid, parentId, comment.content, handle);
+    const content = turndownService.turndown(comment.content)
+    if (content.length < 8) {
+        debugger;
+    }
+    const data = await replyTopic(tid, uid, parentId, content, handle);
     const responses = [];
     const newParentPid = level >= 2 ? parentId : data.pid;
     if (!_.isEmpty(comment.children)) {
@@ -44,8 +47,11 @@ const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => 
             responses.push(response);
         }
     }
+    const toReturn = _.pick(data, [
+        'pid', 'uid', 'tid', 'content', 'handle', 'timestampISO',
+    ])
     return {
-        ...data,
+        ...toReturn,
         responses,
         articleId: comment.articleId,
         ok: true,
@@ -73,7 +79,7 @@ const importData = (commentData) => {
             responses
         }
     });
-    return promises;
+    return Promise.all(promises);
 }
 
 module.exports = {
