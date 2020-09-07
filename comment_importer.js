@@ -2,8 +2,18 @@ const db = require.main.require('./src/database');
 const winston = require.main.require('winston');
 const _ = require('lodash');
 const user = require.main.require('./src/user');
-const { replyTopic } = require('./helper');
+const topic = require.main.require('./src/topics');
+const posts = require.main.require('./src/posts');
 const {turndownService} = require('./turndown');
+
+const replyTopic = async (data) => {
+    var tid = data.tid;
+    const topicData = await topic.getTopicData(tid);
+    data.cid = topicData.cid;
+    data.content = data.content.trim();
+    let postData = await posts.create(data);
+    return postData;
+}
 
 const getUidByEmail = email => db.sortedSetScore('email:uid', email);
 
@@ -38,7 +48,7 @@ const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => 
     if (content.length < 8) {
         debugger;
     }
-    const data = await replyTopic(tid, uid, parentId, content, handle);
+    const data = await replyTopic({tid, uid, parentId, content, handle});
     const responses = [];
     const newParentPid = level >= 2 ? parentId : data.pid;
     if (!_.isEmpty(comment.children)) {
