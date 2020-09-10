@@ -2,7 +2,7 @@
   'use strict';
 
   var Comments = {};
-  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic, replyTopic } = require('./helper');
+  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic, replyTopic, checkTopicInRSSMiddleware } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
     posts = require.main.require('./src/posts'),
@@ -520,21 +520,24 @@
               posts.setPostField(result.postData.pid, 'blog-comments:url', url, function (err) {
                 if (err) {
                   return res.status(403).json({
+                    ok: false,
                     error: 'Unable to post topic',
                     result: result,
                   });
                 }
                 db.setObjectField(`topic:${result.postData.tid}`, 'externalLink', url);
                 db.setObjectField('blog-comments:' + blogger, commentID, result.postData.tid);
+                const feedUrl = "https://testblog.roisdigital.com/feed:uuid"; // TODO Change this
+                db.sortedSetAdd(`nodebb-plugin-rss:feed:${feedUrl}:uuid`,result.postData.tid, url)
                 var rurl = (req.header('Referer') || '/') + '#nodebb-comments';
                 if (url.indexOf('#') !== -1) {
                   // compatible for mmmw's blog, he uses hash in url;
                   rurl = url;
                 }
-                res.json({ ok: true });
+                res.json({ ok: true, message: "Topic posted" });
               });
             } else {
-              res.status(403).json({ error: 'Unable to post topic', result: result });
+              res.status(403).json({ ok: false, error: 'Unable to post topic', result: result });
             }
           }
         );
@@ -816,7 +819,7 @@
     app.get("/comments/getAll/:blogger/:ids/",middleware.applyCSRF,Comments.getAllCommentsData);
     app.post("/comments/plugin/register", captchaMiddleware, register);
     app.post("/comments/reply", loggedOrGuestMiddleware, checkGuestUsername, wrapperCaptchaMiddleware, Comments.replyToComment);
-    app.post("/comments/publish", passportMiddleware, Comments.publishArticle);
+    app.post("/comments/publish", passportMiddleware, checkTopicInRSSMiddleware, Comments.publishArticle);
     app.post("/comments/publish-batch", passportMiddleware , Comments.publishBatchArticles);
     app.post("/comments/vote", passportMiddleware, Comments.votePost);
     app.post("/comments/downvote", passportMiddleware, Comments.downvotePost);

@@ -372,6 +372,19 @@ const replyTopic = (tid, uid, toPid, content, name = undefined) =>
       });
     });
 
+const isTopicInRSS = (url, feedUrl = "https://testblog.roisdigital.com/feed:uuid") => 
+  db.isSortedSetMember(`nodebb-plugin-rss:feed:${feedUrl}:uuid`, url);
+
+const checkTopicInRSSMiddleware = async (req, res, next) => {
+  const { url } = req.body;
+  /* TODO This should work with other blogs than roisdigital */
+  if (await isTopicInRSS(url)) {
+    winston.info(`Topic ${url} is already in RSS`)
+    return res.status(400).json({ok: false, error: "Topic already in RSS"})
+  }
+  return next();
+}
+
 module.exports = {
   getNestedPosts,
   getNestedChildren,
@@ -379,5 +392,6 @@ module.exports = {
   getObjectTopic,
   attachTopics,
   attachSingleTopic,
-  replyTopic
+  replyTopic,
+  checkTopicInRSSMiddleware,
 };
