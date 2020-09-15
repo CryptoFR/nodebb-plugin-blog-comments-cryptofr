@@ -11,6 +11,7 @@ const replyTopic = async (data) => {
     const topicData = await topic.getTopicData(tid);
     data.cid = topicData.cid;
     data.content = data.content.trim();
+    winston.warn(`Creating post with data ${JSON.stringify(data)}`)
     let postData = await posts.create(data);
     return postData;
 }
@@ -47,7 +48,7 @@ const postSinglePost = async (tid, comment, toPid = undefined, level = 0) => {
     const content = turndownService.turndown(comment.content);
     const data = await replyTopic({tid, uid, toPid, content, handle});
     const responses = [];
-    const newParentPid = level >= 2 ? toPid : data.pid;
+    const newParentPid = level > 2 ? toPid : data.pid;
     if (!_.isEmpty(comment.children)) {
         for (const c of comment.children) {
             const response = await postSinglePost(tid, c, newParentPid, level + 1);
