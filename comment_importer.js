@@ -44,11 +44,8 @@ const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => 
         uid = 0;
         handle = await getHandle(comment);
     }
-    const content = turndownService.turndown(comment.content)
-    if (content.length < 8) {
-        debugger;
-    }
-    const data = await replyTopic({tid, uid, parentId, content, handle});
+    const content = turndownService.turndown(comment.content);
+    const data = await replyTopic({tid, uid, toPid:parentId, content, handle});
     const responses = [];
     const newParentPid = level >= 2 ? parentId : data.pid;
     if (!_.isEmpty(comment.children)) {
@@ -58,7 +55,7 @@ const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => 
         }
     }
     const toReturn = _.pick(data, [
-        'pid', 'uid', 'tid', 'content', 'handle', 'timestampISO',
+        'pid', 'uid', 'tid', 'content', 'handle', 'timestampISO', 'toPid'
     ])
     return {
         ...toReturn,
