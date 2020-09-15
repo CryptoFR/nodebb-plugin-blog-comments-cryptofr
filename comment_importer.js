@@ -78,6 +78,16 @@ const importData = (commentData) => {
                 articleId: item.articleId,
                 responses: []
             }
+        } else {
+            // Check that the article exists and hasn't been deleted
+            const topicData = await topic.getTopicData(tid);
+            if (_.isNull(topicData)) {
+                return {
+                    ok: false,
+                    articleId: item.articleId,
+                    responses: []
+                }
+            }
         }
         const responses = []
         for(const comment of item.comments) {
