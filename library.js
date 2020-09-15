@@ -527,7 +527,7 @@
                 }
                 db.setObjectField(`topic:${result.postData.tid}`, 'externalLink', url);
                 db.setObjectField('blog-comments:' + blogger, commentID, result.postData.tid);
-                const feedUrl = "https://testblog.roisdigital.com/feed:uuid"; // TODO Change this
+                const feedUrl = "https://testblog.roisdigital.com/feed"; // TODO Change this
                 db.sortedSetAdd(`nodebb-plugin-rss:feed:${feedUrl}:uuid`,result.postData.tid, url)
                 var rurl = (req.header('Referer') || '/') + '#nodebb-comments';
                 if (url.indexOf('#') !== -1) {
