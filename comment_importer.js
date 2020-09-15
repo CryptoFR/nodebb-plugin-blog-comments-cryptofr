@@ -37,7 +37,7 @@ const getHandle = async (comment) => {
     }
 }
 
-const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => {
+const postSinglePost = async (tid, comment, toPid = undefined, level = 0) => {
     let uid = await getUidByEmail(comment.userEmail);
     let handle = undefined;
     if (_.isNull(uid)) {
@@ -45,9 +45,9 @@ const postSinglePost = async (tid, comment, parentId = undefined, level = 0) => 
         handle = await getHandle(comment);
     }
     const content = turndownService.turndown(comment.content);
-    const data = await replyTopic({tid, uid, toPid:parentId, content, handle});
+    const data = await replyTopic({tid, uid, toPid, content, handle});
     const responses = [];
-    const newParentPid = level >= 2 ? parentId : data.pid;
+    const newParentPid = level >= 2 ? toPid : data.pid;
     if (!_.isEmpty(comment.children)) {
         for (const c of comment.children) {
             const response = await postSinglePost(tid, c, newParentPid, level + 1);
