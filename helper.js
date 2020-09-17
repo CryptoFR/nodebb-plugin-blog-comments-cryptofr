@@ -178,14 +178,16 @@ const assignNestedTopics = (topicsData, posts) => {
 }
 
 
-const getPostsCategory = async (categoryId, uid, sorting) => {
+const getPostsCategory = async (categoryId, uid, sorting, pagination = 0) => {
   const tids = await db.getSortedSetRange(`cid:${categoryId}:tids`, 0, -1);
   const topicsData = await topics.getTopicsByTids(tids)
   const posts = await Promise.all(tids.map(t => getNestedPostsWithoutPagination(t, uid, sorting)))
   const concatenated = posts.reduce((previousValue, acc) => previousValue.concat(acc), [])
   // Next lines mutates the post
   assignNestedTopics(topicsData, concatenated)
-  return addAllPostsWithChildren(concatenated)
+  const postsWithChildren = addAllPostsWithChildren(concatenated)
+  console.log('len', postsWithChildren.length, Object.keys(postsWithChildren))
+  return postsWithChildren
 }
 
 const addAllPostsWithChildren = posts => {
