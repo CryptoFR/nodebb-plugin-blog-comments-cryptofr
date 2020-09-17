@@ -185,6 +185,7 @@ const getPostsCategory = async (categoryId, uid, sorting, pagination = 0) => {
   const concatenated = posts.reduce((previousValue, acc) => previousValue.concat(acc), [])
   // Next lines mutates the post
   assignNestedTopics(topicsData, concatenated)
+  console.log('pagination', pagination)
   const postsWithChildren = addAllPostsWithChildren(concatenated)
   const itemsPerPage = 10;
   const start = pagination * itemsPerPage;
