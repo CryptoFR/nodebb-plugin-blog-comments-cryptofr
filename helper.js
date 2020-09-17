@@ -186,7 +186,7 @@ const getPostsCategory = async (categoryId, uid, sorting, pagination = 0) => {
   // Next lines mutates the post
   assignNestedTopics(topicsData, concatenated)
   const postsWithChildren = addAllPostsWithChildren(concatenated)
-  const itemsPerPage = 100;
+  const itemsPerPage = 10;
   const start = pagination * itemsPerPage;
   const end = itemsPerPage + pagination * (itemsPerPage - 1);
   const isLastPage = end >= postsWithChildren.length;
