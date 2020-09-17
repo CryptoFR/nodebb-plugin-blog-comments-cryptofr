@@ -569,8 +569,10 @@
           user: u,
         });
       }
-      const posts = await getPostsCategory(categoryId, uid, sorting);
-      return res.json({ user: u, isAdministrator, posts });
+      const pagination = req.query.pagination ? req.query.pagination : 0
+      const postsData = await getPostsCategory(categoryId, uid, sorting, pagination);
+      console.log('length', postsData.length);
+      return res.json({ user: u, isAdministrator, posts: postsData.data });
     } catch (err) {
       console.log(err);
       return res.status(500).json({
@@ -833,7 +835,7 @@
     app.post("/comments/delete/:pid", passportMiddleware, Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments);
-    app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', passportMiddleware, Comments.getAllArticlesCategory);
+    app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', /*passportMiddleware,*/ Comments.getAllArticlesCategory);
     app.post('/ulogout', function (req, res) {
       if (req.user && parseInt(req.user.uid, 10) > 0) {
         req.logout();

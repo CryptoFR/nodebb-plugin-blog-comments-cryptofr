@@ -155,7 +155,7 @@ const getNestedPostsWithoutPagination = async (tid, uid, sorting) => {
 const getNestedPosts = async (tid, uid, pagination = 0, sorting = "best") => {
   const nestedPostsWithData = await getNestedPostsWithoutPagination(tid, uid, sorting)
   const itemsPerPage = 10;
-  const start = 0 + pagination * itemsPerPage;
+  const start = pagination * itemsPerPage;
   const end = itemsPerPage + pagination * (itemsPerPage - 1);
   const isLastPage = end >= nestedPostsWithData.length;
   return {data: nestedPostsWithData.slice(start, end), isLastPage};
@@ -186,8 +186,11 @@ const getPostsCategory = async (categoryId, uid, sorting, pagination = 0) => {
   // Next lines mutates the post
   assignNestedTopics(topicsData, concatenated)
   const postsWithChildren = addAllPostsWithChildren(concatenated)
-  console.log('len', postsWithChildren.length, Object.keys(postsWithChildren))
-  return postsWithChildren
+  const itemsPerPage = 100;
+  const start = pagination * itemsPerPage;
+  const end = itemsPerPage + pagination * (itemsPerPage - 1);
+  const isLastPage = end >= postsWithChildren.length;
+  return {data: postsWithChildren.slice(start, end), isLastPage};
 }
 
 const addAllPostsWithChildren = posts => {
