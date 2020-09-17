@@ -571,8 +571,7 @@
       }
       const pagination = req.query.pagination ? req.query.pagination : 0
       const postsData = await getPostsCategory(categoryId, uid, sorting, pagination);
-      console.log('length', postsData.length);
-      return res.json({ user: u, isAdministrator, posts: postsData.data });
+      return res.json({ user: u, isAdministrator, posts: postsData.data, isLastPage: postsData.isLastPage });
     } catch (err) {
       console.log(err);
       return res.status(500).json({
