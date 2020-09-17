@@ -835,7 +835,7 @@
     app.post("/comments/delete/:pid", passportMiddleware, Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments);
-    app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', /*passportMiddleware,*/ Comments.getAllArticlesCategory);
+    app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', passportMiddleware, Comments.getAllArticlesCategory);
     app.post('/ulogout', function (req, res) {
       if (req.user && parseInt(req.user.uid, 10) > 0) {
         req.logout();
