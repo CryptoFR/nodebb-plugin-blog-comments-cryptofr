@@ -371,6 +371,7 @@ const replyTopic = (tid, uid, toPid, content, name = undefined) =>
       }
       topics.reply(replyObject, function cb(err, postData) {
         if (err) {
+          winston.error("Aqui es donde esta el error de reply", err)
           reject(err);
         } else {
           resolve(postData);
