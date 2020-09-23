@@ -351,8 +351,8 @@
     const postData = await replyTopic(tid, uid, toPid, content, name);
     if (uid === 0) {
       // Delete comments if it's guests
-      winston.info(`Deleting post ${postData.pid} with tid ${tid}`);
-      await posts.delete({pid: postData.pid, tid: tid});
+      winston.info(`Deleting post ${postData.pid} with uid 0`);
+      await posts.delete(postData.pid, 0);
     }
     return res.json({
       tid,
