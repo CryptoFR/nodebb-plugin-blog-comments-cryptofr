@@ -350,9 +350,11 @@
     }
     const postData = await replyTopic(tid, uid, toPid, content, name);
     if (uid === 0) {
+      console.log('posdata', postData);
       // Delete comments if it's guests
       winston.info(`Deleting post ${postData.pid} with uid 0`);
       await posts.delete(postData.pid, 0);
+      await db.sortedSetAdd(`queue_mod:${postData.pid}:queue`, )
     }
     return res.json({
       tid,
