@@ -354,7 +354,9 @@
       // Delete comments if it's guests
       winston.info(`Deleting post ${postData.pid} with uid 0`);
       await posts.delete(postData.pid, 0);
-      await db.sortedSetAdd(`queue_mod:${postData.pid}:queue`, )
+      // We add here data to then moderation queues of the plugin
+      await db.sortedSetAdd(`queue_mod:${postData.pid}:pids`, postData.timestamp, postData.pid);
+      await db.setAdd("queue_mod:tids", tid);
     }
     return res.json({
       tid,
