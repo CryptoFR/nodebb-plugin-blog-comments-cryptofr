@@ -395,8 +395,13 @@ const checkTopicInRSSMiddleware = async (req, res, next) => {
 // TODO use pagination for queue
 const getModerationQueue = async () => {
   const tids = await db.getSetMembers('queue_mod:tids');
-  console.log("tid members", tids);
-  return tids;
+  const promises = tids.map(async tid => {
+    const pids = await db.sortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
+    const posts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
+    return posts;
+  });
+  const retVal = _.zipObject(tids, await Promise.all(promises));
+  return retVal;
 }
 
 module.exports = {
