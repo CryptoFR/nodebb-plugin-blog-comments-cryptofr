@@ -355,8 +355,8 @@
       winston.info(`Deleting post ${postData.pid} with uid 0`);
       await posts.delete(postData.pid, 0);
       // We add here data to then moderation queues of the plugin
-      console.log("params", `queue_mod:${postData.pid}:pids`, postData.timestamp, postData.pid, "queue_mod:tids", tid)
-      await db.sortedSetAdd(`queue_mod:${postData.pid}:pids`, postData.timestamp, postData.pid);
+      console.log("params", `queue_mod:${tid}:pids`, postData.timestamp, postData.pid, "queue_mod:tids", tid)
+      await db.sortedSetAdd(`queue_mod:${tid}:pids`, postData.timestamp, postData.pid);
       console.log("Added sorted set");
       await db.setAdd("queue_mod:tids", tid);
     }
