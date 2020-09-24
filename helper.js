@@ -396,7 +396,7 @@ const checkTopicInRSSMiddleware = async (req, res, next) => {
 const getModerationQueue = async () => {
   const tids = await db.getSetMembers('queue_mod:tids');
   const promises = tids.map(async tid => {
-    const pids = await db.sortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
+    const pids = await db.getSortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
     const posts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
     return posts;
   });
