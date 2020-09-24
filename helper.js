@@ -397,8 +397,8 @@ const getModerationQueue = async () => {
   const tids = await db.getSetMembers('queue_mod:tids');
   const promises = tids.map(async tid => {
     const pids = await db.getSortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
-    const posts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
-    return posts;
+    const myPosts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
+    return myPosts;
   });
   const retVal = _.zipObject(tids, await Promise.all(promises));
   return retVal;
