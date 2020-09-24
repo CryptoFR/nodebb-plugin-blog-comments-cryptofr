@@ -392,6 +392,13 @@ const checkTopicInRSSMiddleware = async (req, res, next) => {
   return next();
 }
 
+// TODO use pagination for queue
+const getModerationQueue = async () => {
+  const tids = await db.getSetMember('queue_mod:tids');
+  console.log("tid members", tids);
+  return tids;
+}
+
 module.exports = {
   getNestedPosts,
   getNestedChildren,
@@ -401,4 +408,5 @@ module.exports = {
   attachSingleTopic,
   replyTopic,
   checkTopicInRSSMiddleware,
+  getModerationQueue,
 };

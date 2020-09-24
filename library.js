@@ -2,7 +2,7 @@
   'use strict';
 
   var Comments = {};
-  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic, replyTopic, checkTopicInRSSMiddleware } = require('./helper');
+  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic, replyTopic, checkTopicInRSSMiddleware, getModerationQueue } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
     posts = require.main.require('./src/posts'),
@@ -910,6 +910,9 @@
         debugger;
         res.json({ok: false, message: err.message})
       }
+    });
+    app.get('/comments/queue_mod', async function (req, res) {
+      return res.json(await getModerationQueue());
     });
     callback();
   };
