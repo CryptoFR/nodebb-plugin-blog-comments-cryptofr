@@ -411,14 +411,7 @@ const getModerationQueue = async () => {
   return retVal;
 }
 
-const approvePost = async (pid) => {
-      /*
-      1) Obtenemos el tid del post
-2) Revisamos si el post está en la queue con zscore
-3) En caso de que no esté retornamos not found
-4) Activamos el post de nuevo
-5) Removemos el elemento del zset
-6) En caso de que la queue del tid este vacía removemos el elemento del set queue_mod:tids */
+const manipulatePost = async (pid, action, message) => {
   const tid = await posts.getPostField(pid, 'tid')
   const scorePost = await db.sortedSetScore(`queue_mod:${tid}:pids`, pid)
   if (scorePost === null) {
@@ -427,8 +420,15 @@ const approvePost = async (pid) => {
       message: 'Not found'
     };
   }
-  // We restore the post with a guest user
-  await posts.restore(pid, 0);
+  if (action === 'approve') {
+    // We restore the post with a guest user
+    await posts.restore(pid, 0);
+  } else if (action === 'reject'){
+    // We reject here the guest user post
+    await posts.purge(pid, 0);
+  } else {
+    throw new Error(`Unknown action ${action}. Allowed actions are approve and reject`);
+  }
   await db.sortedSetRemove(`queue_mod:${tid}:pids`, pid);
   const cardinality = await db.sortedSetCard(`queue_mod:${tid}:pids`);
   if (cardinality === 0) {
@@ -436,8 +436,16 @@ const approvePost = async (pid) => {
   }
   return {
     ok: true,
-    message: 'Post approved'
+    message
   };
+}
+
+const approvePost = (pid) => {
+  return manipulatePost(pid, 'approve', 'Post approved');
+}
+
+const rejectPost = (pid) => {
+  return manipulatePost(pid, 'reject', 'Post rejected');
 }
 
 module.exports = {
@@ -451,4 +459,5 @@ module.exports = {
   checkTopicInRSSMiddleware,
   getModerationQueue,
   approvePost,
+  rejectPost,
 };
