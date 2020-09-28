@@ -396,11 +396,13 @@ const checkTopicInRSSMiddleware = async (req, res, next) => {
 // TODO use pagination for queue
 const getModerationQueue = async (uid) => {
   const isAdministrator = await user.isAdministrator(uid)
+  console.log('isAdmin', isAdministrator)
   const tids = await db.getSetMembers('queue_mod:tids');
   const promises = tids.map(async tid => {
     const topic = await topics.getTopicsFields(tid, ["title", "cid"]);
     if (!isAdministrator) {
       const isMod = await user.isModerator(uid, topic.cid)
+      console.log('isMod', isMod);
       if (!isMod) {
         return null;
       }
