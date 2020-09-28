@@ -817,6 +817,24 @@
     return next();
   }
 
+  async function isAdminOrModMiddleware(req, res, next) {
+    const uid = req.user ? req.user.uid : 0;
+    const tid = await posts.getPostField(pid, 'tid');
+    const cid = await topics.getTopicField(tid, 'cid');
+    const [isAdministrator, isModerator] = await Promise.all([
+      user.isAdministrator(uid),
+      user.isModerator(uid, [cid])
+    ]);
+    console.log('isAdministrator', isAdministrator, 'isModerator', isModerator);
+    if (!isAdministrator && !isModerator) {
+      return res.status(403).json({
+        ok: false,
+        error: 'You are not a moderator or administrator'
+      });
+    }
+    return next();
+  }
+
   Comments.init = function (params, callback) {
     var app = params.router,
       middleware = params.middleware,
@@ -924,13 +942,7 @@
     app.get('/comments/queue_mod', async function (req, res) {
       return res.json(await getModerationQueue());
     });
-    app.post('/comments/approve/:pid', async function (req, res) {
-      if (isNaN(Number(req.params.pid))) {
-        return res.status(403).json({
-          ok: false,
-          message: 'Invalid pid'
-        })
-      }
+    app.post('/comments/approve/:pid', isAdminOrModMiddleware, async function (req, res) {
       try {
         return res.json(await approvePost(req.params.pid));
       } catch (err) {
@@ -940,13 +952,7 @@
         })
       }
     });
-    app.post('/comments/reject/:pid', async function (req, res) {
-      if (isNaN(Number(req.params.pid))) {
-        return res.status(403).json({
-          ok: false,
-          message: 'Invalid pid'
-        })
-      }
+    app.post('/comments/reject/:pid', isAdminOrModMiddleware, async function (req, res) {
       try {
         return res.json(await rejectPost(req.params.pid));
       } catch (err) {
