@@ -429,7 +429,7 @@ const approvePost = async (pid) => {
   }
   // We restore the post with a guest user
   await posts.restore(pid, 0);
-  await db.sortedSetRemove(`queue_mod:${tid}:posts`, pid);
+  await db.sortedSetRemove(`queue_mod:${tid}:pids`, pid);
   const cardinality = await db.sortedSetCard(`queue_mod:${tid}:pids`);
   if (cardinality === 0) {
     await db.setRemove('queue_mod:tids', tid);
