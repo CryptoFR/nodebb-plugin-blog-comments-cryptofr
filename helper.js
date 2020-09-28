@@ -398,8 +398,6 @@ const getModerationQueue = async (uid) => {
   const isAdministrator = await user.isAdministrator(uid)
   const tids = await db.getSetMembers('queue_mod:tids');
   const promises = tids.map(async tid => {
-    const pids = await db.getSortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
-    // Aqui vamos a filtrar los tids, aquellos que no puedan ser moderados por el admin van a 
     const topic = await topics.getTopicsFields(tid, ["title", "cid"]);
     if (!isAdministrator) {
       const isMod = await user.isModerator(uid, topic.cid)
@@ -407,6 +405,7 @@ const getModerationQueue = async (uid) => {
         return null;
       }
     }
+    const pids = await db.getSortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
     const myPosts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
     return {
       topic: {
