@@ -6,6 +6,7 @@ const groups = require.main.require("./src/groups");
 const async = require.main.require("async");
 const winston = require.main.require("winston");
 const moment = require.main.require("moment");
+const topics = require.main.require("./src/topics");
 const _ = require('lodash')
 
 const getCacheKey = tid => `cache:nested_tid:${tid}`;
@@ -397,8 +398,15 @@ const getModerationQueue = async () => {
   const tids = await db.getSetMembers('queue_mod:tids');
   const promises = tids.map(async tid => {
     const pids = await db.getSortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
+    const topicTitle = await topics.getTopicField(tid, "title");
     const myPosts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
-    return myPosts;
+    return {
+      topic: {
+        tid,
+        title
+      },
+      posts: myPosts
+    };
   });
   const retVal = _.zipObject(tids, await Promise.all(promises));
   return retVal;
