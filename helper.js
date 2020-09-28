@@ -6,7 +6,6 @@ const groups = require.main.require("./src/groups");
 const async = require.main.require("async");
 const winston = require.main.require("winston");
 const moment = require.main.require("moment");
-const topics = require.main.require("./src/topics");
 const _ = require('lodash')
 
 const getCacheKey = tid => `cache:nested_tid:${tid}`;
