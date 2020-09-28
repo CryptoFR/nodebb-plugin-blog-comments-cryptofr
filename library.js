@@ -926,7 +926,7 @@
     });
     app.post('/comments/approve/:pid', async function (req, res) {
       if (isNaN(Number(req.params.pid))) {
-        return res.json({
+        return res.status(403).json({
           ok: false,
           message: 'Invalid pid'
         })
@@ -942,7 +942,7 @@
     });
     app.post('/comments/reject/:pid', async function (req, res) {
       if (isNaN(Number(req.params.pid))) {
-        return res.json({
+        return res.status(403).json({
           ok: false,
           message: 'Invalid pid'
         })
