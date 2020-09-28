@@ -3,6 +3,7 @@ const posts = require.main.require("./src/posts");
 const topics = require.main.require("./src/topics");
 const db = require.main.require("./src/database");
 const groups = require.main.require("./src/groups");
+const user = require.main.require("./src/user")
 const async = require.main.require("async");
 const winston = require.main.require("winston");
 const moment = require.main.require("moment");
@@ -393,21 +394,34 @@ const checkTopicInRSSMiddleware = async (req, res, next) => {
 }
 
 // TODO use pagination for queue
-const getModerationQueue = async () => {
+const getModerationQueue = async (uid) => {
+  const isAdministrator = await user.isAdministrator(uid)
   const tids = await db.getSetMembers('queue_mod:tids');
   const promises = tids.map(async tid => {
     const pids = await db.getSortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
-    const topicTitle = await topics.getTopicField(tid, "title");
+    // Aqui vamos a filtrar los tids, aquellos que no puedan ser moderados por el admin van a 
+    const topic = await topics.getTopicsFields(tid, ["title", "cid"]);
+    if (!isAdministrator) {
+      const isMod = await user.isModerator(uid, topic.cid)
+      if (!isMod) {
+        return null;
+      }
+    }
     const myPosts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
     return {
       topic: {
         tid,
-        title: topicTitle
+        title: topic.title
       },
       posts: myPosts
     };
   });
   const retVal = _.zipObject(tids, await Promise.all(promises));
+  for (const [key, value] of Object.entries(retVal)) {
+    if (value === null) {
+      delete retVal[key];
+    }
+  }
   return retVal;
 }
 
