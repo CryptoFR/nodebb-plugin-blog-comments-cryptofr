@@ -402,7 +402,7 @@ const getModerationQueue = async () => {
     return {
       topic: {
         tid,
-        title
+        title: topicTitle
       },
       posts: myPosts
     };
