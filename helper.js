@@ -411,6 +411,35 @@ const getModerationQueue = async () => {
   return retVal;
 }
 
+const approvePost = async (pid) => {
+      /*
+      1) Obtenemos el tid del post
+2) Revisamos si el post está en la queue con zscore
+3) En caso de que no esté retornamos not found
+4) Activamos el post de nuevo
+5) Removemos el elemento del zset
+6) En caso de que la queue del tid este vacía removemos el elemento del set queue_mod:tids */
+  const tid = await posts.getPostField(pid, 'tid')
+  const scorePost = await db.sortedSetScore(`queue_mod:${tid}:posts`, pid)
+  if (scorePost === null) {
+    return {
+      ok: false, 
+      message: 'Not found'
+    };
+  }
+  // We restore the post with a guest user
+  await posts.restore(pid, 0);
+  await db.sortedSetRemove(`queue_mod:${tid}:posts`, pid);
+  const cardinality = await db.sortedSetCard(`queue_mod:${tid}:posts`);
+  if (cardinality === 0) {
+    await db.setRemove('queue_mod:tids', tid);
+  }
+  return {
+    ok: true,
+    message: 'Post approved'
+  };
+}
+
 module.exports = {
   getNestedPosts,
   getNestedChildren,
@@ -421,4 +450,5 @@ module.exports = {
   replyTopic,
   checkTopicInRSSMiddleware,
   getModerationQueue,
+  approvePost,
 };
