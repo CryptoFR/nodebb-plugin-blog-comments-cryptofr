@@ -420,7 +420,7 @@ const approvePost = async (pid) => {
 5) Removemos el elemento del zset
 6) En caso de que la queue del tid este vacía removemos el elemento del set queue_mod:tids */
   const tid = await posts.getPostField(pid, 'tid')
-  const scorePost = await db.sortedSetScore(`queue_mod:${tid}:posts`, pid)
+  const scorePost = await db.sortedSetScore(`queue_mod:${tid}:pids`, pid)
   if (scorePost === null) {
     return {
       ok: false, 
@@ -430,7 +430,7 @@ const approvePost = async (pid) => {
   // We restore the post with a guest user
   await posts.restore(pid, 0);
   await db.sortedSetRemove(`queue_mod:${tid}:posts`, pid);
-  const cardinality = await db.sortedSetCard(`queue_mod:${tid}:posts`);
+  const cardinality = await db.sortedSetCard(`queue_mod:${tid}:pids`);
   if (cardinality === 0) {
     await db.setRemove('queue_mod:tids', tid);
   }
