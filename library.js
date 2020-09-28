@@ -2,7 +2,18 @@
   'use strict';
 
   var Comments = {};
-  const { getNestedPosts, getPostsCategory, getObjectTopic, attachTopics, attachSingleTopic, replyTopic, checkTopicInRSSMiddleware, getModerationQueue, approvePost } = require('./helper');
+  const { 
+    getNestedPosts, 
+    getPostsCategory, 
+    getObjectTopic, 
+    attachTopics, 
+    attachSingleTopic, 
+    replyTopic, 
+    checkTopicInRSSMiddleware, 
+    getModerationQueue, 
+    approvePost, 
+    rejectPost,
+  } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
     posts = require.main.require('./src/posts'),
@@ -922,6 +933,22 @@
       }
       try {
         return res.json(await approvePost(req.params.pid));
+      } catch (err) {
+        winston.error(err.message);
+        return res.status(500).json({
+          ok: false, message: err.message
+        })
+      }
+    });
+    app.post('/comments/reject/:pid', async function (req, res) {
+      if (isNaN(Number(req.params.pid))) {
+        return res.json({
+          ok: false,
+          message: 'Invalid pid'
+        })
+      }
+      try {
+        return res.json(await rejectPost(req.params.pid));
       } catch (err) {
         winston.error(err.message);
         return res.status(500).json({
