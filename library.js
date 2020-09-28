@@ -819,7 +819,7 @@
 
   async function isAdminOrModMiddleware(req, res, next) {
     const uid = req.user ? req.user.uid : 0;
-    const tid = await posts.getPostField(pid, 'tid');
+    const tid = await posts.getPostField(req.params.pid, 'tid');
     const cid = await topics.getTopicField(tid, 'cid');
     const [isAdministrator, isModerator] = await Promise.all([
       user.isAdministrator(uid),
