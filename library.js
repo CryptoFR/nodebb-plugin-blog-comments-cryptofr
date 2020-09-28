@@ -940,7 +940,7 @@
       }
     });
     app.get('/comments/queue_mod', async function (req, res) {
-      return res.json(await getModerationQueue());
+      return res.json(await getModerationQueue(req.user.uid));
     });
     app.post('/comments/approve/:pid', isAdminOrModMiddleware, async function (req, res) {
       try {
