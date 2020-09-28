@@ -807,7 +807,7 @@
   async function moderatorCategoryMiddleware(req, res, next) {
     const { cid } = req.params;
     const uid = req.user ? req.user.uid : 0;
-    const isModerator = await user.isModerator(uid, [cid]);
+    const isModerator = await user.isModerator(uid, cid);
     if (!isModerator) {
       return res.status(422).json({
         ok: false,
@@ -823,7 +823,7 @@
     const cid = await topics.getTopicField(tid, 'cid');
     const [isAdministrator, isModerator] = await Promise.all([
       user.isAdministrator(uid),
-      user.isModerator(uid, [cid])
+      user.isModerator(uid, cid)
     ]);
     console.log('isAdministrator', isAdministrator, 'isModerator', isModerator);
     if (!isAdministrator && !isModerator) {
