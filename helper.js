@@ -188,7 +188,7 @@ const getPostsCategory = async (categoryId, pagination = 0) => {
   const isLastPage = end >= pidCount;
   const promises = pids.map(async (pid) => {
     const card = await db.sortedSetCard(`pid:${pid}:replies`);
-    const postFields = await posts.getPostFields(pid, ['tid', 'uid', 'timestamp', 'upvotes', 'downvotes'])
+    const postFields = await posts.getPostFields(pid, ['tid', 'uid', 'timestamp', 'upvotes', 'downvotes', 'handle'])
     const username = await user.getUserField(postFields.uid, 'username');
     return { 
       hasReplies: card > 0,
