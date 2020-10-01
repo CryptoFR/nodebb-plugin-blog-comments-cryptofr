@@ -13,6 +13,7 @@
     getModerationQueue, 
     approvePost, 
     rejectPost,
+    getPostChildren,
   } = require('./helper');
   var db = require.main.require('./src/database'),
     meta = require.main.require('./src/meta'),
@@ -564,6 +565,14 @@
     );
   };
 
+  Comments.getChildren = async function (req, res) {
+      const pagination = req.query.pagination ? req.query.pagination : 0
+      const postsData = await getPostChildren(req.params.pid, pagination);
+      return res.json({
+        posts: postsData        
+      })
+  }
+
   Comments.getAllArticlesCategory = async function (req, res) {
     const uid = req.user ? req.user.uid : 0;
     if (uid === 0) {
@@ -573,7 +582,6 @@
       });
     }
     const { categoryId } = req.params;
-    const sorting = req.params.sorting || 'best';
     try {
       const isAdminOrMod = await privileges.categories.isAdminOrMod(categoryId, uid);
       const u = await user.getUserData(uid);
@@ -871,7 +879,8 @@
     app.post("/comments/delete/:pid", passportMiddleware, Comments.deletePost);
     app.get('/comments/token', middleware.applyCSRF, Comments.getToken);
     app.get('/comments/new/:tid/:timestamp', middleware.applyCSRF, Comments.getNewComments);
-    app.get('/comments/bycid/:categoryId/:sorting(oldest|newest|best)?', passportMiddleware, Comments.getAllArticlesCategory);
+    app.get('/comments/bycid/:categoryId', passportMiddleware, Comments.getAllArticlesCategory);
+    app.get('/comments/children/:pid', passportMiddleware, Comments.getChildren);
     app.post('/ulogout', function (req, res) {
       if (req.user && parseInt(req.user.uid, 10) > 0) {
         req.logout();
