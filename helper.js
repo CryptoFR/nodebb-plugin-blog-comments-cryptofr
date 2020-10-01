@@ -178,6 +178,32 @@ const assignNestedTopics = (topicsData, posts) => {
   assignNestedTopicsInternal(posts)
 }
 
+const getPidCb = async (pid) => {
+    const card = await db.sortedSetCard(`pid:${pid}:replies`);
+    const postFields = await posts.getPostFields(pid, ['tid', 'uid', 'timestamp', 'upvotes', 'downvotes', 'handle'])
+    const username = await user.getUserField(postFields.uid, 'username');
+    return { 
+      numberReplies: card,
+      username,
+      pid,
+      ...postFields
+    }
+}
+
+const getPostChildren = async (pid, pagination = 0) => {
+  const itemsPerPage = 100;
+  const start = pagination * itemsPerPage;
+  const end = (itemsPerPage + pagination * (itemsPerPage - 1)) -1;
+  const card = await db.sortedSetCard(`pid:${pid}:replies`);
+  const isLastPage = end >= card;
+  const childrenPids = await db.getSortedSetRange(`pid:${pid}:replies`, start, end);
+  const promises = childrenPids.map(getPidCb)
+  return { 
+    data: await Promise.all(promises),
+    isLastPage
+  }
+}
+
 
 const getPostsCategory = async (categoryId, pagination = 0) => {
   const itemsPerPage = 100;
@@ -186,18 +212,8 @@ const getPostsCategory = async (categoryId, pagination = 0) => {
   const pids = await db.getSortedSetRange(`cid:${categoryId}:pids`, start, end);
   const pidCount = await db.sortedSetCard(`cid:${categoryId}:pids`);
   const isLastPage = end >= pidCount;
-  const promises = pids.map(async (pid) => {
-    const card = await db.sortedSetCard(`pid:${pid}:replies`);
-    const postFields = await posts.getPostFields(pid, ['tid', 'uid', 'timestamp', 'upvotes', 'downvotes', 'handle'])
-    const username = await user.getUserField(postFields.uid, 'username');
-    return { 
-      hasReplies: card > 0,
-      username,
-      pid,
-      ...postFields
-    }
-  });
-  return {
+  const promises = pids.map(getPidCb);
+  return { 
     data: await Promise.all(promises),
     isLastPage
   }
@@ -464,4 +480,5 @@ module.exports = {
   getModerationQueue,
   approvePost,
   rejectPost,
+  getPostChildren,
 };
