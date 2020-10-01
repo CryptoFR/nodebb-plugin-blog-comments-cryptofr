@@ -180,7 +180,15 @@ const assignNestedTopics = (topicsData, posts) => {
 
 const getPidCb = async (pid) => {
     const card = await db.sortedSetCard(`pid:${pid}:replies`);
-    const postFields = await posts.getPostFields(pid, ['tid', 'uid', 'timestamp', 'upvotes', 'downvotes', 'handle'])
+    const postFields = await posts.getPostFields(pid, [
+      'tid',
+      'uid',
+      'content',
+      'timestamp',
+      'upvotes',
+      'downvotes',
+      'handle'
+    ])
     const username = await user.getUserField(postFields.uid, 'username');
     return { 
       numberReplies: card,
