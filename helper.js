@@ -179,39 +179,28 @@ const assignNestedTopics = (topicsData, posts) => {
 }
 
 
-const getPostsCategory = async (categoryId, uid, sorting, pagination = 0) => {
-  const tids = await db.getSortedSetRange(`cid:${categoryId}:tids`, 0, -1);
-  const topicsData = await topics.getTopicsByTids(tids)
-  const posts = await Promise.all(tids.map(t => getNestedPostsWithoutPagination(t, uid, sorting)))
-  const concatenated = posts.reduce((previousValue, acc) => previousValue.concat(acc), [])
-  // Next lines mutates the post
-  assignNestedTopics(topicsData, concatenated)
-  console.log('pagination', pagination)
-  const postsWithChildren = addAllPostsWithChildren(concatenated)
-  const itemsPerPage = 10;
+const getPostsCategory = async (categoryId, pagination = 0) => {
+  const itemsPerPage = 100;
   const start = pagination * itemsPerPage;
-  const end = itemsPerPage + pagination * (itemsPerPage - 1);
-  const isLastPage = end >= postsWithChildren.length;
-  return {data: postsWithChildren.slice(start, end), isLastPage};
-}
-
-const addAllPostsWithChildren = posts => {
-  const isInPosts = {}
-  const comments = []
-  const addAllPostsWithChildrenInternal = posts => {
-    for (const c of posts) {
-      if (isInPosts.hasOwnProperty(c.pid)) {
-        return
-      }
-      comments.push(c)
-      isInPosts[c.pid] = true;
-      if (c.children) {
-        addAllPostsWithChildrenInternal(c.children)
-      }
+  const end = (itemsPerPage + pagination * (itemsPerPage - 1)) -1;
+  const pids = await db.getSortedSetRange(`cid:${categoryId}:pids`, start, end);
+  const pidCount = await db.sortedSetCard(`cid:${categoryId}:pids`);
+  const isLastPage = end >= pidCount;
+  const promises = pids.map(async (pid) => {
+    const card = await db.sortedSetCard(`pid:${pid}:replies`);
+    const postFields = await posts.getPostFields(pid, ['tid', 'uid', 'timestamp', 'upvotes', 'downvotes'])
+    const username = await user.getUserField(postFields.uid, 'username');
+    return { 
+      hasReplies: card > 0,
+      username,
+      pid,
+      ...postFields
     }
+  });
+  return {
+    data: await Promise.all(promises),
+    isLastPage
   }
-  addAllPostsWithChildrenInternal(posts)
-  return comments
 }
 
 const getDate = (date) => {

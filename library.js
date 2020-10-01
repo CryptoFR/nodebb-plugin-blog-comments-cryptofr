@@ -589,7 +589,7 @@
         });
       }
       const pagination = req.query.pagination ? req.query.pagination : 0
-      const postsData = await getPostsCategory(categoryId, uid, sorting, pagination);
+      const postsData = await getPostsCategory(categoryId, pagination);
       return res.json({ user: u, isAdministrator, posts: postsData.data, isLastPage: postsData.isLastPage });
     } catch (err) {
       console.log(err);
