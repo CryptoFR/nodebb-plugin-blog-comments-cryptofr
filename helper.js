@@ -3,8 +3,7 @@ const posts = require.main.require("./src/posts");
 const topics = require.main.require("./src/topics");
 const db = require.main.require("./src/database");
 const groups = require.main.require("./src/groups");
-const user = require.main.require("./src/user")
-const async = require.main.require("async");
+const user = require.main.require("./src/user");
 const winston = require.main.require("winston");
 const moment = require.main.require("moment");
 const _ = require('lodash')
@@ -188,13 +187,15 @@ const getPidCb = async (pid) => {
       'upvotes',
       'downvotes',
       'handle'
-    ])
+    ]);
+    const topicFields = await topics.getTopicFields(postFields.tid, ['cid', 'title']);
     const username = await user.getUserField(postFields.uid, 'username');
     return { 
       numberReplies: card,
       username,
       pid,
-      ...postFields
+      ...postFields,
+      ...topicFields,
     }
 }
 
