@@ -65,6 +65,7 @@ export function bindEvents(user, li) {
 
   let flagVote = false;
 
+  console.log('li', li);
   if (dataRes.isAdmin || (li.querySelector('.topic-item').getAttribute('data-uid') == dataRes.user.uid && dataRes.user.uid != 0)) {
     commentOptions();
   } else {

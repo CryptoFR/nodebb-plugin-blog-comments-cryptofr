@@ -1917,6 +1917,7 @@ function bindEvents(user, li) {
   }
 
   var flagVote = false;
+  console.log('li', li);
 
   if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid && _settings.dataRes.user.uid != 0) {
     commentOptions();
@@ -2729,7 +2730,7 @@ function drawComments() {
         }
       };
 
-      for (var _iterator = nodebbCommentsList.querySelectorAll('li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (var _iterator = nodebbCommentsList.querySelectorAll('#nodebb-comments-list > li')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         _loop();
       }
     } catch (err) {
@@ -3177,7 +3178,30 @@ function parse(data, template) {
           div.querySelector('#nodebb-comments-list').innerHTML = document.querySelector('#nodebb-comments-list').innerHTML;
           $($(div).find('#nodebb-comments-list li,#nodebb-comments-list li form')).removeAttr('data-event'); // new comments
 
-          div.querySelector('#nodebb-comments-list').appendChild(loadedComments); // div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
+          var _iteratorNormalCompletion10 = true;
+          var _didIteratorError10 = false;
+          var _iteratorError10 = undefined;
+
+          try {
+            for (var _iterator10 = loadedComments.querySelectorAll('div > li')[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+              var li = _step10.value;
+              div.querySelector('#nodebb-comments-list').appendChild(li);
+            } // div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
+
+          } catch (err) {
+            _didIteratorError10 = true;
+            _iteratorError10 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion10 && _iterator10.return != null) {
+                _iterator10.return();
+              }
+            } finally {
+              if (_didIteratorError10) {
+                throw _iteratorError10;
+              }
+            }
+          }
         }
       }
 
@@ -3195,34 +3219,34 @@ function parse(data, template) {
 
 
 function drawCommentFromLoadMore(existingComments, loadedComments) {
-  var _iteratorNormalCompletion10 = true;
-  var _didIteratorError10 = false;
-  var _iteratorError10 = undefined;
+  var _iteratorNormalCompletion11 = true;
+  var _didIteratorError11 = false;
+  var _iteratorError11 = undefined;
 
   try {
-    for (var _iterator10 = loadedComments.querySelectorAll('li')[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-      var comment = _step10.value;
+    for (var _iterator11 = loadedComments.querySelectorAll('li')[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+      var comment = _step11.value;
       var flag = false;
-      var _iteratorNormalCompletion11 = true;
-      var _didIteratorError11 = false;
-      var _iteratorError11 = undefined;
+      var _iteratorNormalCompletion12 = true;
+      var _didIteratorError12 = false;
+      var _iteratorError12 = undefined;
 
       try {
-        for (var _iterator11 = existingComments.querySelectorAll('li')[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-          var oldcomment = _step11.value;
+        for (var _iterator12 = existingComments.querySelectorAll('li')[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
+          var oldcomment = _step12.value;
           if (comment.getAttribute('data-pid') == oldcomment.getAttribute('data-pid') && !oldcomment.classList.contains('new-comment')) flag = true;
         }
       } catch (err) {
-        _didIteratorError11 = true;
-        _iteratorError11 = err;
+        _didIteratorError12 = true;
+        _iteratorError12 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion11 && _iterator11.return != null) {
-            _iterator11.return();
+          if (!_iteratorNormalCompletion12 && _iterator12.return != null) {
+            _iterator12.return();
           }
         } finally {
-          if (_didIteratorError11) {
-            throw _iteratorError11;
+          if (_didIteratorError12) {
+            throw _iteratorError12;
           }
         }
       }
@@ -3232,16 +3256,16 @@ function drawCommentFromLoadMore(existingComments, loadedComments) {
       }
     }
   } catch (err) {
-    _didIteratorError10 = true;
-    _iteratorError10 = err;
+    _didIteratorError11 = true;
+    _iteratorError11 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion10 && _iterator10.return != null) {
-        _iterator10.return();
+      if (!_iteratorNormalCompletion11 && _iterator11.return != null) {
+        _iterator11.return();
       }
     } finally {
-      if (_didIteratorError10) {
-        throw _iteratorError10;
+      if (_didIteratorError11) {
+        throw _iteratorError11;
       }
     }
   }
