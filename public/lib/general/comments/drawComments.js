@@ -181,7 +181,7 @@ export function drawComments(res = null, i = 0) {
 
     commentSubmissionsHandler(nodebbDiv.querySelector('form.top-post-form'));
 
-    for (let li of nodebbCommentsList.querySelectorAll('li')) {
+    for (let li of nodebbCommentsList.querySelectorAll('#nodebb-comments-list > li')) {
       if (!li.getAttribute('data-event')) {
         bindEvents(data.user, li);
         let post = data.posts.find(p => p.pid == li.getAttribute('data-pid'));
@@ -464,7 +464,7 @@ function parse(data, template) {
           $($(div).find('#nodebb-comments-list li,#nodebb-comments-list li form')).removeAttr('data-event');
 
           // new comments
-          div.querySelector('#nodebb-comments-list').appendChild(loadedComments);
+          for (let li of loadedComments.querySelectorAll('div > li')) div.querySelector('#nodebb-comments-list').appendChild(li);
           // div.querySelector("#nodebb-comments-list").insertAdjacentHTML( 'beforeend', loadedComments.innerHTML );
         }
       }
