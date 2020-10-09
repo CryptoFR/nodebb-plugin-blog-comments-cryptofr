@@ -4,14 +4,33 @@ const _ = require('lodash');
 const user = require.main.require('./src/user');
 const topic = require.main.require('./src/topics');
 const posts = require.main.require('./src/posts');
+const db = require.main.require('./src/db');
 const {turndownService} = require('./turndown');
 
-const replyTopic = async (data) => {
-    var tid = data.tid;
+const getImportedCommentsKey = blogger => 'imported_commentids:' + blogger;
+
+const getPidOfCommentId = (commentId, blogger) => 
+    db.sortedSetScore(getImportedCommentsKey(blogger), commentId);
+
+const POST_DATA_TO_RETURN = [
+    'pid', 'uid', 'tid', 'content', 'handle', 'timestampISO', 'toPid', 'isAlreadyImported'
+]
+
+// Here we could return the imported data
+const replyTopic = async (data, commentId, blogger) => {
+    const pidOfComment = await getPidOfCommentId(commentId, blogger);
+    if (pidOfComment !== null) {
+        // We return without posting a new comment
+        const postData = await posts.getPostFields(pidOfComment, POST_DATA_TO_RETURN)
+        postData.isAlreadyImported = true;
+        return postData;
+    }
+    const tid = data.tid;
     const topicData = await topic.getTopicData(tid);
     data.cid = topicData.cid;
     data.content = data.content.trim();
     const postData = await posts.create(data);
+    await db.sortedSetAdd(getImportedCommentsKey(blogger), postData.pid, commentId);
     return postData;
 }
 
@@ -37,7 +56,7 @@ const getHandle = async (comment) => {
     }
 }
 
-const postSinglePost = async (tid, comment, toPid = undefined, level = 0) => {
+const postSinglePost = async (tid, comment, blogger, toPid = undefined, level = 0) => {
     let uid = await getUidByEmail(comment.userEmail);
     let handle = undefined;
     if (_.isNull(uid)) {
@@ -45,18 +64,16 @@ const postSinglePost = async (tid, comment, toPid = undefined, level = 0) => {
         handle = await getHandle(comment);
     }
     const content = turndownService.turndown(comment.content);
-    const data = await replyTopic({tid, uid, toPid, content, handle});
+    const data = await replyTopic({tid, uid, toPid, content, handle}, comment.commentId);
     const responses = [];
     const newParentPid = level >= 2 ? toPid : data.pid;
     if (!_.isEmpty(comment.children)) {
         for (const c of comment.children) {
-            const response = await postSinglePost(tid, c, newParentPid, level + 1);
+            const response = await postSinglePost(tid, c, blogger, newParentPid, level + 1);
             responses.push(response);
         }
     }
-    const toReturn = _.pick(data, [
-        'pid', 'uid', 'tid', 'content', 'handle', 'timestampISO', 'toPid'
-    ])
+    const toReturn = _.pick(data, POST_DATA_TO_RETURN);
     return {
         ...toReturn,
         responses,
@@ -88,7 +105,7 @@ const importData = (commentData) => {
         }
         const responses = []
         for(const comment of item.comments) {
-            responses.push(await postSinglePost(tid, comment));
+            responses.push(await postSinglePost(tid, comment, 'admin'));
         }
         return {
             ok: true,
