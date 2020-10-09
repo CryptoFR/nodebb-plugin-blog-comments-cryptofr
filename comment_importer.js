@@ -29,6 +29,7 @@ const replyTopic = async (data, commentId, blogger) => {
     data.cid = topicData.cid;
     data.content = data.content.trim();
     const postData = await posts.create(data);
+    postData.isAlreadyImported = false;
     await db.sortedSetAdd(getImportedCommentsKey(blogger), postData.pid, commentId);
     return postData;
 }
