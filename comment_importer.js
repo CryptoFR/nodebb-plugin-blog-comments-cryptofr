@@ -63,7 +63,7 @@ const postSinglePost = async (tid, comment, blogger, toPid = undefined, level = 
         handle = await getHandle(comment);
     }
     const content = turndownService.turndown(comment.content);
-    const data = await replyTopic({tid, uid, toPid, content, handle}, comment.commentId);
+    const data = await replyTopic({tid, uid, toPid, content, handle}, comment.commentId, blogger);
     const responses = [];
     const newParentPid = level >= 2 ? toPid : data.pid;
     if (!_.isEmpty(comment.children)) {
