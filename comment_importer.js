@@ -4,7 +4,6 @@ const _ = require('lodash');
 const user = require.main.require('./src/user');
 const topic = require.main.require('./src/topics');
 const posts = require.main.require('./src/posts');
-const db = require.main.require('./src/db');
 const {turndownService} = require('./turndown');
 
 const getImportedCommentsKey = blogger => 'imported_commentids:' + blogger;
