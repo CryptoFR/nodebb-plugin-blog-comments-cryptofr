@@ -974,8 +974,22 @@
     });
     app.get('/comments/categories-authorized', passportMiddleware, async function(req, res) {
       const allCategories = await categories.getAllCategories();
+      const { uid } = req.user;
+      const isAdminOrGlobalMod = await user.isAdminOrGlobalMod(uid);
+      let myCategories;
+      if (isAdminOrGlobalMod) {
+        myCategories = allCategories
+      } else {
+        const isModeratorCategories = await user.isModerator(uid, allCategories.map(c => c.cid));
+        myCategories = [];
+        for (let i = 0; i < isModeratorCategories.length; i++) {
+          if (isModeratorCategories[i] === true) {
+            myCategories.push(allCategories[i]);
+          }
+        }
+      }
       return res.status(200).json({
-        categories: allCategories
+        categories: myCategories
       })
     })
     callback();
