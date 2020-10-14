@@ -25,7 +25,8 @@
     fs = require.main.require('fs'),
     path = require.main.require('path'),
     async = require.main.require('async'),
-    winston = require.main.require('winston');
+    winston = require.main.require('winston'),
+    categories = require.main.require('./src/categories');
   var simpleRecaptcha = require.main.require('simple-recaptcha-new');
   const {turndownService} = require("./turndown");
   module.exports = Comments;
@@ -971,6 +972,12 @@
         })
       }
     });
+    app.get('/comments/categories-authorized', passportMiddleware, async function(req, res) {
+      const allCategories = await categories.getAllCategories();
+      return res.status(200).json({
+        categories: allCategories
+      })
+    })
     callback();
   };
 })(module);
