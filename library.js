@@ -31,7 +31,7 @@
   const {turndownService} = require("./turndown");
   module.exports = Comments;
   const {localLogin, passport, loggedOrGuestMiddleware} = require('./login');
-  const {importData} = require('./comment_importer');
+  const {importData, checkArticleIds} = require('./comment_importer');
   const passportMiddleware = passport.authenticate(['jwt']);
 
   const moveTopic = async function(req, res) {
@@ -938,7 +938,7 @@
       })
     })
     app.post('/comments/move', passportMiddleware, moveTopic);
-    app.post('/comments/import', /*passportMiddleware,*/ async function(req, res) {
+    app.post('/comments/import/:blogger', passportMiddleware, checkArticleIds, async function(req, res) {
       try {
         const responses = await importData(req.body);
         return res.json({

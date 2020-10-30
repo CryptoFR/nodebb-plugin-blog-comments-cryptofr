@@ -82,6 +82,48 @@ const postSinglePost = async (tid, comment, blogger, toPid = undefined, level = 
     }
 }
 
+const checkArticleIds = async (req, res, next) => {
+    const { blogger } = req.params;
+    if (await user.isAdministrator(req.user.uid)) {
+        return next();
+    }
+    const {invalid, errors} = await checkData(blogger, req.body, req.user.uid)
+    if (invalid) {
+        return res.status(400).json({
+            ok: false,
+            message: "You are not a moderator of the following categories",
+            categories: [...errors]
+        })
+    }
+    return next();
+}
+
+const checkData = async (blogger, comments, uid) => {
+    let invalid = false;
+    const errors = new Set();
+    const checkDataInternal = async (_comment) => {
+        const tid = await getTidFromArticleId(blogger, _comment.articleId)
+        if (_.isNull(tid)) {
+            return;
+        }
+        const cidOfTid = await db.getObjectField(`topic:${tid}`, "cid");
+        if(!await user.isModerator(uid, cidOfTid)) {
+            invalid = true;
+            errors.add(cidOfTid)
+            return;
+        }
+        const responses = [];
+        for (const comment of _comment.comments) {
+            responses.push(await checkDataInternal(comment))
+        }
+        return Promise.all(responses);
+    }
+    const promises = comments.map(checkDataInternal);
+    await Promise.all(promises);
+    return {invalid, errors};
+}
+
+
 const importData = (commentData) => {
     const promises = commentData.map(async item => {
         const tid = await getTidFromArticleId('admin', item.articleId);
@@ -118,4 +160,5 @@ const importData = (commentData) => {
 
 module.exports = {
     importData,
+    checkArticleIds,
 }
