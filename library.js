@@ -368,7 +368,7 @@
       await posts.delete(postData.pid, 0);
       // We add here data to then moderation queues of the plugin
       await db.sortedSetAdd(`queue_mod:${tid}:pids`, postData.timestamp, postData.pid);
-      await db.setAdd("queue_mod:tids", tid);
+      await db.setAdd(`queue_mod:${postData.cid}:tids`, tid);
     }
     return res.json({
       tid,

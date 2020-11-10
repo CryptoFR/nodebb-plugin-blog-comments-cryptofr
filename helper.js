@@ -407,20 +407,32 @@ const checkTopicInRSSMiddleware = async (req, res, next) => {
   return next();
 }
 
-// TODO use pagination for queue
-const getModerationQueue = async (uid) => {
+/*
+ * Returns something like
+ * {ok: true, 
+ * data: {
+ *   [tid]: {
+ *   topic: {
+ *      tid,
+ *      title: topic.title
+ *    },
+ *    posts: myPosts
+ *    }
+ * }}
+ * Otherwise {ok: false, message: "You are not an administrator or moderator of the queue"}
+ */
+const getModerationQueue = async (uid, cid) => {
   const isAdministrator = await user.isAdministrator(uid)
-  console.log('isAdmin', isAdministrator)
-  const tids = await db.getSetMembers('queue_mod:tids');
+  const isModerator = await user.isModerator(uid, cid);
+  if (!isAdministrator && !isModerator) {
+    return {
+      ok: false,
+      message: "You are not an administrator or moderator of the queue"
+    }
+  }
+  const tids = await db.getSetMembers(`queue_mod:${cid}:tids`);
   const promises = tids.map(async tid => {
     const topic = await topics.getTopicsFields(tid, ["title", "cid"]);
-    if (!isAdministrator) {
-      const isMod = await user.isModerator(uid, topic.cid)
-      console.log('isMod', isMod);
-      if (!isMod) {
-        return null;
-      }
-    }
     const pids = await db.getSortedSetRange(`queue_mod:${tid}:pids`, 0, -1);
     const myPosts = await posts.getPostsFields(pids, ['pid', 'handle', 'timestamp', 'content']);
     return {
@@ -432,17 +444,16 @@ const getModerationQueue = async (uid) => {
     };
   });
   const retVal = _.zipObject(tids, await Promise.all(promises));
-  for (const [key, value] of Object.entries(retVal)) {
-    if (value === null) {
-      delete retVal[key];
-    }
-  }
-  return retVal;
+  return {
+    ok: true,
+    data: retVal
+  };
 }
 
 const manipulatePost = async (pid, action, message) => {
-  const tid = await posts.getPostField(pid, 'tid')
-  const scorePost = await db.sortedSetScore(`queue_mod:${tid}:pids`, pid)
+  const tid = await posts.getPostField(pid, 'tid');
+  const cid = await topics.getTopicField(tid, 'cid');
+  const scorePost = await db.sortedSetScore(`queue_mod:${tid}:pids`, pid);
   if (scorePost === null) {
     return {
       ok: false, 
@@ -461,7 +472,8 @@ const manipulatePost = async (pid, action, message) => {
   await db.sortedSetRemove(`queue_mod:${tid}:pids`, pid);
   const cardinality = await db.sortedSetCard(`queue_mod:${tid}:pids`);
   if (cardinality === 0) {
-    await db.setRemove('queue_mod:tids', tid);
+    // TODO fix this
+    await db.setRemove(`queue_mod:${cid}:tids`, tid);
   }
   return {
     ok: true,
