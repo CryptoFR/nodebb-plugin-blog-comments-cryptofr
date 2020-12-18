@@ -949,8 +949,8 @@
         res.json({ok: false, message: err.message})
       }
     });
-    app.get('/comments/queue_mod', passportMiddleware, async function (req, res) {
-      return res.json(await getModerationQueue(req.user.uid));
+    app.get('/comments/queue_mod/:cid', passportMiddleware, async function (req, res) {
+      return res.json(await getModerationQueue(req.user.uid, req.params.cid));
     });
     app.post('/comments/approve/:pid', isAdminOrModMiddleware, async function (req, res) {
       try {
