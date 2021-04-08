@@ -48,21 +48,19 @@
     <div class="loggedin-true">
       <div class="userHasPicture">
         <img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
-        <span class="user-status user-status-main {user.status}"></span>
+        <span class="user-status user-status-main online"></span>
       </div>
       <div class="notUserHasPicture">
         <div
           class="profile-image"
           style="
-            background-color: {
-              user.icon: bgColor;
-            }
+            background-color: black;
           "
           title="{user.username}"
         >
           {user.icon:text}
         </div>
-        <span class="user-status user-status-main {user.status}"></span>
+        <span class="user-status user-status-main online"></span>
       </div>
       <ul class="user-options">
         <li class="sort-group-link logout-box"><i class="fad fa-sign-out"></i> Déconnexion</li>
@@ -77,7 +75,7 @@
   <div class="topic-profile-pic user first-image">
     <div class="userHasPicture">
       <img data-uid="{user.uid}" src="" data-src="{user.picture}" class="profile-image" title="{user.username}" />
-      <span class="user-status user-status-main {user.status}"></span>
+      <span class="user-status user-status-main online"></span>
     </div>
 
     <div class="notUserHasPicture">
@@ -92,7 +90,7 @@
       >
         {user.icon:text}
       </div>
-      <span class="user-status user-status-main letter-avatar {user.status}"></span>
+      <span class="user-status user-status-main letter-avatar online"></span>
     </div>
   </div>
   <form action="{relative_path}/comments/reply" class="logged-in top-post-form clearfix" method="post">
