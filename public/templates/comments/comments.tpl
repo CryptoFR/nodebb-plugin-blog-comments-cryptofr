@@ -216,7 +216,7 @@
               <a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
                 <i class="i-bookmark <!-- IF posts.bookmarked --> icon-bookmark <!-- ELSE --> icon-bookmark-empty <!-- ENDIF posts.bookmarked -->"></i>
               </a>
-              <a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="{posts.upvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
+              <a data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="true" data-votes="0" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Upvote">
                 <i class="fad <!-- IF posts.upvoted --> fa-angle-up upvoted <!-- ELSE --> fa-angle-up <!-- ENDIF posts.upvoted -->"></i>
                 <span class="upvote-count <!-- IF !posts.votes --> hidden <!-- ENDIF !posts.votes -->">
                   {posts.votes}
@@ -225,7 +225,7 @@
               <span class="post-value">
                 {posts.votes} points
               </span>
-              <a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="{posts.downvoted}" data-votes="{posts.votes}" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
+              <a data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="true" data-votes="0" style="color: inherit; text-decoration: none; margin-right: 5px;" title="Downvote">
                 <i class="fad <!-- IF posts.downvoted --> fa-angle-down downvoted <!-- ELSE --> fa-angle-down <!-- ENDIF posts.downvoted -->"></i>
               </a>
               <!-- <a data-component="post/quote"><i class="fa fa-quote-left"></i> quote</a> -->
