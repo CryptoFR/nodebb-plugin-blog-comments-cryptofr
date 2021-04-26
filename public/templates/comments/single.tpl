@@ -9,7 +9,7 @@
         <div class="profile-image" style="background-color: {user.icon:bgColor}" title="{user.username}" alt="{user.username}">{user.icon:text}</div>
         <!-- ENDIF user.picture -->
         </a>
-        <span class="user-status user-status-comments online"></span> 
+        <span class="user-status user-status-comments online"></span>
       </div>
       <div class="topic-text">
         <div class="post-content" itemprop="text">
@@ -35,7 +35,7 @@
           
           <div class="post-body" content="{posts.content}">{posts.content}</div>
           <div class="nodebb-post-tools post-tools no-select">
-            <a class="upvote" data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="true" data-votes="0" title="Upvote">
+            <a class="upvote" data-component="post/upvote" data-pid="{posts.pid}" data-upvoted="false" data-votes="0" title="Upvote">
               <i class="i-upvote fad fa-angle-up"></i>
               <span class="upvote-count" style="display: none;">
                 {posts.votes}
@@ -44,7 +44,7 @@
             <div class="posts-vote">
               <span class="post-value">{posts.votes}</span>
             </div>
-            <a class="downvote" data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="true" data-votes="0" title="Downvote">
+            <a class="downvote" data-component="post/downvote" data-pid="{posts.pid}" data-downvoted="false" data-votes="0" title="Downvote">
               <i class="i-downvote fad fa-angle-down"></i>
             </a>
             <a class="reply" data-component="post/reply" class="reply" title="Reply">

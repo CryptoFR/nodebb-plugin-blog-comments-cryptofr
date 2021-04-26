@@ -181,8 +181,10 @@ export function drawComments(res = null, i = 0) {
 
         commentSubmissionsHandler(nodebbDiv.querySelector('form.top-post-form'));
 
-        for (let li of nodebbCommentsList.querySelectorAll('#nodebb-comments-list > li, #nodebb-comments-list > li > ul')) {
+        for (let li of nodebbCommentsList.querySelectorAll('#nodebb-comments-list > li, #nodebb-comments-list li > ul > li')) {
+            console.log('li before', li);
             if (!li.getAttribute('data-event')) {
+                console.log('li after', li);
                 bindEvents(data.user, li);
                 let post = data.posts.find(p => p.pid == li.getAttribute('data-pid'));
                 if (post && li.closest('ul').getAttribute('id') == 'nodebb-comments-list') {

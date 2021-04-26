@@ -145,10 +145,19 @@ small.logged-as {
     font-size: 14px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 769px) {
     #nodebb .btn.btn-primary,
     #root .btn.btn-primary {
         font-size: 10px;
+    }
+}
+
+@media only screen and (min-width: 770px) and (max-width: 1024px) {
+    #nodebb .btn.btn-primary,
+    #root .btn.btn-primary {
+        margin-top: 30px;
+        margin-left: -5px;
+        font-size: 12px;
     }
 }
 
@@ -425,9 +434,25 @@ li>ol {
     border-left: 2px solid #e8e8e8;
 }
 
+@media only screen and (max-width: 769px) {
+    #nodebb li.expandable>.topic-item {
+        left: 5px;
+    }
+    #nodebb li.expandable ul>li {
+        left: 5px;
+    }
+}
+
 #nodebb li.expandable ul>li:last-child {
     border-left: none;
-    padding-left: 52px;
+    padding-left: 12px;
+}
+
+@media only screen and (min-width: 770px) and (max-width: 1024px) {
+    #nodebb li.expandable ul>li:last-child {
+        border-left: none;
+        padding-left: 30px;
+    }
 }
 
 #nodebb li.expandable ul li:before {
@@ -499,6 +524,13 @@ li>ol {
     position: relative !important;
     margin-left: -24px;
     margin-right: 72px;
+}
+
+@media only screen and (min-width: 770px) and (max-width: 1024px) {
+    #nodebb li.expanded .topic-item.replying .sub-reply-input,
+    #nodebb li.expanded .topic-item.quoting .sub-reply-input {
+        margin-right: 0px;
+    }
 }
 
 #nodebb li.expanded .topic-item.replying:last-child .topic-body,
@@ -808,6 +840,7 @@ i.i-downvote {
 
 .user-status-comments {
     transform: translate(-25px, 38px);
+    display: none;
 }
 
 .user-status-main {
@@ -2146,6 +2179,13 @@ small.logged-as {
         border-left: none;
         padding-left: 37px;
     }
+    @media only screen and (max-width: 1024px) and (min-width: 769px) {
+        #nodebb li.expandable ul>li:last-child {
+            border-left: none;
+            padding-left: 107px;
+            margin-bottom: 10px;
+        }
+    }
     .load-more-div {
         padding-left: 0px;
         margin: 15px;
@@ -2236,6 +2276,13 @@ small.logged-as {
         width: 100%;
         margin-left: 0px;
     }
+    @media only screen and (min-width: 770px) and (max-width: 1024px) {
+        #nodebb .btn.btn-primary,
+        #root .btn.btn-primary {
+            margin-left: 0px;
+            margin-top: 30px;
+        }
+    }
     .comments-toolbar .special-box {
         text-align: center;
         margin-top: -5px;
@@ -2300,15 +2347,20 @@ small.logged-as {
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 769px) {
     .section-inner {
         width: 100% !important;
     }
 }
 
-
-/* @media only screen and (max-width: 768px) {
-    #nodebb ul {
-        margin-left: -5px !important;
+@media only screen (min-width: 770px) and (max-width: 1024px) {
+    ul {
+        margin-bottom: 4em !important;
     }
-} */
+}
+
+@media only screen and (max-width: 769px) {
+    ul {
+        margin-bottom: 1em !important;
+    }
+}

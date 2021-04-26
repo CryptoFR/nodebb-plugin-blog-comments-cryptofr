@@ -13,7 +13,6 @@ export function parseNewComment(post, user, token, tid, dataLevel, timestamp = "
         newComment += '<div class="profile-image" style="background-color: ' + user['icon:bgColor'] + '" title="' + user.username + '" alt="' + user.username + '">' + user['icon:text'] + '</div>';
     }
     newComment += '</a>' +
-        '<span class="user-status user-status-comments"></span>' +
         '</div>' +
         '<div class="topic-text">' +
         '<div class="post-content" itemprop="text">' +
@@ -36,14 +35,14 @@ export function parseNewComment(post, user, token, tid, dataLevel, timestamp = "
         '</small>' +
         "<div class='post-body' content=''>" + post.content + "</div>" +
         '<div class="nodebb-post-tools post-tools no-select">' +
-        '<a class="upvote" data-component="post/upvote" data-pid="' + post.pid + '" data-upvoted="true" data-votes="0" title="Upvote">' +
+        '<a class="upvote" data-component="post/upvote" data-pid="' + post.pid + '" data-upvoted="false" data-votes="0" title="Upvote">' +
         '<i class="i-upvote fad fa-angle-up"></i>' +
         '<span class="upvote-count" style="display: none;">0</span>' +
         '</a>' +
         '<div class="posts-vote">' +
         '<span class="post-value">0</span>' +
         '</div>' +
-        '<a class="downvote" data-component="post/downvote" data-pid="' + post.pid + '" data-downvoted="true" data-votes="0" title="Downvote">' +
+        '<a class="downvote" data-component="post/downvote" data-pid="' + post.pid + '" data-downvoted="false" data-votes="0" title="Downvote">' +
         '<i class="i-downvote fad fa-angle-down"></i>' +
         '</a>' +
         '<a class="reply" data-component="post/reply" class="reply" title="Reply">' +
