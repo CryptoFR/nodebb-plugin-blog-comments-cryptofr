@@ -430,29 +430,22 @@ li>ol {
 }
 
 #nodebb li.expandable ul>li {
-    padding-left: 50px;
-    border-left: 2px solid #e8e8e8;
+    padding-left: 12px;
 }
 
-@media only screen and (max-width: 769px) {
+
+/* @media only screen and (max-width: 769px) {
     #nodebb li.expandable>.topic-item {
         left: 5px;
     }
     #nodebb li.expandable ul>li {
         left: 5px;
     }
-}
+} */
 
 #nodebb li.expandable ul>li:last-child {
     border-left: none;
     padding-left: 12px;
-}
-
-@media only screen and (min-width: 770px) and (max-width: 1024px) {
-    #nodebb li.expandable ul>li:last-child {
-        border-left: none;
-        padding-left: 30px;
-    }
 }
 
 #nodebb li.expandable ul li:before {
@@ -2099,7 +2092,7 @@ small.logged-as {
 
 .replying.guest-comment,
 .quoting.guest-comment {
-    margin-bottom: 260px !important;
+    margin-bottom: 320px !important;
 }
 
 
@@ -2169,23 +2162,29 @@ small.logged-as {
     }
     #nodebb li.expandable ul li:before {
         content: '';
-        width: 25px;
-        margin-left: -37px;
+        width: 24px;
+        position: absolute;
+        border-bottom: 2px solid #e8e8e8;
+        border-left: 2px solid #e8e8e8;
+        margin-left: -40px;
         border-bottom-left-radius: 10px;
         height: 46px;
         margin-top: -27px;
     }
     #nodebb li.expandable ul>li:last-child {
         border-left: none;
-        padding-left: 37px;
+        padding-left: 35px;
     }
-    @media only screen and (max-width: 1024px) and (min-width: 769px) {
+    #nodebb li.expandable>.topic-item {
+        border-left: 2px solid #e8e8e8;
+    }
+    /* @media only screen and (max-width: 1024px) and (min-width: 769px) {
         #nodebb li.expandable ul>li:last-child {
             border-left: none;
             padding-left: 107px;
             margin-bottom: 10px;
         }
-    }
+    } */
     .load-more-div {
         padding-left: 0px;
         margin: 15px;
@@ -2286,7 +2285,6 @@ small.logged-as {
     .comments-toolbar .special-box {
         text-align: center;
         margin-top: -5px;
-        padding-right: 27px;
     }
     .comments-toolbar .special-action.gif img {
         margin-top: -9px;
@@ -2362,5 +2360,31 @@ small.logged-as {
 @media only screen and (max-width: 769px) {
     ul {
         margin-bottom: 1em !important;
+    }
+}
+
+#nodebb input.guest-name-value {
+    border-radius: 8px;
+    border: 2px solid #CD2653;
+    background-color: white;
+    margin-bottom: 20px;
+    color: #CD2653;
+}
+
+.guest-name-container {
+    font-weight: bold;
+    font: oblique 150% cursive;
+}
+
+@media only screen and (max-width: 769px) {
+    .guest-name-container {
+        font-weight: bold;
+        font: oblique 120% cursive;
+    }
+}
+
+@media only screen and (max-width: 769px) {
+    .rc-anchor-normal {
+        width: 350px !important;
     }
 }

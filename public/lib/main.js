@@ -1406,22 +1406,12 @@ var _gifs = require("../addons/gifs.js");
 
 var _newComment = require("./newComment.js");
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 // FUNCTION FOR COMMENT SUBMISSION
 function commentSubmissionsHandler(form) {
   if (form.getAttribute('data-event')) return;
   form.setAttribute('data-event', 'true'); // console.log(form)
 
   form.addEventListener('submit', function (event) {
-    var _false, _false2;
-
     form.querySelector('.submit-comment').classList.add('loading-button');
     event.preventDefault();
     var inputs = {};
@@ -1475,14 +1465,11 @@ function commentSubmissionsHandler(form) {
 
     if ('name' in inputs) {
       inputs.captcha = event.target[event.target.length - 1].value;
-    }
+    } // if ([data.user['email:confirmed']] = false) {
+    //     formSubmitError('Please, confirm your email', form);
+    //     form.querySelector('.submit-comment').classList.remove('loading-button');
+    // }
 
-    console.log('data--x', data.user['email:confirmed']);
-
-    if (_false = false, _false2 = _slicedToArray(_false, 1), data.user['email:confirmed'] = _false2[0], _false) {
-      formSubmitError('Please, confirm your email', form);
-      form.querySelector('.submit-comment').classList.remove('loading-button');
-    }
 
     inputs.content = inputs.content.replace(/<br>|&lt;br&gt;/gi, '\n').replace(/(<([^>]+)>)/gi, ''); //-- ERROR: Comment too short
 

@@ -30,11 +30,11 @@ export function commentSubmissionsHandler(form) {
         if ('name' in inputs) {
             inputs.captcha = event.target[event.target.length - 1].value;
         }
-        console.log('data--x', data.user['email:confirmed'])
-        if ([data.user['email:confirmed']] = false) {
-            formSubmitError('Please, confirm your email', form);
-            form.querySelector('.submit-comment').classList.remove('loading-button');
-        }
+
+        // if ([data.user['email:confirmed']] = false) {
+        //     formSubmitError('Please, confirm your email', form);
+        //     form.querySelector('.submit-comment').classList.remove('loading-button');
+        //  modificar para tener de nuevo funcionamiento de error cuando no se confirme el correo ya que si se tiene aqui el mismo hace conflicto con el envio de mensajes dentro del forum 11/05/21}
 
 
 

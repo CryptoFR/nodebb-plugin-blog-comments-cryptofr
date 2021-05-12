@@ -1,16 +1,17 @@
 @import url("needsharebutton.css");
-
-#nodebb *, #nodebb *:before, #nodebb *:after {
+#nodebb *,
+#nodebb *:before,
+#nodebb *:after {
     -webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #nodebb {
-	margin-top: 50px;
-	/*min-height: 300px;*/
-    font-family: Roboto,Helvetica,Arial,sans-serif;
+    margin-top: 50px;
+    /*min-height: 300px;*/
+    font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 #nodebb a {
@@ -27,73 +28,73 @@
     border-radius: 0px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
 }
+
 #nodebb .topic-item {
-    font-family: Roboto,Helvetica,Arial,sans-serif;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857;
     color: #333;
     min-height: 75px;
     position: relative;
-
     transition: background-color 0.6s ease;
 }
 
 #nodebb .topic-body {
-	padding: 10px;
-	padding-bottom: 5px;
-	display: inline-block;
-	width: 100%;
+    padding: 10px;
+    padding-bottom: 5px;
+    display: inline-block;
+    width: 100%;
 }
 
 #nodebb .topic-profile-pic {
-	float: left;
-	margin-left: 15px;
-	margin-right: 15px;
-	width: 50px;
-	position: absolute;
-	left: -85px;
+    float: left;
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 50px;
+    position: absolute;
+    left: -85px;
 }
 
 #nodebb .topic-profile-pic a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 #nodebb .user {
-	left: -83px; /*why??*/
+    left: -83px;
+    /*why??*/
 }
 
 #nodebb .topic-text {
-	width: 100%;
-	float: left;
-	font-size: 18px;
-	color: #333;
-	overflow: hidden;
-	word-wrap: break-word;
+    width: 100%;
+    float: left;
+    font-size: 18px;
+    color: #333;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 #nodebb .topic-text blockquote {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 #nodebb .topic-text img {
-	display: inline-block;
+    display: inline-block;
     vertical-align: middle;
 }
-
 
 #nodebb .topic-text img.gif-post {
     display: block;
     vertical-align: middle;
     margin-top: 3px;
-    margin-bottom:3px;
+    margin-bottom: 3px;
 }
 
 #nodebb .topic-text p {
-	margin: 10px;
+    margin: 10px;
 }
 
 #nodebb .topic-text small {
-	color: #888;
+    color: #888;
     position: unset!important;
 }
 
@@ -108,7 +109,7 @@
     text-align: center;
 }
 
-#nodebb > ul {
+#nodebb>ul {
     margin-bottom: 0px;
     margin-top: 20px;
     padding: 0px;
@@ -118,7 +119,7 @@
     list-style-type: none;
 }
 
-#nodebb > ul > li {
+#nodebb>ul>li {
     /* border-left: 2px solid #333; */
     background-color: #FFF;
     box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.3);
@@ -155,40 +156,43 @@
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
 
-#nodebb .btn, #root .btn {
-	display: inline-block;
-	margin-bottom: 0px;
-	font-weight: normal;
-	text-align: center;
-	vertical-align: middle;
-	cursor: pointer;
-	background-image: none;
-	border: 1px solid transparent;
-	white-space: nowrap;
-	padding: 8px 12px;
-	font-size: 14px;
-	line-height: 1.42857;
-	border-radius: 0px;
-	-moz-user-select: none;
-	margin-top: 5px;
-	margin-left: 5px;
+#nodebb .btn,
+#root .btn {
+    display: inline-block;
+    margin-bottom: 0px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 0px;
+    -moz-user-select: none;
+    margin-top: 5px;
+    margin-left: 5px;
 }
 
 #nodebb .btn:focus {
-	outline: 5px auto -webkit-focus-ring-color;
-	outline-offset: -2px;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
 }
+
 #nodebb .btn:hover,
 #nodebb .btn:focus {
-	color: #333333;
-	text-decoration: none;
+    color: #333333;
+    text-decoration: none;
 }
+
 #nodebb .btn:active,
 #nodebb .btn.active {
-	outline: 0;
-	background-image: none;
-	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-	box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    outline: 0;
+    background-image: none;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
 #nodebb .btn.btn-primary {
@@ -200,37 +204,37 @@
 }
 
 #nodebb-load-more {
-  transition: background-color 0.6s ease;
+    transition: background-color 0.6s ease;
 }
 
 #nodebb .highlight {
-  background-color: rgba(240, 173, 78, 0.75);
+    background-color: rgba(240, 173, 78, 0.75);
 }
 
 #nodebb .btn.btn-primary.highlight {
-  border-color: rgba(240, 173, 78, 0.75);
+    border-color: rgba(240, 173, 78, 0.75);
     background-color: rgba(240, 173, 78, 0.75);
 }
 
 #nodebb iframe {
-	border: 0;
+    border: 0;
 }
 
 #nodebb .nodebb-post-fadein {
-	opacity: 0;
+    opacity: 0;
 }
 
 #nodebb #nodebb-error {
-	color: #dd3232;
+    color: #dd3232;
 }
 
 #nodebb .nodebb-copyright {
-	font-size: 14px;
+    font-size: 14px;
 }
 
 #nodebb .nodebb-copyright a {
-	text-decoration: none;
-	color: #38C071;
+    text-decoration: none;
+    color: #38C071;
 }
 
 #nodebb .emoji {
@@ -240,12 +244,14 @@
 }
 
 .nodebb-author img {
-	width: 20px;
-	height: 20px;
-	border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
 }
 
+
 /*add for reply and quota*/
+
 #nodebb .sub-reply-input {
     margin-left: 20px;
     margin-right: 20px;
@@ -262,7 +268,8 @@
 #nodebb .post-tools {
     float: right;
     text-transform: lowercase;
-    margin-top: 4px;  /* to algin with left div, i dont know why they are not aligned. */
+    margin-top: 4px;
+    /* to algin with left div, i dont know why they are not aligned. */
 }
 
 #nodebb .post-tools a {
@@ -271,15 +278,15 @@
     text-decoration: none;
 }
 
-#nodebb a i.icon-bookmark{
+#nodebb a i.icon-bookmark {
     color: #38C071;
 }
 
-#nodebb a i.icon-thumbs-up-alt{
+#nodebb a i.icon-thumbs-up-alt {
     color: #38C071;
 }
 
-#nodebb .post-tools a .upvote-count{
+#nodebb .post-tools a .upvote-count {
     position: absolute;
     word-break: initial;
     top: 13px;
@@ -297,14 +304,15 @@
     font-size: 40px;
     color: dimgray;
     position: relative;
-    line-height: 1; /* to avoid different page line-height. */
+    line-height: 1;
+    /* to avoid different page line-height. */
 }
 
 #nodebb .top-tool-box a {
     cursor: pointer;
 }
 
-#nodebb .top-tool-box a .upvote-count{
+#nodebb .top-tool-box a .upvote-count {
     position: absolute;
     word-break: initial;
     color: white;
@@ -339,7 +347,8 @@
 
 #nodebb .highlight {
     background-color: rgba(240, 173, 78, 0.75);
-    margin: 0; /* fix margin on hexo next theme */
+    margin: 0;
+    /* fix margin on hexo next theme */
 }
 
 #nodebb .post-content blockquote {
@@ -349,6 +358,7 @@
     font-size: 17.5px;
     border-left: 5px solid #eee;
 }
+
 
 /***********
 
@@ -376,11 +386,6 @@
     margin-bottom: 40px;
 }
 
-
-
-
-
-
 #nodebb {
     /*margin-top: 0;*/
     margin-bottom: 30px;
@@ -407,22 +412,20 @@
     margin: 10px 0 10px 0;
 }
 
-#nodebb > ul {
+#nodebb>ul {
     margin-right: 0;
 }
-
-
 
 #nodebb .form-control {
     color: inherit;
     background-color: inherit;
 }
 
-#nodebb > ul {
+#nodebb>ul {
     /*border: 1px solid #5d5d5d;*/
 }
 
-#nodebb > ul > li {
+#nodebb>ul>li {
     background-color: inherit;
     border: none;
     box-shadow: none;
@@ -439,20 +442,17 @@
 }
 
 
-
-
 /***********
 
   NEW COMMENT
 
 ************/
 
-#nodebb li.new-comment{
+#nodebb li.new-comment {
     position: relative;
 }
 
-
-#nodebb li.new-comment:after{
+#nodebb li.new-comment:after {
     content: '+1';
     color: #a6a6a6;
     width: 25px;
@@ -467,9 +467,6 @@
     font-size: 15px;
 }
 
-.badges{
-    display: inline-block; 
+.badges {
+    display: inline-block;
 }
-
-
-
