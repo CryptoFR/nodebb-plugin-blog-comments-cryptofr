@@ -605,7 +605,7 @@ export function createNestedComments(comments, template, otherData) {
         }
 
         // If connected user is owner of comment
-        if (comment.uid !== uid && !dataRes.isAdmin) {
+        if (comment.uid != uid && !dataRes.isAdmin) {
             removeNodes(clone.querySelector('a.edit'));
             removeNodes(clone.querySelector('a.delete'));
             removeNodes(clone.querySelector('.menuButton-container'));

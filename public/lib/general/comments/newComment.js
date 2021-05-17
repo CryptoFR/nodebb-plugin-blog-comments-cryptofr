@@ -53,10 +53,10 @@ export function parseNewComment(post, user, token, tid, dataLevel, timestamp = "
         '<i class="fad fa-quote-right"></i>' +
         '<span class="text">Citer</span>' +
         '</a>' +
-        '<a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none;display: none;" title="Quote">' +
+        '<a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none; display:none;" title="Quote">' +
         'Effacer' +
         '</a>' +
-        '<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;display: none;" title="Edit">' +
+        '<a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none; display:none;" title="Edit">' +
         'Éditer' +
         '</a>' +
         '</div>' +

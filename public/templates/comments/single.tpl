@@ -59,10 +59,10 @@
             <i class="fad fa-trophy"></i>
             <span class="text">Tip</span>
             </a> -->
-            <a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none;display: none;" title="Quote">
+            <a data-component="post/delete" class="delete" style="color: inherit; text-decoration: none; display:none;" title="Quote">
               Effacer
             </a>
-            <a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none;display: none;" title="Edit">
+            <a data-component="post/edit" class="edit" style="color: inherit; text-decoration: none; display:none;" title="Edit">
               Éditer
             </a>
             <!-- <a data-component="post/bookmark" data-bookmarked="{posts.bookmarked}" style="color: inherit; text-decoration: none;" title="Mark">
