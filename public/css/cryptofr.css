@@ -488,7 +488,7 @@ li>ol {
 #nodebb .sub-reply-input {
     margin-left: 1px;
     margin-right: 50px;
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
     margin-top: 10px;
     padding-bottom: 0px;
     position: absolute !important;
@@ -1986,12 +1986,25 @@ small.logged-as {
 
 .newer-comments {
     display: none;
+    margin-left: 50%;
+    margin-right: 47%;
+    background-color: #CD2653;
+    color: white;
+    border-radius: 8px;
+}
+
+@media only screen and (max-width: 769px) {
+    .newer-comments {
+        margin-left: 50%;
+        margin-right: 43%;
+        background-color: #CD2653;
+    }
 }
 
 .confirm-delete {
     position: absolute;
     z-index: 10000000000000000000;
-    background: #dbdbdb;
+    background: #F5EFE0;
     border: 3px solid gray;
     border-radius: 15px;
     padding: 20px;
@@ -2004,17 +2017,17 @@ small.logged-as {
 
 .YesDelete {
     width: 50%;
-    background: rgb(87, 211, 87);
+    background: #CD2653;
     border-radius: 15px;
-    border: 4px solid black;
+    border: 3px solid gray;
     color: black;
 }
 
 .NoDelete {
     width: 50%;
-    background: rgb(206, 72, 72);
+    background: #CD2653;
     border-radius: 15px;
-    border: 4px solid black;
+    border: 3px solid gray;
     color: black;
 }
 
@@ -2410,4 +2423,8 @@ small.logged-as {
     .rc-anchor-normal {
         width: 350px !important;
     }
+}
+
+.google-callback {
+    margin-bottom: 10px !important;
 }

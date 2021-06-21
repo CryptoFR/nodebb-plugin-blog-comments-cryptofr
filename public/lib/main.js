@@ -1920,8 +1920,7 @@ function bindEvents(user, li) {
     };
   }
 
-  var flagVote = false;
-  console.log('li', li);
+  var flagVote = false; // console.log('li', li);
 
   if (_settings.dataRes.isAdmin || li.querySelector('.topic-item').getAttribute('data-uid') == _settings.dataRes.user.uid && _settings.dataRes.user.uid != 0) {
     commentOptions();
