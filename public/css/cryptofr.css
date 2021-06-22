@@ -499,7 +499,7 @@ li>ol {
 #nodebb li>.topic-item.replying,
 #nodebb li>.topic-item.quoting {
     border-left: 2px solid #e8e8e8;
-    margin-bottom: 200px;
+    margin-bottom: 320px;
 }
 
 #nodebb li>.topic-item.replying .post-tools a.reply svg,
@@ -2136,7 +2136,7 @@ small.logged-as {
 
 .replying.guest-comment,
 .quoting.guest-comment {
-    margin-bottom: 320px !important;
+    margin-bottom: 320px;
 }
 
 
